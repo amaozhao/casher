@@ -1,2 +1,2 @@
 # casher
-comfyUI 现金宝后端
+comfyUI现金宝后端
