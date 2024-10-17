@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 
 def get_access_token(appid, secret):
@@ -20,10 +21,7 @@ def generate_qrcode(access_token):
     生成微信小程序二维码，并保存到本地
     """
     url = f"https://api.weixin.qq.com/wxa/getwxacode?access_token={access_token}"
-    data = {
-        "path": path,  # 小程序页面路径
-        "width": 430  # 二维码宽度
-    }
+    data = {"path": path, "width": 430}  # 小程序页面路径  # 二维码宽度
     headers = {"Content-Type": "application/json"}
 
     response = requests.post(url, data=json.dumps(data), headers=headers)

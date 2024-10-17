@@ -1,9 +1,9 @@
 from rest_framework import serializers
 
-from flow.models import FlowData
+from flow.models import WorkFlowData
 
 
-class FlowDataSerializer(serializers.Serializer):
-    user = serializers.IntegerField(read_only=True)
+class WorkFlowDataSerializer(serializers.Serializer):
+    client_id = serializers.CharField(required=True)
     workflow = serializers.JSONField(required=True)
     prompt = serializers.JSONField(required=True)

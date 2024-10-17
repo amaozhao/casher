@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "daphne",
-    'social_django',
+    "social_django",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     "casher",
     "flow",
     "task",
-    "socketer",
 ]
 
 MIDDLEWARE = [
@@ -54,13 +53,13 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'social_django.middleware.SocialAuthExceptionMiddleware',
+    "social_django.middleware.SocialAuthExceptionMiddleware",
 ]
 
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.weixin.WeixinOAuth2',  # 支持微信
-    'social_core.backends.google.GoogleOAuth2',  # 支持Google
-    'django.contrib.auth.backends.ModelBackend',  # Django默认认证后端
+    "social_core.backends.weixin.WeixinOAuth2",  # 支持微信
+    "social_core.backends.google.GoogleOAuth2",  # 支持Google
+    "django.contrib.auth.backends.ModelBackend",  # Django默认认证后端
 )
 
 ROOT_URLCONF = "casher.urls"
@@ -131,6 +130,9 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / "media"
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -140,19 +142,40 @@ ASGI_APPLICATION = "casher.asgi.application"
 
 # 配置通道层，channels 需要一个消息队列来处理多个连接
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',  # 内存中运行通道层，适用于小项目或开发阶段
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",  # 内存中运行通道层，适用于小项目或开发阶段
     },
 }
+WS_CLOSE_TIMEOUT = 60  # 单位：秒，设置为 60 秒
 
-SOCIAL_AUTH_URL_NAMESPACE = 'social'
-LOGIN_REDIRECT_URL = '/'  # 登录后跳转的页面
-LOGOUT_REDIRECT_URL = '/'  # 登出后跳转的页面
+SOCIAL_AUTH_URL_NAMESPACE = "social"
+LOGIN_REDIRECT_URL = "/"  # 登录后跳转的页面
+LOGOUT_REDIRECT_URL = "/"  # 登出后跳转的页面
 
 # Google 登录所需配置
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '你的Google Client ID'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '你的Google Client Secret'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "你的Google Client ID"
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "你的Google Client Secret"
 
 # 微信登录所需配置
-SOCIAL_AUTH_WEIXIN_KEY = '你的微信App ID'
-SOCIAL_AUTH_WEIXIN_SECRET = '你的微信App Secret'
+SOCIAL_AUTH_WEIXIN_KEY = "你的微信App ID"
+SOCIAL_AUTH_WEIXIN_SECRET = "你的微信App Secret"
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        'channels': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+    },
+}
