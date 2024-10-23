@@ -25,27 +25,39 @@ SECRET_KEY = "django-insecure-i(cf)0ow&74jv8l86wiu@wn(@*rvj3$5*p3ditoanrgs$oxi5o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*",]
 
 
 # Application definition
 
 INSTALLED_APPS = [
     "daphne",
-    "social_django",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
+    "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'corsheaders',
     "rest_framework",
+    'rest_framework.authtoken',
+    "djstripe",
     "casher",
     "flow",
     "task",
+    "wechat_django",
+    "wechat_django.pay",
 ]
 
+SITE_ID = 1
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -53,14 +65,18 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "social_django.middleware.SocialAuthExceptionMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
+CORS_ALLOW_ALL_ORIGINS = True
+
 AUTHENTICATION_BACKENDS = (
-    "social_core.backends.weixin.WeixinOAuth2",  # 支持微信
-    "social_core.backends.google.GoogleOAuth2",  # 支持Google
-    "django.contrib.auth.backends.ModelBackend",  # Django默认认证后端
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by email
+    "allauth.account.auth_backends.AuthenticationBackend",
 )
+SOCIAL_AUTH_REQUIRE_POST = True
 
 ROOT_URLCONF = "casher.urls"
 
@@ -116,7 +132,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "zh-Hans"
 
 TIME_ZONE = "UTC"
 
@@ -129,9 +145,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "static"
 
-MEDIA_URL = '/media/'
+MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": BASE_DIR / "cache",
+    }
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -152,30 +176,49 @@ SOCIAL_AUTH_URL_NAMESPACE = "social"
 LOGIN_REDIRECT_URL = "/"  # 登录后跳转的页面
 LOGOUT_REDIRECT_URL = "/"  # 登出后跳转的页面
 
-# Google 登录所需配置
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "你的Google Client ID"
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "你的Google Client Secret"
 
-# 微信登录所需配置
-SOCIAL_AUTH_WEIXIN_KEY = "你的微信App ID"
-SOCIAL_AUTH_WEIXIN_SECRET = "你的微信App Secret"
+GOOGLE_OAUTH_CLIENT_ID = '88674082295-pc3uu9ptrat6tuegmua1e4uhl0jj0i4l.apps.googleusercontent.com'
+GOOGLE_OAUTH_CLIENT_SECRET = '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'
+GOOGLE_OAUTH_CALLBACK_URL = '/flow/google/callback/'
+ACCOUNT_EMAIL_VERIFICATION = "none"
+SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
+# Connect local account and social account if local account with that email address already exists
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "APPS": [
+            {
+                "client_id": GOOGLE_OAUTH_CLIENT_ID,
+                "secret": GOOGLE_OAUTH_CLIENT_SECRET,
+                "key": "",
+            },
+        ],
+        "SCOPE": ["profile", "email"],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+    }
+}
+
+DJSTRIPE_WEBHOOK_VALIDATION = "retrieve_event"
+DJSTRIPE_FOREIGN_KEY_TO_FIELD = "id"
 
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
         },
     },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'INFO',
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "INFO",
         },
-        'channels': {
-            'handlers': ['console'],
-            'level': 'INFO',
+        "channels": {
+            "handlers": ["console"],
+            "level": "INFO",
         },
     },
 }

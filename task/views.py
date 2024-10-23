@@ -1,15 +1,16 @@
-import json
 import os
-import random
 
 from django.http import FileResponse
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.parsers import FormParser, MultiPartParser
 
-from flow.models import WorkFlowData
-from task.models import UserTask, UserUpload
+from task.models import UserUpload
 from task.services import comfy_service
+from task.consumer import client_dict
 
 
 class ImageUploadView(APIView):
@@ -18,25 +19,16 @@ class ImageUploadView(APIView):
     """
 
     def post(self, request, *args, **kwargs):
-        image_file = request.FILES.get("image")
+        image_file = request.FILES.get("filePath")
         if not image_file:
             return Response(
                 {"error": "No image file provided."}, status=status.HTTP_400_BAD_REQUEST
             )
 
-        # 上传图片至comfy_service
-        upload_response = comfy_service.upload_image(client_id='test_client_id', image_file=image_file)
-        if not upload_response:
-            return Response(
-                {"error": "Image upload failed on external service."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
         # 保存上传记录到数据库
         user_upload = UserUpload(
             user_id=1,  # 假设这里是固定用户ID，未来可以扩展为动态用户
-            name=upload_response.get("name"),
-            subfolder=upload_response.get("subfolder"),
+            image=image_file,
         )
         user_upload.save()
 
@@ -44,9 +36,7 @@ class ImageUploadView(APIView):
             {
                 "message": "Image uploaded and forwarded successfully!",
                 "user_upload": {
-                    "name": user_upload.name,
-                    "subfolder": user_upload.subfolder,
-                    "uid": user_upload.uid,
+                    "image": request.build_absolute_uri(user_upload.image.url),
                 },
             },
             status=status.HTTP_201_CREATED,
@@ -59,93 +49,59 @@ class PromptView(APIView):
     """
 
     def post(self, request, *args, **kwargs):
-        uid = request.data.get("uid")
-        desc = request.data.get("desc")
-
-        if not uid or not desc:
-            return Response(
-                {"error": "Both uid and desc are required."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        # 获取上传的图像记录
-        user_upload = UserUpload.objects.filter(uid=uid).first()
-        if not user_upload:
-            return Response({"error": "Invalid uid."}, status=status.HTTP_404_NOT_FOUND)
-
-        # 获取流程数据
-        flow_data = WorkFlowData.objects.get(id=1)
-        workflow_data = json.loads(flow_data.workflow)
-        promt_data = json.loads(flow_data.prompt)
-
-        # 更新提示数据中的描述和图像信息
-        self._update_prompt_with_desc(workflow_data, promt_data, desc, user_upload)
-
-        api_data = {
-            "client_id": random.randint(10**15, 10**16 - 1),
-            "prompt": promt_data,
+        prompt_message = {
+            "type": "prompt",
+            "uniqueid": "m2ebqnbknfcdp57cg96nryw5nv",
+            "data": {
+                "jilu_id": "67890xyz",
+                "cs_imgs": [
+                    {
+                        "upImage": "http://192.168.10.104:8000/media/user/images/%E7%BE%8E%E5%A5%B3.png",
+                        "node": "29",
+                    }
+                ],
+                "cs_videos": [],
+                "cs_texts": [
+                    {"node": "50", "value": "This is a sample text for node 4."}
+                ],
+            },
         }
 
-        # 提交修改后的数据至外部服务
-        response = comfy_service.prompt(api_data)
-        if response:
-            prompt_id = response.get("prompt_id")
-            # 保存任务记录
-            task = UserTask(
-                user_id=1,  # 假设固定用户ID，未来可以扩展为动态用户
-                flow=flow_data,
-                prompt_id=prompt_id,
-                result="",
-            )
-            task.save()
+        # 获取 Channels 的 layer
+        channel_layer = get_channel_layer()
+        client_id = "80fd42e0-d652-4732-b209-e14edd0cc217:8188"
+        wss = client_dict.get(client_id)
 
-            return Response(
-                {"message": "任务提交成功", "prompt_id": prompt_id},
-                status=status.HTTP_200_OK,
-            )
-        else:
-            return Response(
-                {"error": "任务提交失败，请重试"}, status=status.HTTP_400_BAD_REQUEST
-            )
+        async_to_sync(channel_layer.send)(wss, prompt_message)
+        return Response({"message": "任务提交成功"}, status=status.HTTP_200_OK)
 
-    @staticmethod
-    def _update_prompt_with_desc(workflow_data, prompt_data, desc, user_upload):
-        """
-        更新提示中的描述信息和图像链接。
 
-        参数:
-        - workflow_data: 工作流的提示数据。
-        - workflow_data: 提示对应的输出数据。
-        - desc: 用户提交的描述信息。
-        - user_upload: 用户上传的图像记录。
-        """
+class PromptCompleted(APIView):
+    parser_classes = (MultiPartParser, FormParser)
 
-        def get_link_by_id(link_id, links):
-            for link in links:
-                if link[0] == link_id:
-                    return link[1]
-            return None
+    def post(self, request, *args, **kwargs):
+        # image_file = request.FILES.get("image")
+        # if not image_file:
+        #     return Response(
+        #         {"error": "No image file provided."}, status=status.HTTP_400_BAD_REQUEST
+        #     )
+        #
+        # # 保存上传记录到数据库
+        # user_upload = UserUpload(
+        #     user_id=1,  # 假设这里是固定用户ID，未来可以扩展为动态用户
+        #     image=image_file,
+        # )
+        # user_upload.save()
+        print(1111, request.data)
+        print(2222, request.FILES)
+        print(3333, request.content_type)
 
-        # 遍历节点，找到需要更新的内容
-        nodes = workflow_data["nodes"]
-        links = workflow_data["links"]
-        for node in nodes:
-            if node.get("class_type") == "sdCash":
-                node["inputs"]["custom_text1_desc"] = desc
-
-                # 更新图像节点和描述节点
-                for input_node in node["inputs"]:
-                    if input_node.get("name") == "custom_img1(optional)":
-                        link_id = get_link_by_id(input_node.get("link"), links)
-                        if link_id:
-                            prompt_data[link_id]["inputs"]["image"] = user_upload.name
-                            prompt_data[link_id]["inputs"][
-                                "upload"
-                            ] = user_upload.subfolder
-                    elif input_node.get("name") == "custom_text1(optional)":
-                        link_id = get_link_by_id(input_node.get("link"), links)
-                        if link_id:
-                            prompt_data[link_id]["inputs"]["text"] = desc
+        return Response(
+            {
+                "message": "Image uploaded and forwarded successfully!",
+            },
+            status=status.HTTP_201_CREATED,
+        )
 
 
 class ImageDisplayView(APIView):

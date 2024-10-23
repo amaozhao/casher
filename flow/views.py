@@ -1,12 +1,59 @@
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 
-from flow.models import WorkFlowData, ImageNode, VideoNode
-from flow.serializers.workflowdata import WorkFlowDataSerializer
-from flow.utils import generate_qrcode, get_access_token
+from flow.models import WorkFlowData, WorkFlowImage, WorkFlowComment
+from flow.serializers.workflowdata import (
+    WorkFlowDataSerializer,
+    WorkFlowCommentSerializer,
+)
+from urllib.parse import urljoin
+
+import requests
+from django.urls import reverse
+from django.conf import settings
 from rest_framework.response import Response
 from rest_framework import status
+from wechat_django.oauth.client import WeChatOAuthClient
+from wechat_django.models import WeChatApp
 import json
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+from dj_rest_auth.registration.views import SocialLoginView
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
+
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+from django.core.cache import cache
+from django.http import JsonResponse
+
+
+def send_message_to_client(request, channel_name):
+    # 从缓存中获取存储的 channel_name
+    stored_channel_name = cache.get(channel_name)
+
+    if stored_channel_name:
+        # 获取channel layer
+        channel_layer = get_channel_layer()
+
+        # 发送消息到特定客户端的channel_name
+        async_to_sync(channel_layer.send)(
+            stored_channel_name,
+            {
+                "type": "send.message",  # 消息类型，用于调用 send_message
+                "message": {
+                    "text": f"Hello, this is a message for channel {stored_channel_name}"
+                },
+            },
+        )
+
+        return JsonResponse(
+            {"status": f"Message sent to client with channel {stored_channel_name}"}
+        )
+    else:
+        return JsonResponse({"status": "Client not found"}, status=404)
 
 
 class UploadAPIView(APIView):
@@ -18,41 +65,53 @@ class UploadAPIView(APIView):
         # 获取 URL 中的参数 techsid 和 r
         r_value = request.GET.get("r")
         techsid = request.GET.get("techsid")
+        client_id = request.GET.get("client_id")
 
         if not r_value or not techsid:
-            return Response({"error": "Missing 'r' or 'techsid' in URL"}, status=status.HTTP_400_BAD_REQUEST)
-
-        # 解析表单中的 json_data
-        json_data = request.POST.get("json_data", None)
-
-        if not json_data:
-            return Response({"error": "Missing json_data"}, status=status.HTTP_400_BAD_REQUEST)
-
-        try:
-            post_data = json.loads(json_data)  # 解析 json_data
-        except json.JSONDecodeError:
-            return Response({"error": "Invalid JSON data"}, status=status.HTTP_400_BAD_REQUEST)
-
-        # 处理文件上传
-        cs_img_files = request.FILES.getlist('cs_img_files', [])
-        cs_video_files = request.FILES.getlist('cs_video_files', [])
+            return Response(
+                {"error": "Missing 'r' or 'techsid' in URL"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         # 根据 r 的值执行不同的逻辑
         if r_value == "comfyui.apiv2.upload":
-            return self.handle_upload(post_data, cs_img_files, cs_video_files, techsid)
-        elif r_value == "comfyui.apiv2.code":
-            return self.handle_code_logic(post_data, techsid)
-        else:
-            return Response({"error": f"Unsupported r value: {r_value}"}, status=status.HTTP_400_BAD_REQUEST)
+            if not techsid:
+                return Response(
+                    {"errno": 41009, "message": "用户未登陆", "data": []},
+                    status=status.HTTP_200_OK,
+                )
+            # 解析表单中的 json_data
+            json_data = request.POST.get("json_data", None)
 
-    def handle_upload(self, post_data, cs_img_files, cs_video_files, techsid):
+            if not json_data:
+                return Response(
+                    {"error": "Missing json_data"}, status=status.HTTP_400_BAD_REQUEST
+                )
+
+            try:
+                post_data = json.loads(json_data)  # 解析 json_data
+            except json.JSONDecodeError:
+                return Response(
+                    {"error": "Invalid JSON data"}, status=status.HTTP_400_BAD_REQUEST
+                )
+            cs_img_files = request.FILES.getlist("cs_img_files", [])
+            return self.handle_upload(post_data, client_id, techsid, cs_img_files)
+        elif r_value == "comfyui.apiv2.code":
+            return self.handle_code_logic(request.data, techsid)
+        else:
+            return Response(
+                {"error": f"Unsupported r value: {r_value}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    def handle_upload(self, post_data, client_id, techsid, cs_img_files):
         """
         处理上传逻辑，并将数据保存到数据库
         """
+        post_data = post_data.get("postData")
         try:
             # 创建 PostData 实例并保存
             post_data_instance = WorkFlowData.objects.create(
-                client_id=post_data.get("client_id"),
                 techsid=techsid,
                 res_node=post_data.get("res_node"),
                 main_images=post_data.get("mainImages", []),
@@ -62,69 +121,170 @@ class UploadAPIView(APIView):
                 fee=post_data.get("fee"),
                 free_times=post_data.get("free_times"),
                 uniqueid=post_data.get("uniqueid"),
+                client_id=client_id,
                 output=post_data.get("output", {}),
-                workflow=post_data.get("workflow", {})
+                workflow=post_data.get("workflow", {}),
+                post_data=post_data,
             )
 
             # 处理图片节点上传
             cs_img_descs = post_data.get("cs_img_nodes", [])
+
             for index, img_file in enumerate(cs_img_files):
-                desc = cs_img_descs[index].get('desc', '') if index < len(cs_img_descs) else ''
-                ImageNode.objects.create(post_data=post_data_instance, image=img_file, desc=desc)
+                desc = (
+                    cs_img_descs[index].get("desc", "")
+                    if index < len(cs_img_descs)
+                    else ""
+                )
+                WorkFlowImage.objects.create(
+                    post_data=post_data_instance, image=img_file, desc=desc
+                )
 
-            # 处理视频节点上传
-            cs_video_descs = post_data.get("cs_video_nodes", [])
-            for index, video_file in enumerate(cs_video_files):
-                desc = cs_video_descs[index].get('desc', '') if index < len(cs_video_descs) else ''
-                VideoNode.objects.create(post_data=post_data_instance, video=video_file, desc=desc)
+            r = {
+                "errno": 1,
+                "message": "OK",
+                "data": {
+                    "data": {
+                        "message": "更新成功",
+                        "code": 1,
+                        "list": [
+                            {
+                                "code": "https://tt-1254127940.file.myqcloud.com/tech_huise/66/code/ONZgL75MhOrqVE6F.png",
+                                "desc": "微信小程序页面",
+                            },
+                            {
+                                "code": "https://tt-1254127940.file.myqcloud.com/tech_huise/66/code/euWO8Wl7gnc1lkRK.png",
+                                "desc": "抖音小程序页面",
+                            },
+                            {
+                                "code": "https://tt-1254127940.file.myqcloud.com/tech_huise/66/code/6LCGwiQNRj152DZw1728990819.png",
+                                "desc": "H5页面",
+                            },
+                            {
+                                "code": "https://tt-1254127940.file.myqcloud.com/images/66/2024/05/h8kBOfzsOs4ee0UEP1Pp0OeySJMOFk.jpg",
+                                "desc": "手机端后台",
+                            },
+                        ],
+                        "name": post_data.get("uniqueid"),
+                        "gameid": "3311",
+                    }
+                },
+            }
 
-            return Response(
-                {"message": "PostData saved successfully", "id": post_data_instance.id},
-                status=status.HTTP_200_OK
-            )
+            return Response(r, status=status.HTTP_200_OK)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(
+                {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
     def handle_code_logic(self, post_data, techsid):
         """
         处理与 code 相关的逻辑
         """
-        # 示例处理逻辑，可以根据需要自定义
-        return Response({
-            "message": f"Handling code logic for techsid: {techsid}",
-            "data": post_data
-        }, status=status.HTTP_200_OK)
+        postData = post_data.get("postData")
+        if postData.get("s_key"):
+            r = {
+                "errno": 0,
+                "message": "OK",
+                "data": {
+                    "data": {"code": 1, "data": {"techsid": "init", "openid": "init"}}
+                },
+            }
+            return Response(r, status=status.HTTP_200_OK)
+        else:
+            r = {
+                "errno": 0,
+                "message": "OK",
+                "data": {
+                    "data": {
+                        "code": 1,
+                        "data": "https://tt-1254127940.file.myqcloud.com/tech_huise/66/code/qPVkSBxOnfwDlpNT.png",
+                        "desc": "请微信扫码登录",
+                        "test": {"s_key": "", "subdomain": "ef28c7ddcc72"},
+                        "s_key": "wx1729222221733JsDThh",
+                    }
+                },
+            }
+            return Response(r, status=status.HTTP_200_OK)
 
 
-class FlowList(APIView):
-    """
-    List all snippets, or create a new snippet.
-    """
+class WorkFlowList(ListAPIView):
 
-    def get(self, request, format=None):
+    def get(self, request):
         flows = WorkFlowData.objects.all()
         serializer = WorkFlowDataSerializer(flows, many=True)
         return Response(serializer.data)
 
+
+class WorkFlowCommentList(ListAPIView):
+
+    def get(self, request):
+        comments = WorkFlowComment.objects.all()
+        serializer = WorkFlowCommentSerializer(comments, many=True)
+        return Response(serializer.data)
+
+
+class WechatQRLogin(APIView):
+
+    def get(self, request):
+        app = WeChatApp.objects.get_by_name("现金宝H5")
+        url = app.build_url("wechat_callback")
+        cfg = app.configurations
+        redirect = cfg.get("SITE_HOST")
+        client = WeChatOAuthClient(app)
+        url = client.qrconnect_url(redirect_uri=redirect, state="STATE")
+        return Response({"url": url}, status=status.HTTP_200_OK)
+
+
+class WechatMinAppLogin(APIView):
+
     def post(self, request):
-        serializer = WorkFlowDataSerializer(data=request.data)
-        if serializer.is_valid():
-            fd = WorkFlowData(
-                user=User.objects.get(id=1),
-                workflow=json.dumps(serializer.data.get("workflow")),
-                prompt=json.dumps(serializer.data.get("prompt")),
-            )
-            fd.save()
-            return Response({"message": "成功"}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        app = WeChatApp.objects.get_by_name("现金宝")
+        code = request.data.get("code")
+        user, data = app.auth(code)
+        return Response({"data": data}, status=status.HTTP_200_OK)
 
 
-class WechatProgramLoginImage(APIView):
-    def get(self, request, format=None):
-        appid = "your_appid_here"
-        secret = "your_secret_here"
+class WechatCallback(APIView):
+    url_name = "wechat_callback"
 
-        # 获取 access_token
-        access_token = get_access_token(appid, secret)
-        qrcode = generate_qrcode(access_token)
-        return Response({"qrcode": qrcode})
+    def get(self, request):
+        return Response({}, status=status.HTTP_200_OK)
+
+
+class GoogleLoginUrl(APIView):
+    def get(self, request, *args, **kwargs):
+        """
+        If you are building a fullstack application (eq. with React app next to Django)
+        you can place this endpoint in your frontend application to receive
+        the JWT tokens there - and store them in the state
+        """
+        client_id = settings.GOOGLE_OAUTH_CLIENT_ID
+        callback_url = token_endpoint_url = urljoin("http://localhost:8000", reverse("google_login"))
+        return Response(
+            {
+                'url': f'https://accounts.google.com/o/oauth2/v2/auth?redirect_uri={callback_url}&prompt=consent&response_type=code&client_id={client_id}&scope=openid%20email%20profile&access_type=online'
+            },
+            status=status.HTTP_200_OK
+        )
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class GoogleLoginView(SocialLoginView):
+    adapter_class = GoogleOAuth2Adapter
+    callback_url = settings.GOOGLE_OAUTH_CALLBACK_URL
+    client_class = OAuth2Client
+
+
+class GoogleLoginCallback(APIView):
+
+    def get(self, request, *args, **kwargs):
+        code = request.GET.get("code")
+        if code is None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        # Remember to replace the localhost:8000 with the actual domain name before deployment
+        token_endpoint_url = urljoin("http://localhost:8000", reverse("google_login"))
+        print(token_endpoint_url)
+        response = requests.post(url=token_endpoint_url, data={"code": code})
+        print(response)
+        return Response(response.json(), status=status.HTTP_200_OK)

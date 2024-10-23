@@ -2,6 +2,7 @@ import base64
 from asgiref.sync import async_to_sync
 from task.consumer import ClientConsumer
 
+
 class ComfyUIService:
     def __init__(self, comfy_ui_service):
         self.comfy_ui_service = comfy_ui_service  # 传入异步服务类实例
@@ -13,7 +14,7 @@ class ComfyUIService:
         # 组装 image_data
         image_data = {
             "filename": image_file.name,
-            "file_content": base64.b64encode(image_file.read()).decode('utf-8'),
+            "file_content": base64.b64encode(image_file.read()).decode("utf-8"),
             "image_type": image_type,
             "overwrite": overwrite,
         }
@@ -37,13 +38,18 @@ class ComfyUIService:
         """
         同步获取图片。
         """
-        return async_to_sync(self.comfy_ui_service.fetch_image)(client_id, filename, subfolder, image_type)
+        return async_to_sync(self.comfy_ui_service.fetch_image)(
+            client_id, filename, subfolder, image_type
+        )
 
     def get_prompt_images(self, client_id, prompt_id):
         """
         同步获取提示生成的所有图片。
         """
-        return async_to_sync(self.comfy_ui_service.get_prompt_images)(client_id, prompt_id)
+        return async_to_sync(self.comfy_ui_service.get_prompt_images)(
+            client_id, prompt_id
+        )
+
 
 # 使用示例：
 # 假设有一个已实例化的异步 ComfyUIService 类 (comfy_ui_service)

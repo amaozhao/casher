@@ -1,0 +1,1316 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-08-04 12:03+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Xavier-Lam <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
+
+#: .\wechat_django\admin\base.py:54
+#, python-format
+msgid "delete %(category)s failed: %(obj)s"
+msgstr "%(obj)s %(category)s删除失败!"
+
+#: .\wechat_django\admin\base.py:60
+msgid "delete selected"
+msgstr "删除所选"
+
+#: .\wechat_django\admin\views\article.py:28
+#: .\wechat_django\admin\views\article.py:29
+#: .\wechat_django\admin\views\menu.py:48
+msgid "link"
+msgstr "链接"
+
+#: .\wechat_django\admin\views\article.py:31
+#: .\wechat_django\admin\views\article.py:33
+msgid "source_url"
+msgstr "链接"
+
+#: .\wechat_django\admin\views\article.py:38
+msgid "thumb_url"
+msgstr "缩略图"
+
+#: .\wechat_django\admin\views\article.py:57
+#: .\wechat_django\models\material.py:100
+msgid "material"
+msgstr "素材"
+
+#: .\wechat_django\admin\views\article.py:62
+#: .\wechat_django\admin\views\messagehandler.py:89
+#: .\wechat_django\models\article.py:21
+#: .\wechat_django\models\messagelog.py:26
+#: .\wechat_django\models\template.py:22
+msgid "content"
+msgstr "内容"
+
+#: .\wechat_django\admin\views\article.py:74
+msgid "Sync articles"
+msgstr "同步图文"
+
+#: .\wechat_django\admin\views\article.py:80
+#, python-format
+msgid "%(count)d articles successfully synchronized"
+msgstr "成功同步 %(count)d个图文"
+
+#: .\wechat_django\admin\views\article.py:84
+#, python-format
+msgid "Sync articles failed with %(exc)s"
+msgstr "同步图文发生错误: %(exc)s"
+
+#: .\wechat_django\admin\views\material.py:31
+msgid "preview"
+msgstr "预览"
+
+#: .\wechat_django\admin\views\material.py:36
+#: .\wechat_django\models\material.py:90
+msgid "update time"
+msgstr "更新时间"
+
+#: .\wechat_django\admin\views\material.py:59
+#: .\wechat_django\admin\views\material.py:61
+msgid "open"
+msgstr "打开"
+
+#: .\wechat_django\admin\views\material.py:63
+msgid "Sync materials"
+msgstr "同步素材"
+
+#: .\wechat_django\admin\views\material.py:69
+#, python-format
+msgid "%(count)d materials successfully synchronized"
+msgstr "成功同步 %(count)d个素材"
+
+#: .\wechat_django\admin\views\material.py:73
+#, python-format
+msgid "Sync materials failed with %(exc)s"
+msgstr "同步素材发生错误: %(exc)s"
+
+#: .\wechat_django\admin\views\menu.py:39
+#: .\wechat_django\admin\views\messagehandler.py:92
+#: .\wechat_django\models\app.py:52 .\wechat_django\models\article.py:14
+#: .\wechat_django\models\template.py:21 .\wechat_django\pay\models\app.py:20
+msgid "title"
+msgstr "标题"
+
+#: .\wechat_django\admin\views\menu.py:52
+#: .\wechat_django\pay\models\orderresult.py:42
+msgid "detail"
+msgstr "详情"
+
+#: .\wechat_django\admin\views\menu.py:69
+msgid "actions"
+msgstr "操作"
+
+#: .\wechat_django\admin\views\menu.py:71
+msgid "Sync menus"
+msgstr "同步菜单"
+
+#: .\wechat_django\admin\views\menu.py:77
+msgid "Menus successful synchronized"
+msgstr "菜单同步成功"
+
+#: .\wechat_django\admin\views\menu.py:80
+#, python-format
+msgid "Sync menus failed with %(exc)s"
+msgstr "同步菜单发生错误: %(exc)s"
+
+#: .\wechat_django\admin\views\menu.py:82
+msgid "Publish menus"
+msgstr "发布菜单"
+
+#: .\wechat_django\admin\views\menu.py:88
+msgid "Menus successful published"
+msgstr "菜单发布成功"
+
+#: .\wechat_django\admin\views\menu.py:91
+#, python-format
+msgid "Publish menus failed with %(exc)s"
+msgstr "菜单发布失败: %(exc)s"
+
+#: .\wechat_django\admin\views\menu.py:125
+msgid "menu key"
+msgstr "菜单KEY值"
+
+#: .\wechat_django\admin\views\menu.py:126
+#: .\wechat_django\admin\views\messagehandler.py:88
+#: .\wechat_django\admin\views\messagehandler.py:95
+#: .\wechat_django\models\article.py:22 .\wechat_django\models\material.py:88
+msgid "url"
+msgstr "url"
+
+#: .\wechat_django\admin\views\menu.py:127
+msgid "miniprogram app_id"
+msgstr "小程序AppId"
+
+#: .\wechat_django\admin\views\menu.py:128
+msgid "pagepath"
+msgstr "小程序路径"
+
+#: .\wechat_django\admin\views\messagehandler.py:18
+#: .\wechat_django\admin\wechatapp.py:18
+msgid "log messages"
+msgstr "记录消息"
+
+#: .\wechat_django\admin\views\messagehandler.py:53
+#: .\wechat_django\models\messagelog.py:24
+msgid "message type"
+msgstr "消息类型"
+
+#: .\wechat_django\admin\views\messagehandler.py:55
+msgid "event"
+msgstr "事件"
+
+#: .\wechat_django\admin\views\messagehandler.py:57
+msgid "event key"
+msgstr "事件Key值"
+
+#: .\wechat_django\admin\views\messagehandler.py:58
+msgid "pattern"
+msgstr "匹配模式"
+
+#: .\wechat_django\admin\views\messagehandler.py:87
+msgid "custom program"
+msgstr "自定义程序"
+
+#: .\wechat_django\admin\views\messagehandler.py:91
+#: .\wechat_django\models\material.py:82
+msgid "media_id"
+msgstr "素材id"
+
+#: .\wechat_django\admin\views\messagehandler.py:93
+#: .\wechat_django\admin\wechatapp.py:124 .\wechat_django\models\app.py:57
+msgid "description"
+msgstr "描述"
+
+#: .\wechat_django\admin\views\messagehandler.py:96
+msgid "HQ music url"
+msgstr "高清音乐地址"
+
+#: .\wechat_django\admin\views\messagehandler.py:97
+msgid "thumb media_id"
+msgstr "缩略图素材id"
+
+#: .\wechat_django\admin\views\messagehandler.py:131
+#: .\wechat_django\admin\views\messagehandler.py:135
+#: .\wechat_django\admin\views\messagehandler.py:150
+msgid "available"
+msgstr "有效"
+
+#: .\wechat_django\admin\views\messagehandler.py:160
+msgid "Sync message handlers"
+msgstr "同步自动回复"
+
+#: .\wechat_django\admin\views\messagehandler.py:165
+#, python-format
+msgid "%(count)d handlers successfully synchronized"
+msgstr "成功同步 %(count)d个自动回复"
+
+#: .\wechat_django\admin\views\messagehandler.py:169
+#, python-format
+msgid "Sync handlers failed with %(exc)s"
+msgstr "同步自动回复发生错误: %(exc)s"
+
+#: .\wechat_django\admin\views\messagehandler.py:174
+msgid "synchronized from wechat"
+msgstr "从微信同步"
+
+#: .\wechat_django\admin\views\template.py:29
+msgid "Sync templates"
+msgstr "同步消息模板"
+
+#: .\wechat_django\admin\views\template.py:35
+#, python-format
+msgid "%(count)d templates successfully synchronized"
+msgstr "成功同步 %(count)d个消息模板"
+
+#: .\wechat_django\admin\views\template.py:39
+#, python-format
+msgid "Sync templates failed with %(exc)s"
+msgstr "同步消息模板发生错误: %(exc)s"
+
+#: .\wechat_django\admin\views\template.py:40
+msgid "sync templates"
+msgstr "同步消息模板"
+
+#: .\wechat_django\admin\views\user.py:18
+msgid "tags"
+msgstr "标签"
+
+#: .\wechat_django\admin\views\user.py:55 .\wechat_django\models\user.py:60
+msgid "avatar"
+msgstr "头像"
+
+#: .\wechat_django\admin\views\user.py:60 .\wechat_django\models\user.py:67
+msgid "subscribe time"
+msgstr "关注时间"
+
+#: .\wechat_django\admin\views\user.py:68
+#, python-format
+msgid "%(count)d users successfully synchronized"
+msgstr "成功同步 %(count)d个用户"
+
+#: .\wechat_django\admin\views\user.py:71
+#, python-format
+msgid "%(method)s failed with %(exc)s"
+msgstr "%(method)s发生错误: %(exc)s"
+
+#: .\wechat_django\admin\views\user.py:75
+msgid "Incremental sync users"
+msgstr "增量同步用户"
+
+#: .\wechat_django\admin\views\user.py:79
+msgid "Sync all users"
+msgstr "同步所有用户"
+
+#: .\wechat_django\admin\views\user.py:87
+msgid "update selected"
+msgstr "更新所选"
+
+#: .\wechat_django\admin\views\usertag.py:30
+msgid "sys tag"
+msgstr "系统标签"
+
+#: .\wechat_django\admin\views\usertag.py:32
+msgid "Sync user tags"
+msgstr "同步用户标签"
+
+#: .\wechat_django\admin\views\usertag.py:37
+#, python-format
+msgid "%(count)d tags successfully synchronized"
+msgstr "成功同步 %(count)d个标签"
+
+#: .\wechat_django\admin\views\usertag.py:41
+#, python-format
+msgid "Sync user tags failed with %(exc)s"
+msgstr "同步用户标签发生错误: %(exc)s"
+
+#: .\wechat_django\admin\views\usertag.py:49
+#, python-format
+msgid "%(count)d users of %(tag)s successfully synchronized"
+msgstr "成功同步 %(count)d个%(tag)s标签下的用户"
+
+#: .\wechat_django\admin\views\usertag.py:53
+#, python-format
+msgid "Sync users failed with %(exc)s"
+msgstr "同步用户发生错误: %(exc)s"
+
+#: .\wechat_django\admin\views\usertag.py:54
+msgid "sync tag users"
+msgstr "同步所选标签用户信息"
+
+#: .\wechat_django\admin\views\usertag.py:58
+msgid "sync tag openids"
+msgstr "同步所选标签用户openid"
+
+#: .\wechat_django\admin\views\usertag.py:74
+msgid "users count"
+msgstr "用户数量"
+
+#: .\wechat_django\admin\wechatapp.py:21
+msgid "WeChat host"
+msgstr "回调域名"
+
+#: .\wechat_django\admin\wechatapp.py:22
+msgid "接收微信回调的域名"
+msgstr ""
+
+#: .\wechat_django\admin\wechatapp.py:24
+msgid "WeChat https"
+msgstr "HTTPS回调"
+
+#: .\wechat_django\admin\wechatapp.py:25
+msgid "回调地址是否为https"
+msgstr ""
+
+#: .\wechat_django\admin\wechatapp.py:28
+msgid "accesstoken url"
+msgstr ""
+
+#: .\wechat_django\admin\wechatapp.py:29
+msgid "获取accesstoken的url,不填直接从微信取"
+msgstr ""
+
+#: .\wechat_django\admin\wechatapp.py:31
+msgid "oauth url"
+msgstr "OAuth URL"
+
+#: .\wechat_django\admin\wechatapp.py:32
+msgid "授权重定向的url,用于第三方网页授权换取code,默认直接微信授权"
+msgstr ""
+
+#: .\wechat_django\admin\wechatapp.py:102
+msgid "authed"
+msgstr "认证"
+
+#: .\wechat_django\admin\wechatapp.py:104
+msgid "api"
+msgstr ""
+
+#: .\wechat_django\admin\wechatapp.py:106
+msgid "interactable"
+msgstr "可消息交互"
+
+#: .\wechat_django\admin\wechatapp.py:108 .\wechat_django\pay\models\app.py:60
+#: .\wechat_django\pay\models\app.py:61
+msgid "WeChat pay"
+msgstr "微信支付"
+
+#: .\wechat_django\admin\wechatapp.py:120
+msgid "abilities"
+msgstr "能力"
+
+#: .\wechat_django\admin\wechatapp.py:129
+msgid "message callback url"
+msgstr "消息回调服务器地址(URL)"
+
+#: .\wechat_django\apps.py:12 .\wechat_django\apps.py:13
+msgid "WeChat"
+msgstr "微信"
+
+#: .\wechat_django\exceptions.py:19
+msgid "没有API访问能力"
+msgstr ""
+
+#: .\wechat_django\exceptions.py:20
+msgid "没有模板消息能力"
+msgstr ""
+
+#: .\wechat_django\exceptions.py:21
+msgid "没有OAUTH能力"
+msgstr ""
+
+#: .\wechat_django\exceptions.py:22
+msgid "没有消息交互能力"
+msgstr ""
+
+#: .\wechat_django\i18n.txt:3
+msgid "PLAIN"
+msgstr "明文模式"
+
+#: .\wechat_django\i18n.txt:4
+msgid "SAFE"
+msgstr "安全模式"
+
+#: .\wechat_django\i18n.txt:5 .\wechat_django\models\app.py:104
+msgid "SERVICEAPP"
+msgstr "服务号"
+
+#: .\wechat_django\i18n.txt:6 .\wechat_django\models\app.py:106
+msgid "SUBSCRIBEAPP"
+msgstr "订阅号"
+
+#: .\wechat_django\i18n.txt:7 .\wechat_django\i18n.txt:44
+#: .\wechat_django\models\app.py:102
+msgid "MINIPROGRAM"
+msgstr "小程序"
+
+#: .\wechat_django\i18n.txt:9
+msgid "TEXT"
+msgstr "文本"
+
+#: .\wechat_django\i18n.txt:10
+msgid "IMAGE"
+msgstr "图片"
+
+#: .\wechat_django\i18n.txt:11
+msgid "VOICE"
+msgstr "语音"
+
+#: .\wechat_django\i18n.txt:12
+msgid "VIDEO"
+msgstr "视频"
+
+#: .\wechat_django\i18n.txt:13
+msgid "NEWS"
+msgstr "图文"
+
+#: .\wechat_django\i18n.txt:14
+msgid "MUSIC"
+msgstr "音乐"
+
+#: .\wechat_django\i18n.txt:15
+msgid "CUSTOM"
+msgstr "自定义业务"
+
+#: .\wechat_django\i18n.txt:16
+msgid "FORWARD"
+msgstr "转发"
+
+#: .\wechat_django\i18n.txt:18
+msgid "SELF"
+msgstr "本平台"
+
+#: .\wechat_django\i18n.txt:19
+msgid "MENU"
+msgstr "微信菜单"
+
+#: .\wechat_django\i18n.txt:20
+msgid "MP"
+msgstr "微信公众平台"
+
+#: .\wechat_django\i18n.txt:22
+msgid "REPLYALL"
+msgstr "全部回复"
+
+#: .\wechat_django\i18n.txt:23
+msgid "RANDOM"
+msgstr "随机回复"
+
+#: .\wechat_django\i18n.txt:24
+msgid "NONE"
+msgstr "不回复"
+
+#: .\wechat_django\i18n.txt:26
+msgid "MSGTYPE"
+msgstr "消息类型"
+
+#: .\wechat_django\i18n.txt:27
+msgid "EVENTKEY"
+msgstr "事件KEY"
+
+#: .\wechat_django\i18n.txt:28
+msgid "CONTAIN"
+msgstr "文本包含"
+
+#: .\wechat_django\i18n.txt:29
+msgid "EQUAL"
+msgstr "文本相等"
+
+#: .\wechat_django\i18n.txt:30
+msgid "REGEX"
+msgstr "正则匹配"
+
+#: .\wechat_django\i18n.txt:31
+msgid "ALL"
+msgstr "全部"
+
+#: .\wechat_django\i18n.txt:33
+msgid "LINK"
+msgstr "链接"
+
+#: .\wechat_django\i18n.txt:34
+msgid "SHORTVIDEO"
+msgstr "短视频"
+
+#: .\wechat_django\i18n.txt:35
+msgid "EVENT"
+msgstr "事件"
+
+#: .\wechat_django\i18n.txt:37
+msgid "SUBSCRIBE"
+msgstr "关注"
+
+#: .\wechat_django\i18n.txt:38
+msgid "UNSUBSCRIBE"
+msgstr "取消关注"
+
+#: .\wechat_django\i18n.txt:39
+msgid "SCAN"
+msgstr "扫码"
+
+#: .\wechat_django\i18n.txt:40
+msgid "LOCATION"
+msgstr "位置"
+
+#: .\wechat_django\i18n.txt:42
+msgid "CLICK"
+msgstr "菜单点击"
+
+#: .\wechat_django\i18n.txt:43
+msgid "VIEW"
+msgstr "菜单跳转"
+
+#: .\wechat_django\i18n.txt:46
+msgid "UNKNOWN"
+msgstr "未知"
+
+#: .\wechat_django\i18n.txt:47
+msgid "MALE"
+msgstr "男性"
+
+#: .\wechat_django\i18n.txt:48
+msgid "FEMALE"
+msgstr "女性"
+
+#: .\wechat_django\i18n.txt:50
+msgid "ADD_SCENE_SEARCH"
+msgstr "公众号搜索"
+
+#: .\wechat_django\i18n.txt:51
+msgid "ADD_SCENE_ACCOUNT_MIGRATION"
+msgstr "公众号迁移"
+
+#: .\wechat_django\i18n.txt:52
+msgid "ADD_SCENE_PROFILE_CARD"
+msgstr "名片分享"
+
+#: .\wechat_django\i18n.txt:53
+msgid "ADD_SCENE_QR_CODE"
+msgstr "扫描二维码"
+
+#: .\wechat_django\i18n.txt:54
+msgid "ADD_SCENEPROFILE LINK"
+msgstr "图文页内名称点击"
+
+#: .\wechat_django\i18n.txt:55
+msgid "ADD_SCENE_PROFILE_ITEM"
+msgstr "图文页右上角菜单"
+
+#: .\wechat_django\i18n.txt:56
+msgid "ADD_SCENE_PAID"
+msgstr "支付后关注"
+
+#: .\wechat_django\i18n.txt:57
+msgid "ADD_SCENE_OTHERS"
+msgstr "其他"
+
+#: .\wechat_django\i18n.txt:59
+msgid "SUCCESS"
+msgstr "成功"
+
+#: .\wechat_django\i18n.txt:60
+msgid "REFUND"
+msgstr "转入退款"
+
+#: .\wechat_django\i18n.txt:61
+msgid "NOTPAY"
+msgstr "未支付"
+
+#: .\wechat_django\i18n.txt:62
+msgid "CLOSED"
+msgstr "已关闭"
+
+#: .\wechat_django\i18n.txt:63
+msgid "REVOKED"
+msgstr "已撤销(刷卡支付)"
+
+#: .\wechat_django\i18n.txt:64
+msgid "USERPAYING"
+msgstr "用户支付中"
+
+#: .\wechat_django\i18n.txt:65
+msgid "PAYERROR"
+msgstr "支付失败(其他原因,如银行返回失败)"
+
+#: .\wechat_django\i18n.txt:66
+msgid "FAIL"
+msgstr "失败"
+
+#: .\wechat_django\models\app.py:53
+msgid "公众号名称,用于后台辨识公众号"
+msgstr ""
+
+#: .\wechat_django\models\app.py:55 .\wechat_django\models\material.py:87
+#: .\wechat_django\models\menu.py:38
+#: .\wechat_django\models\messagehandler.py:58
+#: .\wechat_django\pay\models\app.py:23
+msgid "name"
+msgstr "名称"
+
+#: .\wechat_django\models\app.py:56
+msgid "公众号唯一标识,可采用微信号,设定后不可修改,用于程序辨识"
+msgstr ""
+
+#: .\wechat_django\models\app.py:59
+msgid "AppId"
+msgstr ""
+
+#: .\wechat_django\models\app.py:60
+msgid "AppSecret"
+msgstr ""
+
+#: .\wechat_django\models\app.py:61 .\wechat_django\models\material.py:81
+#: .\wechat_django\models\menu.py:44 .\wechat_django\models\reply.py:32
+#: .\wechat_django\models\rule.py:34
+msgid "type"
+msgstr "类型"
+
+#: .\wechat_django\models\app.py:66
+msgid "EncodingAESKey"
+msgstr ""
+
+#: .\wechat_django\models\app.py:68
+msgid "encoding mode"
+msgstr "消息加密方式"
+
+#: .\wechat_django\models\app.py:71
+#: .\wechat_django\models\messagehandler.py:67
+msgid "flags"
+msgstr "标志位"
+
+#: .\wechat_django\models\app.py:76 .\wechat_django\models\material.py:94
+#: .\wechat_django\models\menu.py:49 .\wechat_django\models\messagelog.py:31
+#: .\wechat_django\models\session.py:25 .\wechat_django\models\template.py:31
+#: .\wechat_django\models\user.py:79 .\wechat_django\models\usertag.py:24
+#: .\wechat_django\pay\models\order.py:75
+#: .\wechat_django\pay\models\orderresult.py:49
+msgid "created at"
+msgstr "创建时间"
+
+#: .\wechat_django\models\app.py:77 .\wechat_django\models\material.py:95
+#: .\wechat_django\models\menu.py:50 .\wechat_django\models\session.py:26
+#: .\wechat_django\models\user.py:80 .\wechat_django\pay\models\order.py:76
+#: .\wechat_django\pay\models\orderresult.py:50
+msgid "updated at"
+msgstr "最后更新时间"
+
+#: .\wechat_django\models\app.py:88
+msgid "WeChat app"
+msgstr "微信号"
+
+#: .\wechat_django\models\app.py:89
+msgid "WeChat apps"
+msgstr "微信号"
+
+#: .\wechat_django\models\app.py:108
+msgid "unknown"
+msgstr ""
+
+#: .\wechat_django\models\article.py:15
+msgid "thumb_media_id"
+msgstr "缩略图素材id"
+
+#: .\wechat_django\models\article.py:16
+msgid "show cover"
+msgstr "显示封面"
+
+#: .\wechat_django\models\article.py:18
+msgid "author"
+msgstr "作者"
+
+#: .\wechat_django\models\article.py:20
+msgid "digest"
+msgstr "摘要"
+
+#: .\wechat_django\models\article.py:24
+msgid "content source url"
+msgstr "原文链接"
+
+#: .\wechat_django\models\article.py:27
+msgid "need open comment"
+msgstr "打开评论"
+
+#: .\wechat_django\models\article.py:29
+msgid "only fans can comment"
+msgstr "粉丝才可评论"
+
+#: .\wechat_django\models\article.py:31
+msgid "index"
+msgstr "索引"
+
+#: .\wechat_django\models\article.py:35 .\wechat_django\models\user.py:82
+msgid "synchronized at"
+msgstr "同步时间"
+
+#: .\wechat_django\models\article.py:38
+msgid "article"
+msgstr "图文"
+
+#: .\wechat_django\models\article.py:39
+msgid "articles"
+msgstr "图文"
+
+#: .\wechat_django\models\material.py:84 .\wechat_django\models\template.py:18
+#: .\wechat_django\models\user.py:54
+msgid "alias"
+msgstr "别名"
+
+#: .\wechat_django\models\material.py:85
+msgid "素材别名,用于程序快速查询素材,单app下唯一"
+msgstr ""
+
+#: .\wechat_django\models\material.py:92
+#: .\wechat_django\pay\models\order.py:69
+msgid "comment"
+msgstr "备注"
+
+#: .\wechat_django\models\material.py:101
+msgid "materials"
+msgstr "素材"
+
+#: .\wechat_django\models\menu.py:39
+msgid "menuid"
+msgstr "菜单id"
+
+#: .\wechat_django\models\menu.py:48
+#: .\wechat_django\models\messagehandler.py:73
+#: .\wechat_django\models\reply.py:36 .\wechat_django\models\rule.py:37
+#: .\wechat_django\pay\models\app.py:25
+msgid "weight"
+msgstr "权重"
+
+#: .\wechat_django\models\menu.py:53
+msgid "menu"
+msgstr "菜单"
+
+#: .\wechat_django\models\menu.py:54
+msgid "menus"
+msgstr "菜单"
+
+#: .\wechat_django\models\messagehandler.py:64
+msgid "strategy"
+msgstr "策略"
+
+#: .\wechat_django\models\messagehandler.py:69
+msgid "starts"
+msgstr "开始时间"
+
+#: .\wechat_django\models\messagehandler.py:70
+msgid "ends"
+msgstr "结束时间"
+
+#: .\wechat_django\models\messagehandler.py:71
+msgid "enabled"
+msgstr "开启"
+
+#: .\wechat_django\models\messagehandler.py:74
+#: .\wechat_django\models\reply.py:37 .\wechat_django\models\rule.py:38
+msgid "created_at"
+msgstr "创建时间"
+
+#: .\wechat_django\models\messagehandler.py:75
+#: .\wechat_django\models\reply.py:38 .\wechat_django\models\rule.py:39
+msgid "updated_at"
+msgstr "最后更新时间"
+
+#: .\wechat_django\models\messagehandler.py:80
+msgid "message handler"
+msgstr "自动回复"
+
+#: .\wechat_django\models\messagehandler.py:81
+msgid "message handlers"
+msgstr "自动回复"
+
+#: .\wechat_django\models\messagelog.py:22
+msgid "msgid"
+msgstr "消息id"
+
+#: .\wechat_django\models\messagelog.py:27
+msgid "direct"
+msgstr "方向"
+
+#: .\wechat_django\models\messagelog.py:34
+msgid "message log"
+msgstr "消息日志"
+
+#: .\wechat_django\models\messagelog.py:35
+msgid "message logs"
+msgstr "消息日志"
+
+#: .\wechat_django\models\messagelog.py:100
+#, python-format
+msgid "%(type)s消息: %(msg_id)s"
+msgstr ""
+
+#: .\wechat_django\models\permission.py:27
+#, python-format
+msgid "Can manage %(appname)s"
+msgstr "可以管理 %(appname)s"
+
+#: .\wechat_django\models\permission.py:28
+#, python-format
+msgid "Can edit %(appname)s articles"
+msgstr "可以编辑 %(appname)s 的图文"
+
+#: .\wechat_django\models\permission.py:29
+#, python-format
+msgid "Can sync %(appname)s articles"
+msgstr "可以同步 %(appname)s 的图文"
+
+#: .\wechat_django\models\permission.py:30
+#, python-format
+msgid "Can edit %(appname)s materials"
+msgstr "可以编辑 %(appname)s 的素材"
+
+#: .\wechat_django\models\permission.py:31
+#, python-format
+msgid "Can sync %(appname)s materials"
+msgstr "可以同步 %(appname)s 的素材"
+
+#: .\wechat_django\models\permission.py:32
+#, python-format
+msgid "Can edit %(appname)s menus"
+msgstr "可以编辑 %(appname)s 的菜单"
+
+#: .\wechat_django\models\permission.py:33
+#, python-format
+msgid "Can sync %(appname)s menus"
+msgstr "可以同步 %(appname)s 的菜单"
+
+#: .\wechat_django\models\permission.py:34
+#, python-format
+msgid "Can publish %(appname)s menus"
+msgstr "可以发布 %(appname)s 的菜单"
+
+#: .\wechat_django\models\permission.py:35
+#, python-format
+msgid "Can edit %(appname)s message handlers"
+msgstr "可以编辑 %(appname)s 的自动回复"
+
+#: .\wechat_django\models\permission.py:36
+#, python-format
+msgid "Can sync %(appname)s message handlers"
+msgstr "可以同步 %(appname)s 的自动回复"
+
+#: .\wechat_django\models\permission.py:37
+#, python-format
+msgid "Can view %(appname)s message logs"
+msgstr "可以查看 %(appname)s 的消息日志"
+
+#: .\wechat_django\models\permission.py:38
+#, python-format
+msgid "Can edit %(appname)s users"
+msgstr "可以编辑 %(appname)s 的用户"
+
+#: .\wechat_django\models\permission.py:39
+#, python-format
+msgid "Can sync %(appname)s users"
+msgstr "可以同步 %(appname)s 的用户"
+
+#: .\wechat_django\models\permission.py:40
+#, python-format
+msgid "Can edit %(appname)s user tags"
+msgstr "可以编辑 %(appname)s 用户标签"
+
+#: .\wechat_django\models\permission.py:41
+#, python-format
+msgid "Can sync %(appname)s user tags"
+msgstr "可以同步 %(appname)s 用户标签"
+
+#: .\wechat_django\models\permission.py:42
+#, python-format
+msgid "Can edit %(appname)s templates"
+msgstr "可以编辑 %(appname)s 的消息模板"
+
+#: .\wechat_django\models\permission.py:43
+#, python-format
+msgid "Can sync %(appname)s templates"
+msgstr "可以同步 %(appname)s 的消息模板"
+
+#: .\wechat_django\models\permission.py:100
+#, python-format
+msgid "Can full control %(appname)s"
+msgstr "拥有 %(appname)s 的所有权限"
+
+#: .\wechat_django\models\reply.py:41
+msgid "reply"
+msgstr "回复"
+
+#: .\wechat_django\models\reply.py:42
+msgid "replies"
+msgstr "回复"
+
+#: .\wechat_django\models\reply.py:199 .\wechat_django\models\reply.py:230
+msgid "video"
+msgstr "视频"
+
+#: .\wechat_django\models\rule.py:46
+msgid "rule"
+msgstr "规则"
+
+#: .\wechat_django\models\rule.py:47
+msgid "rules"
+msgstr "规则"
+
+#: .\wechat_django\models\template.py:16
+msgid "template_id"
+msgstr "模板id"
+
+#: .\wechat_django\models\template.py:19
+msgid "模板别名,用于程序快速查询模板,单app下唯一"
+msgstr ""
+
+#: .\wechat_django\models\template.py:23
+msgid "example"
+msgstr "示例"
+
+#: .\wechat_django\models\template.py:26
+msgid "primary industry"
+msgstr "主行业"
+
+#: .\wechat_django\models\template.py:28
+msgid "deputy industry"
+msgstr "副行业"
+
+#: .\wechat_django\models\template.py:30 .\wechat_django\models\user.py:76
+msgid "remark"
+msgstr "备注"
+
+#: .\wechat_django\models\template.py:34
+msgid "template"
+msgstr "消息模板"
+
+#: .\wechat_django\models\template.py:35
+msgid "templates"
+msgstr "消息模板"
+
+#: .\wechat_django\models\user.py:51 .\wechat_django\pay\models\order.py:62
+msgid "openid"
+msgstr ""
+
+#: .\wechat_django\models\user.py:52
+msgid "unionid"
+msgstr ""
+
+#: .\wechat_django\models\user.py:55
+msgid "用户别名,用于程序快速查询用户,单app下唯一"
+msgstr ""
+
+#: .\wechat_django\models\user.py:57
+msgid "nickname"
+msgstr "昵称"
+
+#: .\wechat_django\models\user.py:59
+msgid "gender"
+msgstr "性别"
+
+#: .\wechat_django\models\user.py:61
+msgid "city"
+msgstr "城市"
+
+#: .\wechat_django\models\user.py:62
+msgid "province"
+msgstr "省份"
+
+#: .\wechat_django\models\user.py:63
+msgid "country"
+msgstr "国家"
+
+#: .\wechat_django\models\user.py:64
+msgid "language"
+msgstr "语言"
+
+#: .\wechat_django\models\user.py:66
+msgid "is subscribed"
+msgstr "已关注"
+
+#: .\wechat_django\models\user.py:69
+msgid "subscribe scene"
+msgstr "关注情景"
+
+#: .\wechat_django\models\user.py:71
+msgid "qr scene"
+msgstr "二维码扫码场景"
+
+#: .\wechat_django\models\user.py:72
+msgid "qr_scene_str"
+msgstr "二维码扫码场景描述"
+
+#: .\wechat_django\models\user.py:75
+msgid "WeChat remark"
+msgstr "微信备注"
+
+#: .\wechat_django\models\user.py:77
+msgid "group id"
+msgstr "分组id"
+
+#: .\wechat_django\models\user.py:87
+msgid "user"
+msgstr "用户"
+
+#: .\wechat_django\models\user.py:88
+msgid "users"
+msgstr "用户"
+
+#: .\wechat_django\models\usertag.py:20
+msgid "tag id"
+msgstr "标签id"
+
+#: .\wechat_django\models\usertag.py:21
+msgid "tag name"
+msgstr "标签名称"
+
+#: .\wechat_django\models\usertag.py:27
+msgid "user tag"
+msgstr "用户标签"
+
+#: .\wechat_django\models\usertag.py:28
+msgid "user tags"
+msgstr "用户标签"
+
+#: .\wechat_django\models\usertag.py:87
+msgid "can not edit a system tag"
+msgstr "不能删除系统标签"
+
+#: .\wechat_django\pay\admin\order.py:84
+msgid "Sync order"
+msgstr "同步订单"
+
+#: .\wechat_django\pay\admin\payapp.py:16
+msgid "clear certs"
+msgstr "清除证书"
+
+#: .\wechat_django\pay\admin\payapp.py:17
+msgid "Your mch_cert already uploaded"
+msgstr "你的商户证书已经上传"
+
+#: .\wechat_django\pay\admin\payapp.py:19 .\wechat_django\pay\models\app.py:40
+msgid "mch_cert"
+msgstr "商户证书"
+
+#: .\wechat_django\pay\admin\payapp.py:19
+msgid "商户证书"
+msgstr ""
+
+#: .\wechat_django\pay\admin\payapp.py:21 .\wechat_django\pay\models\app.py:41
+msgid "mch_key"
+msgstr "商户证书私钥"
+
+#: .\wechat_django\pay\admin\payapp.py:21
+msgid "商户证书私钥"
+msgstr ""
+
+#: .\wechat_django\pay\admin\payapp.py:74
+msgid "must upload both mch_cert and mch_key"
+msgstr "必须同时上传商户证书及商户证书私钥"
+
+#: .\wechat_django\pay\apps.py:11 .\wechat_django\pay\apps.py:12
+msgid "WeChat Pay"
+msgstr "微信支付"
+
+#: .\wechat_django\pay\models\app.py:21
+msgid "商户号标识,用于后台辨识商户号"
+msgstr ""
+
+#: .\wechat_django\pay\models\app.py:23
+msgid "default"
+msgstr "默认"
+
+#: .\wechat_django\pay\models\app.py:24
+msgid "商户号程序标识"
+msgstr ""
+
+#: .\wechat_django\pay\models\app.py:28
+msgid "mch_id"
+msgstr "商户号"
+
+#: .\wechat_django\pay\models\app.py:28
+msgid "微信支付分配的商户号"
+msgstr ""
+
+#: .\wechat_django\pay\models\app.py:30
+msgid "WeChatPay api_key"
+msgstr "微信API KEY"
+
+#: .\wechat_django\pay\models\app.py:30
+msgid "商户号key"
+msgstr ""
+
+#: .\wechat_django\pay\models\app.py:33
+msgid "sub_mch_id"
+msgstr "子商户号"
+
+#: .\wechat_django\pay\models\app.py:34
+msgid "子商户号，受理模式下填写"
+msgstr ""
+
+#: .\wechat_django\pay\models\app.py:36
+msgid "mch_app_id"
+msgstr "主商户号appid"
+
+#: .\wechat_django\pay\models\app.py:37
+msgid "微信分配的主商户号appid，受理模式下填写"
+msgstr ""
+
+#: .\wechat_django\pay\models\order.py:45
+msgid "device_info"
+msgstr "设备号"
+
+#: .\wechat_django\pay\models\order.py:46
+msgid "order body"
+msgstr "商品描述"
+
+#: .\wechat_django\pay\models\order.py:47
+msgid "order detail"
+msgstr "订单详情"
+
+#: .\wechat_django\pay\models\order.py:48
+msgid "out_trade_no"
+msgstr "商户订单号"
+
+#: .\wechat_django\pay\models\order.py:50
+msgid "fee_type"
+msgstr "标价币种"
+
+#: .\wechat_django\pay\models\order.py:51
+msgid "total_fee"
+msgstr "标价金额"
+
+#: .\wechat_django\pay\models\order.py:52
+msgid "spbill_create_ip"
+msgstr "终端ip"
+
+#: .\wechat_django\pay\models\order.py:53
+msgid "time_start"
+msgstr "交易起始时间"
+
+#: .\wechat_django\pay\models\order.py:54
+msgid "time_expire"
+msgstr "交易结束时间"
+
+#: .\wechat_django\pay\models\order.py:55
+msgid "goods_tag"
+msgstr "订单优惠标记"
+
+#: .\wechat_django\pay\models\order.py:57
+msgid "trade_type"
+msgstr "交易类型"
+
+#: .\wechat_django\pay\models\order.py:58
+msgid "product id"
+msgstr "商品id"
+
+#: .\wechat_django\pay\models\order.py:60
+msgid "limit_pay"
+msgstr "指定支付方式"
+
+#: .\wechat_django\pay\models\order.py:63
+msgid "sub openid"
+msgstr "子商户openid"
+
+#: .\wechat_django\pay\models\order.py:65
+msgid "recept"
+msgstr "电子发票入口开放标识"
+
+#: .\wechat_django\pay\models\order.py:67
+msgid "scene_info"
+msgstr "场景信息"
+
+#: .\wechat_django\pay\models\order.py:79
+msgid "Unified order"
+msgstr "统一下单订单"
+
+#: .\wechat_django\pay\models\order.py:80
+msgid "Unified orders"
+msgstr "统一下单订单"
+
+#: .\wechat_django\pay\models\order.py:94
+#: .\wechat_django\pay\models\orderresult.py:30
+msgid "transaction_id"
+msgstr "微信支付订单号"
+
+#: .\wechat_django\pay\models\order.py:101
+#: .\wechat_django\pay\models\orderresult.py:32
+msgid "trade_state"
+msgstr "交易状态"
+
+#: .\wechat_django\pay\models\orderresult.py:33
+msgid "pay time_end"
+msgstr "支付完成时间"
+
+#: .\wechat_django\pay\models\orderresult.py:36
+msgid "settlement_total_fee"
+msgstr "应结订单金额"
+
+#: .\wechat_django\pay\models\orderresult.py:37
+msgid "cash_fee"
+msgstr "现金支付金额"
+
+#: .\wechat_django\pay\models\orderresult.py:38
+msgid "cash_fee_type"
+msgstr "现金支付货币类型"
+
+#: .\wechat_django\pay\models\orderresult.py:39
+msgid "coupon_fee"
+msgstr "代金券金额"
+
+#: .\wechat_django\pay\models\orderresult.py:41
+msgid "bank_type"
+msgstr "付款银行"
+
+#: .\wechat_django\pay\models\orderresult.py:44
+msgid "is_subscribe"
+msgstr "已关注"
+
+#: .\wechat_django\pay\models\orderresult.py:45
+msgid "sub_is_subscribe"
+msgstr "是否关注子公众号"
+
+#: .\wechat_django\pay\models\orderresult.py:53
+msgid "Unified order result"
+msgstr "统一下单订单结果"
+
+#: .\wechat_django\pay\models\orderresult.py:54
+msgid "Unified order results"
+msgstr "统一下单订单结果"
+
+#: .\wechat_django\pay\models\orderresult.py:79
+#, python-format
+msgid "%(order)s reuslt"
+msgstr "%(order)s 订单结果"
+
+#: .\wechat_django\pay\models\permisssion.py:8
+#, python-format
+msgid "Can full control %(appname)s WeChat pay"
+msgstr "拥有 %(appname)s 的微信支付完整权限"
+
+#: .\wechat_django\pay\models\permisssion.py:9
+#, python-format
+msgid "Can manage %(appname)s WeChat pay"
+msgstr "可以管理 %(appname)s 的微信支付"
+
+#: .\wechat_django\pay\models\permisssion.py:10
+#, python-format
+msgid "Can view %(appname)s WeChat pay orders"
+msgstr "可以查看 %(appname)s 的微信支付日志"
+
+#: .\wechat_django\pay\notify.py:41
+msgid "Internal server error"
+msgstr ""
+
+#: .\wechat_django\pay\notify.py:48
+msgid "Method not allowed"
+msgstr ""
+
+#: .\wechat_django\pay\notify.py:51
+msgid "Empty body"
+msgstr ""
+
+#: .\wechat_django\pay\notify.py:57
+msgid "WeChat application not found"
+msgstr ""
+
+#: .\wechat_django\pay\notify.py:60
+msgid "WeChat pay not configured"
+msgstr ""
+
+#: .\wechat_django\pay\notify.py:65
+msgid "WeChat Pay not found"
+msgstr ""
+
+#: .\wechat_django\pay\notify.py:69
+msgid "Invalid signature"
+msgstr ""
+
+#: .\wechat_django\pay\notify.py:87
+msgid "Order not found"
+msgstr ""
+
+#: .\wechat_django\templates\admin\wechat_django\breadcrumbs.html:4
+msgid "Home"
+msgstr ""
+
+#: .\wechat_django\templates\admin\wechat_django\breadcrumbs.html:12
+#: .\wechat_django\templates\admin\wechat_django\change_list.html:14
+#, python-format
+msgid "Add %(name)s"
+msgstr ""
+
+#: .\wechat_django\templates\admin\wechat_django\change_form.html:12
+msgid "History"
+msgstr ""
+
+#: .\wechat_django\templates\admin\wechat_django\change_form.html:14
+msgid "View on site"
+msgstr ""

@@ -1,0 +1,6 @@
+{% extends 'admin/delete_selected_confirmation.html' %}
+{% load i18n admin_urls %}
+
+{% block breadcrumbs %}
+{% include 'admin/wechat_django/breadcrumbs.html' with view_short_description="Delete multiple objects" %}
+{% endblock %}
