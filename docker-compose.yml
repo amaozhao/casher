@@ -5,7 +5,7 @@ services:
     volumes:
       - .:/app
     expose:
-      - 8000
+      - "8000:8000"
     env_file:
       - .env
 
