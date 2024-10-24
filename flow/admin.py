@@ -1,3 +1,7 @@
 from django.contrib import admin
+from flow.models import WorkFlowData
 
-# Register your models here.
+
+@admin.register(WorkFlowData)
+class FlowDataAdmin(admin.ModelAdmin):
+    form = WorkFlowData
