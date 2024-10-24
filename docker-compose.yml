@@ -2,6 +2,8 @@ services:
   web:
     build: .
     command: daphne -b 0.0.0.0 -p 8000 casher.asgi:application
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - .:/app
     expose:
