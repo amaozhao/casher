@@ -21,7 +21,7 @@ class ImageUploadView(APIView):
     def post(self, request, *args, **kwargs):
         print(request.FILES)
         print(request.data)
-        image_file = request.FILES.get("filePath")
+        image_file = request.FILES.get("file")[]
         if not image_file:
             return Response(
                 {"error": "No image file provided."}, status=status.HTTP_400_BAD_REQUEST
