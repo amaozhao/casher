@@ -4,4 +4,4 @@ from flow.models import WorkFlowData
 
 @admin.register(WorkFlowData)
 class FlowDataAdmin(admin.ModelAdmin):
-    form = WorkFlowData
+    model = WorkFlowData
