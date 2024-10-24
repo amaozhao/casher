@@ -1,5 +1,5 @@
 services:
-  web:
+  web-cacher:
     build: .
     command: daphne -b 0.0.0.0 -p 8000 casher.asgi:application
     volumes:
@@ -9,7 +9,7 @@ services:
     env_file:
       - .env
 
-  nginx:
+  nginx-cacher:
     image: nginx:latest
     ports:
       - "8001:8001"
