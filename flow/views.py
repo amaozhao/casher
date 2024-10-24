@@ -295,20 +295,22 @@ class GoogleLoginUrl(APIView):
         )
 
 
-@method_decorator(csrf_exempt, name='dispatch')
 class GoogleLoginView(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
     callback_url = settings.GOOGLE_OAUTH_CALLBACK_URL
     client_class = OAuth2Client
 
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
-class GoogleLoginCallback(APIView):
+
+class GoogleCallback(APIView):
 
     def get(self, request, *args, **kwargs):
         code = request.GET.get("code")
         if code is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        # Remember to replace the localhost:8000 with the actual domain name before deployment
         token_endpoint_url = urljoin("http://aidep.cn:8601", reverse("google_login"))
         response = requests.post(url=token_endpoint_url, data={"code": code})
         print(response)

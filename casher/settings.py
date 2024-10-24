@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-i(cf)0ow&74jv8l86wiu@wn(@*rvj3$5*p3ditoanrgs$oxi5o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*",]
+ALLOWED_HOSTS = ["http://aidep.cn:8601", "http://0.0.0.0:8000", "*"]
 
 
 # Application definition
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'corsheaders',
     "rest_framework",
     'rest_framework.authtoken',
+    "rest_framework_simplejwt",
     "djstripe",
     "casher",
     "flow",
@@ -69,6 +70,11 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOWED_ORIGINS = [
+#     "http://aidep.cn:8601",
+#     "http://0.0.0.0:8000",
+#     "http://127.0.0.1:0000",
+# ]
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
@@ -179,7 +185,7 @@ LOGOUT_REDIRECT_URL = "/"  # 登出后跳转的页面
 
 GOOGLE_OAUTH_CLIENT_ID = '88674082295-pc3uu9ptrat6tuegmua1e4uhl0jj0i4l.apps.googleusercontent.com'
 GOOGLE_OAUTH_CLIENT_SECRET = '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'
-GOOGLE_OAUTH_CALLBACK_URL = '/flow/google/callback/'
+GOOGLE_OAUTH_CALLBACK_URL = 'http://aidep.cn:8601/flow/google/callback/'
 ACCOUNT_EMAIL_VERIFICATION = "none"
 SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
 # Connect local account and social account if local account with that email address already exists
