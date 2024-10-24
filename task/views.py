@@ -37,7 +37,8 @@ class ImageUploadView(APIView):
                 "message": "Image uploaded and forwarded successfully!",
                 "user_upload": {
                     "image": request.build_absolute_uri(user_upload.image.url),
-                    'id': user_upload.id
+                    'id': user_upload.id,
+                    'status': status.HTTP_200_OK
                 },
             },
             status=status.HTTP_201_CREATED,
