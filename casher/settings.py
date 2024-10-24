@@ -190,7 +190,7 @@ REST_FRAMEWORK = {
     ]
 }
 REST_AUTH_SERIALIZERS = {
-    'JWT_SERIALIZER': 'casher.token.CustomJWTSerializer',
+    'JWT_SERIALIZER': 'dj_rest_auth.serializers.JWTSerializer',
 }
 
 SOCIAL_AUTH_URL_NAMESPACE = "social"
@@ -211,7 +211,6 @@ SOCIALACCOUNT_PROVIDERS = {
             {
                 "client_id": GOOGLE_OAUTH_CLIENT_ID,
                 "secret": GOOGLE_OAUTH_CLIENT_SECRET,
-                "key": "",
             },
         ],
         "SCOPE": ["profile", "email"],

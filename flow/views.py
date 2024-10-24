@@ -1,6 +1,7 @@
 # from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveAPIView
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from flow.models import WorkFlowData, WorkFlowImage, WorkFlowComment
 from flow.serializers.workflowdata import (
@@ -297,6 +298,15 @@ class GoogleLoginView(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
     callback_url = settings.GOOGLE_OAUTH_CALLBACK_URL
     client_class = OAuth2Client
+
+    def get_response(self):
+        user = self.user
+        refresh = RefreshToken.for_user(user)  # 使用 simplejwt 创建 token
+
+        return Response({
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        })
 
 
 class GoogleCallback(APIView):
