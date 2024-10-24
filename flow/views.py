@@ -300,9 +300,9 @@ class GoogleLoginView(SocialLoginView):
     callback_url = settings.GOOGLE_OAUTH_CALLBACK_URL
     client_class = OAuth2Client
 
-    @method_decorator(csrf_exempt)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
+    # @method_decorator(csrf_exempt)
+    # def dispatch(self, *args, **kwargs):
+    #     return super().dispatch(*args, **kwargs)
 
 
 class GoogleCallback(APIView):

@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "task",
     "wechat_django",
     "wechat_django.pay",
+    "dj_rest_auth.registration",
 ]
 
 SITE_ID = 1
@@ -177,6 +178,18 @@ CHANNEL_LAYERS = {
     },
 }
 WS_CLOSE_TIMEOUT = 60  # 单位：秒，设置为 60 秒
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+    ]
+}
+REST_USE_JWT = True
+JWT_AUTH_COOKIE = 'my-app-auth'
+JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 
 SOCIAL_AUTH_URL_NAMESPACE = "social"
 LOGIN_REDIRECT_URL = "/"  # 登录后跳转的页面
