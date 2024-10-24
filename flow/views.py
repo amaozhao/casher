@@ -21,8 +21,6 @@ import json
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
 
 
 from channels.layers import get_channel_layer
@@ -286,7 +284,7 @@ class GoogleLoginUrl(APIView):
         the JWT tokens there - and store them in the state
         """
         client_id = settings.GOOGLE_OAUTH_CLIENT_ID
-        callback_url = urllib.parse.quote_plus(urljoin("http://aidep.cn:8601", reverse("flow_google_callback")))
+        callback_url = urllib.parse.quote_plus(urljoin("http://aidep.cn:8601", reverse("flow_google_login")))
         return Response(
             {
                 'url': f'https://accounts.google.com/o/oauth2/v2/auth?redirect_uri={callback_url}&prompt=consent&response_type=code&client_id={client_id}&scope=openid%20email%20profile&access_type=online'
@@ -299,10 +297,6 @@ class GoogleLoginView(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
     callback_url = settings.GOOGLE_OAUTH_CALLBACK_URL
     client_class = OAuth2Client
-
-    # @method_decorator(csrf_exempt)
-    # def dispatch(self, *args, **kwargs):
-    #     return super().dispatch(*args, **kwargs)
 
 
 class GoogleCallback(APIView):
