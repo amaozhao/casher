@@ -299,14 +299,14 @@ class GoogleLoginView(SocialLoginView):
     callback_url = settings.GOOGLE_OAUTH_CALLBACK_URL
     client_class = OAuth2Client
 
-    def get_response(self):
-        user = self.user
-        refresh = RefreshToken.for_user(user)  # 使用 simplejwt 创建 token
-
-        return Response({
-            'refresh': str(refresh),
-            'access': str(refresh.access_token),
-        })
+    # def get_response(self):
+    #     user = self.user
+    #     refresh = RefreshToken.for_user(user)  # 使用 simplejwt 创建 token
+    #
+    #     return Response({
+    #         'refresh': str(refresh),
+    #         'access': str(refresh.access_token),
+    #     })
 
 
 class GoogleCallback(APIView):
