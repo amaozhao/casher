@@ -286,7 +286,7 @@ class GoogleLoginUrl(APIView):
         the JWT tokens there - and store them in the state
         """
         client_id = settings.GOOGLE_OAUTH_CLIENT_ID
-        callback_url = urllib.parse.quote_plus(urljoin("http://aidep.cn:8601", reverse("google_callback")))
+        callback_url = urllib.parse.quote_plus(urljoin("http://aidep.cn:8601", reverse("flow_google_callback")))
         return Response(
             {
                 'url': f'https://accounts.google.com/o/oauth2/v2/auth?redirect_uri={callback_url}&prompt=consent&response_type=code&client_id={client_id}&scope=openid%20email%20profile&access_type=online'
