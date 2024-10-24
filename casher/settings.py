@@ -186,8 +186,11 @@ SIMPLE_JWT = {
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         # 'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ]
+}
+REST_AUTH_SERIALIZERS = {
+    'JWT_SERIALIZER': 'casher.token.CustomJWTSerializer',
 }
 
 SOCIAL_AUTH_URL_NAMESPACE = "social"
