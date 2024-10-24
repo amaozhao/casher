@@ -26,6 +26,7 @@ SECRET_KEY = "django-insecure-i(cf)0ow&74jv8l86wiu@wn(@*rvj3$5*p3ditoanrgs$oxi5o
 DEBUG = True
 
 ALLOWED_HOSTS = ["http://aidep.cn:8601", "http://0.0.0.0:8000", "*"]
+CSRF_TRUSTED_ORIGINS = ["http://aidep.cn:8601", "http://0.0.0.0:8000", "*"]
 
 
 # Application definition
@@ -63,7 +64,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
+    # "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
