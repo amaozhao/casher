@@ -8,6 +8,7 @@ from flow.serializers.workflowdata import (
     WorkFlowCommentSerializer,
 )
 from urllib.parse import urljoin
+import urllib.parse
 
 import requests
 from django.urls import reverse
@@ -285,7 +286,7 @@ class GoogleLoginUrl(APIView):
         the JWT tokens there - and store them in the state
         """
         client_id = settings.GOOGLE_OAUTH_CLIENT_ID
-        callback_url = token_endpoint_url = urljoin("http://aidep.cn:8601", reverse("google_login"))
+        callback_url = urllib.parse.quote_plus(urljoin("http://aidep.cn:8601", reverse("google_login")))
         return Response(
             {
                 'url': f'https://accounts.google.com/o/oauth2/v2/auth?redirect_uri={callback_url}&prompt=consent&response_type=code&client_id={client_id}&scope=openid%20email%20profile&access_type=online'
@@ -308,8 +309,7 @@ class GoogleLoginCallback(APIView):
         if code is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         # Remember to replace the localhost:8000 with the actual domain name before deployment
-        token_endpoint_url = urljoin("http://localhost:8000", reverse("google_login"))
-        print(token_endpoint_url)
+        token_endpoint_url = urljoin("http://aidep.cn:8601", reverse("google_login"))
         response = requests.post(url=token_endpoint_url, data={"code": code})
         print(response)
         return Response(response.json(), status=status.HTTP_200_OK)
