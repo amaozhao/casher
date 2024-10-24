@@ -176,7 +176,9 @@ CHANNEL_LAYERS = {
 }
 WS_CLOSE_TIMEOUT = 60  # 单位：秒，设置为 60 秒
 
-USE_JWT = True
+REST_AUTH = {
+    'USE_JWT': True
+}
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
