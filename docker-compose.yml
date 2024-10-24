@@ -18,4 +18,4 @@ services:
       - ./static:/app/static
       - ./media:/app/media
     depends_on:
-      - web
+      - web-cacher
