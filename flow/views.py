@@ -305,7 +305,7 @@ class GoogleCallback(APIView):
         code = request.GET.get("code")
         if code is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        token_endpoint_url = urljoin("http://aidep.cn:8601", reverse("google_login"))
+        token_endpoint_url = urljoin("http://aidep.cn:8601", reverse("flow_google_login"))
         response = requests.post(url=token_endpoint_url, data={"code": code})
         print(response)
         return Response(response.json(), status=status.HTTP_200_OK)
