@@ -16,6 +16,8 @@ COPY . .
 # 设置环境变量，避免 Python 在容器中生成 .pyc 文件
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ENV HTTP_PROXY="http://host.docker.internal:10809"
+ENV HTTPS_PROXY="http://host.docker.internal:10809"
 
 # 配置静态文件收集
 RUN python manage.py collectstatic --noinput
