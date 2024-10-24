@@ -19,7 +19,7 @@ ENV PYTHONUNBUFFERED 1
 
 # 配置静态文件收集
 RUN python manage.py collectstatic --noinput
-RUN python manage.py migrate
+# RUN python manage.py migrate
 
 # 开放8000端口用于 HTTP 和 WebSocket 服务
 EXPOSE 8000
