@@ -19,6 +19,8 @@ class ImageUploadView(APIView):
     """
 
     def post(self, request, *args, **kwargs):
+        print(request.FILES)
+        print(request.data)
         image_file = request.FILES.get("filePath")
         if not image_file:
             return Response(
