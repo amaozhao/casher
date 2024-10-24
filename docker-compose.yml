@@ -1,5 +1,5 @@
 services:
-  web-cacher:
+  web:
     build: .
     command: daphne -b 0.0.0.0 -p 8000 casher.asgi:application
     volumes:
@@ -9,7 +9,7 @@ services:
     env_file:
       - .env
 
-  nginx-cacher:
+  nginx:
     image: nginx:latest
     ports:
       - "8001:8001"
@@ -18,4 +18,4 @@ services:
       - ./static:/app/static
       - ./media:/app/media
     depends_on:
-      - web-cacher
+      - web
