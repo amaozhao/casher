@@ -2,7 +2,6 @@ import uuid
 
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
-from django.core.serializers import serialize
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -138,4 +137,4 @@ class TaskHistoryView(APIView):
     def get(self, request, *args, **kwargs):
         query = TaskResult.objects.all()
         serializer = TaskResultSerializer(query, many=True, context={'request': None})
-        return Response(serializer.data)
+        return Response({'data': serializer.data, 'status': status.HTTP_200_OK})

@@ -222,6 +222,13 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+# Stripe API Key
+STRIPE_LIVE_SECRET_KEY = "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"
+STRIPE_TEST_SECRET_KEY = "your_test_secret_key"
+
+STRIPE_LIVE_MODE = False  # False 表示测试模式
+DJSTRIPE_WEBHOOK_SECRET = "your_webhook_secret"
+DJSTRIPE_USE_NATIVE_JSONFIELD = True
 DJSTRIPE_WEBHOOK_VALIDATION = "retrieve_event"
 DJSTRIPE_FOREIGN_KEY_TO_FIELD = "id"
 
@@ -236,7 +243,7 @@ LOGGING = {
     "loggers": {
         "django": {
             "handlers": ["console"],
-            "level": "INFO",
+            "level": "DEBUG",
         },
         "channels": {
             "handlers": ["console"],
