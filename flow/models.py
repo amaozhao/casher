@@ -70,7 +70,7 @@ class WorkFlowImage(models.Model):
 
 
 class WorkFlowComment(models.Model):
-    user = models.ForeignKey(User, related_name="comments", on_delete=models.CASCADE)
+    workflow = models.ForeignKey(WorkFlowData, related_name="comments", on_delete=models.CASCADE)
     comment = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

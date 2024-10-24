@@ -22,7 +22,7 @@ def upload_cs_image_result(instance, filename):
 
 class UserUpload(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, default='')
     image = models.ImageField(upload_to=upload_cs_image_to)
     subfolder = models.CharField(max_length=20)
     created = models.DateTimeField(auto_now_add=True)
@@ -37,8 +37,8 @@ class UserTask(models.Model):
     flow = models.ForeignKey(WorkFlowData, on_delete=models.CASCADE)
     fee = models.IntegerField(default=10)
     prompt_id = models.CharField(max_length=50, default="")
-    image = models.ForeignKey(UserUpload, on_delete=models.CASCADE)
-    text = models.TextField()
+    image = models.ForeignKey(UserUpload, on_delete=models.CASCADE, null=True)
+    prompt_text = models.TextField(default='')
     status = models.CharField(max_length=100, default="queue")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

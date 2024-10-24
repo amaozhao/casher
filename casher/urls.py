@@ -24,7 +24,7 @@ from wechat_django.sites import wechat
 urlpatterns = [
     path("admin/", admin.site.urls),
     # path('accounts/', include('allauth.urls')),
-    path(r"^wechat/", wechat.urls),
+    path("wechat/", wechat.urls),
     path("flow/", include("flow.urls")),
     path("task/", include("task.urls")),
     path("api-auth/", include("rest_framework.urls")),

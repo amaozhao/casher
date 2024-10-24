@@ -1,6 +1,6 @@
 # from django.contrib.auth.models import User
 from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveAPIView
 
 from flow.models import WorkFlowData, WorkFlowImage, WorkFlowComment
 from flow.serializers.workflowdata import (
@@ -208,7 +208,7 @@ class UploadAPIView(APIView):
             return Response(r, status=status.HTTP_200_OK)
 
 
-class WorkFlowList(ListAPIView):
+class WorkFlowListView(ListAPIView):
 
     def get(self, request):
         flows = WorkFlowData.objects.all()
@@ -216,12 +216,37 @@ class WorkFlowList(ListAPIView):
         return Response(serializer.data)
 
 
-class WorkFlowCommentList(ListAPIView):
+class WorkFlowDetailView(RetrieveAPIView):
 
-    def get(self, request):
-        comments = WorkFlowComment.objects.all()
-        serializer = WorkFlowCommentSerializer(comments, many=True)
+    def get(self, request, *args, **kwargs):
+        id = kwargs.get('id')
+        flows = WorkFlowData.objects.get(id=id)
+        serializer = WorkFlowDataSerializer(flows)
         return Response(serializer.data)
+
+
+class WorkFlowCommentList(ListCreateAPIView):
+
+    def get(self, request, *args, **kwargs):
+        workflow_id = kwargs.get('workflow_id')
+        flow = WorkFlowData.objects.filter(id=workflow_id).first()
+        if flow:
+            comments = WorkFlowComment.objects.filter(workflow=flow).order_by('-created').all()
+            serializer = WorkFlowCommentSerializer(comments, many=True)
+            return Response({'data': serializer.data})
+        return Response({'data': []})
+
+    def post(self, request, *args, **kwargs):
+        workflow_id = kwargs.get('workflow_id')
+        flow = WorkFlowData.objects.filter(id=workflow_id).first()
+        text = request.data.get('comment')
+        comment = WorkFlowComment(
+            workflow=flow,
+            comment=text
+        )
+        comment.save()
+        serializer = WorkFlowCommentSerializer(comment)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class WechatQRLogin(APIView):

@@ -1,16 +1,17 @@
-import os
+import uuid
 
-from django.http import FileResponse
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+from django.core.serializers import serialize
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.parsers import FormParser, MultiPartParser
 
-from task.models import UserUpload
-from task.services import comfy_service
+from flow.models import WorkFlowData
+from task.models import UserUpload, UserTask, TaskResult
 from task.consumer import client_dict
+from task.serializers import TaskResultSerializer
 
 
 class ImageUploadView(APIView):
@@ -37,6 +38,7 @@ class ImageUploadView(APIView):
                 "message": "Image uploaded and forwarded successfully!",
                 "user_upload": {
                     "image": request.build_absolute_uri(user_upload.image.url),
+                    'id': user_upload.id
                 },
             },
             status=status.HTTP_201_CREATED,
@@ -49,52 +51,68 @@ class PromptView(APIView):
     """
 
     def post(self, request, *args, **kwargs):
+        jilu_id = str(uuid.uuid4())
+        workflow_id = request.data.get('workflow_id')
+        image_url = request.data.get('image_url')
+        # image_id = request.data.get('image_id', 1)
+        # user_upload = UserUpload.objects.filter(id=image_id).first()
+        prompt_text = request.data.get('prompt_text')
+        workflow = WorkFlowData.objects.filter(id=workflow_id).first()
+        cs_img_nodes = workflow.post_data.get('cs_img_nodes')
+        cs_text_nodes = workflow.post_data.get('cs_text_nodes')
+        uniqueid = request.data.get('uniqueid')
+        user_task = UserTask(
+            jilu_id=jilu_id,
+            flow=workflow,
+            fee=workflow.fee,
+            prompt_text=prompt_text,
+            # image
+        )
+        user_task.save()
         prompt_message = {
             "type": "prompt",
-            "uniqueid": "m2ebqnbknfcdp57cg96nryw5nv",
+            "uniqueid": uniqueid,
             "data": {
-                "jilu_id": "67890xyz",
+                "jilu_id": jilu_id,
                 "cs_imgs": [
                     {
-                        "upImage": "http://192.168.10.104:8000/media/user/images/%E7%BE%8E%E5%A5%B3.png",
-                        "node": "29",
+                        "upImage": image_url,
+                        "node": cs_img_nodes[0].get('node'),
                     }
                 ],
                 "cs_videos": [],
                 "cs_texts": [
-                    {"node": "50", "value": "This is a sample text for node 4."}
+                    {"node": cs_text_nodes[0].get('node'), "value": prompt_text}
                 ],
             },
         }
 
         # 获取 Channels 的 layer
         channel_layer = get_channel_layer()
-        client_id = "80fd42e0-d652-4732-b209-e14edd0cc217:8188"
+        client_id = workflow.client_id
         wss = client_dict.get(client_id)
-
         async_to_sync(channel_layer.send)(wss, prompt_message)
-        return Response({"message": "任务提交成功"}, status=status.HTTP_200_OK)
+        return Response({"message": "任务提交成功", "jilu_id": jilu_id}, status=status.HTTP_200_OK)
 
 
 class PromptCompleted(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
     def post(self, request, *args, **kwargs):
-        # image_file = request.FILES.get("image")
-        # if not image_file:
-        #     return Response(
-        #         {"error": "No image file provided."}, status=status.HTTP_400_BAD_REQUEST
-        #     )
-        #
-        # # 保存上传记录到数据库
-        # user_upload = UserUpload(
-        #     user_id=1,  # 假设这里是固定用户ID，未来可以扩展为动态用户
-        #     image=image_file,
-        # )
-        # user_upload.save()
-        print(1111, request.data)
-        print(2222, request.FILES)
-        print(3333, request.content_type)
+        image_file = request.FILES.get("file")
+        prompt_id = request.data.get('prompt_id')
+        user_task = UserTask.objects.filter(prompt_id=prompt_id).first()
+        task_result = TaskResult(
+            task=user_task,
+            result=image_file
+        )
+        task_result.save()
+        query = TaskResult.objects.filter(task=user_task)
+        if query.count() > 1:
+            last = query.order_by('-updated').first()
+            _query = TaskResult.objects.filter(task=user_task).exclude(id=last.id)
+            for obj in _query:
+                obj.delete()
 
         return Response(
             {
@@ -110,45 +128,14 @@ class ImageDisplayView(APIView):
     """
 
     def get(self, request, *args, **kwargs):
-        filename = request.GET.get("filename")
-        subfolder = request.GET.get("subfolder")
-        image_type = request.GET.get("type")
+        jilu_id = request.GET.get('jilu_id')
+        user_task = UserTask.objects.filter(jilu_id=jilu_id).first()
+        result = TaskResult.objects.filter(task=user_task).order_by("-updated").first()
+        return Response({'url': request.build_absolute_uri(result.result.url)}, status=status.HTTP_200_OK)
 
-        if not all([filename, subfolder, image_type]):
-            return Response(
-                {"error": "Invalid parameters."}, status=status.HTTP_400_BAD_REQUEST
-            )
 
-        # 从 comfy_service 获取图像数据
-        image_data = comfy_service.fetch_image(filename, subfolder, image_type)
-        if not image_data:
-            return Response(
-                {"error": "Image not found."}, status=status.HTTP_404_NOT_FOUND
-            )
-
-        # 保存图像到本地
-        image_path = self._save_image_to_local(subfolder, filename, image_data)
-
-        return FileResponse(open(image_path, "rb"))
-
-    @staticmethod
-    def _save_image_to_local(subfolder, filename, image_data):
-        """
-        将图像保存到本地目录。
-
-        参数:
-        - subfolder: 子文件夹名。
-        - filename: 文件名。
-        - image_data: 图像的二进制数据。
-
-        返回:
-        - 图像的完整本地路径。
-        """
-        image_dir = f"./media/{subfolder}"
-        os.makedirs(image_dir, exist_ok=True)
-        image_path = f"{image_dir}/{filename}"
-
-        with open(image_path, "wb") as image_file:
-            image_file.write(image_data)
-
-        return image_path
+class TaskHistoryView(APIView):
+    def get(self, request, *args, **kwargs):
+        query = TaskResult.objects.all()
+        serializer = TaskResultSerializer(query, many=True, context={'request': None})
+        return Response(serializer.data)

@@ -1,6 +1,9 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.db import database_sync_to_async
 import json
 import urllib.parse
+
+from task.models import UserTask
 
 # from django.core.cache import cache
 
@@ -48,8 +51,8 @@ class ClientConsumer(AsyncWebsocketConsumer):
                 await self.handle_prompt_error(data)
             elif message_type == "crystools.prompt_ok":
                 await self.handle_prompt_ok(data)
-            elif message_type == "prompt":
-                await self.handle_prompt(data)
+            # elif message_type == "prompt":
+            #     await self.handle_prompt(data)
             elif message_type == "status":
                 print("executed")
             elif message_type == "execution_start":
@@ -104,9 +107,17 @@ class ClientConsumer(AsyncWebsocketConsumer):
         try:
             jilu_id = data["data"]["jilu_id"]
             prompt_id = data["data"]["prompt_id"]
+            await self.update_user_task(jilu_id, prompt_id)
             print(f"Handling prompt ok for task {jilu_id} with {prompt_id}")
             # 添加你需要的业务逻辑
         except KeyError as e:
             print(f"Missing expected data in prompt message: {e}")
         except Exception as e:
             print(f"Error handling prompt message: {e}")
+
+    @database_sync_to_async
+    def update_user_task(self, jilu_id, prompt_id):
+        user_task = UserTask.objects.filter(jilu_id=jilu_id).first()
+        if user_task:
+            user_task.prompt_id = prompt_id
+            user_task.save()
