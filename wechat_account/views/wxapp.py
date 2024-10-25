@@ -8,7 +8,7 @@ import urllib.parse
 class GenerateWeixinQRCodeView(APIView):
     def get(self, request, *args, **kwargs):
         app_id = settings.SOCIALACCOUNT_PROVIDERS['weixin']['APP']['client_id']
-        redirect_uri = urllib.parse.quote('your_redirect_uri', safe='')
+        redirect_uri = urllib.parse.quote('http://www.deploycloud.cn', safe='')
         state = get_random_string(length=32)  # 生成一个32位随机字符串
 
         qr_code_url = (

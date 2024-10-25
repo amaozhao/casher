@@ -137,7 +137,7 @@ class ImageDisplayView(APIView):
         user_task = UserTask.objects.filter(jilu_id=jilu_id).first()
         result = TaskResult.objects.filter(task=user_task).order_by("-updated").first()
         return Response(
-            {'url': request.build_absolute_uri(result.result.url), "status": status.HTTP_200_OK},
+            {'data': {'url': request.build_absolute_uri(result.result.url)}, "status": status.HTTP_200_OK},
             status=status.HTTP_200_OK)
 
 
