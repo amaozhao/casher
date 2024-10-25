@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "wechat_django",
     "wechat_django.pay",
     "dj_rest_auth.registration",
+    "payment"
 ]
 
 SITE_ID = 1
@@ -108,11 +109,25 @@ WSGI_APPLICATION = "casher.wsgi.application"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',  # 或者使用 'django.db.backends.mysql'
+        'NAME': 'casher',
+        'USER': 'root',
+        'PASSWORD': 'casher',
+        'HOST': '192.168.10.100',  # 如果数据库和应用在同一台服务器上
+        'PORT': '3307',  # PostgreSQL 的默认端口
     }
 }
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#         'OPTIONS': {
+#             'timeout': 30,  # 设置为 30 秒超时
+#         }
+#     }
+# }
 
 
 # Password validation
@@ -224,14 +239,14 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 # Stripe API Key
-STRIPE_LIVE_SECRET_KEY = "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"
-STRIPE_TEST_SECRET_KEY = "your_test_secret_key"
-
+STRIPE_TEST_PUBLIC_KEY = 'pk_test_51Q0gamCBS8Aso0qd6cFAJ17EtVgNU0xq5aXnQMgVAx0zdpRGxHVaAwCvdguB7sDGx8dr1GllHF6ydJbUwMjqEPc800CWdocpen'
+STRIPE_TEST_SECRET_KEY = 'sk_test_51Q0gamCBS8Aso0qdIApezKcTSfhZvPxJdTO61TRtjf5xBbsXE4TKUJ3IXxIGYNuuxMCdtjZ0k6OxAezKU5MR4qs800OH6vixIW'
 STRIPE_LIVE_MODE = False  # False 表示测试模式
-DJSTRIPE_WEBHOOK_SECRET = "your_webhook_secret"
+DJSTRIPE_WEBHOOK_SECRET = 'whsec_pYrg2zCBNVYGeaOwsgRnMiMev238opnO'
 DJSTRIPE_USE_NATIVE_JSONFIELD = True
 DJSTRIPE_WEBHOOK_VALIDATION = "retrieve_event"
 DJSTRIPE_FOREIGN_KEY_TO_FIELD = "id"
+DJSTRIPE_AUTO_SYNC_MODELS = True
 
 LOGGING = {
     "version": 1,
@@ -244,7 +259,7 @@ LOGGING = {
     "loggers": {
         "django": {
             "handlers": ["console"],
-            "level": "DEBUG",
+            "level": "INFO",
         },
         "channels": {
             "handlers": ["console"],
