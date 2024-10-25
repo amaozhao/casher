@@ -1,5 +1,5 @@
 from django.urls import path
-from views import GenerateWeixinQRCodeView
+from wechat_account.views import GenerateWeixinQRCodeView
 
 
 urlpatterns = [

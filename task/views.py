@@ -24,7 +24,8 @@ class ImageUploadView(APIView):
         image_file = request.FILES.get("file")
         if not image_file:
             return Response(
-                {"error": "No image file provided."}, status=status.HTTP_400_BAD_REQUEST
+                {"data": {"error": "No image file provided."}, 'status': status.HTTP_200_OK},
+                status=status.HTTP_400_BAD_REQUEST
             )
 
         # 保存上传记录到数据库
@@ -37,11 +38,11 @@ class ImageUploadView(APIView):
         return Response(
             {
                 "message": "Image uploaded and forwarded successfully!",
-                "user_upload": {
+                "data": {
                     "image": request.build_absolute_uri(user_upload.image.url),
                     'id': user_upload.id,
-                    'status': status.HTTP_200_OK
                 },
+                'status': status.HTTP_200_OK
             },
             status=status.HTTP_201_CREATED,
         )
@@ -119,6 +120,7 @@ class PromptCompleted(APIView):
         return Response(
             {
                 "message": "Image uploaded and forwarded successfully!",
+                "status": status.HTTP_200_OK
             },
             status=status.HTTP_201_CREATED,
         )

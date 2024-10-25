@@ -237,8 +237,10 @@ SOCIALACCOUNT_PROVIDERS = {
         },
     },
     'weixin': {
-        'AUTHORIZE_URL': 'https://open.weixin.qq.com/connect/oauth2/authorize',  # for media platform
-        'SCOPE': ['snsapi_base'],
+        'APP': {
+            'client_id': 'wx93f89569dfcc5828',
+            'secret': 'a93d88cce0432a81cbb76b2fff27be1e',
+        }
     }
 }
 
