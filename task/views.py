@@ -57,8 +57,6 @@ class PromptView(APIView):
         jilu_id = str(uuid.uuid4())
         workflow_id = request.data.get('workflow_id')
         image_url = request.data.get('image_url')
-        # image_id = request.data.get('image_id', 1)
-        # user_upload = UserUpload.objects.filter(id=image_id).first()
         prompt_text = request.data.get('prompt_text')
         workflow = WorkFlowData.objects.filter(id=workflow_id).first()
         cs_img_nodes = workflow.post_data.get('cs_img_nodes')
@@ -95,7 +93,10 @@ class PromptView(APIView):
         client_id = workflow.client_id
         wss = client_dict.get(client_id)
         async_to_sync(channel_layer.send)(wss, prompt_message)
-        return Response({"message": "任务提交成功", "jilu_id": jilu_id}, status=status.HTTP_200_OK)
+        return Response(
+            {"message": "任务提交成功", "jilu_id": jilu_id, 'status': status.HTTP_200_OK},
+            status=status.HTTP_200_OK
+        )
 
 
 class PromptCompleted(APIView):
@@ -135,7 +136,9 @@ class ImageDisplayView(APIView):
         jilu_id = request.GET.get('jilu_id')
         user_task = UserTask.objects.filter(jilu_id=jilu_id).first()
         result = TaskResult.objects.filter(task=user_task).order_by("-updated").first()
-        return Response({'url': request.build_absolute_uri(result.result.url)}, status=status.HTTP_200_OK)
+        return Response(
+            {'url': request.build_absolute_uri(result.result.url), "status": status.HTTP_200_OK},
+            status=status.HTTP_200_OK)
 
 
 class TaskHistoryView(APIView):

@@ -238,8 +238,8 @@ SOCIALACCOUNT_PROVIDERS = {
     },
     'weixin': {
         'APP': {
-            'client_id': 'wx93f89569dfcc5828',
-            'secret': 'a93d88cce0432a81cbb76b2fff27be1e',
+            'client_id': 'wxe0539f0ed26b91a9',
+            'secret': '37bd1e42da63f337592c10a4a6cffb50',
         }
     }
 }
