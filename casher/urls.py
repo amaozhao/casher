@@ -19,7 +19,6 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
-from wechat_django.sites import wechat
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -29,7 +28,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     # path('accounts/', include('allauth.urls')),
     path('stripe/', include('djstripe.urls', namespace="djstripe")),
-    path("wechat/", wechat.urls),
     path("flow/", include("flow.urls")),
     path("task/", include("task.urls")),
     path("api-auth/", include("rest_framework.urls")),
