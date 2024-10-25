@@ -107,7 +107,7 @@ class PromptView(APIView):
         wss = client_dict.get(client_id)
         async_to_sync(channel_layer.send)(wss, prompt_message)
         return Response(
-            {"data":{"message": "任务提交成功", "jilu_id": jilu_id, 'status': status.HTTP_200_OK}},
+            {"data":{"jilu_id": jilu_id}, "message": "任务提交成功", 'status': status.HTTP_200_OK},
             status=status.HTTP_200_OK
         )
 
