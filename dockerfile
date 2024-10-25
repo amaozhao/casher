@@ -3,7 +3,7 @@ FROM python:3.12-slim
 
 # 安装系统依赖
 RUN apt-get update && \
-    apt-get install -y default-libmysqlclient-dev build-essential && \
+    apt-get install -y default-libmysqlclient-dev build-essential pkg-config && \
     rm -rf /var/lib/apt/lists/*
 
 # 设置工作目录
@@ -11,6 +11,10 @@ WORKDIR /app
 
 # 复制 requirements.txt 文件到容器中
 COPY requirements.txt .
+
+# 设置 MYSQLCLIENT_CFLAGS 和 MYSQLCLIENT_LDFLAGS 环境变量
+ENV MYSQLCLIENT_CFLAGS="-I/usr/include/mysql"
+ENV MYSQLCLIENT_LDFLAGS="-L/usr/lib/mysql -lmysqlclient"
 
 # 安装 Python 依赖
 RUN pip install --no-cache-dir -r requirements.txt
