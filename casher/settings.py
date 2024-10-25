@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
+    "allauth.socialaccount.providers.weixin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -54,10 +55,9 @@ INSTALLED_APPS = [
     "casher",
     "flow",
     "task",
-    "wechat_django",
-    "wechat_django.pay",
     "dj_rest_auth.registration",
-    "payment"
+    "payment",
+    "wechat_account",
 ]
 
 SITE_ID = 1
@@ -235,6 +235,10 @@ SOCIALACCOUNT_PROVIDERS = {
         "AUTH_PARAMS": {
             "access_type": "online",
         },
+    },
+    'weixin': {
+        'AUTHORIZE_URL': 'https://open.weixin.qq.com/connect/oauth2/authorize',  # for media platform
+        'SCOPE': ['snsapi_base'],
     }
 }
 

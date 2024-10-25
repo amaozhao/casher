@@ -81,7 +81,6 @@ class UploadAPIView(APIView):
                 )
             # 解析表单中的 json_data
             json_data = request.POST.get("json_data", None)
-
             if not json_data:
                 return Response(
                     {"error": "Missing json_data"}, status=status.HTTP_400_BAD_REQUEST
@@ -93,8 +92,8 @@ class UploadAPIView(APIView):
                 return Response(
                     {"error": "Invalid JSON data"}, status=status.HTTP_400_BAD_REQUEST
                 )
-            cs_img_files = request.FILES.getlist("cs_img_files", [])
-            return self.handle_upload(post_data, client_id, techsid, cs_img_files)
+            mainImages = request.FILES.getlist("mainImages", [])
+            return self.handle_upload(post_data, client_id, techsid, mainImages)
         elif r_value == "comfyui.apiv2.code":
             return self.handle_code_logic(request.data, techsid)
         else:
@@ -300,15 +299,6 @@ class GoogleLoginView(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
     callback_url = settings.GOOGLE_OAUTH_CALLBACK_URL
     client_class = OAuth2Client
-
-    # def get_response(self):
-    #     user = self.user
-    #     refresh = RefreshToken.for_user(user)  # 使用 simplejwt 创建 token
-    #
-    #     return Response({
-    #         'refresh': str(refresh),
-    #         'access': str(refresh.access_token),
-    #     })
 
 
 class GoogleCallback(APIView):
