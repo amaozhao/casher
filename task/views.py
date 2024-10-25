@@ -163,3 +163,12 @@ class TaskHistoryView(APIView):
         query = TaskResult.objects.all()
         serializer = TaskResultSerializer(query, many=True, context={'request': None})
         return Response({'data': serializer.data, 'status': status.HTTP_200_OK})
+
+
+class TaskHistoryDeleteView(APIView):
+    def delete(self, request, *args, **kwargs):
+        id = kwargs.get('id')
+        task = TaskResult.objects.get(id=id)
+        task.result.delete(save=True)
+        task.delete()
+        return Response({'data': {}, 'status': status.HTTP_204_NO_CONTENT})
