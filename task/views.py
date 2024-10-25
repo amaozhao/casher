@@ -56,8 +56,8 @@ class PromptView(APIView):
     def post(self, request, *args, **kwargs):
         jilu_id = str(uuid.uuid4())
         workflow_id = request.data.get('workflow_id')
-        image_url = request.data.get('image_url')
-        prompt_text = request.data.get('prompt_text')
+        image_url = request.data.get('image_url', '')
+        prompt_text = request.data.get('prompt_text', '')
         workflow = WorkFlowData.objects.filter(id=workflow_id).first()
         cs_img_nodes = workflow.post_data.get('cs_img_nodes')
         cs_text_nodes = workflow.post_data.get('cs_text_nodes')
@@ -67,7 +67,6 @@ class PromptView(APIView):
             flow=workflow,
             fee=workflow.fee,
             prompt_text=prompt_text,
-            # image
         )
         user_task.save()
         prompt_message = {
@@ -75,18 +74,32 @@ class PromptView(APIView):
             "uniqueid": uniqueid,
             "data": {
                 "jilu_id": jilu_id,
-                "cs_imgs": [
-                    {
-                        "upImage": image_url,
-                        "node": cs_img_nodes[0].get('node'),
-                    }
-                ],
                 "cs_videos": [],
                 "cs_texts": [
                     {"node": cs_text_nodes[0].get('node'), "value": prompt_text}
                 ],
             },
         }
+        if cs_img_nodes:
+            if not image_url:
+                return Response(
+                    {"message": "缺少参数image_url", "jilu_id": jilu_id, 'status': status.HTTP_400_BAD_REQUEST},
+                    status=status.HTTP_200_OK
+                )
+            prompt_message['data']['cs_imgs'] = [{
+                "upImage": image_url,
+                "node": cs_img_nodes[0].get('node'),
+            }]
+
+        if cs_text_nodes:
+            if not prompt_text:
+                return Response(
+                    {"message": "缺少参数 prompt_text", "jilu_id": jilu_id, 'status': status.HTTP_400_BAD_REQUEST},
+                    status=status.HTTP_200_OK
+                )
+            prompt_message['data']['cs_texts'] = [
+                {"node": cs_text_nodes[0].get('node'), "value": prompt_text}
+            ]
 
         # 获取 Channels 的 layer
         channel_layer = get_channel_layer()
@@ -94,7 +107,7 @@ class PromptView(APIView):
         wss = client_dict.get(client_id)
         async_to_sync(channel_layer.send)(wss, prompt_message)
         return Response(
-            {"message": "任务提交成功", "jilu_id": jilu_id, 'status': status.HTTP_200_OK},
+            {"data":{"message": "任务提交成功", "jilu_id": jilu_id, 'status': status.HTTP_200_OK}},
             status=status.HTTP_200_OK
         )
 
