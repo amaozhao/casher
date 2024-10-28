@@ -73,4 +73,4 @@ class GoogleCallback(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         token_endpoint_url = urljoin("http://aidep.cn:8601", reverse("google_login"))
         response = requests.post(url=token_endpoint_url, data={"code": code})
-        return Response(response.json(), status=status.HTTP_200_OK)
+        return Response({'status': status.HTTP_200_OK, 'data': response.json()}, status=status.HTTP_200_OK)
