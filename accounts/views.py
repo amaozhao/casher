@@ -85,22 +85,31 @@ class WXCallback(APIView):
             account=SocialAccount(uid=openid, provider=WeixinProvider.id)
         )
         social_login.token = login_token
+        complete_social_login(request, social_login)
+        if social_login.is_existing:
+            login(request, social_login.user)
+        else:
+            get_adapter(request).populate_new_user(social_login)
+            social_login.save(request)
+            login(request, social_login.user)
 
-        try:
-            complete_social_login(request, social_login)
-            if social_login.is_existing:
-                login(request, social_login.user)
-            else:
-                get_adapter(request).populate_new_user(social_login)
-                social_login.save(request)
-                login(request, social_login.user)
+        return Response({"status": "success", "user_id": social_login.user.id})
 
-            return Response({"status": "success", "user_id": social_login.user.id})
-        except Exception as e:
-            return Response(
-                {"error": "Failed to complete social login", "details": str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            )
+        # try:
+        #     complete_social_login(request, social_login)
+        #     if social_login.is_existing:
+        #         login(request, social_login.user)
+        #     else:
+        #         get_adapter(request).populate_new_user(social_login)
+        #         social_login.save(request)
+        #         login(request, social_login.user)
+        #
+        #     return Response({"status": "success", "user_id": social_login.user.id})
+        # except Exception as e:
+        #     return Response(
+        #         {"error": "Failed to complete social login", "details": str(e)},
+        #         status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        #     )
 
 
 class GoogleLoginUrl(APIView):
