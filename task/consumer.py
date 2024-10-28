@@ -77,6 +77,7 @@ class ClientConsumer(AsyncWebsocketConsumer):
         client_dict[client_id] = self.channel_name
         channel_dict[self.channel_name] = client_id
         print(f"Received bind message from client: {client_id}")
+        print(f'client_dict is : {client_dict}')
 
     async def handle_prompt_error(self, data):
         # 处理 prompt_error 消息
