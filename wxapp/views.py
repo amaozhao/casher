@@ -48,6 +48,17 @@ class WxAppLogin(APIView):
                     )
                 has_user.save()
                 profile = WxAppUserProfile.objects.filter(user=has_user).first()
+                if not profile:
+                    profile = WxAppUserProfile.objects.create(
+                        user=has_user,
+                        nick_name=raw_data.get('nickName'),
+                        gender=raw_data.get('gender'),
+                        city=raw_data.get('city'),
+                        province=raw_data.get('province'),
+                        country=raw_data.get('country'),
+                        avatarUrl=raw_data.get('avatarUrl'),
+                        unionId=raw_data.get('unionId'),
+                    )
                 profile.nick_name = raw_data.get('nickName')
                 profile.gender = raw_data.get('gender')
                 profile.city = raw_data.get('city')
