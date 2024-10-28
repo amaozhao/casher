@@ -16,14 +16,16 @@ from rest_framework import status
 class WXQRCodeAPIView(APIView):
     def get(self, request, *args, **kwargs):
         # 设置微信扫码登录的 URL，并传入相应的参数
-        redirect_uri = request.build_absolute_uri(reverse("weixin_callback"))
+        redirect_uri = urllib.parse.quote_plus(
+            urljoin("http://aidep.cn:8601", reverse("weixin_callback"))
+        )
         wechat_qr_url = (
             f"https://open.weixin.qq.com/connect/qrconnect?"
             f"appid={settings.SOCIALACCOUNT_PROVIDERS['weixin']['APP']['client_id']}"
             f"&redirect_uri={redirect_uri}"
             f"&response_type=code"
             f"&scope=snsapi_login"
-            f"&state=STATE"  # 可设置自定义state参数
+            f"&state=STATE#wechat_redirect"  # 可设置自定义state参数
         )
 
         # 直接将微信提供的二维码URL返回给前端
@@ -42,7 +44,11 @@ class WXCallback(APIView):
         code = request.GET.get("code")
         if code is None:
             return Response(
-                {"error": "Missing code parameter"}, status=status.HTTP_400_BAD_REQUEST
+                {
+                    "status": status.HTTP_400_BAD_REQUEST,
+                    "data": {"error": "Missing code parameter"}
+                },
+                status=status.HTTP_400_BAD_REQUEST
             )
 
         # 构造微信获取 access_token 的 URL
