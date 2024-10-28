@@ -136,7 +136,7 @@ class WXCallback(APIView):
 
         refresh = RefreshToken.for_user(social_login.user)
 
-        return redirect('http://aidep.cn:8601', token=str(refresh.access_token), )
+        return redirect(f'http://aidep.cn/?token={str(refresh.access_token)}')
 
         # return Response(
         #     {
@@ -189,8 +189,9 @@ class GoogleCallback(APIView):
         token_endpoint_url = urljoin("http://aidep.cn:8601", reverse("google_login"))
         response = requests.post(url=token_endpoint_url, data={"code": code})
         res_json = response.json()
+        token = res_json.get('access')
 
-        return redirect('http://aidep.cn:8601', token=res_json.get('access'))
+        return redirect(f'http://aidep.cn/?token={token}')
         # result = {
         #     'token': res_json.get('access'),
         #     'user': res_json.get('user')
