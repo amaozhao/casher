@@ -79,7 +79,7 @@ class WXCallback(APIView):
 
         # Step 2: 检查是否已经存在关联的 SocialAccount
         social_login = SocialLogin(account=SocialAccount(uid=openid, provider=WeixinProvider.id))
-        adapter = WeixinOAuth2Adapter()
+        adapter = WeixinOAuth2Adapter(request)
         login_token = adapter.parse_token({'access_token': access_token})
         login_token.token = access_token
         social_login.token = login_token
