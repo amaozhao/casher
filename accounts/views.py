@@ -19,7 +19,7 @@ from allauth.socialaccount.providers.weixin.views import WeixinOAuth2Adapter
 from django.contrib.auth import login, get_user_model
 from allauth.socialaccount.models import SocialLogin
 from rest_framework_simplejwt.tokens import RefreshToken
-from allauth.account.utils import perform_login
+from django.shortcuts import redirect
 
 
 class WXQRCodeAPIView(APIView):
@@ -136,16 +136,18 @@ class WXCallback(APIView):
 
         refresh = RefreshToken.for_user(social_login.user)
 
-        return Response(
-            {
-                "status": "success",
-                "data": {
-                    "token": str(refresh.access_token),
-                    "refresh_token": str(refresh),
-                    "user_info": user_info
-                }
-            }
-        )
+        return redirect('http://aidep.cn:8601', token=str(refresh.access_token), )
+
+        # return Response(
+        #     {
+        #         "status": "success",
+        #         "data": {
+        #             "token": str(refresh.access_token),
+        #             "refresh_token": str(refresh),
+        #             "user_info": user_info
+        #         }
+        #     }
+        # )
 
 
 class GoogleLoginUrl(APIView):
@@ -187,11 +189,13 @@ class GoogleCallback(APIView):
         token_endpoint_url = urljoin("http://aidep.cn:8601", reverse("google_login"))
         response = requests.post(url=token_endpoint_url, data={"code": code})
         res_json = response.json()
-        result = {
-            'token': res_json.get('access'),
-            'user': res_json.get('user')
-        }
-        return Response(
-            {"status": status.HTTP_200_OK, "data": result},
-            status=status.HTTP_200_OK,
-        )
+
+        return redirect('http://aidep.cn:8601', token=res_json.get('access'))
+        # result = {
+        #     'token': res_json.get('access'),
+        #     'user': res_json.get('user')
+        # }
+        # return Response(
+        #     {"status": status.HTTP_200_OK, "data": result},
+        #     status=status.HTTP_200_OK,
+        # )
