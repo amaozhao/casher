@@ -36,7 +36,10 @@ class WXQRCodeAPIView(APIView):
         )
 
         # 直接将微信提供的二维码URL返回给前端
-        return Response({"qr_url": wechat_qr_url})
+        return Response(
+            {'status': status.HTTP_200_OK, 'data': {"qr_url": wechat_qr_url}},
+            status=status.HTTP_200_OK
+        )
 
 
 class WXLoginAPIView(APIView):
