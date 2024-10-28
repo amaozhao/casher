@@ -12,7 +12,9 @@ def my_custom_event_handler(sender, instance, created, **kwargs):
         if instance.event_type == "payment_intent.succeeded":
             # 添加您的自定义逻辑
             customer = instance.customer
-            profile = PaymentProfile.objects.filter(stripe_customer_id=customer.id).first()
+            profile = PaymentProfile.objects.filter(
+                stripe_customer_id=customer.id
+            ).first()
             payment_intent = instance.data.get("object")
             amount = payment_intent.get("amount")
             update_user_hashrate(profile.user, amount)
@@ -23,10 +25,7 @@ def my_custom_event_handler(sender, instance, created, **kwargs):
 def update_user_hashrate(user, amount):
     user_hashrate = UserHashrate.objects.filter(user=user).first()
     if not user_hashrate:
-        user_hashrate = UserHashrate.objects.create(
-            user = user,
-            hashrate=0.0
-        )
+        user_hashrate = UserHashrate.objects.create(user=user, hashrate=0.0)
     init_rate = user_hashrate.hashrate
     init_rate += amount * 1000
     user_hashrate.hashrate = init_rate

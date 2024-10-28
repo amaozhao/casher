@@ -1,7 +1,11 @@
 import requests
 from allauth.socialaccount.providers.weixin.views import WeixinOAuth2Adapter
-from allauth.socialaccount.providers.oauth2.views import OAuth2CallbackView, OAuth2LoginView
+from allauth.socialaccount.providers.oauth2.views import (
+    OAuth2CallbackView,
+    OAuth2LoginView,
+)
 from .provider import WxAppProvider
+
 
 class WxAppOAuth2Adapter(WeixinOAuth2Adapter):
     provider_id = WxAppProvider.id
@@ -13,7 +17,7 @@ class WxAppOAuth2Adapter(WeixinOAuth2Adapter):
             "appid": app.client_id,
             "secret": app.secret,
             "js_code": token.token,  # 从小程序前端获取的登录code
-            "grant_type": "authorization_code"
+            "grant_type": "authorization_code",
         }
         response = requests.get(url, params=params)
         extra_data = response.json()

@@ -47,9 +47,9 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'corsheaders',
+    "corsheaders",
     "rest_framework",
-    'rest_framework.authtoken',
+    "rest_framework.authtoken",
     "rest_framework_simplejwt",
     "djstripe",
     "casher",
@@ -57,14 +57,14 @@ INSTALLED_APPS = [
     "task",
     "dj_rest_auth.registration",
     "payment",
-    'wxapp',
-    'accounts',
+    "wxapp",
+    "accounts",
 ]
 
 SITE_ID = 1
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -110,14 +110,14 @@ WSGI_APPLICATION = "casher.wsgi.application"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',  # 或者使用 'django.db.backends.mysql'
-        'NAME': 'casher',
-        'USER': 'root',
-        'PASSWORD': 'casher',
-        'HOST': '192.168.10.100',  # 如果数据库和应用在同一台服务器上
-        'PORT': '3307',  # PostgreSQL 的默认端口
-        'OPTIONS': {'charset': 'utf8mb4'}
+    "default": {
+        "ENGINE": "django.db.backends.mysql",  # 或者使用 'django.db.backends.mysql'
+        "NAME": "casher",
+        "USER": "root",
+        "PASSWORD": "casher",
+        "HOST": "192.168.10.100",  # 如果数据库和应用在同一台服务器上
+        "PORT": "3307",  # PostgreSQL 的默认端口
+        "OPTIONS": {"charset": "utf8mb4"},
     }
 }
 
@@ -194,23 +194,21 @@ CHANNEL_LAYERS = {
 }
 WS_CLOSE_TIMEOUT = 60  # 单位：秒，设置为 60 秒
 
-REST_AUTH = {
-    'USE_JWT': True
-}
+REST_AUTH = {"USE_JWT": True}
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'ROTATE_REFRESH_TOKENS': True,
-    'BLACKLIST_AFTER_ROTATION': True,
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
 }
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
+    "DEFAULT_AUTHENTICATION_CLASSES": [
         # 'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ]
 }
 REST_AUTH_SERIALIZERS = {
-    'JWT_SERIALIZER': 'dj_rest_auth.serializers.JWTSerializer',
+    "JWT_SERIALIZER": "dj_rest_auth.serializers.JWTSerializer",
 }
 
 SOCIAL_AUTH_URL_NAMESPACE = "social"
@@ -218,9 +216,12 @@ LOGIN_REDIRECT_URL = "/"  # 登录后跳转的页面
 LOGOUT_REDIRECT_URL = "/"  # 登出后跳转的页面
 
 
-GOOGLE_OAUTH_CLIENT_ID = '88674082295-pc3uu9ptrat6tuegmua1e4uhl0jj0i4l.apps.googleusercontent.com'
-GOOGLE_OAUTH_CLIENT_SECRET = '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'
-GOOGLE_OAUTH_CALLBACK_URL = 'http://aidep.cn:8601/accounts/google/callback/'
+GOOGLE_OAUTH_CLIENT_ID = (
+    "88674082295-pc3uu9ptrat6tuegmua1e4uhl0jj0i4l.apps.googleusercontent.com"
+)
+GOOGLE_OAUTH_CLIENT_SECRET = "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"
+GOOGLE_OAUTH_CALLBACK_URL = "http://aidep.cn:8601/accounts/google/callback/"
+WEIXIN_OAUTH_CALLBACK_URL = "http://aidep.cn:8601/accounts/google/callback/"
 ACCOUNT_EMAIL_VERIFICATION = "none"
 SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
 # Connect local account and social account if local account with that email address already exists
@@ -238,17 +239,24 @@ SOCIALACCOUNT_PROVIDERS = {
         "AUTH_PARAMS": {
             "access_type": "online",
         },
-    }
+    },
+    "weixin": {
+        "APP": {
+            "client_id": "wx93f89569dfcc5828",
+            "secret": "a93d88cce0432a81cbb76b2fff27be1e",
+            "key": "",
+        },
+    },
 }
 
-WXAPP_APPID = 'wx93f89569dfcc5828'
-WXAPP_SECRET = 'a93d88cce0432a81cbb76b2fff27be1e'
+WXAPP_APPID = "wx93f89569dfcc5828"
+WXAPP_SECRET = "a93d88cce0432a81cbb76b2fff27be1e"
 
 # Stripe API Key
-STRIPE_TEST_PUBLIC_KEY = 'pk_test_51Q0gamCBS8Aso0qd6cFAJ17EtVgNU0xq5aXnQMgVAx0zdpRGxHVaAwCvdguB7sDGx8dr1GllHF6ydJbUwMjqEPc800CWdocpen'
-STRIPE_TEST_SECRET_KEY = 'sk_test_51Q0gamCBS8Aso0qdIApezKcTSfhZvPxJdTO61TRtjf5xBbsXE4TKUJ3IXxIGYNuuxMCdtjZ0k6OxAezKU5MR4qs800OH6vixIW'
+STRIPE_TEST_PUBLIC_KEY = "pk_test_51Q0gamCBS8Aso0qd6cFAJ17EtVgNU0xq5aXnQMgVAx0zdpRGxHVaAwCvdguB7sDGx8dr1GllHF6ydJbUwMjqEPc800CWdocpen"
+STRIPE_TEST_SECRET_KEY = "sk_test_51Q0gamCBS8Aso0qdIApezKcTSfhZvPxJdTO61TRtjf5xBbsXE4TKUJ3IXxIGYNuuxMCdtjZ0k6OxAezKU5MR4qs800OH6vixIW"
 STRIPE_LIVE_MODE = False  # False 表示测试模式
-DJSTRIPE_WEBHOOK_SECRET = 'whsec_pYrg2zCBNVYGeaOwsgRnMiMev238opnO'
+DJSTRIPE_WEBHOOK_SECRET = "whsec_pYrg2zCBNVYGeaOwsgRnMiMev238opnO"
 DJSTRIPE_USE_NATIVE_JSONFIELD = True
 DJSTRIPE_WEBHOOK_VALIDATION = "retrieve_event"
 DJSTRIPE_FOREIGN_KEY_TO_FIELD = "id"

@@ -17,12 +17,12 @@ class WxAppLogin(APIView):
     def post(self, request):
         params = request.data
         # 拿到小程序端提交的code
-        if params.get('code'):
+        if params.get("code"):
             # 调用微信code2Session接口,换取用户唯一标识 OpenID 和 会话密钥 session_key
-            data = service.login(params.get('code'))
+            data = service.login(params.get("code"))
             if data:
                 # 将openid 和 session_key拼接
-                val = data['openid'] + "&" + data["session_key"]
+                val = data["openid"] + "&" + data["session_key"]
                 key = data["openid"] + str(int(time.time()))
                 # 将 openid 加密
                 md5 = hashlib.md5()
@@ -30,41 +30,43 @@ class WxAppLogin(APIView):
                 key = md5.hexdigest()
                 # 保存到redis内存库,因为小程序端后续需要认证的操作会需要频繁校验
                 cache.set(key, val)
-                raw_data = params.get('rawData') or '{}'
+                raw_data = params.get("rawData") or "{}"
                 raw_data = json.loads(raw_data)
-                has_user = User.objects.filter(username=data['openid']).first()
+                has_user = User.objects.filter(username=data["openid"]).first()
                 # 用户不存在则创建用户
                 if not has_user:
-                    has_user = User.objects.create(username=data['openid'], password=uuid.uuid4())
+                    has_user = User.objects.create(
+                        username=data["openid"], password=uuid.uuid4()
+                    )
                     WxAppUserProfile.objects.create(
                         user=has_user,
-                        nick_name=raw_data.get('nickName'),
-                        gender=raw_data.get('gender'),
-                        city=raw_data.get('city'),
-                        province=raw_data.get('province'),
-                        country=raw_data.get('country'),
-                        avatarUrl=raw_data.get('avatarUrl'),
-                        unionid=data.get('unionid'),
+                        nick_name=raw_data.get("nickName"),
+                        gender=raw_data.get("gender"),
+                        city=raw_data.get("city"),
+                        province=raw_data.get("province"),
+                        country=raw_data.get("country"),
+                        avatarUrl=raw_data.get("avatarUrl"),
+                        unionid=data.get("unionid"),
                     )
                 has_user.save()
                 profile = WxAppUserProfile.objects.filter(user=has_user).first()
                 if not profile:
                     profile = WxAppUserProfile.objects.create(
                         user=has_user,
-                        nick_name=raw_data.get('nickName'),
-                        gender=raw_data.get('gender'),
-                        city=raw_data.get('city'),
-                        province=raw_data.get('province'),
-                        country=raw_data.get('country'),
-                        avatarUrl=raw_data.get('avatarUrl'),
-                        unionid=data.get('unionid'),
+                        nick_name=raw_data.get("nickName"),
+                        gender=raw_data.get("gender"),
+                        city=raw_data.get("city"),
+                        province=raw_data.get("province"),
+                        country=raw_data.get("country"),
+                        avatarUrl=raw_data.get("avatarUrl"),
+                        unionid=data.get("unionid"),
                     )
-                profile.nick_name = raw_data.get('nickName')
-                profile.gender = raw_data.get('gender')
-                profile.city = raw_data.get('city')
-                profile.province = raw_data.get('province')
-                profile.country = raw_data.get('country')
-                profile.avatarUrl = raw_data.get('avatarUrl')
+                profile.nick_name = raw_data.get("nickName")
+                profile.gender = raw_data.get("gender")
+                profile.city = raw_data.get("city")
+                profile.province = raw_data.get("province")
+                profile.country = raw_data.get("country")
+                profile.avatarUrl = raw_data.get("avatarUrl")
                 profile.save()
                 refresh = RefreshToken.for_user(has_user)
                 return Response(
@@ -75,17 +77,17 @@ class WxAppLogin(APIView):
                             "login_key": key,
                             "access_token": str(refresh.access_token),
                             "refresh_token": str(refresh),
-                        }  # 返回给小程序端
+                        },  # 返回给小程序端
                     },
-                    status=status.HTTP_200_OK
+                    status=status.HTTP_200_OK,
                 )
             else:
                 return Response(
                     {"status": status.HTTP_401_UNAUTHORIZED, "msg": "code无效"},
-                    status=status.HTTP_401_UNAUTHORIZED
+                    status=status.HTTP_401_UNAUTHORIZED,
                 )
         else:
             return Response(
                 {"status": status.HTTP_401_UNAUTHORIZED, "msg": "缺少参数"},
-                status=status.HTTP_401_UNAUTHORIZED
+                status=status.HTTP_401_UNAUTHORIZED,
             )

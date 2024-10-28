@@ -6,6 +6,7 @@ from flow.models import WorkFlowData, WorkFlowImage, WorkFlowComment
 
 class WorkFlowImageSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
+
     class Meta:
         model = WorkFlowImage
         fields = ["id", "image"]

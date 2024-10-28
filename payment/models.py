@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 
+
 class PaymentProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     stripe_customer_id = models.CharField(max_length=255, blank=True, null=True)

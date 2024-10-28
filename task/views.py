@@ -24,8 +24,11 @@ class ImageUploadView(APIView):
         image_file = request.FILES.get("file")
         if not image_file:
             return Response(
-                {"data": {"error": "No image file provided."}, 'status': status.HTTP_200_OK},
-                status=status.HTTP_400_BAD_REQUEST
+                {
+                    "data": {"error": "No image file provided."},
+                    "status": status.HTTP_200_OK,
+                },
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         # 保存上传记录到数据库
@@ -40,9 +43,9 @@ class ImageUploadView(APIView):
                 "message": "Image uploaded and forwarded successfully!",
                 "data": {
                     "image": request.build_absolute_uri(user_upload.image.url),
-                    'id': user_upload.id,
+                    "id": user_upload.id,
                 },
-                'status': status.HTTP_200_OK
+                "status": status.HTTP_200_OK,
             },
             status=status.HTTP_201_CREATED,
         )
@@ -55,13 +58,13 @@ class PromptView(APIView):
 
     def post(self, request, *args, **kwargs):
         jilu_id = str(uuid.uuid4())
-        workflow_id = request.data.get('workflow_id')
-        image_url = request.data.get('image_url', '')
-        prompt_text = request.data.get('prompt_text', '')
+        workflow_id = request.data.get("workflow_id")
+        image_url = request.data.get("image_url", "")
+        prompt_text = request.data.get("prompt_text", "")
         workflow = WorkFlowData.objects.filter(id=workflow_id).first()
-        cs_img_nodes = workflow.post_data.get('cs_img_nodes')
-        cs_text_nodes = workflow.post_data.get('cs_text_nodes')
-        uniqueid = request.data.get('uniqueid')
+        cs_img_nodes = workflow.post_data.get("cs_img_nodes")
+        cs_text_nodes = workflow.post_data.get("cs_text_nodes")
+        uniqueid = request.data.get("uniqueid")
         user_task = UserTask(
             jilu_id=jilu_id,
             flow=workflow,
@@ -76,29 +79,39 @@ class PromptView(APIView):
                 "jilu_id": jilu_id,
                 "cs_videos": [],
                 "cs_texts": [
-                    {"node": cs_text_nodes[0].get('node'), "value": prompt_text}
+                    {"node": cs_text_nodes[0].get("node"), "value": prompt_text}
                 ],
             },
         }
         if cs_img_nodes:
             if not image_url:
                 return Response(
-                    {"message": "缺少参数image_url", "jilu_id": jilu_id, 'status': status.HTTP_400_BAD_REQUEST},
-                    status=status.HTTP_200_OK
+                    {
+                        "message": "缺少参数image_url",
+                        "jilu_id": jilu_id,
+                        "status": status.HTTP_400_BAD_REQUEST,
+                    },
+                    status=status.HTTP_200_OK,
                 )
-            prompt_message['data']['cs_imgs'] = [{
-                "upImage": image_url,
-                "node": cs_img_nodes[0].get('node'),
-            }]
+            prompt_message["data"]["cs_imgs"] = [
+                {
+                    "upImage": image_url,
+                    "node": cs_img_nodes[0].get("node"),
+                }
+            ]
 
         if cs_text_nodes:
             if not prompt_text:
                 return Response(
-                    {"message": "缺少参数 prompt_text", "jilu_id": jilu_id, 'status': status.HTTP_400_BAD_REQUEST},
-                    status=status.HTTP_200_OK
+                    {
+                        "message": "缺少参数 prompt_text",
+                        "jilu_id": jilu_id,
+                        "status": status.HTTP_400_BAD_REQUEST,
+                    },
+                    status=status.HTTP_200_OK,
                 )
-            prompt_message['data']['cs_texts'] = [
-                {"node": cs_text_nodes[0].get('node'), "value": prompt_text}
+            prompt_message["data"]["cs_texts"] = [
+                {"node": cs_text_nodes[0].get("node"), "value": prompt_text}
             ]
 
         # 获取 Channels 的 layer
@@ -107,8 +120,12 @@ class PromptView(APIView):
         wss = client_dict.get(client_id)
         async_to_sync(channel_layer.send)(wss, prompt_message)
         return Response(
-            {"data":{"jilu_id": jilu_id}, "message": "任务提交成功", 'status': status.HTTP_200_OK},
-            status=status.HTTP_200_OK
+            {
+                "data": {"jilu_id": jilu_id},
+                "message": "任务提交成功",
+                "status": status.HTTP_200_OK,
+            },
+            status=status.HTTP_200_OK,
         )
 
 
@@ -117,16 +134,13 @@ class PromptCompleted(APIView):
 
     def post(self, request, *args, **kwargs):
         image_file = request.FILES.get("file")
-        prompt_id = request.data.get('prompt_id')
+        prompt_id = request.data.get("prompt_id")
         user_task = UserTask.objects.filter(prompt_id=prompt_id).first()
-        task_result = TaskResult(
-            task=user_task,
-            result=image_file
-        )
+        task_result = TaskResult(task=user_task, result=image_file)
         task_result.save()
         query = TaskResult.objects.filter(task=user_task)
         if query.count() > 1:
-            last = query.order_by('-updated').first()
+            last = query.order_by("-updated").first()
             _query = TaskResult.objects.filter(task=user_task).exclude(id=last.id)
             for obj in _query:
                 obj.delete()
@@ -134,7 +148,7 @@ class PromptCompleted(APIView):
         return Response(
             {
                 "message": "Image uploaded and forwarded successfully!",
-                "status": status.HTTP_200_OK
+                "status": status.HTTP_200_OK,
             },
             status=status.HTTP_201_CREATED,
         )
@@ -146,29 +160,33 @@ class ImageDisplayView(APIView):
     """
 
     def get(self, request, *args, **kwargs):
-        jilu_id = request.GET.get('jilu_id')
+        jilu_id = request.GET.get("jilu_id")
         user_task = UserTask.objects.filter(jilu_id=jilu_id).first()
         result = TaskResult.objects.filter(task=user_task).order_by("-updated").first()
         if not result or not result.result:
             return Response(
-                {'data': None, "status": status.HTTP_200_OK},
-                status=status.HTTP_200_OK)
+                {"data": None, "status": status.HTTP_200_OK}, status=status.HTTP_200_OK
+            )
         return Response(
-            {'data': {'url': request.build_absolute_uri(result.result.url)}, "status": status.HTTP_200_OK},
-            status=status.HTTP_200_OK)
+            {
+                "data": {"url": request.build_absolute_uri(result.result.url)},
+                "status": status.HTTP_200_OK,
+            },
+            status=status.HTTP_200_OK,
+        )
 
 
 class TaskHistoryView(APIView):
     def get(self, request, *args, **kwargs):
         query = TaskResult.objects.all()
-        serializer = TaskResultSerializer(query, many=True, context={'request': None})
-        return Response({'data': serializer.data, 'status': status.HTTP_200_OK})
+        serializer = TaskResultSerializer(query, many=True, context={"request": None})
+        return Response({"data": serializer.data, "status": status.HTTP_200_OK})
 
 
 class TaskHistoryDeleteView(APIView):
     def delete(self, request, *args, **kwargs):
-        id = kwargs.get('id')
+        id = kwargs.get("id")
         task = TaskResult.objects.get(id=id)
         task.result.delete(save=True)
         task.delete()
-        return Response({'data': {}, 'status': status.HTTP_204_NO_CONTENT})
+        return Response({"data": {}, "status": status.HTTP_204_NO_CONTENT})

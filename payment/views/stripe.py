@@ -7,6 +7,7 @@ from django.conf import settings
 
 stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
 
+
 class CreatePaymentIntentView(APIView):
     def post(self, request, *args, **kwargs):
         user = request.user  # 假设用户已通过身份验证
@@ -16,8 +17,8 @@ class CreatePaymentIntentView(APIView):
             stripe_customer_id = get_or_create_stripe_customer(user)
 
             # 从请求数据中获取金额和货币信息
-            amount = request.data.get('amount')
-            currency = request.data.get('currency', 'usd')
+            amount = request.data.get("amount")
+            currency = request.data.get("currency", "usd")
 
             # 创建Payment Intent并关联客户
             intent = stripe.PaymentIntent.create(
@@ -27,7 +28,9 @@ class CreatePaymentIntentView(APIView):
                 payment_method_types=["card"],
             )
 
-            return Response({"client_secret": intent.client_secret}, status=status.HTTP_201_CREATED)
+            return Response(
+                {"client_secret": intent.client_secret}, status=status.HTTP_201_CREATED
+            )
         except stripe.error.StripeError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -44,7 +47,10 @@ class CreatePayoutView(APIView):
                 amount=int(amount),
                 currency=currency,
             )
-            return Response({"payout_id": payout.id, "status": payout.status}, status=status.HTTP_201_CREATED)
+            return Response(
+                {"payout_id": payout.id, "status": payout.status},
+                status=status.HTTP_201_CREATED,
+            )
 
         except stripe.error.StripeError as e:
             # 处理任何Stripe API错误

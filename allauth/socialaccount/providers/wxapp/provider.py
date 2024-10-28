@@ -1,5 +1,6 @@
 from allauth.socialaccount.providers.weixin.provider import WeixinProvider
 
+
 class WxAppProvider(WeixinProvider):
     id = "wxapp"  # 确保此ID唯一
     name = "WeChat Mini Program"

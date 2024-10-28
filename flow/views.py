@@ -199,7 +199,7 @@ class WorkFlowListView(ListAPIView):
     def get(self, request):
         flows = WorkFlowData.objects.all()
         serializer = WorkFlowDataSerializer(flows, many=True)
-        return Response({'data': serializer.data, 'status': status.HTTP_200_OK})
+        return Response({"data": serializer.data, "status": status.HTTP_200_OK})
 
     def get_queryset(self):
         return WorkFlowData.objects.all()
@@ -208,31 +208,33 @@ class WorkFlowListView(ListAPIView):
 class WorkFlowDetailView(RetrieveAPIView):
 
     def get(self, request, *args, **kwargs):
-        id = kwargs.get('id')
+        id = kwargs.get("id")
         flows = WorkFlowData.objects.get(id=id)
         serializer = WorkFlowDataSerializer(flows)
-        return Response({'data': serializer.data, 'status': status.HTTP_200_OK})
+        return Response({"data": serializer.data, "status": status.HTTP_200_OK})
 
 
 class WorkFlowCommentList(ListCreateAPIView):
 
     def get(self, request, *args, **kwargs):
-        workflow_id = kwargs.get('workflow_id')
+        workflow_id = kwargs.get("workflow_id")
         flow = WorkFlowData.objects.filter(id=workflow_id).first()
         if flow:
-            comments = WorkFlowComment.objects.filter(workflow=flow).order_by('-created').all()
+            comments = (
+                WorkFlowComment.objects.filter(workflow=flow).order_by("-created").all()
+            )
             serializer = WorkFlowCommentSerializer(comments, many=True)
-            return Response({'data': serializer.data, 'status': status.HTTP_200_OK})
-        return Response({'data': [], 'status': status.HTTP_200_OK})
+            return Response({"data": serializer.data, "status": status.HTTP_200_OK})
+        return Response({"data": [], "status": status.HTTP_200_OK})
 
     def post(self, request, *args, **kwargs):
-        workflow_id = kwargs.get('workflow_id')
+        workflow_id = kwargs.get("workflow_id")
         flow = WorkFlowData.objects.filter(id=workflow_id).first()
-        text = request.data.get('comment')
-        comment = WorkFlowComment(
-            workflow=flow,
-            comment=text
-        )
+        text = request.data.get("comment")
+        comment = WorkFlowComment(workflow=flow, comment=text)
         comment.save()
         serializer = WorkFlowCommentSerializer(comment)
-        return Response({'data': serializer.data, 'status': status.HTTP_201_CREATED}, status=status.HTTP_201_CREATED)
+        return Response(
+            {"data": serializer.data, "status": status.HTTP_201_CREATED},
+            status=status.HTTP_201_CREATED,
+        )
