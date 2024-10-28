@@ -90,32 +90,48 @@ class WXCallback(APIView):
         )
         social_login.token = login_token
 
+        existing_account = SocialAccount.objects.filter(uid=openid, provider=WeixinProvider.id).first()
+        if existing_account:
+            social_login.user = existing_account.user  # 已存在用户，直接关联
+        else:
+            user = get_adapter(request).new_user(request, social_login)  # 创建新用户
+            user.set_unusable_password()  # 可以设置不可用密码，避免用户直接登录
+            user.save()
+            social_login.user = user  # 将新用户与 social_login 关联
+            social_login.save(request)  # 保存 social_login 记录到数据库
+
+        # 使用 allauth 完成社交登录
+        complete_social_login(request, social_login)
+        login(request, social_login.user)
+
+        return Response({"status": status.HTTP_200_OK, "user_id": social_login.user.id})
+
         # 检查是否已存在关联的用户，如果没有则创建
-        try:
-            existing_account = SocialAccount.objects.filter(uid=openid, provider=WeixinProvider.id).first()
-            if existing_account:
-                social_login.user = existing_account.user  # 已存在用户，直接关联
-            else:
-                user = get_adapter(request).new_user(request, social_login)  # 创建新用户
-                user.set_unusable_password()  # 可以设置不可用密码，避免用户直接登录
-                user.save()
-                social_login.user = user  # 将新用户与 social_login 关联
-                social_login.save(request)  # 保存 social_login 记录到数据库
-
-            # 使用 allauth 完成社交登录
-            complete_social_login(request, social_login)
-            login(request, social_login.user)
-
-            return Response({"status": status.HTTP_200_OK, "user_id": social_login.user.id})
-        except Exception as e:
-            return Response(
-                {
-                    "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
-                    "error": "Failed to complete social login",
-                    "data": {"details": str(e)}
-                },
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+        # try:
+        #     existing_account = SocialAccount.objects.filter(uid=openid, provider=WeixinProvider.id).first()
+        #     if existing_account:
+        #         social_login.user = existing_account.user  # 已存在用户，直接关联
+        #     else:
+        #         user = get_adapter(request).new_user(request, social_login)  # 创建新用户
+        #         user.set_unusable_password()  # 可以设置不可用密码，避免用户直接登录
+        #         user.save()
+        #         social_login.user = user  # 将新用户与 social_login 关联
+        #         social_login.save(request)  # 保存 social_login 记录到数据库
+        #
+        #     # 使用 allauth 完成社交登录
+        #     complete_social_login(request, social_login)
+        #     login(request, social_login.user)
+        #
+        #     return Response({"status": status.HTTP_200_OK, "user_id": social_login.user.id})
+        # except Exception as e:
+        #     return Response(
+        #         {
+        #             "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+        #             "error": "Failed to complete social login",
+        #             "data": {"details": str(e)}
+        #         },
+        #         status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        #     )
 
 
 class GoogleLoginUrl(APIView):
