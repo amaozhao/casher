@@ -79,7 +79,25 @@ class WXCallback(APIView):
         access_token = token_data.get("access_token")
         openid = token_data.get("openid")
 
-        # Step 2: 创建 SocialLogin 实例
+        # Step 2: 请求微信用户信息
+        user_info_url = "https://api.weixin.qq.com/sns/userinfo"
+        user_info_params = {
+            "access_token": access_token,
+            "openid": openid,
+            "lang": "zh_CN"
+        }
+        user_info_response = requests.get(user_info_url, params=user_info_params)
+        user_info = user_info_response.json()
+        if "errcode" in user_info:
+            return Response(
+                {
+                    "status": status.HTTP_400_BAD_REQUEST,
+                    "error": "Failed to retrieve user info",
+                    "data": {"details": user_info}},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Step 3: 创建 SocialLogin 实例
         social_login = SocialLogin(account=SocialAccount(uid=openid, provider=WeixinProvider.id))
         adapter = WeixinOAuth2Adapter(request)
         login_token = adapter.parse_token({'access_token': access_token})
@@ -112,6 +130,7 @@ class WXCallback(APIView):
                 "data": {
                     "access_token": str(refresh.access_token),
                     "refresh_token": str(refresh),
+                    "user_info": user_info
                 }
             }
         )
