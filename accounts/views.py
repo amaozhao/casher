@@ -65,29 +65,26 @@ class WXCallback(APIView):
         token_data = response.json()
 
         if "errcode" in token_data:
-            return Response(
-                {
-                    "status": status.HTTP_400_BAD_REQUEST,
-                    "error": "Failed to retrieve access token",
-                    "data": token_data
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            return Response({"error": "Failed to retrieve access token", "details": token_data},
+                            status=status.HTTP_400_BAD_REQUEST)
 
         access_token = token_data.get("access_token")
         openid = token_data.get("openid")
 
-        # Step 2: 检查是否已经存在关联的 SocialAccount
+        # Step 2: 创建 SocialLogin 实例
         social_login = SocialLogin(account=SocialAccount(uid=openid, provider=WeixinProvider.id))
         adapter = WeixinOAuth2Adapter(request)
         login_token = adapter.parse_token({'access_token': access_token})
         login_token.token = access_token
         social_login.token = login_token
 
-        # 检查现有账户
+        # 检查是否已经存在关联的 SocialAccount
         existing_account = SocialAccount.objects.filter(uid=openid, provider=WeixinProvider.id).first()
         if existing_account:
+            # 已存在用户，直接登录
             social_login.user = existing_account.user
+            login(request, social_login.user)
+            return Response({"status": "success", "user_id": social_login.user.id})
         else:
             # 创建新用户并关联到 social_login
             user = get_adapter(request).new_user(request, sociallogin=social_login)
@@ -95,14 +92,9 @@ class WXCallback(APIView):
             user.save()
             social_login.user = user
             social_login.save(request)
-
-        # 完成社交登录
-        complete_social_login(request, social_login)
-
-        # 登录用户
-        login(request, social_login.user)
-
-        return Response({"status": "success", "user_id": social_login.user.id})
+            complete_social_login(request, social_login)
+            login(request, social_login.user)
+            return Response({"status": "success", "user_id": social_login.user.id})
 
 
 class GoogleLoginUrl(APIView):
