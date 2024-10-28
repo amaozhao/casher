@@ -196,6 +196,7 @@ WS_CLOSE_TIMEOUT = 60  # 单位：秒，设置为 60 秒
 
 REST_AUTH = {"USE_JWT": True}
 SIMPLE_JWT = {
+    "AUTH_HEADER_TYPES": ("Bearer",),
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": True,

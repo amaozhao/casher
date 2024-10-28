@@ -75,7 +75,7 @@ class WxAppLogin(APIView):
                         "msg": "ok",
                         "data": {
                             "login_key": key,
-                            "access_token": str(refresh.access_token),
+                            "token": str(refresh.access_token),
                             "refresh_token": str(refresh),
                         },  # 返回给小程序端
                     },
