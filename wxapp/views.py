@@ -1,3 +1,4 @@
+import json
 import uuid
 
 from rest_framework import status
@@ -29,7 +30,8 @@ class WxAppLogin(APIView):
                 key = md5.hexdigest()
                 # 保存到redis内存库,因为小程序端后续需要认证的操作会需要频繁校验
                 cache.set(key, val)
-                raw_data = params.get('rawData') or {}
+                raw_data = params.get('rawData') or '{}'
+                raw_data = json.loads(raw_data)
                 has_user = User.objects.filter(username=data['openid']).first()
                 # 用户不存在则创建用户
                 if not has_user:

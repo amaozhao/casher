@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "dj_rest_auth.registration",
     "payment",
     'wxapp',
+    'account',
 ]
 
 SITE_ID = 1
