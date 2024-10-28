@@ -5,9 +5,6 @@ from flow.views import (
     WorkFlowDetailView,
     UploadAPIView,
     WechatCallback,
-    GoogleLoginView,
-    GoogleCallback,
-    GoogleLoginUrl,
     WorkFlowCommentList,
 )
 
