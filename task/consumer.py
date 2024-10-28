@@ -19,11 +19,8 @@ class ClientConsumer(AsyncWebsocketConsumer):
         client_id = await self._get_client_id(query_string)
 
         if client_id:
-            print(f"New client connected with clientId: {client_id}")
             client_dict[client_id] = self.channel_name
             channel_dict[self.channel_name] = client_id
-        else:
-            print(f"Old client connected without clientId")
         await self.accept()
 
     async def _get_client_id(self, query_string):
@@ -77,7 +74,6 @@ class ClientConsumer(AsyncWebsocketConsumer):
         client_dict[client_id] = self.channel_name
         channel_dict[self.channel_name] = client_id
         print(f"Received bind message from client: {client_id}")
-        print(f'client_dict is : {client_dict}')
 
     async def handle_prompt_error(self, data):
         # 处理 prompt_error 消息
