@@ -73,7 +73,7 @@ class WXCallback(APIView):
 
         # Step 2: 创建 SocialLogin 实例
         social_login = SocialLogin(account=SocialAccount(uid=openid, provider=WeixinProvider.id))
-        adapter = WeixinOAuth2Adapter(request)
+        adapter = WeixinOAuth2Adapter()
         login_token = adapter.parse_token({'access_token': access_token})
         login_token.token = access_token
         social_login.token = login_token
@@ -83,8 +83,6 @@ class WXCallback(APIView):
         if existing_account:
             # 已存在用户，直接登录
             social_login.user = existing_account.user
-            login(request, social_login.user)
-            return Response({"status": "success", "user_id": social_login.user.id})
         else:
             # 创建新用户并关联到 social_login
             user = get_adapter(request).new_user(request, sociallogin=social_login)
@@ -93,8 +91,12 @@ class WXCallback(APIView):
             social_login.user = user
             social_login.save(request)
             complete_social_login(request, social_login)
-            login(request, social_login.user)
-            return Response({"status": "success", "user_id": social_login.user.id})
+
+        # 设置 backend 后调用 login 函数
+        social_login.user.backend = 'allauth.account.auth_backends.AuthenticationBackend'
+        login(request, social_login.user)
+
+        return Response({"status": "success", "user_id": social_login.user.id})
 
 
 class GoogleLoginUrl(APIView):
