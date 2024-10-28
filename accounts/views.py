@@ -73,7 +73,7 @@ class WXCallback(APIView):
 
         # Step 2: 创建 SocialLogin 实例
         social_login = SocialLogin(account=SocialAccount(uid=openid, provider=WeixinProvider.id))
-        adapter = WeixinOAuth2Adapter()
+        adapter = WeixinOAuth2Adapter(request)
         login_token = adapter.parse_token({'access_token': access_token})
         login_token.token = access_token
         social_login.token = login_token
