@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     "task",
     "dj_rest_auth.registration",
     "payment",
-    "wechat_account",
+    'wxapp',
 ]
 
 SITE_ID = 1
@@ -116,6 +116,7 @@ DATABASES = {
         'PASSWORD': 'casher',
         'HOST': '192.168.10.100',  # 如果数据库和应用在同一台服务器上
         'PORT': '3307',  # PostgreSQL 的默认端口
+        'OPTIONS': {'charset': 'utf8mb4'}
     }
 }
 
@@ -236,13 +237,10 @@ SOCIALACCOUNT_PROVIDERS = {
             "access_type": "online",
         },
     },
-    'weixin': {
-        'APP': {
-            'client_id': 'wxe0539f0ed26b91a9',
-            'secret': '37bd1e42da63f337592c10a4a6cffb50',
-        }
-    }
 }
+
+WXAPP_APPID = 'wx93f89569dfcc5828'
+WXAPP_SECRET = 'a93d88cce0432a81cbb76b2fff27be1e'
 
 # Stripe API Key
 STRIPE_TEST_PUBLIC_KEY = 'pk_test_51Q0gamCBS8Aso0qd6cFAJ17EtVgNU0xq5aXnQMgVAx0zdpRGxHVaAwCvdguB7sDGx8dr1GllHF6ydJbUwMjqEPc800CWdocpen'

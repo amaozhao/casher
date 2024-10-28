@@ -1,6 +1,6 @@
-from .stripe import CreatePaymentIntentView
+from .stripe import CreatePaymentIntentView, CreatePayoutView
 
 
 __all__ = [
-    'CreatePaymentIntentView'
+    'CreatePaymentIntentView', 'CreatePayoutView'
 ]
