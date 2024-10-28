@@ -1,5 +1,6 @@
 from urllib.parse import urljoin
 import urllib.parse
+from django.utils.crypto import get_random_string
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
@@ -113,8 +114,14 @@ class WXCallback(APIView):
             # 已存在用户，直接登录
             social_login.user = existing_account.user
         else:
+            adapter = get_adapter(request)
             # 创建新用户并关联到 social_login
             user = get_adapter(request).new_user(request, sociallogin=social_login)
+            unique_username = f"wx_{openid}"
+            while User.objects.filter(username=unique_username).exists():
+                unique_username = f"wx_{get_random_string(8)}"
+
+            user.username = unique_username
             user.set_unusable_password()
             user.save()
             social_login.user = user
