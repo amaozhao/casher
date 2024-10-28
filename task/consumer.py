@@ -74,7 +74,6 @@ class ClientConsumer(AsyncWebsocketConsumer):
 
     async def handle_bind(self, data):
         client_id = data["data"]["client_id"]
-        print(1111, client_id, self.channel_name)
         client_dict[client_id] = self.channel_name
         channel_dict[self.channel_name] = client_id
         print(f"Received bind message from client: {client_id}")

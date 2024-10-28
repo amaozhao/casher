@@ -217,26 +217,12 @@ LOGIN_REDIRECT_URL = "/"  # 登录后跳转的页面
 LOGOUT_REDIRECT_URL = "/"  # 登出后跳转的页面
 
 
-GOOGLE_OAUTH_CLIENT_ID = '88674082295-pc3uu9ptrat6tuegmua1e4uhl0jj0i4l.apps.googleusercontent.com'
-GOOGLE_OAUTH_CLIENT_SECRET = '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'
 GOOGLE_OAUTH_CALLBACK_URL = 'http://aidep.cn:8601/flow/google/callback/'
 ACCOUNT_EMAIL_VERIFICATION = "none"
 SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
 # Connect local account and social account if local account with that email address already exists
 SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
 SOCIALACCOUNT_PROVIDERS = {
-    "google": {
-        "APPS": [
-            {
-                "client_id": GOOGLE_OAUTH_CLIENT_ID,
-                "secret": GOOGLE_OAUTH_CLIENT_SECRET,
-            },
-        ],
-        "SCOPE": ["profile", "email"],
-        "AUTH_PARAMS": {
-            "access_type": "online",
-        },
-    },
 }
 
 WXAPP_APPID = 'wx93f89569dfcc5828'

@@ -21,7 +21,7 @@ idna==3.10
 incremental==24.7.2
 isort==5.13.2
 mypy-extensions==1.0.0
-mysqlclient==2.2.5
+mysqlclient
 optionaldict==0.1.2
 packaging==24.1
 pathspec==0.12.1
@@ -30,6 +30,7 @@ platformdirs==4.3.6
 pyasn1==0.6.1
 pyasn1_modules==0.4.1
 pycparser==2.22
+pycryptodome==3.10.1
 PyJWT==2.9.0
 pyOpenSSL==24.2.1
 python-dateutil==2.9.0.post0
@@ -46,4 +47,5 @@ urllib3==2.2.3
 websockets==13.1
 wechatpy==1.8.18
 xmltodict==0.14.2
+yunzhanghu_sdk==1.0.17
 zope.interface==7.1.1
