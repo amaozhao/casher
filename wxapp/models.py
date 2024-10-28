@@ -10,7 +10,7 @@ class WxAppUserProfile(models.Model):
     province = models.CharField(max_length=100, default='')
     country = models.CharField(max_length=100, default='')
     avatarUrl = models.CharField(max_length=500, default='')
-    unionId = models.CharField(max_length=500, default='')
+    unionid = models.CharField(max_length=500, default='')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

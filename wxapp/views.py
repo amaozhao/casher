@@ -44,7 +44,7 @@ class WxAppLogin(APIView):
                         province=raw_data.get('province'),
                         country=raw_data.get('country'),
                         avatarUrl=raw_data.get('avatarUrl'),
-                        unionId=data.get('unionId'),
+                        unionid=data.get('unionid'),
                     )
                 has_user.save()
                 profile = WxAppUserProfile.objects.filter(user=has_user).first()
@@ -57,7 +57,7 @@ class WxAppLogin(APIView):
                         province=raw_data.get('province'),
                         country=raw_data.get('country'),
                         avatarUrl=raw_data.get('avatarUrl'),
-                        unionId=data.get('unionId'),
+                        unionId=data.get('unionid'),
                     )
                 profile.nick_name = raw_data.get('nickName')
                 profile.gender = raw_data.get('gender')

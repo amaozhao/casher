@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
                 ("province", models.CharField(default="", max_length=100)),
                 ("country", models.CharField(default="", max_length=100)),
                 ("avatarUrl", models.CharField(default="", max_length=500)),
-                ("unionId", models.CharField(default="", max_length=500)),
+                ("unionid", models.CharField(default="", max_length=500)),
                 ("created", models.DateTimeField(auto_now_add=True)),
                 ("updated", models.DateTimeField(auto_now=True)),
                 (
