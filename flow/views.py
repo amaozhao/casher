@@ -1,4 +1,3 @@
-# from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveAPIView
 
@@ -7,18 +6,9 @@ from flow.serializers.workflowdata import (
     WorkFlowDataSerializer,
     WorkFlowCommentSerializer,
 )
-from urllib.parse import urljoin
-import urllib.parse
-
-import requests
-from django.urls import reverse
-from django.conf import settings
 from rest_framework.response import Response
 from rest_framework import status
 import json
-from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
-from allauth.socialaccount.providers.oauth2.client import OAuth2Client
-from dj_rest_auth.registration.views import SocialLoginView
 
 
 from channels.layers import get_channel_layer
@@ -246,10 +236,3 @@ class WorkFlowCommentList(ListCreateAPIView):
         comment.save()
         serializer = WorkFlowCommentSerializer(comment)
         return Response({'data': serializer.data, 'status': status.HTTP_201_CREATED}, status=status.HTTP_201_CREATED)
-
-
-class WechatCallback(APIView):
-    url_name = "wechat_callback"
-
-    def get(self, request):
-        return Response({}, status=status.HTTP_200_OK)

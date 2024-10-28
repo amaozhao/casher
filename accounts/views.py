@@ -10,34 +10,28 @@ from rest_framework import status
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
+from allauth.socialaccount.providers.weixin.views import oauth2_login, oauth2_callback
 
 
-# class WechatQRLogin(APIView):
-#
-#     def get(self, request):
-#         app = WeChatApp.objects.get_by_name("现金宝H5")
-#         url = app.build_url("wechat_callback")
-#         cfg = app.configurations
-#         redirect = cfg.get("SITE_HOST")
-#         client = WeChatOAuthClient(app)
-#         url = client.qrconnect_url(redirect_uri=redirect, state="STATE")
-#         return Response({"url": url}, status=status.HTTP_200_OK)
-#
-#
-# class WechatMinAppLogin(APIView):
-#
-#     def post(self, request):
-#         app = WeChatApp.objects.get_by_name("现金宝")
-#         code = request.data.get("code")
-#         user, data = app.auth(code)
-#         return Response({"data": data}, status=status.HTTP_200_OK)
+class WechatQRLogin(APIView):
+
+    def get(self, request):
+        return Response(
+            {
+                "status": status.HTTP_200_OK,
+                "data": {
+                    "login_url": oauth2_login,
+                    "callback": oauth2_callback
+                }
+            },
+            status=status.HTTP_200_OK)
 
 
-# class WechatCallback(APIView):
-#     url_name = "wechat_callback"
-#
-#     def get(self, request):
-#         return Response({}, status=status.HTTP_200_OK)
+class WechatCallback(APIView):
+    url_name = "wechat_callback"
+
+    def get(self, request):
+        return Response({}, status=status.HTTP_200_OK)
 
 
 class GoogleLoginUrl(APIView):
@@ -51,9 +45,12 @@ class GoogleLoginUrl(APIView):
         callback_url = urllib.parse.quote_plus(urljoin("http://aidep.cn:8601", reverse("google_callback")))
         return Response(
             {
-                'url': f'https://accounts.google.com/o/oauth2/v2/auth?redirect_uri={callback_url}&'
-                       f'prompt=consent&response_type=code&client_id={client_id}&'
-                       f'scope=openid%20email%20profile&access_type=online'
+                'status': status.HTTP_200_OK,
+                'data': {
+                    'url': f'https://accounts.google.com/o/oauth2/v2/auth?redirect_uri={callback_url}&'
+                           f'prompt=consent&response_type=code&client_id={client_id}&'
+                           f'scope=openid%20email%20profile&access_type=online'
+                }
             },
             status=status.HTTP_200_OK
         )
