@@ -73,7 +73,7 @@ class WXCallback(APIView):
         openid = token_data.get("openid")
 
         # Step 2: 使用allauth创建或关联微信用户
-        adapter = WeixinOAuth2Adapter()
+        adapter = WeixinOAuth2Adapter(request)
         adapter.client_id = settings.SOCIALACCOUNT_PROVIDERS["weixin"]["APP"][
             "client_id"
         ]
