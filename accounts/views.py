@@ -19,6 +19,7 @@ from allauth.socialaccount.providers.weixin.views import WeixinOAuth2Adapter
 from django.contrib.auth import login, get_user_model
 from allauth.socialaccount.models import SocialLogin
 from rest_framework_simplejwt.tokens import RefreshToken
+from allauth.account.utils import perform_login
 
 
 class WXQRCodeAPIView(APIView):
@@ -114,9 +115,10 @@ class WXCallback(APIView):
             # 已存在用户，直接登录
             social_login.user = existing_account.user
         else:
+            social_login.is_existing = False
             adapter = get_adapter(request)
             # 创建新用户并关联到 social_login
-            user = get_adapter(request).new_user(request, sociallogin=social_login)
+            user = adapter.new_user(request, sociallogin=social_login)
             unique_username = f"wx_{openid}"
             while User.objects.filter(username=unique_username).exists():
                 unique_username = f"wx_{get_random_string(8)}"
