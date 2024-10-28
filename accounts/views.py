@@ -192,11 +192,3 @@ class GoogleCallback(APIView):
         token = res_json.get('access')
 
         return redirect(f'http://aidep.cn/?token={token}')
-        # result = {
-        #     'token': res_json.get('access'),
-        #     'user': res_json.get('user')
-        # }
-        # return Response(
-        #     {"status": status.HTTP_200_OK, "data": result},
-        #     status=status.HTTP_200_OK,
-        # )

@@ -114,16 +114,16 @@ class UploadAPIView(APIView):
             )
 
             # 处理图片节点上传
-            cs_img_descs = post_data.get("cs_img_nodes", [])
+            # cs_img_descs = post_data.get("cs_img_nodes", [])
 
             for index, img_file in enumerate(cs_img_files):
-                desc = (
-                    cs_img_descs[index].get("desc", "")
-                    if index < len(cs_img_descs)
-                    else ""
-                )
+                # desc = (
+                #     cs_img_descs[index].get("desc", "")
+                #     if index < len(cs_img_descs)
+                #     else ""
+                # )
                 WorkFlowImage.objects.create(
-                    post_data=post_data_instance, image=img_file, desc=desc
+                    workflow=post_data_instance, image=img_file
                 )
 
             r = {
