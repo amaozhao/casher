@@ -3,7 +3,6 @@ import urllib.parse
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
-from allauth.socialaccount.providers.weixin.views import WeixinOAuth2Adapter
 import requests
 from urllib.parse import urljoin
 from django.conf import settings
@@ -11,6 +10,13 @@ from django.urls import reverse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from allauth.socialaccount.helpers import complete_social_login
+from allauth.socialaccount.models import SocialAccount
+from allauth.socialaccount.providers.weixin.provider import WeixinProvider
+from allauth.socialaccount.adapter import get_adapter
+from allauth.socialaccount.providers.weixin.views import WeixinOAuth2Adapter
+from django.contrib.auth import login
+from allauth.socialaccount.models import SocialLogin
 
 
 class WXQRCodeAPIView(APIView):
@@ -40,18 +46,13 @@ class WXLoginAPIView(APIView):
 
 class WXCallback(APIView):
     def get(self, request, *args, **kwargs):
-        # 获取微信返回的授权码
         code = request.GET.get("code")
         if code is None:
             return Response(
-                {
-                    "status": status.HTTP_400_BAD_REQUEST,
-                    "data": {"error": "Missing code parameter"}
-                },
-                status=status.HTTP_400_BAD_REQUEST
+                {"error": "Missing code parameter"}, status=status.HTTP_400_BAD_REQUEST
             )
 
-        # 构造微信获取 access_token 的 URL
+        # Step 1: 通过微信API换取 access_token 和 openid
         token_url = "https://api.weixin.qq.com/sns/oauth2/access_token"
         params = {
             "appid": settings.SOCIALACCOUNT_PROVIDERS["weixin"]["APP"]["client_id"],
@@ -59,25 +60,47 @@ class WXCallback(APIView):
             "code": code,
             "grant_type": "authorization_code",
         }
-
-        # 请求微信的 access_token 接口
         response = requests.get(token_url, params=params)
         token_data = response.json()
 
         if "errcode" in token_data:
             return Response(
-                {
-                    "status": status.HTTP_400_BAD_REQUEST,
-                    "error": "Failed to retrieve access token",
-                    "data": token_data
-                },
+                {"error": "Failed to retrieve access token", "details": token_data},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        # 将用户数据返回给前端，或根据需求创建登录逻辑
-        return Response(
-            {"status": status.HTTP_200_OK, "data": token_data}, status=status.HTTP_200_OK
+        access_token = token_data.get("access_token")
+        openid = token_data.get("openid")
+
+        # Step 2: 使用allauth创建或关联微信用户
+        adapter = WeixinOAuth2Adapter()
+        adapter.client_id = settings.SOCIALACCOUNT_PROVIDERS["weixin"]["APP"][
+            "client_id"
+        ]
+        adapter.secret = settings.SOCIALACCOUNT_PROVIDERS["weixin"]["APP"]["secret"]
+
+        login_token = adapter.parse_token({"access_token": access_token})
+        login_token.token = access_token
+        social_login = SocialLogin(
+            account=SocialAccount(uid=openid, provider=WeixinProvider.id)
         )
+        social_login.token = login_token
+
+        try:
+            complete_social_login(request, social_login)
+            if social_login.is_existing:
+                login(request, social_login.user)
+            else:
+                get_adapter(request).populate_new_user(social_login)
+                social_login.save(request)
+                login(request, social_login.user)
+
+            return Response({"status": "success", "user_id": social_login.user.id})
+        except Exception as e:
+            return Response(
+                {"error": "Failed to complete social login", "details": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
 
 
 class GoogleLoginUrl(APIView):
