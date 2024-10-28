@@ -39,8 +39,8 @@ class WXQRCodeAPIView(APIView):
 
         # 直接将微信提供的二维码URL返回给前端
         return Response(
-            {'status': status.HTTP_200_OK, 'data': {"qr_url": wechat_qr_url}},
-            status=status.HTTP_200_OK
+            {"status": status.HTTP_200_OK, "data": {"qr_url": wechat_qr_url}},
+            status=status.HTTP_200_OK,
         )
 
 
@@ -57,13 +57,15 @@ class WXCallback(APIView):
     def get(self, request, *args, **kwargs):
         code = request.GET.get("code")
         if code is None:
-            return Response({"error": "Missing code parameter"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": "Missing code parameter"}, status=status.HTTP_400_BAD_REQUEST
+            )
 
         # Step 1: 通过微信API换取 access_token 和 openid
         token_url = "https://api.weixin.qq.com/sns/oauth2/access_token"
         params = {
-            "appid": settings.SOCIALACCOUNT_PROVIDERS['weixin']['APP']['client_id'],
-            "secret": settings.SOCIALACCOUNT_PROVIDERS['weixin']['APP']['secret'],
+            "appid": settings.SOCIALACCOUNT_PROVIDERS["weixin"]["APP"]["client_id"],
+            "secret": settings.SOCIALACCOUNT_PROVIDERS["weixin"]["APP"]["secret"],
             "code": code,
             "grant_type": "authorization_code",
         }
@@ -75,11 +77,10 @@ class WXCallback(APIView):
                 {
                     "status": status.HTTP_400_BAD_REQUEST,
                     "error": "Failed to retrieve access token",
-                    "data": {
-                        "detail": token_data
-                    }
+                    "data": {"detail": token_data},
                 },
-                status=status.HTTP_400_BAD_REQUEST)
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         access_token = token_data.get("access_token")
         openid = token_data.get("openid")
@@ -89,7 +90,7 @@ class WXCallback(APIView):
         user_info_params = {
             "access_token": access_token,
             "openid": openid,
-            "lang": "zh_CN"
+            "lang": "zh_CN",
         }
         user_info_response = requests.get(user_info_url, params=user_info_params)
         user_info = user_info_response.json()
@@ -98,19 +99,24 @@ class WXCallback(APIView):
                 {
                     "status": status.HTTP_400_BAD_REQUEST,
                     "error": "Failed to retrieve user info",
-                    "data": {"details": user_info}},
-                status=status.HTTP_400_BAD_REQUEST
+                    "data": {"details": user_info},
+                },
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         # Step 3: 创建 SocialLogin 实例
-        social_login = SocialLogin(account=SocialAccount(uid=openid, provider=WeixinProvider.id))
+        social_login = SocialLogin(
+            account=SocialAccount(uid=openid, provider=WeixinProvider.id)
+        )
         adapter = WeixinOAuth2Adapter(request)
-        login_token = adapter.parse_token({'access_token': access_token})
+        login_token = adapter.parse_token({"access_token": access_token})
         login_token.token = access_token
         social_login.token = login_token
 
         # 检查是否已经存在关联的 SocialAccount
-        existing_account = SocialAccount.objects.filter(uid=openid, provider=WeixinProvider.id).first()
+        existing_account = SocialAccount.objects.filter(
+            uid=openid, provider=WeixinProvider.id
+        ).first()
         if existing_account:
             # 已存在用户，直接登录
             social_login.user = existing_account.user
@@ -131,12 +137,14 @@ class WXCallback(APIView):
             complete_social_login(request, social_login)
 
         # 设置 backend 后调用 login 函数
-        social_login.user.backend = 'allauth.account.auth_backends.AuthenticationBackend'
+        social_login.user.backend = (
+            "allauth.account.auth_backends.AuthenticationBackend"
+        )
         login(request, social_login.user)
 
         refresh = RefreshToken.for_user(social_login.user)
 
-        return redirect(f'http://aidep.cn/?token={str(refresh.access_token)}')
+        return redirect(f"http://aidep.cn/?token={str(refresh.access_token)}")
 
         # return Response(
         #     {
@@ -189,6 +197,6 @@ class GoogleCallback(APIView):
         token_endpoint_url = urljoin("http://aidep.cn:8601", reverse("google_login"))
         response = requests.post(url=token_endpoint_url, data={"code": code})
         res_json = response.json()
-        token = res_json.get('access')
+        token = res_json.get("access")
 
-        return redirect(f'http://aidep.cn/?token={token}')
+        return redirect(f"http://aidep.cn/?token={token}")

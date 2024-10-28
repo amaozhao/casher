@@ -83,7 +83,10 @@ class WxAppLogin(APIView):
                 )
             else:
                 return Response(
-                    {"status": status.HTTP_401_UNAUTHORIZED, "data": {"msg": "code无效"}},
+                    {
+                        "status": status.HTTP_401_UNAUTHORIZED,
+                        "data": {"msg": "code无效"},
+                    },
                     status=status.HTTP_401_UNAUTHORIZED,
                 )
         else:
