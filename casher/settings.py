@@ -262,6 +262,9 @@ DJSTRIPE_WEBHOOK_VALIDATION = "retrieve_event"
 DJSTRIPE_FOREIGN_KEY_TO_FIELD = "id"
 DJSTRIPE_AUTO_SYNC_MODELS = True
 
+PAGSMILE_APP_ID = 'your_pagsmile_app_id'
+PAGSMILE_SECRET_KEY = 'your_pagsmile_secret_key'
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
