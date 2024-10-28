@@ -96,7 +96,7 @@ class WXCallback(APIView):
             if existing_account:
                 social_login.user = existing_account.user  # 已存在用户，直接关联
             else:
-                user = get_adapter(request).new_user(request)  # 创建新用户
+                user = get_adapter(request).new_user(request, social_login)  # 创建新用户
                 user.set_unusable_password()  # 可以设置不可用密码，避免用户直接登录
                 user.save()
                 social_login.user = user  # 将新用户与 social_login 关联
