@@ -1,8 +1,7 @@
 from django.urls import path, re_path
 from django.views.generic import TemplateView
 
-from .views import RegisterView, VerifyEmailView, ResendEmailVerificationView
-
+from .views import RegisterView, ResendEmailVerificationView, VerifyEmailView
 
 urlpatterns = [
     path("", RegisterView.as_view(), name="rest_register"),

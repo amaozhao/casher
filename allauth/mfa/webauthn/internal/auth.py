@@ -1,8 +1,7 @@
 from typing import Any, Dict, List, Optional
 
-from django.contrib.auth import get_user_model
-
 import fido2.features
+from django.contrib.auth import get_user_model
 from fido2.server import Fido2Server
 from fido2.utils import websafe_decode
 from fido2.webauthn import (
@@ -21,7 +20,6 @@ from allauth.core import context
 from allauth.mfa import app_settings
 from allauth.mfa.adapter import get_adapter
 from allauth.mfa.models import Authenticator
-
 
 fido2.features.webauthn_json_mapping.enabled = True
 

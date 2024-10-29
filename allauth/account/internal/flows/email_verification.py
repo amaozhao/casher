@@ -118,10 +118,7 @@ def login_on_verification(request, verification) -> Optional[HttpResponse]:
     This may not 100% work in case the user closes the browser (and the session
     gets lost), but at least we're secure.
     """
-    from allauth.account.stages import (
-        EmailVerificationStage,
-        LoginStageController,
-    )
+    from allauth.account.stages import EmailVerificationStage, LoginStageController
 
     if not app_settings.LOGIN_ON_EMAIL_CONFIRMATION:
         return None

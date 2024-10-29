@@ -21,7 +21,6 @@ from allauth.socialaccount.adapter import get_adapter
 from allauth.socialaccount.internal import statekit
 from allauth.utils import get_request_param
 
-
 if not allauth_settings.SOCIALACCOUNT_ENABLED:
     raise ImproperlyConfigured(
         "allauth.socialaccount not installed, yet its models are imported."

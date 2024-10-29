@@ -2,11 +2,11 @@ import base64
 import hashlib
 import json
 import random
-import requests
 import uuid
 import warnings
 from urllib.parse import parse_qs, urlparse
 
+import requests
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.test import RequestFactory

@@ -3,14 +3,13 @@ import time
 from importlib import import_module
 from unittest.mock import Mock, patch
 
+import pytest
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core import mail
 from django.test.client import RequestFactory
 from django.test.utils import override_settings
 from django.urls import reverse
-
-import pytest
 
 from allauth.account import app_settings as account_settings
 from allauth.account.adapter import get_adapter as get_account_adapter

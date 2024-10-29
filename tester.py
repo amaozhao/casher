@@ -1,6 +1,7 @@
 import hashlib
-import requests
 import json
+
+import requests
 
 pagsmileAppID = "39CAEFFF1164423EBE9B17FB53597177"
 pagsmileappKey = "Lq4Y2Ao7lp"
@@ -14,12 +15,14 @@ def ksort(d):
 # sha256
 def generate_authorization_header(params, merchantKey):
     params = ksort(params)
-    queryStr = ''
+    queryStr = ""
     for key, value in params:
         if value:
-            queryStr += key + '=' + str(value) + '&'
+            queryStr += key + "=" + str(value) + "&"
     h2 = hashlib.sha256()
-    h2.update((queryStr.rstrip('&') + merchantKey).encode(encoding='UTF-8', errors='strict'))
+    h2.update(
+        (queryStr.rstrip("&") + merchantKey).encode(encoding="UTF-8", errors="strict")
+    )
     return h2.hexdigest()
 
 

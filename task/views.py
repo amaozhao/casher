@@ -1,15 +1,15 @@
 import uuid
 
-from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 from rest_framework import status
+from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.parsers import FormParser, MultiPartParser
 
 from flow.models import WorkFlowData
-from task.models import UserUpload, UserTask, TaskResult
 from task.consumer import client_dict
+from task.models import TaskResult, UserTask, UserUpload
 from task.serializers import TaskResultSerializer
 
 

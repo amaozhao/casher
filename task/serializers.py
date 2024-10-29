@@ -1,5 +1,7 @@
 from urllib.parse import urljoin
+
 from rest_framework import serializers
+
 from task.models import TaskResult
 
 

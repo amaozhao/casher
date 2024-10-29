@@ -1,6 +1,5 @@
-from django.urls import reverse
-
 import pytest
+from django.urls import reverse
 from pytest_django.asserts import assertTemplateUsed
 
 from allauth.socialaccount.adapter import get_adapter

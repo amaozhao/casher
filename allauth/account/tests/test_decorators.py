@@ -1,5 +1,4 @@
 from django.urls import reverse
-
 from pytest_django.asserts import assertTemplateUsed
 
 from allauth.account.decorators import verified_email_required

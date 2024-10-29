@@ -8,17 +8,11 @@ from django.http import HttpRequest
 
 from allauth.account import app_settings
 from allauth.account.adapter import get_adapter
-from allauth.account.internal.flows.email_verification import (
-    verify_email_indirectly,
-)
-from allauth.account.internal.flows.login import (
-    perform_login,
-    record_authentication,
-)
+from allauth.account.internal.flows.email_verification import verify_email_indirectly
+from allauth.account.internal.flows.login import perform_login, record_authentication
 from allauth.account.internal.flows.signup import send_unknown_account_mail
 from allauth.account.internal.stagekit import clear_login, stash_login
 from allauth.account.models import Login
-
 
 LOGIN_CODE_STATE_KEY = "login_code"
 

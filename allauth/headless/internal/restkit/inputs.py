@@ -9,7 +9,6 @@ from django.forms import (
     ModelMultipleChoiceField,
 )
 
-
 __all__ = [
     "Field",
     "CharField",

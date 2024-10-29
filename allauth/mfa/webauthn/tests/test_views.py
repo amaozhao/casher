@@ -1,10 +1,9 @@
 from unittest.mock import ANY
 
+import pytest
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-
-import pytest
 from pytest_django.asserts import assertTemplateUsed
 
 from allauth.account.authentication import AUTHENTICATION_METHODS_SESSION_KEY

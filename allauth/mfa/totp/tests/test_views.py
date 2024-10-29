@@ -1,12 +1,11 @@
 import time
 from unittest.mock import ANY, patch
 
+import pytest
 from django.conf import settings
 from django.core.cache import cache
 from django.test import Client
 from django.urls import reverse
-
-import pytest
 from pytest_django.asserts import assertTemplateUsed
 
 from allauth.account import app_settings

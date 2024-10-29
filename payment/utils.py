@@ -1,14 +1,15 @@
 import stripe
 from django.conf import settings
-from payment.models import PaymentProfile
+
+from payment.models import StripePaymentProfile
 
 stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
 
 
 def get_or_create_stripe_customer(user):
-    payment_profile = PaymentProfile.objects.filter(user=user).first()
+    payment_profile = StripePaymentProfile.objects.filter(user=user).first()
     if not payment_profile:
-        payment_profile = PaymentProfile.objects.create(user=user)
+        payment_profile = StripePaymentProfile.objects.create(user=user)
         customer = stripe.Customer.create(email=user.email)
         payment_profile.stripe_customer_id = customer.id
         payment_profile.save()

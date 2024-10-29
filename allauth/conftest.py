@@ -5,11 +5,10 @@ import uuid
 from contextlib import contextmanager
 from unittest.mock import Mock, PropertyMock, patch
 
+import pytest
 from django.contrib.auth import get_user_model
 from django.contrib.messages.middleware import MessageMiddleware
 from django.contrib.sessions.middleware import SessionMiddleware
-
-import pytest
 
 from allauth.account.models import EmailAddress
 from allauth.account.utils import user_email, user_pk_to_url_str, user_username

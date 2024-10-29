@@ -1,11 +1,7 @@
 import pytest
 
 from allauth.account.models import EmailAddress
-from allauth.socialaccount.models import (
-    SocialAccount,
-    SocialLogin,
-    SocialToken,
-)
+from allauth.socialaccount.models import SocialAccount, SocialLogin, SocialToken
 
 
 @pytest.fixture

@@ -6,7 +6,9 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core import exceptions, validators
 from django.urls import NoReverseMatch, reverse
 from django.utils.safestring import mark_safe
-from django.utils.translation import gettext, gettext_lazy as _, pgettext
+from django.utils.translation import gettext
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import pgettext
 
 from allauth.account.internal import flows
 from allauth.account.internal.stagekit import LOGIN_SESSION_KEY

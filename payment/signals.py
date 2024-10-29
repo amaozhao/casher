@@ -1,8 +1,8 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from djstripe.models import Event
-from payment.models import UserHashrate
-from payment.models import PaymentProfile
+
+from payment.models import StripePaymentProfile, UserHashrate
 
 
 @receiver(post_save, sender=Event)
@@ -12,7 +12,7 @@ def my_custom_event_handler(sender, instance, created, **kwargs):
         if instance.event_type == "payment_intent.succeeded":
             # 添加您的自定义逻辑
             customer = instance.customer
-            profile = PaymentProfile.objects.filter(
+            profile = StripePaymentProfile.objects.filter(
                 stripe_customer_id=customer.id
             ).first()
             payment_intent = instance.data.get("object")

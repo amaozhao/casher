@@ -1,6 +1,7 @@
-import aiohttp
 import json
 import os
+
+import aiohttp
 
 # 请求的 URL，r 和 techsid 放在 URL 中
 r_value = "comfyui.apiv2.upload"

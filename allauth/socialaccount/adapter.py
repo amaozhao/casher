@@ -1,10 +1,7 @@
 import functools
 import warnings
 
-from django.core.exceptions import (
-    ImproperlyConfigured,
-    MultipleObjectsReturned,
-)
+from django.core.exceptions import ImproperlyConfigured, MultipleObjectsReturned
 from django.db.models import Q
 from django.urls import reverse
 from django.utils.crypto import get_random_string

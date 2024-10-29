@@ -1,5 +1,5 @@
-from django.conf import settings
 import requests
+from django.conf import settings
 
 
 # 调用微信code2Session接口,换取用户唯一标识 OpenID 和 会话密钥 session_key

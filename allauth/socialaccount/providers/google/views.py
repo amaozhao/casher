@@ -1,5 +1,4 @@
 import requests
-
 from django.conf import settings
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.utils.decorators import method_decorator
@@ -19,7 +18,6 @@ from allauth.socialaccount.providers.oauth2.views import (
     OAuth2CallbackView,
     OAuth2LoginView,
 )
-
 
 CERTS_URL = (
     getattr(settings, "SOCIALACCOUNT_PROVIDERS", {})

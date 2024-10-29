@@ -1,7 +1,6 @@
 from django.urls import path
 
 from dj_rest_auth.app_settings import api_settings
-
 from dj_rest_auth.views import (
     LoginView,
     LogoutView,
@@ -10,7 +9,6 @@ from dj_rest_auth.views import (
     PasswordResetView,
     UserDetailsView,
 )
-
 
 urlpatterns = [
     # URLs that do not require a session or valid token
@@ -28,9 +26,8 @@ urlpatterns = [
 ]
 
 if api_settings.USE_JWT:
-    from rest_framework_simplejwt.views import TokenVerifyView
-
     from dj_rest_auth.jwt_auth import get_refresh_view
+    from rest_framework_simplejwt.views import TokenVerifyView
 
     urlpatterns += [
         path("token/verify/", TokenVerifyView.as_view(), name="token_verify"),

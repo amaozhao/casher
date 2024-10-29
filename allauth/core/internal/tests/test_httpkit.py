@@ -1,8 +1,7 @@
 import json
 
-from django.http import HttpRequest
-
 import pytest
+from django.http import HttpRequest
 
 from allauth.core.internal import httpkit
 

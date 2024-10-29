@@ -6,13 +6,9 @@ from urllib.parse import urlparse
 
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import (
-    authenticate,
-    get_backends,
-    get_user_model,
-    login as django_login,
-    logout as django_logout,
-)
+from django.contrib.auth import authenticate, get_backends, get_user_model
+from django.contrib.auth import login as django_login
+from django.contrib.auth import logout as django_logout
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.password_validation import (
     MinimumLengthValidator,

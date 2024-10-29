@@ -2,7 +2,6 @@ import json
 from unittest.mock import patch
 
 from django.urls import reverse
-
 from pytest_django.asserts import assertTemplateUsed
 
 from allauth.account.models import EmailAddress

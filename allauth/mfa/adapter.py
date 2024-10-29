@@ -3,7 +3,8 @@ from typing import Dict
 from urllib.parse import quote
 
 from django.utils.http import urlencode
-from django.utils.translation import gettext, gettext_lazy as _
+from django.utils.translation import gettext
+from django.utils.translation import gettext_lazy as _
 
 from allauth import app_settings as allauth_settings
 from allauth.account.adapter import get_adapter as get_account_adapter

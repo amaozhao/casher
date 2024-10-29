@@ -1,8 +1,7 @@
 from unittest.mock import ANY
 
-from django.urls import reverse
-
 import pytest
+from django.urls import reverse
 from pytest_django.asserts import assertTemplateUsed
 
 from allauth import app_settings as allauth_settings

@@ -3,7 +3,6 @@ from unittest.mock import Mock, patch
 from django.contrib.auth import get_user_model
 from django.test import override_settings
 from django.urls import reverse
-
 from openid.consumer import consumer
 
 from allauth.socialaccount.models import SocialAccount

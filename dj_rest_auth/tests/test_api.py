@@ -1,6 +1,5 @@
 import json
 
-from allauth.account import app_settings as allauth_account_settings
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core import mail
@@ -9,9 +8,12 @@ from django.test import TestCase, modify_settings, override_settings
 from django.utils.encoding import force_str
 from rest_framework import status
 from rest_framework.test import APIRequestFactory
+
+from allauth.account import app_settings as allauth_account_settings
 from dj_rest_auth.app_settings import api_settings
-from dj_rest_auth.registration.views import RegisterView
 from dj_rest_auth.models import get_token_model
+from dj_rest_auth.registration.views import RegisterView
+
 from .mixins import TestsMixin
 from .utils import override_api_settings
 
@@ -21,6 +23,7 @@ except ImportError:  # pragma: no cover
     from django.core.urlresolvers import reverse
 
 from jwt import decode as decode_jwt
+
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
@@ -80,8 +83,8 @@ class APIBasicTests(TestsMixin, TestCase):
 
             result["uid"] = user_pk_to_url_str(user)
         else:
-            from django.utils.encoding import force_bytes
             from django.contrib.auth.tokens import default_token_generator
+            from django.utils.encoding import force_bytes
             from django.utils.http import urlsafe_base64_encode
 
             result["uid"] = urlsafe_base64_encode(force_bytes(user.pk))
@@ -573,8 +576,9 @@ class APIBasicTests(TestsMixin, TestCase):
     def test_registration_with_session(self):
         import sys
         from importlib import reload
-        from django.contrib.sessions.middleware import SessionMiddleware
+
         from django.contrib.messages.middleware import MessageMiddleware
+        from django.contrib.sessions.middleware import SessionMiddleware
 
         reload(sys.modules["dj_rest_auth.models"])
         reload(sys.modules["dj_rest_auth.registration.views"])

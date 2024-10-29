@@ -1,8 +1,7 @@
 from unittest.mock import ANY
 
-from django.contrib.auth import get_user_model
-
 import pytest
+from django.contrib.auth import get_user_model
 
 from allauth.account.authentication import AUTHENTICATION_METHODS_SESSION_KEY
 from allauth.headless.constants import Flow

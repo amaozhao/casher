@@ -3,11 +3,7 @@ from urllib.parse import parse_qs, quote, urlencode, urlparse, urlunparse
 
 from django import shortcuts
 from django.core.exceptions import ImproperlyConfigured
-from django.http import (
-    HttpResponseRedirect,
-    HttpResponseServerError,
-    QueryDict,
-)
+from django.http import HttpResponseRedirect, HttpResponseServerError, QueryDict
 from django.urls import NoReverseMatch, reverse
 
 from allauth import app_settings as allauth_settings

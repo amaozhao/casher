@@ -1,19 +1,15 @@
 import os
 from types import SimpleNamespace
 
+from asgiref.sync import iscoroutinefunction
 from django.http import HttpResponseRedirect
 from django.urls import NoReverseMatch, reverse
 from django.utils.decorators import sync_and_async_middleware
 
-from asgiref.sync import iscoroutinefunction
-
 from allauth.account.adapter import get_adapter
 from allauth.account.internal import flows
 from allauth.core import context
-from allauth.core.exceptions import (
-    ImmediateHttpResponse,
-    ReauthenticationRequired,
-)
+from allauth.core.exceptions import ImmediateHttpResponse, ReauthenticationRequired
 
 
 @sync_and_async_middleware

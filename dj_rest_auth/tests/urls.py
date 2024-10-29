@@ -1,5 +1,3 @@
-from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
-from allauth.socialaccount.providers.twitter.views import TwitterOAuthAdapter
 from django.urls import include, re_path
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import TemplateView
@@ -8,22 +6,24 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.serializers import CharField
 from rest_framework.views import APIView
-from rest_framework_simplejwt.views import TokenVerifyView
 
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+from allauth.socialaccount.providers.twitter.views import TwitterOAuthAdapter
 from dj_rest_auth.jwt_auth import get_refresh_view
+from dj_rest_auth.registration.serializers import RegisterSerializer
 from dj_rest_auth.registration.views import (
+    RegisterView,
     SocialAccountDisconnectView,
     SocialAccountListView,
     SocialConnectView,
     SocialLoginView,
-    RegisterView,
 )
-from dj_rest_auth.registration.serializers import RegisterSerializer
 from dj_rest_auth.social_serializers import (
     TwitterConnectSerializer,
     TwitterLoginSerializer,
 )
 from dj_rest_auth.urls import urlpatterns
+from rest_framework_simplejwt.views import TokenVerifyView
 
 from . import django_urls
 

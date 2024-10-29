@@ -1,16 +1,17 @@
+import hashlib
 import json
+import time
 import uuid
 
-from rest_framework import status
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
-
-from wxapp import service
-from django.core.cache import cache
 from django.contrib.auth.models import User
+from django.core.cache import cache
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from rest_framework_simplejwt.tokens import RefreshToken
+from wxapp import service
 from wxapp.models import WxAppUserProfile
-import time, hashlib
 
 
 class WxAppLogin(APIView):

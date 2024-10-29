@@ -16,9 +16,7 @@ from allauth.headless.socialaccount.inputs import (
 )
 from allauth.headless.socialaccount.internal import complete_token_login
 from allauth.headless.socialaccount.response import SocialAccountsResponse
-from allauth.socialaccount.adapter import (
-    get_adapter as get_socialaccount_adapter,
-)
+from allauth.socialaccount.adapter import get_adapter as get_socialaccount_adapter
 from allauth.socialaccount.helpers import render_authentication_error
 from allauth.socialaccount.internal import flows
 from allauth.socialaccount.models import SocialAccount

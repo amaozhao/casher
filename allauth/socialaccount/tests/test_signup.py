@@ -1,10 +1,9 @@
 from unittest.mock import patch
 
+import pytest
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
 from django.urls import reverse
-
-import pytest
 from pytest_django.asserts import assertFormError, assertRedirects
 
 from allauth.account import app_settings as account_settings

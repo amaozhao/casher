@@ -1,12 +1,11 @@
 from datetime import timedelta
 from unittest.mock import Mock
 
+import pytest
 from django.contrib.auth import SESSION_KEY, get_user_model
 from django.core.cache import cache
 from django.urls import reverse
 from django.utils.timezone import now
-
-import pytest
 from pytest_django.asserts import (
     assertRedirects,
     assertTemplateNotUsed,

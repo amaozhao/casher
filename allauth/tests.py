@@ -1,8 +1,8 @@
 import json
-import requests
 from datetime import date, datetime
 from unittest.mock import Mock
 
+import requests
 from django.core.files.base import ContentFile
 from django.db import models
 from django.test import RequestFactory, TestCase

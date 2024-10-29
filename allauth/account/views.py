@@ -30,10 +30,7 @@ from allauth.account.forms import (
     UserTokenForm,
 )
 from allauth.account.internal import flows
-from allauth.account.internal.decorators import (
-    login_not_required,
-    login_stage_required,
-)
+from allauth.account.internal.decorators import login_not_required, login_stage_required
 from allauth.account.mixins import (
     AjaxCapableProcessFormViewMixin,
     CloseableSignupMixin,
@@ -63,7 +60,6 @@ from allauth.core.exceptions import ImmediateHttpResponse
 from allauth.core.internal.httpkit import redirect
 from allauth.decorators import rate_limit
 from allauth.utils import get_form_class
-
 
 INTERNAL_RESET_SESSION_KEY = "_password_reset_key"
 

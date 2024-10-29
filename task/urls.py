@@ -3,10 +3,10 @@ from django.urls import path
 from task.views import (
     ImageDisplayView,
     ImageUploadView,
-    PromptView,
     PromptCompleted,
-    TaskHistoryView,
+    PromptView,
     TaskHistoryDeleteView,
+    TaskHistoryView,
 )
 
 urlpatterns = [

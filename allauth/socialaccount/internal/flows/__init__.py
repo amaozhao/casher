@@ -5,5 +5,4 @@ from allauth.socialaccount.internal.flows import (
     signup,
 )
 
-
 __all__ = ["connect", "login", "signup", "email_authentication"]

@@ -1,9 +1,8 @@
 import django
+import pytest
 from django.http import HttpResponse
 from django.test.client import AsyncClient
 from django.urls import path, reverse
-
-import pytest
 
 from allauth.account.internal.decorators import login_not_required
 from allauth.core.exceptions import ImmediateHttpResponse

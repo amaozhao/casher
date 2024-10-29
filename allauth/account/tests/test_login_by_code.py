@@ -1,8 +1,7 @@
 from unittest.mock import ANY
 
-from django.urls import reverse
-
 import pytest
+from django.urls import reverse
 
 from allauth.account.authentication import AUTHENTICATION_METHODS_SESSION_KEY
 from allauth.account.internal.flows.login_by_code import LOGIN_CODE_STATE_KEY

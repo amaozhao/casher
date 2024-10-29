@@ -1,7 +1,8 @@
 import base64
 import json
-from Crypto.Cipher import AES
+
 from app01.wx import settings
+from Crypto.Cipher import AES
 
 
 class WXBizDataCrypt:

@@ -1,7 +1,6 @@
+import pytest
 from django.test.client import Client
 from django.urls import reverse
-
-import pytest
 
 
 @pytest.fixture(params=["app", "browser"])

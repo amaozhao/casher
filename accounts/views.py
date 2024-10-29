@@ -1,25 +1,25 @@
-from urllib.parse import urljoin
 import urllib.parse
-from django.utils.crypto import get_random_string
-from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
-from allauth.socialaccount.providers.oauth2.client import OAuth2Client
-from dj_rest_auth.registration.views import SocialLoginView
 from urllib.parse import urljoin
-from django.urls import reverse
+
 import requests
 from django.conf import settings
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from allauth.socialaccount.helpers import complete_social_login
-from allauth.socialaccount.models import SocialAccount
-from allauth.socialaccount.providers.weixin.provider import WeixinProvider
-from allauth.socialaccount.adapter import get_adapter
-from allauth.socialaccount.providers.weixin.views import WeixinOAuth2Adapter
-from django.contrib.auth import login, get_user_model
-from allauth.socialaccount.models import SocialLogin
-from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import get_user_model, login
 from django.shortcuts import redirect
+from django.urls import reverse
+from django.utils.crypto import get_random_string
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from allauth.socialaccount.adapter import get_adapter
+from allauth.socialaccount.helpers import complete_social_login
+from allauth.socialaccount.models import SocialAccount, SocialLogin
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+from allauth.socialaccount.providers.weixin.provider import WeixinProvider
+from allauth.socialaccount.providers.weixin.views import WeixinOAuth2Adapter
+from dj_rest_auth.registration.views import SocialLoginView
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class WXQRCodeAPIView(APIView):

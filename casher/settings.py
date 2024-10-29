@@ -10,8 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-from pathlib import Path
 from datetime import timedelta
+from pathlib import Path
+
 from dotenv import dotenv_values
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -273,6 +274,7 @@ DJSTRIPE_AUTO_SYNC_MODELS = True
 
 PAGSMILE_APP_ID = config.get("PAGSMILE_APP_ID")
 PAGSMILE_SECRET_KEY = config.get("PAGSMILE_SECRET_KEY")
+PAGSMILE_URL = config.get("PAGSMILE_URL")
 
 LOGGING = {
     "version": 1,

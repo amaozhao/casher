@@ -1,9 +1,8 @@
 from unittest.mock import Mock
 
+import pytest
 from django.contrib.auth.models import AnonymousUser
 from django.test.utils import override_settings
-
-import pytest
 
 from allauth.usersessions.middleware import UserSessionsMiddleware
 from allauth.usersessions.models import UserSession

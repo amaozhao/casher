@@ -1,8 +1,7 @@
 import time
 
-from django.urls import reverse
-
 import pytest
+from django.urls import reverse
 
 from allauth.socialaccount.internal import statekit
 from allauth.socialaccount.providers.base.constants import AuthProcess

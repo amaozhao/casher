@@ -2,7 +2,6 @@ from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from rest_framework.settings import APISettings as _APISettings
 
-
 USER_SETTINGS = getattr(settings, "REST_AUTH", None)
 
 DEFAULTS = {

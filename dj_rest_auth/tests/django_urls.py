@@ -1,9 +1,8 @@
 # Moved in Django 1.8 from django to tests/auth_tests/urls.py
 
-from django.urls import re_path
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.urls import urlpatterns
-
+from django.urls import re_path
 
 try:
     from django.contrib.auth.views import (

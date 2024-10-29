@@ -27,7 +27,6 @@ from allauth.tests import TestCase
 
 from .test_models import UUIDUser
 
-
 test_username_validators = [
     validators.RegexValidator(regex=r"^[a-c]+$", message="not abc")
 ]

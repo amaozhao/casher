@@ -1,21 +1,23 @@
-from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
-from allauth.socialaccount.providers.facebook.views import FacebookProvider
-from allauth.socialaccount.models import SocialApp
-from allauth.core.exceptions import ImmediateHttpResponse
-from django.contrib.auth import get_user_model
-from django.urls import reverse
-from django.core.exceptions import ValidationError
-from django.test import TestCase, modify_settings, override_settings
-from django.contrib.sites.models import Site
-from django.http import HttpResponseBadRequest
-from rest_framework.exceptions import ErrorDetail
-from rest_framework.test import APIRequestFactory, force_authenticate
 from unittest.mock import MagicMock, patch
 
-from dj_rest_auth.serializers import PasswordChangeSerializer, UserDetailsSerializer
+from django.contrib.auth import get_user_model
+from django.contrib.sites.models import Site
+from django.core.exceptions import ValidationError
+from django.http import HttpResponseBadRequest
+from django.test import TestCase, modify_settings, override_settings
+from django.urls import reverse
+from rest_framework.exceptions import ErrorDetail
+from rest_framework.test import APIRequestFactory, force_authenticate
+
+from allauth.core.exceptions import ImmediateHttpResponse
+from allauth.socialaccount.models import SocialApp
+from allauth.socialaccount.providers.facebook.views import (
+    FacebookOAuth2Adapter,
+    FacebookProvider,
+)
 from dj_rest_auth.registration.serializers import SocialLoginSerializer
 from dj_rest_auth.registration.views import SocialLoginView
-
+from dj_rest_auth.serializers import PasswordChangeSerializer, UserDetailsSerializer
 
 User = get_user_model()
 

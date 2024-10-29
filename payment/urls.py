@@ -1,5 +1,10 @@
 from django.urls import path
-from payment.views import CreatePaymentIntentView, CreateWechatPaymentView, WechatPayNotifyView
+
+from payment.views import (
+    CreatePaymentIntentView,
+    CreateWechatPaymentView,
+    WechatPayNotifyView,
+)
 
 urlpatterns = [
     path(

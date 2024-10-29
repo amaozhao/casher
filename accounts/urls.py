@@ -1,11 +1,11 @@
 from django.urls import path
 
 from accounts.views import (
-    GoogleLoginView,
     GoogleCallback,
     GoogleLoginUrl,
-    WXLoginAPIView,
+    GoogleLoginView,
     WXCallback,
+    WXLoginAPIView,
     WXQRCodeAPIView,
 )
 

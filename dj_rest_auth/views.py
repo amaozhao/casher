@@ -17,7 +17,6 @@ from .app_settings import api_settings
 from .models import get_token_model
 from .utils import jwt_encode
 
-
 sensitive_post_parameters_m = method_decorator(
     sensitive_post_parameters(
         "password",
@@ -84,9 +83,7 @@ class LoginView(GenericAPIView):
         serializer_class = self.get_response_serializer()
 
         if api_settings.USE_JWT:
-            from rest_framework_simplejwt.settings import (
-                api_settings as jwt_settings,
-            )
+            from rest_framework_simplejwt.settings import api_settings as jwt_settings
 
             access_token_expiration = (
                 timezone.now() + jwt_settings.ACCESS_TOKEN_LIFETIME

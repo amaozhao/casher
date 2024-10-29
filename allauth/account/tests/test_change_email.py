@@ -1,10 +1,9 @@
 import json
 from unittest.mock import patch
 
+import pytest
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-
-import pytest
 from pytest_django.asserts import assertTemplateNotUsed, assertTemplateUsed
 
 from allauth.account.app_settings import AuthenticationMethod

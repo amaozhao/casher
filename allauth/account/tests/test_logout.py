@@ -8,7 +8,6 @@ from allauth.account import app_settings
 from allauth.account.signals import user_logged_out
 from allauth.tests import Mock, TestCase
 
-
 test_username_validators = [
     validators.RegexValidator(regex=r"^[a-c]+$", message="not abc")
 ]

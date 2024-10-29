@@ -1,8 +1,10 @@
+import uuid
+
 from django.conf import settings
 from django.db import models
 
 
-class PaymentProfile(models.Model):
+class StripePaymentProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     stripe_customer_id = models.CharField(max_length=255, blank=True, null=True)
 
@@ -10,9 +12,41 @@ class PaymentProfile(models.Model):
         db_table = "payment_profile"
 
 
+class PagsmilePayout(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, default="")
+    phone = models.CharField(max_length=20, default="")
+    email = models.CharField(max_length=20, default="")
+    account = models.CharField(max_length=20, default="")
+    account_type = models.CharField(max_length=20, default="")
+    method = models.CharField(max_length=20, default="WALLET")
+    channel = models.CharField(max_length=20, default="PayPal")
+    custom_code = models.CharField(max_length=20, default=uuid.uuid4)
+    fee_bear = models.CharField(max_length=20, default="merchant")
+    source_currency = models.CharField(max_length=20, default="USD")
+    arrival_currency = models.CharField(max_length=20, default="USD")
+    notify_url = models.CharField(
+        max_length=20, default="http://aidep.cn:8601/payment/pagsmile/callback/"
+    )
+    additional_remark = models.TextField(default="")
+    country = models.CharField(max_length=20, default="USA")
+    status = models.CharField(max_length=20, default="prepayout")
+
+    class Meta:
+        db_table = "pagsmile_payout"
+        indexes = [
+            models.Index(
+                fields=[
+                    "custom_code",
+                ],
+                name="custom_code_idx",
+            ),
+        ]
+
+
 class UserHashrate(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    hashrate = models.DecimalField(max_digits=7, decimal_places=2, default=0.0)
+    hashrate = models.IntegerField(default=0)
 
     class Meta:
         db_table = "user_hashrate"

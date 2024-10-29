@@ -1,12 +1,11 @@
 import re
 from unittest.mock import patch
 
+import pytest
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.test import Client
 from django.urls import reverse
-
-import pytest
 
 from allauth.account.internal.flows import email_verification_by_code
 from allauth.account.models import EmailAddress

@@ -13,11 +13,7 @@ from allauth.account.forms import (
     UserTokenForm,
 )
 from allauth.account.internal import flows
-from allauth.account.models import (
-    EmailAddress,
-    Login,
-    get_emailconfirmation_model,
-)
+from allauth.account.models import EmailAddress, Login, get_emailconfirmation_model
 from allauth.core import context
 from allauth.headless.adapter import get_adapter
 from allauth.headless.internal.restkit import inputs

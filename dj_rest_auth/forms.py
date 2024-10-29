@@ -4,7 +4,6 @@ from django.urls import reverse
 
 from .app_settings import api_settings
 
-
 if "allauth" in settings.INSTALLED_APPS:
     from allauth.account import app_settings as allauth_account_settings
     from allauth.account.adapter import get_adapter

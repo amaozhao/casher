@@ -1,10 +1,10 @@
 from django.urls import path
 
 from flow.views import (
-    WorkFlowListView,
-    WorkFlowDetailView,
     UploadAPIView,
     WorkFlowCommentList,
+    WorkFlowDetailView,
+    WorkFlowListView,
 )
 
 urlpatterns = [

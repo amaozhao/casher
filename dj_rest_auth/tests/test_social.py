@@ -1,17 +1,17 @@
 import json
 
 import responses
-from allauth.socialaccount.models import SocialApp
-from allauth.socialaccount.providers.facebook.provider import GRAPH_API_URL
 from django.contrib.auth import get_user_model
 from django.contrib.sites.models import Site
 from django.test import TestCase
 from django.test.utils import override_settings
 from rest_framework import status
 
+from allauth.socialaccount.models import SocialApp
+from allauth.socialaccount.providers.facebook.provider import GRAPH_API_URL
+
 from .mixins import TestsMixin
 from .utils import override_api_settings
-
 
 try:
     from django.urls import reverse

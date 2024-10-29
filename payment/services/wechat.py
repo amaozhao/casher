@@ -1,14 +1,13 @@
-from django.conf import settings
-from random import sample
-from string import ascii_letters, digits
+import json
 import logging
 import os
-import json
 import time
 import uuid
+from random import sample
+from string import ascii_letters, digits
 
+from django.conf import settings
 from wechatpayv3 import WeChatPay, WeChatPayType
-
 
 logging.basicConfig(
     filename=os.path.join(os.getcwd(), "wechatpay.log"),

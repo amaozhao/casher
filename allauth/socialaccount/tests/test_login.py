@@ -1,11 +1,10 @@
 import copy
 from unittest.mock import ANY, patch
 
+import pytest
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
 from django.urls import reverse
-
-import pytest
 from pytest_django.asserts import assertTemplateUsed
 
 from allauth.account.authentication import AUTHENTICATION_METHODS_SESSION_KEY
