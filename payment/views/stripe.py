@@ -9,14 +9,11 @@ from payment.utils import get_or_create_stripe_customer
 stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
 
 
-class CreatePaymentIntentView(APIView):
+class CreateCheckoutView(APIView):
     def post(self, request, *args, **kwargs):
         user = request.user  # 假设用户已通过身份验证
 
         try:
-            # 获取或创建用户的Stripe客户ID
-            stripe_customer_id = get_or_create_stripe_customer(user)
-
             # 从请求数据中获取金额和货币信息
             amount = request.data.get("amount")
             currency = request.data.get("currency", "usd")
@@ -24,7 +21,6 @@ class CreatePaymentIntentView(APIView):
 
             checkout_session = stripe.checkout.Session.create(
                 payment_method_types=["card"],
-                customer=stripe_customer_id,  # 使用现有的Stripe客户ID
                 line_items=[
                     {
                         "price_data": {

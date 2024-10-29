@@ -1,10 +1,10 @@
 from .hashrate import CurrentUserHashrateView, HashrateconvertView, HashrateTemplateView
 from .pagsmile import PagsmileNotify, PagsmilePayoutView
-from .stripe import CreatePaymentIntentView
+from .stripe import CreateCheckoutView
 from .wechat import CreateWechatPaymentView, WechatPayNotifyView
 
 __all__ = [
-    "CreatePaymentIntentView",
+    "CreateCheckoutView",
     "CreateWechatPaymentView",
     "WechatPayNotifyView",
     "PagsmileNotify",
