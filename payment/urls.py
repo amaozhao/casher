@@ -4,6 +4,8 @@ from payment.views import (
     CreatePaymentIntentView,
     CreateWechatPaymentView,
     WechatPayNotifyView,
+    PagsmileNotify,
+    PagsmilePayoutView
 )
 
 urlpatterns = [
@@ -22,5 +24,15 @@ urlpatterns = [
         "wechat-notify/",
         WechatPayNotifyView.as_view(),
         name="wechat_notify",
+    ),
+    path(
+        "create-pagsmile-payout/",
+        PagsmilePayoutView.as_view(),
+        name="pagsmile_payout",
+    ),
+    path(
+        "pagsmile-notify/",
+        PagsmileNotify.as_view(),
+        name="pagsmile_notify",
     ),
 ]

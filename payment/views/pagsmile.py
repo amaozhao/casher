@@ -1,6 +1,5 @@
 import uuid
 
-from django.conf import settings
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -29,7 +28,7 @@ class PagsmilePayoutView(APIView):
             country=req_data.get('country')
         )
         if payout.get('data', {}).get('status', None) == "IN_PROCESSING":
-            payout_obj = PagsmilePayout.objects.create(
+            PagsmilePayout.objects.create(
                 user=user,
                 name=req_data.get('name'),
                 phone=req_data.get('phone'),
@@ -44,3 +43,44 @@ class PagsmilePayoutView(APIView):
                 additional_remark=req_data.get('additional_remark'),
                 country=req_data.get('country')
             )
+            return Response(
+                {
+                    'status': status.HTTP_200_OK,
+                    'data': {
+                        'custom_code': custom_code,
+                        'amount': req_data.get('amount'),
+                        'message': '处理中'
+                    }
+                }
+            )
+        return Response(
+            {
+                'status': status.HTTP_400_BAD_REQUEST,
+                'data': {
+                    'custom_code': custom_code,
+                    'amount': req_data.get('amount'),
+                    'message': '提现失败'
+                }
+            }
+        )
+
+
+class PagsmileNotify(APIView):
+
+    def post(self, request, *args, **kwargs):
+        req_data = request.data
+        custom_code = req_data.get('custom_code')
+        status = req_data.get('status')
+        if status == 'PAID':
+            payout = PagsmilePayout.objects.filter(custom_code=custom_code).first()
+            if payout:
+                payout.status = 'success'
+                payout.save()
+        return Response(
+            {
+                'status': status.HTTP_200_OK,
+                'data': {
+                    'custom_code': custom_code
+                }
+            }, status=status.HTTP_200_OK
+        )

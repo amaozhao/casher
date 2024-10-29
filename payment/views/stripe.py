@@ -30,7 +30,15 @@ class CreatePaymentIntentView(APIView):
             )
 
             return Response(
-                {"client_secret": intent.client_secret}, status=status.HTTP_201_CREATED
+                {
+                    'status': status.HTTP_201_CREATED,
+                    'data': {"client_secret": intent.client_secret}
+                },
+                status=status.HTTP_201_CREATED
             )
         except stripe.error.StripeError as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {
+                    "status": status.HTTP_400_BAD_REQUEST,
+                    "data": {"error": str(e)}
+                }, status=status.HTTP_400_BAD_REQUEST)
