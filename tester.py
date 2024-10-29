@@ -1,5 +1,4 @@
 import hashlib
-import hmac
 import requests
 import json
 
@@ -7,21 +6,21 @@ pagsmileAppID = "39CAEFFF1164423EBE9B17FB53597177"
 pagsmileappKey = "Lq4Y2Ao7lp"
 
 
-def generate_authorization_header(app_id, secret_key, payload):
-    """
-    根据 Pagsmile 的要求，使用 AppId 和 SecretKey 来生成 Authorization 签名。
-    """
-    # 将 payload 转换为 JSON 格式字符串
-    payload_str = json.dumps(payload, separators=(",", ":"))
+# d is param dict
+def ksort(d):
+    return [(k, d[k]) for k in sorted(d.keys())]
 
-    # 使用 secret_key 生成 HMAC-SHA256 签名
-    signature = hmac.new(
-        secret_key.encode(), payload_str.encode(), hashlib.sha256
-    ).hexdigest()
 
-    # 返回 Authorization 值
-    print(signature)
-    return signature
+# sha256
+def generate_authorization_header(params, merchantKey):
+    params = ksort(params)
+    queryStr = ''
+    for key, value in params:
+        if value:
+            queryStr += key + '=' + str(value) + '&'
+    h2 = hashlib.sha256()
+    h2.update((queryStr.rstrip('&') + merchantKey).encode(encoding='UTF-8', errors='strict'))
+    return h2.hexdigest()
 
 
 def submit_payout():
@@ -51,9 +50,7 @@ def submit_payout():
     headers = {
         "Content-Type": "application/json",
         "AppId": pagsmileAppID,
-        "Authorization": generate_authorization_header(
-            pagsmileAppID, pagsmileappKey, payload
-        ),
+        "Authorization": generate_authorization_header(payload, pagsmileappKey),
     }
 
     # 发送 POST 请求
