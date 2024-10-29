@@ -46,7 +46,6 @@ class WechatPayNotifyView(APIView):
         result = wechatpay_service.pay_instance.callback(
             headers=request.META, body=request.body
         )
-        print(1111, result)
         if result and result.get("event_type") == "TRANSACTION.SUCCESS":
             resp = result.get("resource")
             out_trade_no = resp.get("out_trade_no")

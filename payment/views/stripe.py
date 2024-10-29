@@ -20,21 +20,32 @@ class CreatePaymentIntentView(APIView):
             # 从请求数据中获取金额和货币信息
             amount = request.data.get("amount")
             currency = request.data.get("currency", "usd")
+            current_url = request.data.get('current_url')
 
-            # 创建Payment Intent并关联客户
-            intent = stripe.PaymentIntent.create(
-                amount=int(amount),
-                currency=currency,
-                customer=stripe_customer_id,  # 关联Stripe客户
-                payment_method_types=["card"],
+            checkout_session = stripe.checkout.Session.create(
+                payment_method_types=['card'],
+                customer=stripe_customer_id,  # 使用现有的Stripe客户ID
+                line_items=[{
+                    'price_data': {
+                        'currency': currency,
+                        'product_data': {
+                            'name': 'Hashrate charge',
+                        },
+                        'unit_amount': int(amount),  # 以分为单位
+                    },
+                    'quantity': 1,
+                }],
+                mode='payment',
+                success_url=current_url,
+                cancel_url=current_url,
             )
 
             return Response(
                 {
-                    'status': status.HTTP_201_CREATED,
-                    'data': {"client_secret": intent.client_secret}
+                    'status': status.HTTP_200_OK,
+                    'data': {"url": checkout_session.url}
                 },
-                status=status.HTTP_201_CREATED
+                status=status.HTTP_200_OK
             )
         except stripe.error.StripeError as e:
             return Response(
