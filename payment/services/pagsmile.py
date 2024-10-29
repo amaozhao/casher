@@ -26,9 +26,19 @@ class PagsmileService:
         return h2.hexdigest()
 
     def submit_payout(
-            self, name, phone, email, account, account_type,
-            custom_code, fee_bear, amount, source_currency, arrival_currency,
-            additional_remark, country
+        self,
+        name,
+        phone,
+        email,
+        account,
+        account_type,
+        custom_code,
+        fee_bear,
+        amount,
+        source_currency,
+        arrival_currency,
+        additional_remark,
+        country,
     ):
 
         # 请求数据

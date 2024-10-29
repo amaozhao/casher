@@ -3,12 +3,12 @@ from django.urls import path
 from payment.views import (
     CreatePaymentIntentView,
     CreateWechatPaymentView,
-    WechatPayNotifyView,
+    CurrentUserHashrateView,
+    HashrateconvertView,
+    HashrateTemplateView,
     PagsmileNotify,
     PagsmilePayoutView,
-    CurrentUserHashrateView,
-    HashrateTemplateView,
-    HashrateconvertView
+    WechatPayNotifyView,
 )
 
 urlpatterns = [

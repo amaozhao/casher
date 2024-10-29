@@ -12,17 +12,9 @@ class CurrentUserHashrateView(APIView):
         user = request.user  # 假设用户已通过身份验证
         hastrate = UserHashrate.objects.filter(user=user).first()
         if not hastrate:
-            hastrate = UserHashrate.objects.create(
-                user=user,
-                hashrate=0
-            )
+            hastrate = UserHashrate.objects.create(user=user, hashrate=0)
         return Response(
-            {
-                "status": status.HTTP_200_OK,
-                'data':{
-                    'account': hastrate.hashrate
-                }
-            }
+            {"status": status.HTTP_200_OK, "data": {"account": hastrate.hashrate}}
         )
 
 
@@ -39,47 +31,42 @@ class HashrateTemplateView(APIView):
                             "AmountInCurrency": 1,
                             "PowerAmount": 100,
                             "DiscountRate": 1,
-                            "IsActive": True
+                            "IsActive": True,
                         },
                         {
                             "ID": 2,
                             "AmountInCurrency": 2,
                             "PowerAmount": 200,
                             "DiscountRate": 1,
-                            "IsActive": True
+                            "IsActive": True,
                         },
                         {
                             "ID": 3,
                             "AmountInCurrency": 5,
                             "PowerAmount": 500,
                             "DiscountRate": 1,
-                            "IsActive": True
+                            "IsActive": True,
                         },
                         {
                             "ID": 4,
                             "AmountInCurrency": 10,
                             "PowerAmount": 1000,
                             "DiscountRate": 1,
-                            "IsActive": True
-                        }
+                            "IsActive": True,
+                        },
                     ]
                 },
-                "message": "操作成功"
+                "message": "操作成功",
             },
-            status=status.HTTP_200_OK
+            status=status.HTTP_200_OK,
         )
 
 
 class HashrateconvertView(APIView):
     def post(self, request, *args, **kwargs):
-        amount = request.data.get('amount')
+        amount = request.data.get("amount")
         return Response(
-            {
-                'status': status.HTTP_200_OK,
-                'data': {
-                    'currency': round(amount / 100, 2)
-                }
-            }
+            {"status": status.HTTP_200_OK, "data": {"currency": round(amount / 100, 2)}}
         )
 
 
