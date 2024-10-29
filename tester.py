@@ -1,10 +1,11 @@
-# views.py
 import hashlib
 import hmac
 import requests
 import json
 
-pagsmileAppID = "39CAEFFF1164423EBE9B17FB53597177"
+# pagsmileAppID = "39CAEFFF1164423EBE9B17FB53597177"
+pagsmileAppID = '94FAC**********************68548 '
+pagsmileappKey = "Lq4Y2Ao7lp"
 pagsmileappKey = "Lq4Y2Ao7lp"
 
 
@@ -35,16 +36,14 @@ def submit_payout():
         "email": "recipient@example.com",
         "account": "paid@pagsmile.com",
         "account_type": "EMAIL",
-        "document_id": "123456789",
-        "document_type": "ID",
         "method": "WALLET",
         "channel": "PayPal",
-        "custom_code": "your_custom_code",
+        "custom_code": "custom_code123",
         "fee_bear": "merchant",
-        "amount": "1.00",
+        "amount": "0.5",
         "source_currency": "USD",
         "arrival_currency": "USD",
-        "notify_url": "https://your_notify_url.com",
+        "notify_url": "http://www.deploycloud.cn/api/transactions/callbacks/withdraw",
         "additional_remark": "Test payout",
         "country": "USA",
     }
@@ -53,9 +52,10 @@ def submit_payout():
     headers = {
         "Content-Type": "application/json",
         "AppId": pagsmileAppID,
-        "Authorization": generate_authorization_header(
-            pagsmileAppID, pagsmileappKey, payload
-        ),
+        # "Authorization": generate_authorization_header(
+        #     pagsmileAppID, pagsmileappKey, payload
+        # ),
+        "Authorization": 'd6181db0d6548b94b162e75d095b59147172d914699f83b2bd17951a671b6302'
     }
 
     # 发送 POST 请求
