@@ -19,7 +19,8 @@ def generate_authorization_header(app_id, secret_key, payload):
         secret_key.encode(), payload_str.encode(), hashlib.sha256
     ).hexdigest()
 
-    # 返回 Authorization 值（格式为 "AppId:签名"）
+    # 返回 Authorization 值
+    print(signature)
     return signature
 
 
