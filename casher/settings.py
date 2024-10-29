@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+from dotenv import dotenv_values
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,6 +26,11 @@ SECRET_KEY = "django-insecure-i(cf)0ow&74jv8l86wiu@wn(@*rvj3$5*p3ditoanrgs$oxi5o
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+if DEBUG:
+    config = dotenv_values("test.env")
+else:
+    config = dotenv_values("prod.env")
 
 ALLOWED_HOSTS = ["http://aidep.cn:8601", "http://0.0.0.0:8000", "*"]
 CSRF_TRUSTED_ORIGINS = ["http://aidep.cn:8601", "http://0.0.0.0:8000"]
@@ -216,12 +222,10 @@ LOGIN_REDIRECT_URL = "/"  # 登录后跳转的页面
 LOGOUT_REDIRECT_URL = "/"  # 登出后跳转的页面
 
 
-GOOGLE_OAUTH_CLIENT_ID = (
-    "88674082295-pc3uu9ptrat6tuegmua1e4uhl0jj0i4l.apps.googleusercontent.com"
-)
-GOOGLE_OAUTH_CLIENT_SECRET = "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"
-GOOGLE_OAUTH_CALLBACK_URL = "http://aidep.cn:8601/accounts/google/callback/"
-WEIXIN_OAUTH_CALLBACK_URL = "http://aidep.cn:8601/accounts/google/callback/"
+GOOGLE_OAUTH_CLIENT_ID = config.get("GOOGLE_OAUTH_CLIENT_ID")
+GOOGLE_OAUTH_CLIENT_SECRET = config.get("GOOGLE_OAUTH_CLIENT_SECRET")
+GOOGLE_OAUTH_CALLBACK_URL = config.get("GOOGLE_OAUTH_CALLBACK_URL")
+WEIXIN_OAUTH_CALLBACK_URL = config.get("WEIXIN_OAUTH_CALLBACK_URL")
 ACCOUNT_EMAIL_VERIFICATION = "none"
 SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
 # Connect local account and social account if local account with that email address already exists
@@ -249,21 +253,26 @@ SOCIALACCOUNT_PROVIDERS = {
     },
 }
 
-WXAPP_APPID = "wx93f89569dfcc5828"
-WXAPP_SECRET = "a93d88cce0432a81cbb76b2fff27be1e"
+WXAPP_APPID = config.get("WXAPP_APPID")
+WXAPP_SECRET = config.get("WXAPP_SECRET")
+
+WEIXINPAY_MCHID = config.get("WEIXINPAY_MCHID")
+WEIXINPAY_APPID = config.get("WEIXINPAY_APPID")
+WEIXINPAY_APIV3KEY = config.get("WEIXINPAY_APIV3KEY")
+WEIXINPAY_SERIAL_NO = config.get("WEIXINPAY_SERIAL_NO")
 
 # Stripe API Key
-STRIPE_TEST_PUBLIC_KEY = "pk_test_51Q0gamCBS8Aso0qd6cFAJ17EtVgNU0xq5aXnQMgVAx0zdpRGxHVaAwCvdguB7sDGx8dr1GllHF6ydJbUwMjqEPc800CWdocpen"
-STRIPE_TEST_SECRET_KEY = "sk_test_51Q0gamCBS8Aso0qdIApezKcTSfhZvPxJdTO61TRtjf5xBbsXE4TKUJ3IXxIGYNuuxMCdtjZ0k6OxAezKU5MR4qs800OH6vixIW"
+STRIPE_TEST_PUBLIC_KEY = config.get("STRIPE_TEST_PUBLIC_KEY")
+STRIPE_TEST_SECRET_KEY = config.get("STRIPE_TEST_SECRET_KEY")
 STRIPE_LIVE_MODE = False  # False 表示测试模式
-DJSTRIPE_WEBHOOK_SECRET = "whsec_pYrg2zCBNVYGeaOwsgRnMiMev238opnO"
+DJSTRIPE_WEBHOOK_SECRET = config.get("DJSTRIPE_WEBHOOK_SECRET")
 DJSTRIPE_USE_NATIVE_JSONFIELD = True
 DJSTRIPE_WEBHOOK_VALIDATION = "retrieve_event"
 DJSTRIPE_FOREIGN_KEY_TO_FIELD = "id"
 DJSTRIPE_AUTO_SYNC_MODELS = True
 
-PAGSMILE_APP_ID = "your_pagsmile_app_id"
-PAGSMILE_SECRET_KEY = "your_pagsmile_secret_key"
+PAGSMILE_APP_ID = config.get("PAGSMILE_APP_ID")
+PAGSMILE_SECRET_KEY = config.get("PAGSMILE_SECRET_KEY")
 
 LOGGING = {
     "version": 1,
