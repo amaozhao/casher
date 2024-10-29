@@ -3,9 +3,7 @@ import hmac
 import requests
 import json
 
-# pagsmileAppID = "39CAEFFF1164423EBE9B17FB53597177"
-pagsmileAppID = '94FAC**********************68548'
-pagsmileappKey = "Lq4Y2Ao7lp"
+pagsmileAppID = "39CAEFFF1164423EBE9B17FB53597177"
 pagsmileappKey = "Lq4Y2Ao7lp"
 
 
@@ -22,7 +20,7 @@ def generate_authorization_header(app_id, secret_key, payload):
     ).hexdigest()
 
     # 返回 Authorization 值（格式为 "AppId:签名"）
-    return f"{app_id}:{signature}"
+    return signature
 
 
 def submit_payout():
@@ -52,10 +50,9 @@ def submit_payout():
     headers = {
         "Content-Type": "application/json",
         "AppId": pagsmileAppID,
-        # "Authorization": generate_authorization_header(
-        #     pagsmileAppID, pagsmileappKey, payload
-        # ),
-        "Authorization": 'd6181db0d6548b94b162e75d095b59147172d914699f83b2bd17951a671b6302'
+        "Authorization": generate_authorization_header(
+            pagsmileAppID, pagsmileappKey, payload
+        ),
     }
 
     # 发送 POST 请求
