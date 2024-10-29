@@ -4,7 +4,7 @@ import requests
 import json
 
 # pagsmileAppID = "39CAEFFF1164423EBE9B17FB53597177"
-pagsmileAppID = '94FAC**********************68548 '
+pagsmileAppID = '94FAC**********************68548'
 pagsmileappKey = "Lq4Y2Ao7lp"
 pagsmileappKey = "Lq4Y2Ao7lp"
 
