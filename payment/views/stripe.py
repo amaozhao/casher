@@ -28,7 +28,7 @@ class CreateCheckoutView(APIView):
                             "product_data": {
                                 "name": "Hashrate charge",
                             },
-                            "unit_amount": int(amount / 10),  # 以分为单位
+                            "unit_amount": int(int(amount) / 10),  # 以分为单位
                         },
                         "quantity": 1,
                     }
