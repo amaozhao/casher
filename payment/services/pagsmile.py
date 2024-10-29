@@ -25,27 +25,29 @@ class PagsmileService:
         )
         return h2.hexdigest()
 
-    def submit_payout(self):
-        # Pagsmile API endpoint
-        url = "https://sandbox.transfersmile.com/api/payout"
+    def submit_payout(
+            self, name, phone, email, account, account_type,
+            custom_code, fee_bear, amount, source_currency, arrival_currency,
+            additional_remark, country
+    ):
 
         # 请求数据
         payload = {
-            "name": "Recipient Name",
-            "phone": "1234567890",
-            "email": "recipient@example.com",
-            "account": "paid@pagsmile.com",
-            "account_type": "EMAIL",
+            "name": name,
+            "phone": phone,
+            "email": email,
+            "account": account,
+            "account_type": account_type,
             "method": "WALLET",
             "channel": "PayPal",
-            "custom_code": "custom_code123",
-            "fee_bear": "merchant",
-            "amount": "0.5",
-            "source_currency": "USD",
-            "arrival_currency": "USD",
+            "custom_code": custom_code,
+            "fee_bear": fee_bear or "merchant",
+            "amount": str(amount),
+            "source_currency": source_currency,
+            "arrival_currency": arrival_currency,
             "notify_url": "http://www.deploycloud.cn/api/transactions/callbacks/withdraw",
-            "additional_remark": "Test payout",
-            "country": "USA",
+            "additional_remark": additional_remark,
+            "country": country,
         }
 
         # 生成 Authorization 头

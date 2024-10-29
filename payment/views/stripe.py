@@ -34,25 +34,3 @@ class CreatePaymentIntentView(APIView):
             )
         except stripe.error.StripeError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-
-class CreatePayoutView(APIView):
-    def post(self, request):
-        # 确保有足够的金额（金额以最小货币单位为单位，如分）
-        amount = request.data.get("amount")
-        currency = request.data.get("currency", "usd")
-
-        try:
-            # 创建提款请求
-            payout = stripe.Payout.create(
-                amount=int(amount),
-                currency=currency,
-            )
-            return Response(
-                {"payout_id": payout.id, "status": payout.status},
-                status=status.HTTP_201_CREATED,
-            )
-
-        except stripe.error.StripeError as e:
-            # 处理任何Stripe API错误
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

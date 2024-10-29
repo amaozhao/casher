@@ -25,8 +25,8 @@ def my_custom_event_handler(sender, instance, created, **kwargs):
 def update_user_hashrate(user, amount):
     user_hashrate = UserHashrate.objects.filter(user=user).first()
     if not user_hashrate:
-        user_hashrate = UserHashrate.objects.create(user=user, hashrate=0.0)
+        user_hashrate = UserHashrate.objects.create(user=user, hashrate=0)
     init_rate = user_hashrate.hashrate
-    init_rate += amount * 1000
+    init_rate += amount * 100
     user_hashrate.hashrate = init_rate
     user_hashrate.save()

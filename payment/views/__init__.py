@@ -1,9 +1,8 @@
-from .stripe import CreatePaymentIntentView, CreatePayoutView
+from .stripe import CreatePaymentIntentView
 from .wechat import CreateWechatPaymentView, WechatPayNotifyView
 
 __all__ = [
     "CreatePaymentIntentView",
-    "CreatePayoutView",
     "CreateWechatPaymentView",
     "WechatPayNotifyView",
 ]

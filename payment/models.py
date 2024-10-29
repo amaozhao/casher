@@ -21,8 +21,9 @@ class PagsmilePayout(models.Model):
     account_type = models.CharField(max_length=20, default="")
     method = models.CharField(max_length=20, default="WALLET")
     channel = models.CharField(max_length=20, default="PayPal")
-    custom_code = models.CharField(max_length=20, default=uuid.uuid4)
+    custom_code = models.CharField(max_length=20)
     fee_bear = models.CharField(max_length=20, default="merchant")
+    amount = models.DecimalField(max_digits=7, decimal_places=2, default=0.0)
     source_currency = models.CharField(max_length=20, default="USD")
     arrival_currency = models.CharField(max_length=20, default="USD")
     notify_url = models.CharField(
