@@ -123,7 +123,6 @@ class WXCallback(APIView):
             # 已存在用户，直接登录
             social_login.user = existing_account.user
         else:
-            social_login.is_existing = False
             adapter = get_adapter(request)
             # 创建新用户并关联到 social_login
             user = adapter.new_user(request, sociallogin=social_login)
