@@ -96,6 +96,7 @@ CORS_ALLOW_HEADERS = [
     "Authorization",
     "Content-Type",
     "X-Requested-With",
+    "languageStr",
 ]
 
 AUTHENTICATION_BACKENDS = (
