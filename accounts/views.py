@@ -131,8 +131,8 @@ class WXCallback(APIView):
             user.username = unique_username
             user.set_unusable_password()
             user.save()
-            social_login.user = user
             social_login.save(request)
+            social_login.user = user
             complete_social_login(request, social_login)
 
         # 设置 backend 后调用 login 函数
