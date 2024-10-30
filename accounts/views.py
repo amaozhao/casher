@@ -54,6 +54,17 @@ class WXLoginAPIView(APIView):
 User = get_user_model()
 
 
+from django.utils.crypto import get_random_string
+from allauth.socialaccount.adapter import get_adapter
+from allauth.socialaccount.models import SocialAccount, SocialLogin
+from allauth.socialaccount.providers.weixin.views import WeixinProvider
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+import requests
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.conf import settings
+
 class WXCallback(APIView):
     def get(self, request, *args, **kwargs):
         code = request.GET.get("code")
@@ -72,8 +83,7 @@ class WXCallback(APIView):
         token_data = response.json()
 
         if "errcode" in token_data:
-            return Response({"error": "Failed to retrieve access token", "details": token_data},
-                            status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Failed to retrieve access token", "details": token_data}, status=status.HTTP_400_BAD_REQUEST)
 
         access_token = token_data.get("access_token")
         openid = token_data.get("openid")
@@ -89,8 +99,7 @@ class WXCallback(APIView):
         user_info = user_info_response.json()
 
         if "errcode" in user_info:
-            return Response({"error": "Failed to retrieve user info", "details": user_info},
-                            status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Failed to retrieve user info", "details": user_info}, status=status.HTTP_400_BAD_REQUEST)
 
         # 检查是否已经存在关联的 SocialAccount
         existing_account = SocialAccount.objects.filter(uid=openid, provider=WeixinProvider.id).first()
@@ -99,7 +108,7 @@ class WXCallback(APIView):
             # 如果已存在用户，直接创建 SocialLogin
             social_login = SocialLogin(account=existing_account)
             social_login.user = existing_account.user
-            # 无需设置 is_existing，complete_social_login 会处理
+            # 不需要设置 is_existing，直接进行完成社交登录
         else:
             # 创建新用户并关联到 social_login
             adapter = get_adapter(request)
@@ -118,6 +127,7 @@ class WXCallback(APIView):
             social_account = SocialAccount.objects.create(uid=openid, provider=WeixinProvider.id, user=user)
             social_login = SocialLogin(account=social_account)
             social_login.user = user
+            # 不直接设置 is_existing，complete_social_login 将处理这个状态
 
         # 完成社交登录
         complete_social_login(request, social_login)
