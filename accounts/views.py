@@ -131,6 +131,7 @@ class WXCallback(APIView):
             user.username = unique_username
             user.set_unusable_password()
             user.save()
+            print(11111, user.pk if user else 0)
             try:
                 social_login.user = user
             except:
