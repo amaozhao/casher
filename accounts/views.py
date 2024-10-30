@@ -19,6 +19,7 @@ from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from allauth.socialaccount.providers.weixin.provider import WeixinProvider
 from allauth.socialaccount.providers.weixin.views import WeixinOAuth2Adapter
+from dj_rest_auth.utils import jwt_encode
 from dj_rest_auth.registration.views import SocialLoginView
 from rest_framework_simplejwt.tokens import AccessToken
 
@@ -140,7 +141,7 @@ class WXCallback(APIView):
             "allauth.account.auth_backends.AuthenticationBackend"
         )
         login(request, social_login.user)
-        token = AccessToken.for_user(social_login.user)
+        token, _ = jwt_encode(social_login.user)
 
         return redirect(f"http://aidep.cn:8601/web/?token={str(token)}")
 
