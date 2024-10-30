@@ -145,7 +145,7 @@ class WXCallback(APIView):
         serializer = JWTSerializer()
         token = serializer.create({'user': social_login.user})
 
-        return redirect(f"http://aidep.cn:8601/web/?token={str(token)}")
+        return redirect(f"http://aidep.cn:8601/web/?token={str(token.access)}")
 
 
 class GoogleLoginUrl(APIView):
