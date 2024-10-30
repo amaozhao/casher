@@ -45,7 +45,7 @@ class WXQRCodeAPIView(APIView):
         )
 
 
-class WXLoginAPIView(APIView):
+class WXLoginAPIView(SocialLoginView):
     adapter_class = WeixinOAuth2Adapter
     callback_url = settings.WEIXIN_OAUTH_CALLBACK_URL
     client_class = OAuth2Client
