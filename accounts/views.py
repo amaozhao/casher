@@ -143,7 +143,7 @@ class WXCallback(APIView):
         login(request, social_login.user)
 
         serializer = JWTSerializer()
-        token = serializer.get_token(social_login.user)
+        token = serializer.create({'user': social_login.user})
 
         return redirect(f"http://aidep.cn:8601/web/?token={str(token)}")
 
