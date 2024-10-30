@@ -3,7 +3,7 @@ from urllib.parse import urljoin
 
 import requests
 from django.conf import settings
-from django.contrib.auth import get_user_model, login
+from django.contrib.auth import get_user_model
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.crypto import get_random_string
@@ -53,17 +53,6 @@ class WXLoginAPIView(APIView):
 
 User = get_user_model()
 
-
-from django.utils.crypto import get_random_string
-from allauth.socialaccount.adapter import get_adapter
-from allauth.socialaccount.models import SocialAccount, SocialLogin
-from allauth.socialaccount.providers.weixin.views import WeixinProvider
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-import requests
-from rest_framework_simplejwt.tokens import RefreshToken
-from django.conf import settings
 
 class WXCallback(APIView):
     def get(self, request, *args, **kwargs):
