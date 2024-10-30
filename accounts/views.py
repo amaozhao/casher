@@ -72,7 +72,8 @@ class WXCallback(APIView):
         token_data = response.json()
 
         if "errcode" in token_data:
-            return Response({"error": "Failed to retrieve access token", "details": token_data}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Failed to retrieve access token", "details": token_data},
+                            status=status.HTTP_400_BAD_REQUEST)
 
         access_token = token_data.get("access_token")
         openid = token_data.get("openid")
@@ -88,7 +89,8 @@ class WXCallback(APIView):
         user_info = user_info_response.json()
 
         if "errcode" in user_info:
-            return Response({"error": "Failed to retrieve user info", "details": user_info}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Failed to retrieve user info", "details": user_info},
+                            status=status.HTTP_400_BAD_REQUEST)
 
         # 检查是否已经存在关联的 SocialAccount
         existing_account = SocialAccount.objects.filter(uid=openid, provider=WeixinProvider.id).first()
@@ -97,16 +99,16 @@ class WXCallback(APIView):
             # 如果已存在用户，直接创建 SocialLogin
             social_login = SocialLogin(account=existing_account)
             social_login.user = existing_account.user
-            social_login.is_existing = True
+            # 无需设置 is_existing，complete_social_login 会处理
         else:
             # 创建新用户并关联到 social_login
             adapter = get_adapter(request)
             user = adapter.new_user(request)
 
             # 生成唯一用户名
-            unique_username = f"wx_{openid[:8]}"
+            unique_username = f"wx_{openid}"
             while User.objects.filter(username=unique_username).exists():
-                unique_username = f"wx_{get_random_string(8)}"
+                unique_username = f"wx_{get_random_string(20)}"
 
             user.username = unique_username
             user.set_unusable_password()
@@ -116,21 +118,14 @@ class WXCallback(APIView):
             social_account = SocialAccount.objects.create(uid=openid, provider=WeixinProvider.id, user=user)
             social_login = SocialLogin(account=social_account)
             social_login.user = user
-            social_login.is_existing = False  # 新用户时手动设置为不存在的用户
 
+        # 完成社交登录
         complete_social_login(request, social_login)
+
+        # 生成 JWT Token
         refresh = RefreshToken.for_user(social_login.user)
         # 返回用户信息
         return redirect(f"http://aidep.cn:8601/?token={str(refresh.access_token)}")
-
-        # 设置 is_existing 由 social_login.user 的状态自动处理
-        if social_login.user:
-            complete_social_login(request, social_login)
-            refresh = RefreshToken.for_user(social_login.user)
-            # 返回用户信息
-            return redirect(f"http://aidep.cn:8601/?token={str(refresh.access_token)}")
-        else:
-            return Response({"error": "User creation failed."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class GoogleLoginUrl(APIView):
