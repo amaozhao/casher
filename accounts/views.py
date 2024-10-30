@@ -23,6 +23,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class WXQRCodeAPIView(APIView):
+    authentication_classes = []
     def get(self, request, *args, **kwargs):
         # 设置微信扫码登录的 URL，并传入相应的参数
         redirect_uri = urllib.parse.quote_plus(
@@ -54,6 +55,7 @@ User = get_user_model()
 
 
 class WXCallback(APIView):
+    authentication_classes = []
     def get(self, request, *args, **kwargs):
         code = request.GET.get("code")
         if code is None:
@@ -146,19 +148,9 @@ class WXCallback(APIView):
 
         return redirect(f"http://aidep.cn/?token={str(refresh.access_token)}")
 
-        # return Response(
-        #     {
-        #         "status": "success",
-        #         "data": {
-        #             "token": str(refresh.access_token),
-        #             "refresh_token": str(refresh),
-        #             "user_info": user_info
-        #         }
-        #     }
-        # )
-
 
 class GoogleLoginUrl(APIView):
+    authentication_classes = None
     def get(self, request, *args, **kwargs):
         """
         If you are building a fullstack application (eq. with React app next to Django)
@@ -189,6 +181,7 @@ class GoogleLoginView(SocialLoginView):
 
 
 class GoogleCallback(APIView):
+    authentication_classes = []
 
     def get(self, request, *args, **kwargs):
         code = request.GET.get("code")
