@@ -19,9 +19,6 @@ ENV MYSQLCLIENT_LDFLAGS="-L/usr/lib/mysql -lmysqlclient"
 # 安装 Python 依赖
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 复制项目文件到容器中，包括 H5 文件夹 `web`
-COPY . .
-
 # 设置环境变量，避免 Python 在容器中生成 .pyc 文件
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
