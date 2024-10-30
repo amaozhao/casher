@@ -80,6 +80,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
+    "casher.log_middleware.LoggingMiddleware",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
