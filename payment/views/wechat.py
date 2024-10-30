@@ -35,9 +35,21 @@ class CreateWechatPaymentView(APIView):
                 pay_type=pay_type,
             )
             return Response(
-                {"status": status.HTTP_200_OK, "data": result},
+                {
+                    "status": status.HTTP_200_OK,
+                    "message": "",
+                    "data": result
+                },
                 status=status.HTTP_200_OK,
             )
+        return Response(
+            {
+                "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+                "data": result,
+                "message": "error"
+            },
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
 
 
 class WechatPayNotifyView(APIView):

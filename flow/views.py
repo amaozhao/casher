@@ -234,6 +234,10 @@ class WorkFlowCommentList(ListCreateAPIView):
         comment.save()
         serializer = WorkFlowCommentSerializer(comment)
         return Response(
-            {"data": serializer.data, "status": status.HTTP_201_CREATED},
+            {
+                "data": serializer.data,
+                "status": status.HTTP_201_CREATED,
+                "message": ""
+            },
             status=status.HTTP_201_CREATED,
         )

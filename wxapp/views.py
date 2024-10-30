@@ -73,12 +73,12 @@ class WxAppLogin(APIView):
                 return Response(
                     data={
                         "status": status.HTTP_200_OK,
-                        "msg": "ok",
+                        "message": "ok",
                         "data": {
                             "login_key": key,
                             "token": str(refresh.access_token),
                             "refresh_token": str(refresh),
-                        },  # 返回给小程序端
+                        }
                     },
                     status=status.HTTP_200_OK,
                 )
@@ -86,12 +86,17 @@ class WxAppLogin(APIView):
                 return Response(
                     {
                         "status": status.HTTP_401_UNAUTHORIZED,
+                        "message": "用户未登陆",
                         "data": {"msg": "code无效"},
                     },
                     status=status.HTTP_401_UNAUTHORIZED,
                 )
         else:
             return Response(
-                {"status": status.HTTP_401_UNAUTHORIZED, "data": {"msg": "缺少参数"}},
+                {
+                    "status": status.HTTP_401_UNAUTHORIZED,
+                    "message": "参数缺失",
+                    "data": {"msg": "缺少参数"}
+                },
                 status=status.HTTP_401_UNAUTHORIZED,
             )
