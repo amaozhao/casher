@@ -75,7 +75,7 @@ class WXCallback(APIView):
         if code is None:
             return Response({"error": "Missing code parameter"}, status=status.HTTP_400_BAD_REQUEST)
 
-        adapter = WeixinOAuth2Adapter()
+        adapter = WeixinOAuth2Adapter(request)
         token_data = adapter.complete_login(request, code)
 
         if "error" in token_data:
