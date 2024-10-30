@@ -62,6 +62,7 @@ class WXCallback(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         token_endpoint_url = urljoin("http://aidep.cn:8601", reverse("weixin_login"))
         response = requests.post(url=token_endpoint_url, data={"code": code})
+        print(response.status_code, response.text)
         res_json = response.json()
         token = res_json.get("access")
 
