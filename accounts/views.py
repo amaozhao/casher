@@ -116,7 +116,7 @@ class WXCallback(APIView):
 
         # 检查是否已经存在关联的 SocialAccount
         existing_account = SocialAccount.objects.filter(
-            uid=openid, provider=WeixinProvider.id
+            uid=openid, provider='weixin'
         ).first()
         if existing_account:
             # 已存在用户，直接登录
@@ -128,10 +128,13 @@ class WXCallback(APIView):
             unique_username = f"wx_{openid}"
             while User.objects.filter(username=unique_username).exists():
                 unique_username = f"wx_{get_random_string(20)}"
-
             user.username = unique_username
             user.set_unusable_password()
             user.save()
+            try:
+                social_login.user = user
+            except:
+                pass
             social_login.save(request)
             social_login.user = user
             complete_social_login(request, social_login)
