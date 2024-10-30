@@ -3,7 +3,8 @@ from urllib.parse import urljoin
 
 import requests
 from django.conf import settings
-from django.contrib.auth import get_user_model, login
+from django.contrib.auth import login
+from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.crypto import get_random_string
@@ -51,24 +52,9 @@ class WXLoginAPIView(SocialLoginView):
     client_class = OAuth2Client
 
 
-User = get_user_model()
-
-
 class WXCallback(APIView):
     authentication_classes = []
     def get(self, request, *args, **kwargs):
-        code = request.GET.get("code")
-        if code is None:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-        token_endpoint_url = urljoin("http://aidep.cn:8601", reverse("weixin_login"))
-        print(token_endpoint_url)
-        response = requests.post(url=token_endpoint_url, data={"code": code})
-        print(response.status_code)
-        res_json = response.json()
-        token = res_json.get("access")
-
-        return redirect(f"http://aidep.cn/?token={token}")
-
         code = request.GET.get("code")
         if code is None:
             return Response(
