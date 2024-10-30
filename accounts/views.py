@@ -54,76 +54,68 @@ class WXLoginAPIView(APIView):
 User = get_user_model()
 
 
+from allauth.socialaccount.adapter import get_adapter
+from allauth.socialaccount.models import SocialAccount, SocialLogin
+from allauth.socialaccount.providers.weixin.provider import WeixinProvider
+from allauth.socialaccount.providers.weixin.views import WeixinOAuth2Adapter
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+import requests
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.conf import settings
+from django.shortcuts import redirect
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 class WXCallback(APIView):
     def get(self, request, *args, **kwargs):
         code = request.GET.get("code")
         if code is None:
             return Response({"error": "Missing code parameter"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # 通过微信API换取 access_token 和 openid
-        token_url = "https://api.weixin.qq.com/sns/oauth2/access_token"
-        params = {
-            "appid": settings.SOCIALACCOUNT_PROVIDERS['weixin']['APP']['client_id'],
-            "secret": settings.SOCIALACCOUNT_PROVIDERS['weixin']['APP']['secret'],
-            "code": code,
-            "grant_type": "authorization_code",
-        }
-        response = requests.get(token_url, params=params)
-        token_data = response.json()
+        adapter = WeixinOAuth2Adapter()
+        token_data = adapter.complete_login(request, code)
 
-        if "errcode" in token_data:
-            return Response({"error": "Failed to retrieve access token", "details": token_data}, status=status.HTTP_400_BAD_REQUEST)
+        if "error" in token_data:
+            return Response({"error": "Failed to retrieve access token"}, status=status.HTTP_400_BAD_REQUEST)
 
         access_token = token_data.get("access_token")
         openid = token_data.get("openid")
 
         # 请求微信用户信息
         user_info_url = "https://api.weixin.qq.com/sns/userinfo"
-        user_info_params = {
+        user_info_response = requests.get(user_info_url, params={
             "access_token": access_token,
             "openid": openid,
             "lang": "zh_CN"
-        }
-        user_info_response = requests.get(user_info_url, params=user_info_params)
+        })
         user_info = user_info_response.json()
 
         if "errcode" in user_info:
-            return Response({"error": "Failed to retrieve user info", "details": user_info}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Failed to retrieve user info"}, status=status.HTTP_400_BAD_REQUEST)
 
         # 检查是否已经存在关联的 SocialAccount
         existing_account = SocialAccount.objects.filter(uid=openid, provider=WeixinProvider.id).first()
 
         if existing_account:
-            # 如果已存在用户，直接创建 SocialLogin
             social_login = SocialLogin(account=existing_account)
             social_login.user = existing_account.user
-            # 不需要设置 is_existing，直接进行完成社交登录
         else:
-            # 创建新用户并关联到 social_login
             adapter = get_adapter(request)
             user = adapter.new_user(request)
-
-            # 生成唯一用户名
-            unique_username = f"wx_{openid}"
-            while User.objects.filter(username=unique_username).exists():
-                unique_username = f"wx_{get_random_string(20)}"
-
-            user.username = unique_username
+            user.username = f"wx_{openid}"
             user.set_unusable_password()
             user.save()
 
-            # 创建新的 SocialAccount 并关联用户
             social_account = SocialAccount.objects.create(uid=openid, provider=WeixinProvider.id, user=user)
             social_login = SocialLogin(account=social_account)
             social_login.user = user
-            # 不直接设置 is_existing，complete_social_login 将处理这个状态
 
-        # 完成社交登录
         complete_social_login(request, social_login)
 
-        # 生成 JWT Token
         refresh = RefreshToken.for_user(social_login.user)
-        # 返回用户信息
         return redirect(f"http://aidep.cn:8601/?token={str(refresh.access_token)}")
 
 
