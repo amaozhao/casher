@@ -20,7 +20,8 @@ from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from allauth.socialaccount.providers.weixin.provider import WeixinProvider
 from allauth.socialaccount.providers.weixin.views import WeixinOAuth2Adapter
 from dj_rest_auth.registration.views import SocialLoginView
-from rest_framework_simplejwt.tokens import RefreshToken
+# from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.authtoken.models import Token
 
 
 class WXQRCodeAPIView(APIView):
@@ -141,9 +142,9 @@ class WXCallback(APIView):
         )
         login(request, social_login.user)
 
-        refresh = RefreshToken.for_user(social_login.user)
+        token, created = Token.objects.get_or_create(user=social_login.user)
 
-        return redirect(f"http://aidep.cn:8601/web/?token={str(refresh.access_token)}")
+        return redirect(f"http://aidep.cn:8601/web/?token={str(token.key)}")
 
 
 class GoogleLoginUrl(APIView):
@@ -184,10 +185,7 @@ class GoogleCallback(APIView):
         if code is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         token_endpoint_url = urljoin("http://aidep.cn:8601", reverse("google_login"))
-        print(token_endpoint_url)
         response = requests.post(url=token_endpoint_url, data={"code": code})
-        print(response.status_code)
-        print(response.text)
         res_json = response.json()
         token = res_json.get("access")
 
