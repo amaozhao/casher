@@ -20,8 +20,7 @@ from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from allauth.socialaccount.providers.weixin.provider import WeixinProvider
 from allauth.socialaccount.providers.weixin.views import WeixinOAuth2Adapter
 from dj_rest_auth.registration.views import SocialLoginView
-# from rest_framework.authtoken.models import Token
-from dj_rest_auth.serializers import JWTSerializer
+from rest_framework_simplejwt.tokens import AccessToken
 
 
 class WXQRCodeAPIView(APIView):
@@ -141,11 +140,9 @@ class WXCallback(APIView):
             "allauth.account.auth_backends.AuthenticationBackend"
         )
         login(request, social_login.user)
+        token = AccessToken.for_user(social_login.user)
 
-        serializer = JWTSerializer()
-        token = serializer.create({'user': social_login.user})
-
-        return redirect(f"http://aidep.cn:8601/web/?token={str(token.access)}")
+        return redirect(f"http://aidep.cn:8601/web/?token={str(token)}")
 
 
 class GoogleLoginUrl(APIView):
