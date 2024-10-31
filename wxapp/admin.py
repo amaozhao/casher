@@ -4,5 +4,5 @@ from wxapp.models import WxAppUserProfile
 
 
 @admin.register(WxAppUserProfile)
-class FlowDataAdmin(admin.ModelAdmin):
+class WxAppUserProfileAdmin(admin.ModelAdmin):
     model = WxAppUserProfile

@@ -21,7 +21,6 @@ from allauth.socialaccount.providers.weixin.provider import WeixinProvider
 from allauth.socialaccount.providers.weixin.views import WeixinOAuth2Adapter
 from dj_rest_auth.utils import jwt_encode
 from dj_rest_auth.registration.views import SocialLoginView
-from rest_framework_simplejwt.tokens import AccessToken
 
 
 class WXQRCodeAPIView(APIView):
@@ -131,7 +130,6 @@ class WXCallback(APIView):
             user.username = unique_username
             user.set_unusable_password()
             user.save()
-            print(11111, user.pk if user else 0)
             try:
                 social_login.user = user
             except:

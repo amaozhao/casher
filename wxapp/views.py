@@ -9,9 +9,9 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from rest_framework_simplejwt.tokens import RefreshToken
 from wxapp import service
 from wxapp.models import WxAppUserProfile
+from dj_rest_auth.utils import jwt_encode
 
 
 class WxAppLogin(APIView):
@@ -69,15 +69,14 @@ class WxAppLogin(APIView):
                 profile.country = raw_data.get("country")
                 profile.avatarUrl = raw_data.get("avatarUrl")
                 profile.save()
-                refresh = RefreshToken.for_user(has_user)
+                token, _ = jwt_encode(has_user)
                 return Response(
                     data={
                         "status": status.HTTP_200_OK,
                         "message": "ok",
                         "data": {
                             "login_key": key,
-                            "token": str(refresh.access_token),
-                            "refresh_token": str(refresh),
+                            "token": str(token),
                         }
                     },
                     status=status.HTTP_200_OK,

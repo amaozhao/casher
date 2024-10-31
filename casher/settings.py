@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     "dj_rest_auth.registration",
     "payment",
     "wxapp",
+    "wxappb",
     "accounts",
 ]
 
@@ -277,6 +278,9 @@ WEIXINPAY_MCHID = config.get("WEIXINPAY_MCHID")
 WEIXINPAY_APPID = config.get("WEIXINPAY_APPID")
 WEIXINPAY_APIV3KEY = config.get("WEIXINPAY_APIV3KEY")
 WEIXINPAY_SERIAL_NO = config.get("WEIXINPAY_SERIAL_NO")
+
+WEIXINB_APPID = config.get("WEIXINB_APPID")
+WEIXINB_APPSECRET = config.get("WEIXINB_APPSECRET")
 
 # Stripe API Key
 STRIPE_TEST_PUBLIC_KEY = config.get("STRIPE_TEST_PUBLIC_KEY")

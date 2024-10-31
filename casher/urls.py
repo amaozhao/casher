@@ -36,6 +36,7 @@ urlpatterns = [
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("payment/", include("payment.urls")),
     path("wxapp/", include("wxapp.urls")),
+    path("wxappb/", include("wxappb.urls")),
     path("accounts/", include("accounts.urls")),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

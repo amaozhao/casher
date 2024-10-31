@@ -5,11 +5,13 @@ from flow.views import (
     WorkFlowCommentList,
     WorkFlowDetailView,
     WorkFlowListView,
+    BWorkFlowListView,
 )
 
 urlpatterns = [
     path("api/upload/", UploadAPIView.as_view(), name="upload_api"),
     path("flows/", WorkFlowListView.as_view()),
+    path("b_flows/", BWorkFlowListView.as_view()),
     path("flows/<int:id>/", WorkFlowDetailView.as_view()),
     path(
         "comments/<int:workflow_id>/",

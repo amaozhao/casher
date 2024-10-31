@@ -9,12 +9,12 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from rest_framework_simplejwt.tokens import RefreshToken
-from wxapp import service
-from wxapp.models import WxAppUserProfile
+from dj_rest_auth.utils import jwt_encode
+from wxappb import service
+from wxappb.models import WxAppBUserProfile, WxAppBTechs
 
 
-class WxAppLogin(APIView):
+class WxAppBLogin(APIView):
     def post(self, request):
         params = request.data
         # 拿到小程序端提交的code
@@ -39,7 +39,7 @@ class WxAppLogin(APIView):
                     has_user = User.objects.create(
                         username=data["openid"], password=uuid.uuid4()
                     )
-                    WxAppUserProfile.objects.create(
+                    WxAppBUserProfile.objects.create(
                         user=has_user,
                         nick_name=raw_data.get("nickName"),
                         gender=raw_data.get("gender"),
@@ -50,9 +50,9 @@ class WxAppLogin(APIView):
                         unionid=data.get("unionid"),
                     )
                 has_user.save()
-                profile = WxAppUserProfile.objects.filter(user=has_user).first()
+                profile = WxAppBUserProfile.objects.filter(user=has_user).first()
                 if not profile:
-                    profile = WxAppUserProfile.objects.create(
+                    profile = WxAppBUserProfile.objects.create(
                         user=has_user,
                         nick_name=raw_data.get("nickName"),
                         gender=raw_data.get("gender"),
@@ -69,15 +69,19 @@ class WxAppLogin(APIView):
                 profile.country = raw_data.get("country")
                 profile.avatarUrl = raw_data.get("avatarUrl")
                 profile.save()
-                refresh = RefreshToken.for_user(has_user)
+                if params.get('techsid'):
+                    tesh, _ = WxAppBTechs.objects.get_or_create(
+                        user=has_user,
+                        techsid=params.get('techsid'),
+                    )
+                token, _ = jwt_encode(has_user)
                 return Response(
                     data={
                         "status": status.HTTP_200_OK,
                         "message": "ok",
                         "data": {
                             "login_key": key,
-                            "token": str(refresh.access_token),
-                            "refresh_token": str(refresh),
+                            "token": str(token),
                         }
                     },
                     status=status.HTTP_200_OK,

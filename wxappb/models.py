@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-class WxAppUserProfile(models.Model):
+class WxAppBUserProfile(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.deletion.CASCADE,
@@ -18,5 +18,19 @@ class WxAppUserProfile(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = "wxapp_user_profile"
+        db_table = "wxappb_user_profile"
+        ordering = ["-created"]
+
+
+class WxAppBTechs(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.deletion.CASCADE,
+    )
+    techsid = models.CharField(max_length=100)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "wxappb_tesh"
         ordering = ["-created"]

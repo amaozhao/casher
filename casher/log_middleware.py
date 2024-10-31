@@ -8,13 +8,19 @@ class LoggingMiddleware:
 
     def __call__(self, request):
         # 记录请求入参
-        request_body = request.body.decode('utf-8') if request.body else ''
-        logger.info(f"Request: {request.method} {request.path} | Params: {request_body}")
+        try:
+            request_body = request.body.decode('utf-8') if request.body else ''
+            logger.info(f"Request: {request.method} {request.path} | Params: {request_body}")
+        except:
+            pass
 
         response = self.get_response(request)
 
         # 记录响应出参
-        response_body = response.content.decode('utf-8') if response.content else ''
-        logger.info(f"Response: {response.status_code} | Body: {response_body}")
+        try:
+            response_body = response.content.decode('utf-8') if response.content else ''
+            logger.info(f"Response: {response.status_code} | Body: {response_body}")
+        except:
+            pass
 
         return response

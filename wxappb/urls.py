@@ -1,7 +1,7 @@
 from django.urls import path
 
-from wxapp.views import WxAppLogin
+from wxappb.views import WxAppBLogin
 
 urlpatterns = [
-    path("login/", WxAppLogin.as_view(), name="wxapp_login"),
+    path("login/", WxAppBLogin.as_view(), name="wxappb_login"),
 ]

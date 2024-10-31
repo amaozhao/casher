@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-from wxapp.models import WxAppUserProfile
+from wxappb.models import WxAppBUserProfile
 
 
-@admin.register(WxAppUserProfile)
-class FlowDataAdmin(admin.ModelAdmin):
-    model = WxAppUserProfile
+@admin.register(WxAppBUserProfile)
+class WxAppBUserProfileAdmin(admin.ModelAdmin):
+    model = WxAppBUserProfile

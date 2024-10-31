@@ -1,4 +1,5 @@
 import json
+import string, random
 
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
@@ -8,12 +9,16 @@ from rest_framework import status
 from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from urllib3 import request
 
 from flow.models import WorkFlowComment, WorkFlowData, WorkFlowImage
 from flow.serializers.workflowdata import (
     WorkFlowCommentSerializer,
     WorkFlowDataSerializer,
 )
+from wxappb.service import generate_mp_qr_code
+
+chars = string.ascii_letters + string.digits
 
 
 def send_message_to_client(request, channel_name):
@@ -94,6 +99,13 @@ class UploadAPIView(APIView):
         处理上传逻辑，并将数据保存到数据库
         """
         post_data = post_data.get("postData")
+        # if techsid in ('init', ''):
+        #     return Response(
+        #         {
+        #             "errno": 41009,
+        #             "message": "用户未登陆"
+        #         }
+        #     )
         try:
             # 创建 PostData 实例并保存
             post_data_instance = WorkFlowData.objects.create(
@@ -116,11 +128,6 @@ class UploadAPIView(APIView):
             # cs_img_descs = post_data.get("cs_img_nodes", [])
 
             for index, img_file in enumerate(cs_img_files):
-                # desc = (
-                #     cs_img_descs[index].get("desc", "")
-                #     if index < len(cs_img_descs)
-                #     else ""
-                # )
                 WorkFlowImage.objects.create(
                     workflow=post_data_instance, image=img_file
                 )
@@ -136,10 +143,6 @@ class UploadAPIView(APIView):
                             {
                                 "code": "https://tt-1254127940.file.myqcloud.com/tech_huise/66/code/ONZgL75MhOrqVE6F.png",
                                 "desc": "微信小程序页面",
-                            },
-                            {
-                                "code": "https://tt-1254127940.file.myqcloud.com/tech_huise/66/code/euWO8Wl7gnc1lkRK.png",
-                                "desc": "抖音小程序页面",
                             },
                             {
                                 "code": "https://tt-1254127940.file.myqcloud.com/tech_huise/66/code/6LCGwiQNRj152DZw1728990819.png",
@@ -172,21 +175,23 @@ class UploadAPIView(APIView):
                 "errno": 0,
                 "message": "OK",
                 "data": {
-                    "data": {"code": 1, "data": {"techsid": "init", "openid": "init"}}
+                    "data": {"code": 1, "data": {"techsid": postData.get("s_key"), "openid": "init"}}
                 },
             }
             return Response(r, status=status.HTTP_200_OK)
         else:
+            s_key = ''.join(random.choice(chars) for _ in range(8))
+            qrcode = generate_mp_qr_code(path='/', query={'techsid': s_key})
             r = {
                 "errno": 0,
                 "message": "OK",
                 "data": {
                     "data": {
                         "code": 1,
-                        "data": "https://tt-1254127940.file.myqcloud.com/tech_huise/66/code/qPVkSBxOnfwDlpNT.png",
+                        "data": qrcode,
                         "desc": "请微信扫码登录",
-                        "test": {"s_key": "", "subdomain": "ef28c7ddcc72"},
-                        "s_key": "wx1729222221733JsDThh",
+                        "test": {"s_key": s_key, "subdomain": "ef28c7ddcc72"},
+                        "s_key": s_key,
                     }
                 },
             }
@@ -202,6 +207,18 @@ class WorkFlowListView(ListAPIView):
 
     def get_queryset(self):
         return WorkFlowData.objects.all()
+
+
+class BWorkFlowListView(ListAPIView):
+
+    def get(self, request):
+        flows = WorkFlowData.objects.all()
+        serializer = WorkFlowDataSerializer(flows, many=True)
+        return Response({"data": serializer.data, "status": status.HTTP_200_OK})
+
+    def get_queryset(self):
+        user = self.request.user
+        return WorkFlowData.objects.firter(user=user)
 
 
 class WorkFlowDetailView(RetrieveAPIView):
