@@ -1,6 +1,8 @@
 services:
   web:
     build: .
+#    ports:
+#      - "8000:8000"  # 将 Nginx 的 8000 端口暴露给 Nomad
     command: daphne -b 0.0.0.0 -p 8000 casher.asgi:application
     extra_hosts:
       - "host.docker.internal:host-gateway"
