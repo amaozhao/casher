@@ -98,13 +98,13 @@ class UploadAPIView(APIView):
         处理上传逻辑，并将数据保存到数据库
         """
         post_data = post_data.get("postData")
-        if techsid in ('init'):
-            return Response(
-                {
-                    "errno": 41009,
-                    "message": "用户未登陆"
-                }
-            )
+        # if techsid in ('init'):
+        #     return Response(
+        #         {
+        #             "errno": 41009,
+        #             "message": "用户未登陆"
+        #         }
+        #     )
         try:
             # 创建 PostData 实例并保存
             post_data_instance = WorkFlowData.objects.create(
