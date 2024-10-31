@@ -98,13 +98,13 @@ class UploadAPIView(APIView):
         处理上传逻辑，并将数据保存到数据库
         """
         post_data = post_data.get("postData")
-        # if techsid in ('init', ''):
-        #     return Response(
-        #         {
-        #             "errno": 41009,
-        #             "message": "用户未登陆"
-        #         }
-        #     )
+        if techsid in ('init'):
+            return Response(
+                {
+                    "errno": 41009,
+                    "message": "用户未登陆"
+                }
+            )
         try:
             # 创建 PostData 实例并保存
             post_data_instance = WorkFlowData.objects.create(
@@ -174,7 +174,7 @@ class UploadAPIView(APIView):
                 "errno": 0,
                 "message": "OK",
                 "data": {
-                    "data": {"code": 1, "data": {"techsid": postData.get("s_key"), "openid": "init"}}
+                    "data": {"code": 1, "data": {"techsid": postData.get("s_key")}}
                 },
             }
             return Response(r, status=status.HTTP_200_OK)
@@ -189,16 +189,17 @@ class UploadAPIView(APIView):
                         "code": 1,
                         "data": qrcode,
                         "desc": "请微信扫码登录",
-                        "test": {"s_key": s_key, "subdomain": "ef28c7ddcc72"},
+                        "test": {"s_key": s_key, "subdomain": "11"},
                         "s_key": s_key,
+                        "techsid": s_key,
                     }
-                },
+                }
             }
             return Response(r, status=status.HTTP_200_OK)
 
 
 class WorkFlowListView(ListAPIView):
-
+    authentication_classes = []
     def get(self, request):
         flows = WorkFlowData.objects.all()
         serializer = WorkFlowDataSerializer(flows, many=True)

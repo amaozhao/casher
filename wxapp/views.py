@@ -94,7 +94,7 @@ class WxAppLogin(APIView):
         else:
             return Response(
                 {
-                    "status": status.HTTP_401_UNAUTHORIZED,
+                    "status": status.HTTP_400_BAD_REQUEST,
                     "message": "参数缺失",
                     "data": {"msg": "缺少参数"}
                 },

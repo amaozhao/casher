@@ -32,7 +32,7 @@ def generate_mp_qr_code(path, query, width=430):
     techsid = query.get('techsid')
     if techsid:
         if os.path.exists(settings.BASE_DIR / f"media/qrcode/{query.get('techsid')}.png"):
-            return f'http://aidep.cn:8601/media/qrcode/{query.get("techsid")}.png'
+            return f'http://192.168.10.104:8000/media/qrcode/{query.get("techsid")}.png'
     if query:
         if isinstance(query, dict):
             q = ''
@@ -53,7 +53,7 @@ def generate_mp_qr_code(path, query, width=430):
         f_name = settings.BASE_DIR / f"media/qrcode/{query.get('techsid')}.png"
         with open(f_name, "wb") as f:
             f.write(response.content)
-        return f'http://aidep.cn:8601/media/qrcode/{query.get("techsid")}.png'
+        return f'http://192.168.10.104:8000/media/qrcode/{query.get("techsid")}.png'
     else:
         return None
 

@@ -10,6 +10,7 @@ def login(code):
     )
     response = requests.get(login_url)
     data = response.json()
+    print(1111, data)
     if data.get("openid"):
         return data
     else:
