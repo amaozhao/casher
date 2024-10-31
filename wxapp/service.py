@@ -6,7 +6,7 @@ from django.conf import settings
 def login(code):
     login_url = (
         f"https://api.weixin.qq.com/sns/jscode2session?appid={settings.WXAPP_APPID}"
-        f"&secret={settings.WXAPP_SECRET}&js_code={code}&grant_type=authorization_code"
+        f"&secret={settings.WEIXIN_APPSECRET}&js_code={code}&grant_type=authorization_code"
     )
     response = requests.get(login_url)
     data = response.json()

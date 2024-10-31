@@ -174,7 +174,7 @@ class UploadAPIView(APIView):
                 "errno": 0,
                 "message": "OK",
                 "data": {
-                    "data": {"code": 1, "data": {"techsid": postData.get("s_key")}}
+                    "data": {"code": 1, "techsid": postData.get("s_key")}
                 },
             }
             return Response(r, status=status.HTTP_200_OK)
