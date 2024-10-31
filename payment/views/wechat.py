@@ -36,7 +36,10 @@ class CreateWechatPaymentView(APIView):
                 {
                     "status": status.HTTP_200_OK,
                     "message": "",
-                    "data": result
+                    "data": {
+                        "out_trade_no": result.get('out_trade_no'),
+                        'url': result.get('message').get('code_url'),
+                    }
                 },
                 status=status.HTTP_200_OK,
             )
