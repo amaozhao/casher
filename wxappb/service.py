@@ -30,8 +30,11 @@ def generate_mp_qr_code(path, query, width=430):
     access_token = get_access_token()
     # 如果有查询参数，将其添加到路径
     techsid = query.get('techsid')
+    _dir = settings.BASE_DIR / f"media/qrcode/b/"
+    if not os.path.exists(_dir):
+        os.mkdir(_dir)
     if techsid:
-        if os.path.exists(settings.BASE_DIR / f"media/qrcode/{query.get('techsid')}.png"):
+        if os.path.exists(settings.BASE_DIR / f"media/qrcode/b/{query.get('techsid')}.png"):
             return f'http://192.168.10.104:8000/media/qrcode/{query.get("techsid")}.png'
     if query:
         if isinstance(query, dict):
@@ -56,4 +59,3 @@ def generate_mp_qr_code(path, query, width=430):
         return f'http://192.168.10.104:8000/media/qrcode/{query.get("techsid")}.png'
     else:
         return None
-

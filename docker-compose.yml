@@ -7,14 +7,14 @@ services:
     volumes:
       - .:/app
     expose:
-      - "8000:8000"
+      - "8000"
     env_file:
       - .env
 
   nginx:
     image: nginx:latest
     ports:
-      - "8601:8601"
+      - "8000:8000"  # 将 Nginx 的 8000 端口暴露给 Nomad
     volumes:
       - ./web:/usr/share/nginx/html/web
       - ./web-b:/usr/share/nginx/html/web-b
