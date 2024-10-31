@@ -81,6 +81,7 @@ class WechatPayNotifyView(APIView):
 
 class WechatPayCheckView(APIView):
     def get(self, request, *args, **kwargs):
+        langStr = request.headers.get('languageStr')
         out_trade_no = request.GET.get('out_trade_no')
         order = WechatOrder.objects.filter(out_trade_no=out_trade_no).first()
         if order:
@@ -93,9 +94,13 @@ class WechatPayCheckView(APIView):
                     }
                 }
             )
+        message = "支付未完成"
+        if langStr == 'en-us':
+            message = 'Payment not completed'
         return Response(
                 {
                     "status": status.HTTP_400_BAD_REQUEST,
+                    "message": message,
                     "data": {
                         "out_trade_no": out_trade_no,
                         "trade_status": None
