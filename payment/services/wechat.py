@@ -27,12 +27,12 @@ class WechatPayService:
         with open(settings.BASE_DIR / "apiclient_key.pem") as f:
             PRIVATE_KEY = f.read()
         return WeChatPay(
-            wechatpay_type=WeChatPayType.H5,
+            wechatpay_type=WeChatPayType.NATIVE,
             mchid=settings.WEIXINPAY_MCHID,
             private_key=PRIVATE_KEY,
             cert_serial_no=settings.WEIXINPAY_SERIAL_NO,
             apiv3_key=settings.WEIXINPAY_APIV3KEY,
-            appid='wx91a755e0660197bb',
+            appid=settings.WEIXINH5_APPID,
             notify_url="http://aidep.cn:8601/payment/wechat-notify/",
             cert_dir=None,
             logger=LOGGER,
@@ -46,12 +46,12 @@ class WechatPayService:
         with open(settings.BASE_DIR / "apiclient_key.pem") as f:
             PRIVATE_KEY = f.read()
         return WeChatPay(
-            wechatpay_type=WeChatPayType.MINIPROG,
+            wechatpay_type=WeChatPayType.NATIVE,
             mchid=settings.WEIXINPAY_MCHID,
             private_key=PRIVATE_KEY,
             cert_serial_no=settings.WEIXINPAY_SERIAL_NO,
             apiv3_key=settings.WEIXINPAY_APIV3KEY,
-            appid=settings.WEIXIN_APPID,
+            appid=settings.WEIXINPAY_APPID,
             notify_url="http://aidep.cn:8601/payment/wechat-notify/",
             cert_dir=None,
             logger=LOGGER,
@@ -65,7 +65,6 @@ class WechatPayService:
         amount,
         desc,
         payer=None,
-        payer_client_ip="127.0.0.1",
         pay_type=WeChatPayType.MINIPROG,
     ):
         out_trade_no = self.gen_order_number()
@@ -74,7 +73,7 @@ class WechatPayService:
                 description=desc,
                 out_trade_no=out_trade_no,
                 amount={"total": amount},
-                pay_type=pay_type,
+                pay_type=WeChatPayType.JSAPI,
                 payer=payer,
             )
             result = json.loads(message)
@@ -108,16 +107,11 @@ class WechatPayService:
                 }
 
         if pay_type == WeChatPayType.H5.value:
-            scene_info = {
-                "payer_client_ip": payer_client_ip,
-                "h5_info": {"type": "Wap"},
-            }
             code, message = self.h5_pay_instance.pay(
                 description=desc or '充值',
                 out_trade_no=out_trade_no,
                 amount={"total": amount},
-                pay_type=WeChatPayType.H5,
-                scene_info=scene_info,
+                pay_type=WeChatPayType.NATIVE,
             )
             return {"out_trade_no": out_trade_no, "code": code, "message": message}
 

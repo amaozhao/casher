@@ -14,21 +14,16 @@ class CreateWechatPaymentView(APIView):
         amount = request_data.get("amount")
         desc = request_data.get("desc")
         pay_type = request_data.get("pay_type")
-        if request.META.get("HTTP_X_FORWARDED_FOR"):
-            payer_client_ip = request.META.get("HTTP_X_FORWARDED_FOR")
-        else:
-            payer_client_ip = request.META.get("HTTP_X_REAL_IP")
         payer = None
-        if pay_type == 0:
-            payer = {"openid": "get_openid"}
+        if pay_type == 4:
+            payer = {"openid": user.id}
         result = wechatpay_service.wechatpay(
             amount=amount,
             desc=desc,
             payer=payer,
-            payer_client_ip=payer_client_ip or '127.0.0.1',
             pay_type=pay_type,
         )
-        if result.get("code") == 0:
+        if result.get("code") == 200:
             WechatOrder.objects.create(
                 user=user,
                 out_trade_no=result.get("out_trade_no"),
