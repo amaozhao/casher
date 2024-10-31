@@ -87,14 +87,18 @@ class WechatPayCheckView(APIView):
             return Response(
                 {
                     "status": status.HTTP_200_OK,
-                    "out_trade_no": out_trade_no,
-                    "trade_status": order.status
+                    "data": {
+                        "out_trade_no": out_trade_no,
+                        "trade_status": order.status
+                    }
                 }
             )
         return Response(
                 {
                     "status": status.HTTP_400_BAD_REQUEST,
-                    "out_trade_no": out_trade_no,
-                    "trade_status": None
+                    "data": {
+                        "out_trade_no": out_trade_no,
+                        "trade_status": None
+                    }
                 }
             )
