@@ -9,7 +9,6 @@ from rest_framework import status
 from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from urllib3 import request
 
 from flow.models import WorkFlowComment, WorkFlowData, WorkFlowImage
 from flow.serializers.workflowdata import (

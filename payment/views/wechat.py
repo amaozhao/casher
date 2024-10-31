@@ -76,3 +76,24 @@ class WechatPayNotifyView(APIView):
                 {"code": "FAILED", "message": "失败"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
+
+
+class WechatPayCheckView(APIView):
+    def get(self, request, *args, **kwargs):
+        out_trade_no = request.GET.get('out_trade_no')
+        order = WechatOrder.objects.filter(out_trade_no=out_trade_no).first()
+        if order:
+            return Response(
+                {
+                    "status": status.HTTP_200_OK,
+                    "out_trade_no": out_trade_no,
+                    "trade_status": order.status
+                }
+            )
+        return Response(
+                {
+                    "status": status.HTTP_400_BAD_REQUEST,
+                    "out_trade_no": out_trade_no,
+                    "trade_status": None
+                }
+            )
