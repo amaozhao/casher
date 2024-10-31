@@ -14,7 +14,10 @@ class CreateWechatPaymentView(APIView):
         amount = request_data.get("amount")
         desc = request_data.get("desc")
         pay_type = request_data.get("pay_type")
-        payer_client_ip = request.META.get("HTTP_X_FORWARDED_FOR")
+        if request.META.get("HTTP_X_FORWARDED_FOR"):
+            payer_client_ip = request.META.get("HTTP_X_FORWARDED_FOR")
+        else:
+            payer_client_ip = request.META.get("HTTP_X_REAL_IP")
         payer = None
         if pay_type == 0:
             payer = {"openid": "get_openid"}
@@ -22,7 +25,7 @@ class CreateWechatPaymentView(APIView):
             amount=amount,
             desc=desc,
             payer=payer,
-            payer_client_ip=payer_client_ip,
+            payer_client_ip=payer_client_ip or '127.0.0.1',
             pay_type=pay_type,
         )
         if result.get("code") == 0:
@@ -55,7 +58,7 @@ class CreateWechatPaymentView(APIView):
 class WechatPayNotifyView(APIView):
 
     def post(self, request, *args, **kwargs):
-        result = wechatpay_service.pay_instance.callback(
+        result = wechatpay_service.minip_pay_instance.callback(
             headers=request.META, body=request.body
         )
         if result and result.get("event_type") == "TRANSACTION.SUCCESS":

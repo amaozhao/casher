@@ -23,16 +23,35 @@ class WechatPayService:
         return "".join(sample(ascii_letters + digits, 8))
 
     @property
-    def pay_instance(self):
+    def h5_pay_instance(self):
         with open(settings.BASE_DIR / "apiclient_key.pem") as f:
             PRIVATE_KEY = f.read()
         return WeChatPay(
-            wechatpay_type=WeChatPayType.NATIVE,
+            wechatpay_type=WeChatPayType.H5,
             mchid=settings.WEIXINPAY_MCHID,
             private_key=PRIVATE_KEY,
             cert_serial_no=settings.WEIXINPAY_SERIAL_NO,
             apiv3_key=settings.WEIXINPAY_APIV3KEY,
-            appid=settings.WEIXINPAY_APPID,
+            appid='wx91a755e0660197bb',
+            notify_url="http://aidep.cn:8601/payment/wechat-notify/",
+            cert_dir=None,
+            logger=LOGGER,
+            partner_mode=False,
+            proxy=None,
+            timeout=(10, 30),
+        )
+
+    @property
+    def minip_pay_instance(self):
+        with open(settings.BASE_DIR / "apiclient_key.pem") as f:
+            PRIVATE_KEY = f.read()
+        return WeChatPay(
+            wechatpay_type=WeChatPayType.MINIPROG,
+            mchid=settings.WEIXINPAY_MCHID,
+            private_key=PRIVATE_KEY,
+            cert_serial_no=settings.WEIXINPAY_SERIAL_NO,
+            apiv3_key=settings.WEIXINPAY_APIV3KEY,
+            appid=settings.WEIXIN_APPID,
             notify_url="http://aidep.cn:8601/payment/wechat-notify/",
             cert_dir=None,
             logger=LOGGER,
@@ -46,12 +65,12 @@ class WechatPayService:
         amount,
         desc,
         payer=None,
-        payer_client_ip="",
+        payer_client_ip="127.0.0.1",
         pay_type=WeChatPayType.MINIPROG,
     ):
         out_trade_no = self.gen_order_number()
-        if pay_type == WeChatPayType.MINIPROG:
-            code, message = self.pay_instance.pay(
+        if pay_type == WeChatPayType.MINIPROG.value:
+            code, message = self.minip_pay_instance.pay(
                 description=desc,
                 out_trade_no=out_trade_no,
                 amount={"total": amount},
@@ -64,7 +83,7 @@ class WechatPayService:
                 timestamp = str(int(time.time()))
                 noncestr = str(uuid.uuid4()).replace("-", "")
                 package = "prepay_id=" + prepay_id
-                sign = self.pay_instance.sign(
+                sign = self.minip_pay_instance.sign(
                     [settings.WEIXINPAY_APPID, timestamp, noncestr, package]
                 )
                 signtype = "RSA"
@@ -73,7 +92,7 @@ class WechatPayService:
                     "out_trade_no": out_trade_no,
                     "prepay_id": prepay_id,
                     "result": {
-                        "appId": settings.WEIXINPAY_APPID,
+                        "appId": settings.WEIXIN_APPID,
                         "timeStamp": timestamp,
                         "nonceStr": noncestr,
                         "package": "prepay_id=%s" % prepay_id,
@@ -88,14 +107,13 @@ class WechatPayService:
                     "result": {"reason": result.get("code")},
                 }
 
-        if pay_type == WeChatPayType.H5:
+        if pay_type == WeChatPayType.H5.value:
             scene_info = {
                 "payer_client_ip": payer_client_ip,
                 "h5_info": {"type": "Wap"},
             }
-            print(1111111)
-            code, message = self.pay_instance.pay(
-                description=desc,
+            code, message = self.h5_pay_instance.pay(
+                description=desc or '充值',
                 out_trade_no=out_trade_no,
                 amount={"total": amount},
                 pay_type=WeChatPayType.H5,
