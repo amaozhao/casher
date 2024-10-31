@@ -16,7 +16,7 @@ class CreateWechatPaymentView(APIView):
         pay_type = request_data.get("pay_type")
         payer = None
         if pay_type == 4:
-            payer = {"openid": user.id}
+            payer = {"openid": user.username}
         result = wechatpay_service.wechatpay(
             amount=amount,
             desc=desc,

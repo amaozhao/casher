@@ -76,6 +76,7 @@ class WechatPayService:
                 pay_type=WeChatPayType.JSAPI,
                 payer=payer,
             )
+            print(code, message)
             result = json.loads(message)
             if code in range(200, 300):
                 prepay_id = result.get("prepay_id")
