@@ -15,6 +15,7 @@ from wxappb.models import WxAppBUserProfile, WxAppBTechs
 
 
 class WxAppBLogin(APIView):
+    authentication_classes = []
     def post(self, request):
         params = request.data
         # 拿到小程序端提交的code

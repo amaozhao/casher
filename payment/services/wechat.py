@@ -50,7 +50,7 @@ class WechatPayService:
         pay_type=WeChatPayType.MINIPROG,
     ):
         out_trade_no = self.gen_order_number()
-        if pay_type == WeChatPayType.JSAPI:
+        if pay_type == WeChatPayType.MINIPROG:
             code, message = self.pay_instance.pay(
                 description=desc,
                 out_trade_no=out_trade_no,
@@ -93,6 +93,7 @@ class WechatPayService:
                 "payer_client_ip": payer_client_ip,
                 "h5_info": {"type": "Wap"},
             }
+            print(1111111)
             code, message = self.pay_instance.pay(
                 description=desc,
                 out_trade_no=out_trade_no,

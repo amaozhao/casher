@@ -15,6 +15,7 @@ from dj_rest_auth.utils import jwt_encode
 
 
 class WxAppLogin(APIView):
+    authentication_classes = []
     def post(self, request):
         params = request.data
         # 拿到小程序端提交的code

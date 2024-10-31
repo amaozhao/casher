@@ -19,7 +19,7 @@ class LoggingMiddleware:
         # 记录响应出参
         try:
             response_body = response.content.decode('utf-8') if response.content else ''
-            logger.info(f"Response: {response.status_code} | Body: {response_body}")
+            logger.info(f"Response: {response.status_code} | Body: {response_body[:100]}")
         except:
             pass
 
