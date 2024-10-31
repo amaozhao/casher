@@ -87,7 +87,7 @@ class WechatPayService:
                 )
                 signtype = "RSA"
                 return {
-                    "code": 0,
+                    "code": code,
                     "out_trade_no": out_trade_no,
                     "prepay_id": prepay_id,
                     "result": {
