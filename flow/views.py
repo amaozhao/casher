@@ -15,7 +15,9 @@ from flow.serializers.workflowdata import (
     WorkFlowCommentSerializer,
     WorkFlowDataSerializer,
 )
-from wxappb.service import generate_mp_qr_code
+from wxapp.service import generate_mp_qr_code as c_generate_mp_qr_code
+from wxappb.service import generate_mp_qr_code as b_generate_mp_qr_code
+from flow.service import generate_h5_qr_code
 
 chars = string.ascii_letters + string.digits
 
@@ -98,13 +100,13 @@ class UploadAPIView(APIView):
         处理上传逻辑，并将数据保存到数据库
         """
         post_data = post_data.get("postData")
-        # if techsid in ('init'):
-        #     return Response(
-        #         {
-        #             "errno": 41009,
-        #             "message": "用户未登陆"
-        #         }
-        #     )
+        if techsid in ('init'):
+            return Response(
+                {
+                    "errno": 41009,
+                    "message": "用户未登陆"
+                }
+            )
         try:
             # 创建 PostData 实例并保存
             post_data_instance = WorkFlowData.objects.create(
@@ -131,6 +133,10 @@ class UploadAPIView(APIView):
                     workflow=post_data_instance, image=img_file
                 )
 
+            h5_c_image = generate_h5_qr_code(workflow_id=post_data_instance.id, web_type='c')
+            wxp_c_image = c_generate_mp_qr_code(f'/web/workflow_id={post_data_instance.id}')
+            wxp_b_image = b_generate_mp_qr_code(f'/web-b/workflow_id={post_data_instance.id}')
+
             r = {
                 "errno": 1,
                 "message": "OK",
@@ -140,15 +146,15 @@ class UploadAPIView(APIView):
                         "code": 1,
                         "list": [
                             {
-                                "code": "https://tt-1254127940.file.myqcloud.com/tech_huise/66/code/ONZgL75MhOrqVE6F.png",
+                                "code": wxp_c_image,
                                 "desc": "微信小程序页面",
                             },
                             {
-                                "code": "https://tt-1254127940.file.myqcloud.com/tech_huise/66/code/6LCGwiQNRj152DZw1728990819.png",
+                                "code": h5_c_image,
                                 "desc": "H5页面",
                             },
                             {
-                                "code": "https://tt-1254127940.file.myqcloud.com/images/66/2024/05/h8kBOfzsOs4ee0UEP1Pp0OeySJMOFk.jpg",
+                                "code": wxp_b_image,
                                 "desc": "手机端后台",
                             },
                         ],
