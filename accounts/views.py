@@ -28,7 +28,7 @@ class WXQRCodeAPIView(APIView):
     def get(self, request, *args, **kwargs):
         # 设置微信扫码登录的 URL，并传入相应的参数
         redirect_uri = urllib.parse.quote_plus(
-            urljoin("http://aidep.cn:8601", reverse("weixin_callback"))
+            urljoin("http://aidep.cn", reverse("weixin_callback"))
         )
         wechat_qr_url = (
             f"https://open.weixin.qq.com/connect/qrconnect?"
@@ -145,7 +145,7 @@ class WXCallback(APIView):
         login(request, social_login.user)
         token, _ = jwt_encode(social_login.user)
 
-        return redirect(f"http://aidep.cn:8601/web/?token={str(token)}")
+        return redirect(f"http://aidep.cn/web/?token={str(token)}")
 
 
 class GoogleLoginUrl(APIView):
@@ -158,7 +158,7 @@ class GoogleLoginUrl(APIView):
         """
         client_id = settings.GOOGLE_OAUTH_CLIENT_ID
         callback_url = urllib.parse.quote_plus(
-            urljoin("http://aidep.cn:8601", reverse("google_callback"))
+            urljoin("http://aidep.cn", reverse("google_callback"))
         )
         return Response(
             {
@@ -185,9 +185,9 @@ class GoogleCallback(APIView):
         code = request.GET.get("code")
         if code is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        token_endpoint_url = urljoin("http://aidep.cn:8601", reverse("google_login"))
+        token_endpoint_url = urljoin("http://aidep.cn", reverse("google_login"))
         response = requests.post(url=token_endpoint_url, data={"code": code})
         res_json = response.json()
         token = res_json.get("access")
 
-        return redirect(f"http://aidep.cn:8601/web/?token={token}")
+        return redirect(f"http://aidep.cn/web/?token={token}")

@@ -17,6 +17,7 @@ from flow.serializers.workflowdata import (
 )
 from wxapp.service import generate_mp_qr_code as c_generate_mp_qr_code
 from wxappb.service import generate_mp_qr_code as b_generate_mp_qr_code
+from wxappb.models import WxAppBTechs
 from flow.service import generate_h5_qr_code
 
 chars = string.ascii_letters + string.digits
@@ -67,11 +68,6 @@ class UploadAPIView(APIView):
 
         # 根据 r 的值执行不同的逻辑
         if r_value == "comfyui.apiv2.upload":
-            if not techsid:
-                return Response(
-                    {"errno": 41009, "message": "用户未登陆", "data": []},
-                    status=status.HTTP_200_OK,
-                )
             # 解析表单中的 json_data
             json_data = request.POST.get("json_data", None)
             if not json_data:
@@ -100,13 +96,13 @@ class UploadAPIView(APIView):
         处理上传逻辑，并将数据保存到数据库
         """
         post_data = post_data.get("postData")
-        if techsid in ('init'):
-            return Response(
-                {
-                    "errno": 41009,
-                    "message": "用户未登陆"
-                }
-            )
+        # if techsid in ('init'):
+        #     return Response(
+        #         {
+        #             "errno": 41009,
+        #             "message": "用户未登陆"
+        #         }
+        #     )
         try:
             # 创建 PostData 实例并保存
             post_data_instance = WorkFlowData.objects.create(
@@ -134,8 +130,8 @@ class UploadAPIView(APIView):
                 )
 
             h5_c_image = generate_h5_qr_code(workflow_id=post_data_instance.id, web_type='c')
-            wxp_c_image = c_generate_mp_qr_code(f'/web/workflow_id={post_data_instance.id}')
-            wxp_b_image = b_generate_mp_qr_code(f'/web-b/workflow_id={post_data_instance.id}')
+            wxp_c_image = c_generate_mp_qr_code(f'/web/workflow/workflow_id={post_data_instance.id}/', query={})
+            wxp_b_image = b_generate_mp_qr_code(f'/web-b/workflow/workflow_id={post_data_instance.id}/', query={})
 
             r = {
                 "errno": 1,
@@ -218,13 +214,27 @@ class WorkFlowListView(ListAPIView):
 class BWorkFlowListView(ListAPIView):
 
     def get(self, request):
-        flows = WorkFlowData.objects.all()
+        user = request.user
+        if user.is_authenticated:
+            techs_ids = WxAppBTechs.objects.filter(user=user).all()
+            flows = WorkFlowData.objects.filter(techsid__in=[t.techsid for t in techs_ids])
+        else:
+            flows = WorkFlowData.objects.all()
         serializer = WorkFlowDataSerializer(flows, many=True)
         return Response({"data": serializer.data, "status": status.HTTP_200_OK})
 
     def get_queryset(self):
         user = self.request.user
         return WorkFlowData.objects.firter(user=user)
+
+
+class BWorkFlowDetailView(ListAPIView):
+
+    def get(self, request, *args, **kwargs):
+        id = kwargs.get("id")
+        flows = WorkFlowData.objects.get(id=id)
+        serializer = WorkFlowDataSerializer(flows)
+        return Response({"data": serializer.data, "status": status.HTTP_200_OK})
 
 
 class WorkFlowDetailView(RetrieveAPIView):

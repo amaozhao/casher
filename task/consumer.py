@@ -66,7 +66,7 @@ class ClientConsumer(AsyncWebsocketConsumer):
             elif message_type == "execution_cached":
                 print("executed")
             else:
-                print(data)
+                pass
         except Exception as e:
             print(f"Error processing message: {e}")
 

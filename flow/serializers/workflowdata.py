@@ -13,7 +13,7 @@ class WorkFlowImageSerializer(serializers.ModelSerializer):
         fields = ["id", "image"]
 
     def get_image(self, instance):
-        return urljoin("http://aidep.cn:8601", instance.image.url)
+        return urljoin("http://aidep.cn", instance.image.url)
 
 
 class WorkFlowDataSerializer(serializers.ModelSerializer):

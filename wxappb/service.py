@@ -29,13 +29,13 @@ def get_access_token():
 def generate_mp_qr_code(path, query, width=430):
     access_token = get_access_token()
     # 如果有查询参数，将其添加到路径
-    techsid = query.get('techsid')
+    workflow_id = query.get('workflow_id')
     _dir = settings.BASE_DIR / f"media/qrcode/b/"
     if not os.path.exists(_dir):
         os.mkdir(_dir)
-    if techsid:
-        if os.path.exists(settings.BASE_DIR / f"media/qrcode/b/{query.get('techsid')}.png"):
-            return f'http://192.168.10.104:8000/media/qrcode/b/{query.get("techsid")}.png'
+    if workflow_id:
+        if os.path.exists(settings.BASE_DIR / f"media/qrcode/b/{query.get('workflow_id')}.png"):
+            return f'http://192.168.10.104:8000/media/qrcode/b/{query.get("workflow_id")}.png'
     if query:
         if isinstance(query, dict):
             q = ''
@@ -53,7 +53,7 @@ def generate_mp_qr_code(path, query, width=430):
     response = requests.post(url, json=payload)
 
     if response.status_code == 200:
-        f_name = settings.BASE_DIR / f"media/qrcode/{query.get('techsid')}.png"
+        f_name = settings.BASE_DIR / f"media/qrcode/b/{query.get('techsid')}.png"
         with open(f_name, "wb") as f:
             f.write(response.content)
         return f'http://192.168.10.104:8000/media/qrcode/{query.get("techsid")}.png'

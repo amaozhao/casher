@@ -1,0 +1,33 @@
+serverAddr = "193.112.191.2"
+serverPort = 7001 		# 公网服务端通信端口
+auth.token = "bl2024" 		# 令牌，与公网服务端保持一致
+
+[[proxies]]
+name = "sz2_ssh"
+type = "tcp"
+localIP = "127.0.0.1"		# 需要暴露的服务的IP
+localPort = 22			# 将本地9000端口的服务暴露在公网的6060端口
+remotePort = 7022 		# 暴露服务的公网入口
+
+#[[proxies]]
+#name = "sz2_consul"
+#type = "tcp"
+#localIP = "192.168.31.29"
+#localPort = 8188
+#remotePort = 8500
+#
+#[[proxies]]
+#name = "sz2_nomad"
+#type = "tcp"
+#localIP = "192.168.10.100"
+#localPort = 4646
+#remotePort = 4646
+
+
+[[proxies]]
+name = "django"
+type = "tcp"
+localIP = "127.0.0.1"
+#localIP = "127.0.0.1" # 用这个好像不生效，必须具体ip
+localPort = 8001
+remotePort = 80

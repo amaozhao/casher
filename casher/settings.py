@@ -33,8 +33,8 @@ if DEBUG:
 else:
     config = dotenv_values("prod.env")
 
-ALLOWED_HOSTS = ["http://aidep.cn:8601", "http://0.0.0.0:8000", "*"]
-CSRF_TRUSTED_ORIGINS = ["http://aidep.cn:8601", "http://0.0.0.0:8000"]
+ALLOWED_HOSTS = ["http://aidep.cn", "http://0.0.0.0:8000", "*"]
+CSRF_TRUSTED_ORIGINS = ["http://aidep.cn", "http://0.0.0.0:8000"]
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 
 

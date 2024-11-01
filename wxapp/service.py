@@ -28,7 +28,7 @@ def get_access_token():
 
 def generate_mp_qr_code(path, query, width=430):
     access_token = get_access_token()
-    _dir = settings.BASE_DIR / f"media/qrcode/c/"
+    _dir = settings.BASE_DIR / "media/qrcode/c/"
     if not os.path.exists(_dir):
         os.mkdir(_dir)
     # 如果有查询参数，将其添加到路径
@@ -53,7 +53,7 @@ def generate_mp_qr_code(path, query, width=430):
     response = requests.post(url, json=payload)
 
     if response.status_code == 200:
-        f_name = settings.BASE_DIR / f"media/qrcode/{workflow_id}.png"
+        f_name = settings.BASE_DIR / f"media/qrcode/c/{workflow_id}.png"
         with open(f_name, "wb") as f:
             f.write(response.content)
         return f'http://192.168.10.104:8000/media/qrcode/{workflow_id}.png'

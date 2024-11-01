@@ -6,6 +6,7 @@ from flow.views import (
     WorkFlowDetailView,
     WorkFlowListView,
     BWorkFlowListView,
+    BWorkFlowDetailView,
 )
 
 urlpatterns = [
@@ -13,6 +14,7 @@ urlpatterns = [
     path("flows/", WorkFlowListView.as_view()),
     path("b_flows/", BWorkFlowListView.as_view()),
     path("flows/<int:id>/", WorkFlowDetailView.as_view()),
+    path("b_flows/<int:id>/", BWorkFlowDetailView.as_view()),
     path(
         "comments/<int:workflow_id>/",
         WorkFlowCommentList.as_view(),
