@@ -4,7 +4,7 @@ import urllib.parse
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 
-from task.models import UserTask
+from task.models import UserTask, TaskFreeCount
 from payment.models import UserHashrate
 
 # from django.core.cache import cache
@@ -119,6 +119,12 @@ class ClientConsumer(AsyncWebsocketConsumer):
             user_task.prompt_id = prompt_id
             user_task.save()
             user_hashrate = UserHashrate.objects.filter(user=user_task.user).first()
+            task_free_count = TaskFreeCount.objects.filter(workflow=user_task.flow).first()
+            if task_free_count.free_count < user_task.flow.free_times:
+                task_free_count.free_count += 1
+                task_free_count.save()
+                return
             if user_hashrate:
                 user_hashrate.hashrate -= user_task.fee
+                user_hashrate.save()
 

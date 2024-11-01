@@ -219,7 +219,7 @@ class WorkFlowListView(ListAPIView):
 
 
 class BWorkFlowListView(ListAPIView):
-
+    authentication_classes = []
     def get(self, request):
         user = request.user
         if user.is_authenticated:
