@@ -16,7 +16,7 @@ urlpatterns = [
     path("flows/<int:id>/", WorkFlowDetailView.as_view()),
     path("b_flows/<int:id>/", BWorkFlowDetailView.as_view()),
     path(
-        "comments/<int:workflow_id>/",
+        "comments/",
         WorkFlowCommentList.as_view(),
         name="flow_comments",
     ),

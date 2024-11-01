@@ -130,8 +130,15 @@ class UploadAPIView(APIView):
                 )
 
             h5_c_image = generate_h5_qr_code(workflow_id=post_data_instance.id, web_type='c')
-            wxp_c_image = c_generate_mp_qr_code(f'/web/workflow/workflow_id={post_data_instance.id}/', query={})
-            wxp_b_image = b_generate_mp_qr_code(f'/web-b/workflow/workflow_id={post_data_instance.id}/', query={})
+            wxp_c_image = c_generate_mp_qr_code(
+                f'/web/workflow/workflow_id={post_data_instance.id}/',
+                query={"workflow_id": post_data_instance.id}
+            )
+            wxp_b_image = b_generate_mp_qr_code(
+                f'/web-b/workflow/workflow_id={post_data_instance.id}/',
+                query={"workflow_id": post_data_instance.id}
+            )
+            print(h5_c_image, wxp_c_image, wxp_b_image)
 
             r = {
                 "errno": 1,
@@ -260,7 +267,7 @@ class WorkFlowCommentList(ListCreateAPIView):
         return Response({"data": [], "status": status.HTTP_200_OK})
 
     def post(self, request, *args, **kwargs):
-        workflow_id = kwargs.get("workflow_id")
+        workflow_id = request.data.get('workflow_id')
         flow = WorkFlowData.objects.filter(id=workflow_id).first()
         text = request.data.get("comment")
         comment = WorkFlowComment(workflow=flow, comment=text)

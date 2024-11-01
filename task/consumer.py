@@ -49,8 +49,6 @@ class ClientConsumer(AsyncWebsocketConsumer):
                 await self.handle_prompt_error(data)
             elif message_type == "crystools.prompt_ok":
                 await self.handle_prompt_ok(data)
-            # elif message_type == "prompt":
-            #     await self.handle_prompt(data)
             elif message_type == "status":
                 print("executed")
             elif message_type == "execution_start":
