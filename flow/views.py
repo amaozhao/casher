@@ -186,7 +186,7 @@ class UploadAPIView(APIView):
             return Response(r, status=status.HTTP_200_OK)
         else:
             s_key = ''.join(random.choice(chars) for _ in range(8))
-            qrcode = generate_mp_qr_code(path='/', query={'techsid': s_key})
+            qrcode = b_generate_mp_qr_code(path='/', query={'techsid': s_key})
             r = {
                 "errno": 0,
                 "message": "OK",

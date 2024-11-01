@@ -14,7 +14,7 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      - "8601:8601"
+      - "8000:8000"
     volumes:
       - ./web:/usr/share/nginx/html/web
       - ./web-b:/usr/share/nginx/html/web-b
