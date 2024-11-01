@@ -29,10 +29,12 @@ class UserUpload(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
+        db_table = "user_task_upload"
         ordering = ["-updated"]
 
 
 class UserTask(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     jilu_id = models.CharField(max_length=100)
     flow = models.ForeignKey(WorkFlowData, on_delete=models.CASCADE)
     fee = models.IntegerField(default=10)
@@ -71,3 +73,15 @@ class TaskResult(models.Model):
     class Meta:
         db_table = "task_result"
         ordering = ["-created"]
+
+
+class TaskFreeCount(models.Model):
+    workflow = models.ForeignKey(
+        WorkFlowData, related_name="task_count", on_delete=models.CASCADE
+    )
+    free_count = models.IntegerField(default=0)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "task_free_count"

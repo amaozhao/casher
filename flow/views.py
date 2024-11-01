@@ -254,6 +254,7 @@ class WorkFlowDetailView(RetrieveAPIView):
 
 
 class WorkFlowCommentList(ListCreateAPIView):
+    serializer_class = WorkFlowCommentSerializer
 
     def get(self, request, *args, **kwargs):
         workflow_id = kwargs.get("workflow_id")

@@ -9,7 +9,8 @@ from rest_framework.views import APIView
 
 from flow.models import WorkFlowData
 from task.consumer import client_dict
-from task.models import TaskResult, UserTask, UserUpload
+from task.models import TaskResult, UserTask, UserUpload, TaskFreeCount
+from payment.models import UserHashrate
 from task.serializers import TaskResultSerializer
 
 
@@ -62,10 +63,25 @@ class PromptView(APIView):
         image_url = request.data.get("image_url", "")
         prompt_text = request.data.get("prompt_text", "")
         workflow = WorkFlowData.objects.filter(id=workflow_id).first()
+        task_free_count = TaskFreeCount.objects.filter(workflow=workflow).first()
+        if task_free_count and task_free_count.free_count >= workflow.free_times:
+            hashrate = UserHashrate.objects.filter(user=request.user).first()
+            if not hashrate:
+                hashrate = UserHashrate.objects.create(user=request.user)
+            if hashrate.hashrate < workflow.fee:
+                return Response(
+                    {
+                        "data": {"jilu_id": jilu_id},
+                        "message": "余额不足，请充值",
+                        "status": status.HTTP_400_BAD_REQUEST,
+                    },
+                    status=status.HTTP_200_OK,
+                )
         cs_img_nodes = workflow.post_data.get("cs_img_nodes")
         cs_text_nodes = workflow.post_data.get("cs_text_nodes")
         uniqueid = request.data.get("uniqueid")
         user_task = UserTask(
+            user=request.user,
             jilu_id=jilu_id,
             flow=workflow,
             fee=workflow.fee,
