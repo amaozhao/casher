@@ -190,15 +190,15 @@ class GoogleCallback(APIView):
     authentication_classes = []
     def get(self, request, *args, **kwargs):
         code = request.GET.get("code")
-        techsid = request.GET.get('techsid')
-        print(1111, techsid)
+        state = request.GET.get('state')
+        print(1111, request.GET.keys())
         if code is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         token_endpoint_url = urljoin("http://aidep.cn", reverse("google_login"))
-        response = requests.post(url=token_endpoint_url, data={"code": code})
-        print(2222, response)
+        response = requests.post(url=token_endpoint_url, data={"code": code}, timeout=10)
         res_json = response.json()
-        print(111111, res_json)
+        user = res_json.get('user')
+        user = User.objects.get(user.get('pk'))
         token = res_json.get("access")
 
         return redirect(f"http://aidep.cn/web/?token={token}")
