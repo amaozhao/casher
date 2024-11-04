@@ -195,7 +195,7 @@ class GoogleCallback(APIView):
         if code is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         token_endpoint_url = urljoin("http://aidep.cn", reverse("google_login"))
-        response = requests.post(url=token_endpoint_url, data={"code": code}, timeout=10)
+        response = requests.post(url=token_endpoint_url, data={"code": code}, timeout=60)
         res_json = response.json()
         user = res_json.get('user')
         if user and state:
