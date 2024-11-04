@@ -186,7 +186,7 @@ class UploadAPIView(APIView):
             f"https://accounts.google.com/o/oauth2/v2/auth?redirect_uri={callback_url}&"
             f"prompt=consent&response_type=code&client_id={client_id}&"
             f"scope=openid%20email%20profile&access_type=online&"
-            f"state={urllib.parse.quote_plus(str(state))}"
+            f"state={urllib.parse.quote_plus(json.dumps(state))}"
         )
         return url
 
