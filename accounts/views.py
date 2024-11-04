@@ -201,7 +201,6 @@ class GoogleCallback(APIView):
         if user and state:
             user = User.objects.get(id=user.get('pk'))
             state = urllib.parse.unquote_plus(state)
-            state.replace("'", '"')
             state = json.loads(state)
             techsid = state.get('techsid')
             WxAppBTechs.objects.create(
