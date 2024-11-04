@@ -198,6 +198,7 @@ class GoogleCallback(APIView):
         response = requests.post(url=token_endpoint_url, data={"code": code}, timeout=60)
         res_json = response.json()
         user = res_json.get('user')
+        print(2222, user, user.get('pk'))
         if user and state:
             user = User.objects.get(user.get('pk'))
             state = urllib.parse.unquote_plus(state)
