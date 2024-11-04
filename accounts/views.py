@@ -1,3 +1,4 @@
+import json
 import urllib.parse
 from urllib.parse import urljoin
 
@@ -191,14 +192,22 @@ class GoogleCallback(APIView):
     def get(self, request, *args, **kwargs):
         code = request.GET.get("code")
         state = request.GET.get('state')
-        print(1111, request.GET.keys())
         if code is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         token_endpoint_url = urljoin("http://aidep.cn", reverse("google_login"))
         response = requests.post(url=token_endpoint_url, data={"code": code}, timeout=10)
         res_json = response.json()
         user = res_json.get('user')
-        user = User.objects.get(user.get('pk'))
+        if user and state:
+            user = User.objects.get(user.get('pk'))
+            state = urllib.parse.unquote_plus(state)
+            state = json.loads(state)
+            techsid = state.get('techsid')
+            WxAppBTechs.objects.create(
+                user=user,
+                techsid=techsid
+            )
+
         token = res_json.get("access")
 
         return redirect(f"http://aidep.cn/web/?token={token}")
