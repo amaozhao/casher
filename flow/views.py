@@ -1,10 +1,14 @@
 import json
 import string, random
+import urllib.parse
+from urllib.parse import urljoin
 
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.core.cache import cache
+from django.urls import reverse
 from django.http import JsonResponse
+from django.conf import settings
 from rest_framework import status
 from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveAPIView
 from rest_framework.response import Response
@@ -96,13 +100,13 @@ class UploadAPIView(APIView):
         处理上传逻辑，并将数据保存到数据库
         """
         post_data = post_data.get("postData")
-        # if techsid in ('init'):
-        #     return Response(
-        #         {
-        #             "errno": 41009,
-        #             "message": "用户未登陆"
-        #         }
-        #     )
+        if techsid in ('init'):
+            return Response(
+                {
+                    "errno": 41009,
+                    "message": "用户未登陆"
+                }
+            )
         try:
             # 创建 PostData 实例并保存
             post_data_instance = WorkFlowData.objects.create(
@@ -138,7 +142,6 @@ class UploadAPIView(APIView):
                 f'/web-b/workflow/workflow_id={post_data_instance.id}/',
                 query={"workflow_id": post_data_instance.id}
             )
-            print(h5_c_image, wxp_c_image, wxp_b_image)
 
             r = {
                 "errno": 1,
@@ -173,6 +176,20 @@ class UploadAPIView(APIView):
                 {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
+    def get_google_login_url(self, techsid):
+        client_id = settings.GOOGLE_OAUTH_CLIENT_ID
+        callback_url = urllib.parse.quote_plus(
+            urljoin("http://aidep.cn", reverse("google_callback"))
+        )
+        state = {'techsid': techsid}
+        url = (
+            f"https://accounts.google.com/o/oauth2/v2/auth?redirect_uri={callback_url}&"
+            f"prompt=consent&response_type=code&client_id={client_id}&"
+            f"scope=openid%20email%20profile&access_type=online&"
+            f"state={urllib.parse.quote_plus(str(state))}"
+        )
+        return url
+
     def handle_code_logic(self, post_data, techsid):
         """
         处理与 code 相关的逻辑
@@ -197,10 +214,11 @@ class UploadAPIView(APIView):
                     "data": {
                         "code": 1,
                         "data": qrcode,
-                        "desc": "请微信扫码登录",
+                        "desc": "请微信扫码/Google登录",
                         "test": {"s_key": s_key, "subdomain": "11"},
                         "s_key": s_key,
                         "techsid": s_key,
+                        "google_log_url": self.get_google_login_url(s_key)
                     }
                 }
             }
