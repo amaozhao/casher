@@ -181,7 +181,7 @@ class UploadAPIView(APIView):
         callback_url = urllib.parse.quote_plus(
             urljoin("http://aidep.cn", reverse("google_callback"))
         )
-        state = {'techsid': techsid}
+        state = {"techsid": techsid}
         url = (
             f"https://accounts.google.com/o/oauth2/v2/auth?redirect_uri={callback_url}&"
             f"prompt=consent&response_type=code&client_id={client_id}&"
