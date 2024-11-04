@@ -207,6 +207,8 @@ class GoogleCallback(APIView):
                 user=user,
                 techsid=techsid
             )
+            token = res_json.get("access")
+            return redirect(f"http://aidep.cn/web-b/?token={token}")
 
         token = res_json.get("access")
 
