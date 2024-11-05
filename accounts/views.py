@@ -242,7 +242,7 @@ class WXCallback2(SocialLoginView):
             get_adapter()
             .get_requests_session()
             .get(
-                self.profile_url,
+                self.adapter_class.profile_url,
                 params={"access_token": token, "openid": openid},
             )
         )
