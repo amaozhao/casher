@@ -172,6 +172,7 @@ class WXCallback2(SocialLoginView):
         response = requests.post(
             url=token_endpoint_url, data={"code": code}, timeout=60
         )
+        print(1111, response.text)
         res_json = response.json()
         user = res_json.get("user")
         if user and state:
