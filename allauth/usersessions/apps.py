@@ -12,11 +12,8 @@ class UserSessionsConfig(AppConfig):
     )
 
     def ready(self):
-        from allauth.account.signals import (
-            password_changed,
-            password_set,
-            user_logged_in,
-        )
+        from allauth.account.signals import (password_changed, password_set,
+                                             user_logged_in)
         from allauth.usersessions import signals
 
         user_logged_in.connect(receiver=signals.on_user_logged_in)

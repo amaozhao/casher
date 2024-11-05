@@ -10,28 +10,22 @@ from allauth.core import ratelimit
 from allauth.core.exceptions import ImmediateHttpResponse
 from allauth.decorators import rate_limit
 from allauth.headless.account import response
-from allauth.headless.account.inputs import (
-    AddEmailInput,
-    ChangePasswordInput,
-    ConfirmLoginCodeInput,
-    DeleteEmailInput,
-    LoginInput,
-    MarkAsPrimaryEmailInput,
-    ReauthenticateInput,
-    RequestLoginCodeInput,
-    RequestPasswordResetInput,
-    ResetPasswordInput,
-    ResetPasswordKeyInput,
-    SelectEmailInput,
-    SignupInput,
-    VerifyEmailInput,
-)
-from allauth.headless.base.response import (
-    APIResponse,
-    AuthenticationResponse,
-    ConflictResponse,
-    ForbiddenResponse,
-)
+from allauth.headless.account.inputs import (AddEmailInput,
+                                             ChangePasswordInput,
+                                             ConfirmLoginCodeInput,
+                                             DeleteEmailInput, LoginInput,
+                                             MarkAsPrimaryEmailInput,
+                                             ReauthenticateInput,
+                                             RequestLoginCodeInput,
+                                             RequestPasswordResetInput,
+                                             ResetPasswordInput,
+                                             ResetPasswordKeyInput,
+                                             SelectEmailInput, SignupInput,
+                                             VerifyEmailInput)
+from allauth.headless.base.response import (APIResponse,
+                                            AuthenticationResponse,
+                                            ConflictResponse,
+                                            ForbiddenResponse)
 from allauth.headless.base.views import APIView, AuthenticatedAPIView
 from allauth.headless.internal import authkit
 from allauth.headless.internal.restkit.response import ErrorResponse

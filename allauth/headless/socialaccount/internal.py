@@ -2,15 +2,14 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from django.http import HttpResponseRedirect
 
 from allauth import app_settings as allauth_settings
-from allauth.core.exceptions import (
-    ImmediateHttpResponse,
-    ReauthenticationRequired,
-    SignupClosedException,
-)
+from allauth.core.exceptions import (ImmediateHttpResponse,
+                                     ReauthenticationRequired,
+                                     SignupClosedException)
 from allauth.core.internal import httpkit
 from allauth.headless.internal.authkit import AuthenticationStatus
 from allauth.socialaccount.internal import flows, statekit
-from allauth.socialaccount.providers.base.constants import AuthError, AuthProcess
+from allauth.socialaccount.providers.base.constants import (AuthError,
+                                                            AuthProcess)
 
 
 def on_authentication_error(

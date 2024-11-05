@@ -1,13 +1,7 @@
 from django.urls import path
 
-from task.views import (
-    ImageDisplayView,
-    ImageUploadView,
-    PromptCompleted,
-    PromptView,
-    TaskHistoryDeleteView,
-    TaskHistoryView,
-)
+from task.views import (ImageDisplayView, ImageUploadView, PromptCompleted,
+                        PromptView, TaskHistoryDeleteView, TaskHistoryView)
 
 urlpatterns = [
     path("upload/", ImageUploadView.as_view(), name="image-upload"),

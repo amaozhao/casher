@@ -65,5 +65,8 @@ class HashrateconvertView(APIView):
     def post(self, request, *args, **kwargs):
         amount = request.data.get("amount")
         return Response(
-            {"status": status.HTTP_200_OK, "data": {"currency": round(amount / 100, 2), "message": ""}}
+            {
+                "status": status.HTTP_200_OK,
+                "data": {"currency": round(amount / 100, 2), "message": ""},
+            }
         )

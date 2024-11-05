@@ -1,22 +1,19 @@
 from django.core.exceptions import ValidationError
 
 from allauth.core.exceptions import SignupClosedException
-from allauth.headless.base.response import (
-    AuthenticationResponse,
-    ConflictResponse,
-    ForbiddenResponse,
-)
+from allauth.headless.base.response import (AuthenticationResponse,
+                                            ConflictResponse,
+                                            ForbiddenResponse)
 from allauth.headless.base.views import APIView, AuthenticatedAPIView
 from allauth.headless.internal.restkit.response import ErrorResponse
 from allauth.headless.socialaccount.forms import RedirectToProviderForm
-from allauth.headless.socialaccount.inputs import (
-    DeleteProviderAccountInput,
-    ProviderTokenInput,
-    SignupInput,
-)
+from allauth.headless.socialaccount.inputs import (DeleteProviderAccountInput,
+                                                   ProviderTokenInput,
+                                                   SignupInput)
 from allauth.headless.socialaccount.internal import complete_token_login
 from allauth.headless.socialaccount.response import SocialAccountsResponse
-from allauth.socialaccount.adapter import get_adapter as get_socialaccount_adapter
+from allauth.socialaccount.adapter import \
+    get_adapter as get_socialaccount_adapter
 from allauth.socialaccount.helpers import render_authentication_error
 from allauth.socialaccount.internal import flows
 from allauth.socialaccount.models import SocialAccount

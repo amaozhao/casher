@@ -9,13 +9,14 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from dj_rest_auth.utils import jwt_encode
 from wxapp import service
 from wxapp.models import WxAppUserProfile
-from dj_rest_auth.utils import jwt_encode
 
 
 class WxAppLogin(APIView):
     authentication_classes = []
+
     def post(self, request):
         params = request.data
         # 拿到小程序端提交的code
@@ -78,7 +79,7 @@ class WxAppLogin(APIView):
                         "data": {
                             "login_key": key,
                             "token": str(token),
-                        }
+                        },
                     },
                     status=status.HTTP_200_OK,
                 )
@@ -96,7 +97,7 @@ class WxAppLogin(APIView):
                 {
                     "status": status.HTTP_400_BAD_REQUEST,
                     "message": "参数缺失",
-                    "data": {"msg": "缺少参数"}
+                    "data": {"msg": "缺少参数"},
                 },
                 status=status.HTTP_401_UNAUTHORIZED,
             )

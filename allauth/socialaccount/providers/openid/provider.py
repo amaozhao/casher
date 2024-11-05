@@ -5,13 +5,8 @@ from django.utils.http import urlencode
 
 from allauth.socialaccount.providers.base import Provider, ProviderAccount
 
-from .utils import (
-    AXAttribute,
-    OldAXAttribute,
-    SRegField,
-    get_email_from_response,
-    get_value_from_response,
-)
+from .utils import (AXAttribute, OldAXAttribute, SRegField,
+                    get_email_from_response, get_value_from_response)
 
 
 class OpenIDAccount(ProviderAccount):

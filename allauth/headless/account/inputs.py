@@ -3,17 +3,13 @@ from django.core.validators import validate_email
 
 from allauth.account import app_settings as account_app_settings
 from allauth.account.adapter import get_adapter as get_account_adapter
-from allauth.account.forms import (
-    AddEmailForm,
-    BaseSignupForm,
-    ConfirmLoginCodeForm,
-    ReauthenticateForm,
-    RequestLoginCodeForm,
-    ResetPasswordForm,
-    UserTokenForm,
-)
+from allauth.account.forms import (AddEmailForm, BaseSignupForm,
+                                   ConfirmLoginCodeForm, ReauthenticateForm,
+                                   RequestLoginCodeForm, ResetPasswordForm,
+                                   UserTokenForm)
 from allauth.account.internal import flows
-from allauth.account.models import EmailAddress, Login, get_emailconfirmation_model
+from allauth.account.models import (EmailAddress, Login,
+                                    get_emailconfirmation_model)
 from allauth.core import context
 from allauth.headless.adapter import get_adapter
 from allauth.headless.internal.restkit import inputs

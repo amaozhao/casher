@@ -5,21 +5,14 @@ from django.contrib.auth.urls import urlpatterns
 from django.urls import re_path
 
 try:
-    from django.contrib.auth.views import (
-        login,
-        logout,
-        password_change,
-        password_reset,
-        password_reset_confirm,
-    )
+    from django.contrib.auth.views import (login, logout, password_change,
+                                           password_reset,
+                                           password_reset_confirm)
 except ImportError:
-    from django.contrib.auth.views import (
-        LoginView,
-        LogoutView,
-        PasswordChangeView,
-        PasswordResetConfirmView,
-        PasswordResetView,
-    )
+    from django.contrib.auth.views import (LoginView, LogoutView,
+                                           PasswordChangeView,
+                                           PasswordResetConfirmView,
+                                           PasswordResetView)
 
     logout = LogoutView.as_view()
     login = LoginView.as_view()

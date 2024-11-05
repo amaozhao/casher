@@ -37,9 +37,9 @@ class CreateWechatPaymentView(APIView):
                     "status": status.HTTP_200_OK,
                     "message": "",
                     "data": {
-                        "out_trade_no": result.get('out_trade_no'),
-                        'url': result.get('message').get('code_url'),
-                    }
+                        "out_trade_no": result.get("out_trade_no"),
+                        "url": result.get("message").get("code_url"),
+                    },
                 },
                 status=status.HTTP_200_OK,
             )
@@ -47,9 +47,9 @@ class CreateWechatPaymentView(APIView):
             {
                 "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
                 "data": result,
-                "message": "error"
+                "message": "error",
             },
-            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
 
 
@@ -81,8 +81,8 @@ class WechatPayNotifyView(APIView):
 
 class WechatPayCheckView(APIView):
     def get(self, request, *args, **kwargs):
-        langStr = request.headers.get('languageStr')
-        out_trade_no = request.GET.get('out_trade_no')
+        langStr = request.headers.get("languageStr")
+        out_trade_no = request.GET.get("out_trade_no")
         order = WechatOrder.objects.filter(out_trade_no=out_trade_no).first()
         if order:
             return Response(
@@ -90,20 +90,17 @@ class WechatPayCheckView(APIView):
                     "status": status.HTTP_200_OK,
                     "data": {
                         "out_trade_no": out_trade_no,
-                        "trade_status": order.status
-                    }
+                        "trade_status": order.status,
+                    },
                 }
             )
         message = "支付未完成"
-        if langStr == 'en-us':
-            message = 'Payment not completed'
+        if langStr == "en-us":
+            message = "Payment not completed"
         return Response(
-                {
-                    "status": status.HTTP_400_BAD_REQUEST,
-                    "message": message,
-                    "data": {
-                        "out_trade_no": out_trade_no,
-                        "trade_status": None
-                    }
-                }
-            )
+            {
+                "status": status.HTTP_400_BAD_REQUEST,
+                "message": message,
+                "data": {"out_trade_no": out_trade_no, "trade_status": None},
+            }
+        )

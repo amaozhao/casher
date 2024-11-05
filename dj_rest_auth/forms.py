@@ -7,13 +7,11 @@ from .app_settings import api_settings
 if "allauth" in settings.INSTALLED_APPS:
     from allauth.account import app_settings as allauth_account_settings
     from allauth.account.adapter import get_adapter
-    from allauth.account.forms import ResetPasswordForm as DefaultPasswordResetForm
+    from allauth.account.forms import \
+        ResetPasswordForm as DefaultPasswordResetForm
     from allauth.account.forms import default_token_generator
-    from allauth.account.utils import (
-        filter_users_by_email,
-        user_pk_to_url_str,
-        user_username,
-    )
+    from allauth.account.utils import (filter_users_by_email,
+                                       user_pk_to_url_str, user_username)
     from allauth.utils import build_absolute_uri
 
 

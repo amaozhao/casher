@@ -11,11 +11,12 @@ from rest_framework.views import APIView
 
 from dj_rest_auth.utils import jwt_encode
 from wxappb import service
-from wxappb.models import WxAppBUserProfile, WxAppBTechs
+from wxappb.models import WxAppBTechs, WxAppBUserProfile
 
 
 class WxAppBLogin(APIView):
     authentication_classes = []
+
     def post(self, request):
         params = request.data
         # 拿到小程序端提交的code
@@ -70,10 +71,10 @@ class WxAppBLogin(APIView):
                 profile.country = raw_data.get("country")
                 profile.avatarUrl = raw_data.get("avatarUrl")
                 profile.save()
-                if params.get('techsid'):
+                if params.get("techsid"):
                     tesh, _ = WxAppBTechs.objects.get_or_create(
                         user=has_user,
-                        techsid=params.get('techsid'),
+                        techsid=params.get("techsid"),
                     )
                 token, _ = jwt_encode(has_user)
                 return Response(
@@ -83,7 +84,7 @@ class WxAppBLogin(APIView):
                         "data": {
                             "login_key": key,
                             "token": str(token),
-                        }
+                        },
                     },
                     status=status.HTTP_200_OK,
                 )
@@ -101,7 +102,7 @@ class WxAppBLogin(APIView):
                 {
                     "status": status.HTTP_401_UNAUTHORIZED,
                     "message": "参数缺失",
-                    "data": {"msg": "缺少参数"}
+                    "data": {"msg": "缺少参数"},
                 },
                 status=status.HTTP_401_UNAUTHORIZED,
             )

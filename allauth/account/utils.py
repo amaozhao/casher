@@ -15,7 +15,8 @@ from allauth.account.adapter import get_adapter
 from allauth.account.internal import flows
 from allauth.account.models import Login
 from allauth.core.internal import httpkit
-from allauth.utils import get_request_param, import_callable, valid_email_or_none
+from allauth.utils import (get_request_param, import_callable,
+                           valid_email_or_none)
 
 
 def _unicode_ci_compare(s1, s2) -> bool:

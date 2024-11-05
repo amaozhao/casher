@@ -20,13 +20,14 @@ from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from allauth.socialaccount.providers.weixin.provider import WeixinProvider
 from allauth.socialaccount.providers.weixin.views import WeixinOAuth2Adapter
-from dj_rest_auth.utils import jwt_encode
 from dj_rest_auth.registration.views import SocialLoginView
+from dj_rest_auth.utils import jwt_encode
 from wxappb.models import WxAppBTechs
 
 
 class WXQRCodeAPIView(APIView):
     authentication_classes = []
+
     def get(self, request, *args, **kwargs):
         # 设置微信扫码登录的 URL，并传入相应的参数
         redirect_uri = urllib.parse.quote_plus(
@@ -56,6 +57,7 @@ class WXLoginAPIView(SocialLoginView):
 
 class WXCallback(APIView):
     authentication_classes = []
+
     def get(self, request, *args, **kwargs):
         code = request.GET.get("code")
         if code is None:
@@ -117,7 +119,7 @@ class WXCallback(APIView):
 
         # 检查是否已经存在关联的 SocialAccount
         existing_account = SocialAccount.objects.filter(
-            uid=openid, provider='weixin'
+            uid=openid, provider="weixin"
         ).first()
         if existing_account:
             # 已存在用户，直接登录
@@ -150,8 +152,20 @@ class WXCallback(APIView):
         return redirect(f"http://aidep.cn/web/?token={str(token)}")
 
 
+class WXCallback2(APIView):
+    adapter_class = WeixinOAuth2Adapter
+
+    def get_response(self):
+        user = self.user
+        token, _ = jwt_encode(user.user)
+
+        # 返回包含 access 和 refresh token 的响应
+        return redirect(f"http://aidep.cn/web/?token={str(token)}")
+
+
 class GoogleLoginUrl(APIView):
     authentication_classes = []
+
     def get(self, request, *args, **kwargs):
         """
         If you are building a fullstack application (eq. with React app next to Django)
@@ -159,10 +173,11 @@ class GoogleLoginUrl(APIView):
         the JWT tokens there - and store them in the state
         """
         client_id = settings.GOOGLE_OAUTH_CLIENT_ID
-        techsid = request.GET.get('techsid')
+        techsid = request.GET.get("techsid")
         if techsid:
             callback_url = urllib.parse.quote_plus(
-                urljoin("http://aidep.cn", reverse("google_callback")) + f'?techsid={techsid}'
+                urljoin("http://aidep.cn", reverse("google_callback"))
+                + f"?techsid={techsid}"
             )
         else:
             callback_url = urllib.parse.quote_plus(
@@ -189,24 +204,24 @@ class GoogleLoginView(SocialLoginView):
 
 class GoogleCallback(APIView):
     authentication_classes = []
+
     def get(self, request, *args, **kwargs):
         code = request.GET.get("code")
-        state = request.GET.get('state')
+        state = request.GET.get("state")
         if code is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         token_endpoint_url = urljoin("http://aidep.cn", reverse("google_login"))
-        response = requests.post(url=token_endpoint_url, data={"code": code}, timeout=60)
+        response = requests.post(
+            url=token_endpoint_url, data={"code": code}, timeout=60
+        )
         res_json = response.json()
-        user = res_json.get('user')
+        user = res_json.get("user")
         if user and state:
-            user = User.objects.get(id=user.get('pk'))
+            user = User.objects.get(id=user.get("pk"))
             state = urllib.parse.unquote_plus(state)
             state = json.loads(state)
-            techsid = state.get('techsid')
-            WxAppBTechs.objects.create(
-                user=user,
-                techsid=techsid
-            )
+            techsid = state.get("techsid")
+            WxAppBTechs.objects.create(user=user, techsid=techsid)
             token = res_json.get("access")
             return redirect(f"http://aidep.cn/web-b/?token={token}")
 

@@ -108,12 +108,16 @@ class WechatPayService:
 
         if pay_type == WeChatPayType.H5.value:
             code, message = self.h5_pay_instance.pay(
-                description=desc or '充值',
+                description=desc or "充值",
                 out_trade_no=out_trade_no,
                 amount={"total": amount},
                 pay_type=WeChatPayType.NATIVE,
             )
-            return {"out_trade_no": out_trade_no, "code": code, "message": json.loads(message)}
+            return {
+                "out_trade_no": out_trade_no,
+                "code": code,
+                "message": json.loads(message),
+            }
 
 
 wechatpay_service = WechatPayService()

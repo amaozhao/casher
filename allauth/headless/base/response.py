@@ -49,7 +49,8 @@ class BaseAuthenticationResponse(APIResponse):
             ):
                 ret.append({"id": Flow.SIGNUP})
             if allauth_settings.SOCIALACCOUNT_ENABLED:
-                from allauth.headless.socialaccount.response import provider_flows
+                from allauth.headless.socialaccount.response import \
+                    provider_flows
 
                 ret.extend(provider_flows(request))
             if allauth_settings.MFA_ENABLED:
@@ -128,21 +129,18 @@ class ConfigResponse(APIResponse):
     def __init__(self, request):
         data = get_config_data(request)
         if allauth_settings.SOCIALACCOUNT_ENABLED:
-            from allauth.headless.socialaccount.response import (
-                get_config_data as get_socialaccount_config_data,
-            )
+            from allauth.headless.socialaccount.response import \
+                get_config_data as get_socialaccount_config_data
 
             data.update(get_socialaccount_config_data(request))
         if allauth_settings.MFA_ENABLED:
-            from allauth.headless.mfa.response import (
-                get_config_data as get_mfa_config_data,
-            )
+            from allauth.headless.mfa.response import \
+                get_config_data as get_mfa_config_data
 
             data.update(get_mfa_config_data(request))
         if allauth_settings.USERSESSIONS_ENABLED:
-            from allauth.headless.usersessions.response import (
-                get_config_data as get_usersessions_config_data,
-            )
+            from allauth.headless.usersessions.response import \
+                get_config_data as get_usersessions_config_data
 
             data.update(get_usersessions_config_data(request))
         return super().__init__(request, data=data)

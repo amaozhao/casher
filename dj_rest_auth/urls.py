@@ -1,14 +1,9 @@
 from django.urls import path
 
 from dj_rest_auth.app_settings import api_settings
-from dj_rest_auth.views import (
-    LoginView,
-    LogoutView,
-    PasswordChangeView,
-    PasswordResetConfirmView,
-    PasswordResetView,
-    UserDetailsView,
-)
+from dj_rest_auth.views import (LoginView, LogoutView, PasswordChangeView,
+                                PasswordResetConfirmView, PasswordResetView,
+                                UserDetailsView)
 
 urlpatterns = [
     # URLs that do not require a session or valid token

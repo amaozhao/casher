@@ -12,10 +12,8 @@ from openid.extensions.sreg import SRegRequest
 
 from allauth.account.internal.decorators import login_not_required
 from allauth.socialaccount.app_settings import QUERY_EMAIL
-from allauth.socialaccount.helpers import (
-    complete_social_login,
-    render_authentication_error,
-)
+from allauth.socialaccount.helpers import (complete_social_login,
+                                           render_authentication_error)
 from allauth.socialaccount.models import SocialLogin
 
 from ..base import AuthError

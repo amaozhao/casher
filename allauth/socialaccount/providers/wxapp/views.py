@@ -1,9 +1,7 @@
 import requests
 
-from allauth.socialaccount.providers.oauth2.views import (
-    OAuth2CallbackView,
-    OAuth2LoginView,
-)
+from allauth.socialaccount.providers.oauth2.views import (OAuth2CallbackView,
+                                                          OAuth2LoginView)
 from allauth.socialaccount.providers.weixin.views import WeixinOAuth2Adapter
 
 from .provider import WxAppProvider

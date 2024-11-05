@@ -62,7 +62,7 @@ INSTALLED_APPS = [
     "casher",
     "flow",
     "task",
-    'dj_rest_auth',
+    "dj_rest_auth",
     "dj_rest_auth.registration",
     "payment",
     "wxapp",
@@ -305,7 +305,7 @@ YUNZHANGHU_3DES_KEY = config.get("YUNZHANGHU_3DES_KEY")
 YUNZHANGHU_APP_KEY = config.get("YUNZHANGHU_APP_KEY")
 YUNZHANGHU_PUBLIC_KEY = config.get("YUNZHANGHU_PUBLIC_KEY")
 YUNZHANGHU_PRIVATE_KEY = config.get("YUNZHANGHU_PRIVATE_KEY")
-YUNZHANGHU_HOST = config.get('YUNZHANGHU_HOST')
+YUNZHANGHU_HOST = config.get("YUNZHANGHU_HOST")
 
 LOGGING = {
     "version": 1,

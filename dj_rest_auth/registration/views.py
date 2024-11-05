@@ -19,12 +19,8 @@ from allauth.socialaccount.models import SocialAccount
 from dj_rest_auth.app_settings import api_settings
 from dj_rest_auth.models import TokenModel
 from dj_rest_auth.registration.serializers import (
-    ResendEmailVerificationSerializer,
-    SocialAccountSerializer,
-    SocialConnectSerializer,
-    SocialLoginSerializer,
-    VerifyEmailSerializer,
-)
+    ResendEmailVerificationSerializer, SocialAccountSerializer,
+    SocialConnectSerializer, SocialLoginSerializer, VerifyEmailSerializer)
 from dj_rest_auth.utils import jwt_encode
 from dj_rest_auth.views import LoginView
 

@@ -8,9 +8,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from flow.models import WorkFlowData
-from task.consumer import client_dict
-from task.models import TaskResult, UserTask, UserUpload, TaskFreeCount
 from payment.models import UserHashrate
+from task.consumer import client_dict
+from task.models import TaskFreeCount, TaskResult, UserTask, UserUpload
 from task.serializers import TaskResultSerializer
 
 
@@ -79,7 +79,7 @@ class PromptView(APIView):
                 )
         cs_img_nodes = workflow.post_data.get("cs_img_nodes")
         cs_text_nodes = workflow.post_data.get("cs_text_nodes")
-        uniqueid = request.data.get("uniqueid")
+        uniqueid = workflow.uniqueid
         user_task = UserTask(
             user=request.user,
             jilu_id=jilu_id,

@@ -1,10 +1,13 @@
 from django.conf import settings
-
-from yunzhanghu_sdk.config import Config
-from yunzhanghu_sdk.client.api.payment_client import PaymentClient
-from yunzhanghu_sdk.client.api.model.apiusersign import ApiUserSignContractRequest, GetApiUserSignStatusRequest, ApiUserSignRequest
-from yunzhanghu_sdk.client.api.apiusersign_client import ApiUserSignServiceClient
+from yunzhanghu_sdk.client.api.apiusersign_client import \
+    ApiUserSignServiceClient
+from yunzhanghu_sdk.client.api.model.apiusersign import (
+    ApiUserSignContractRequest, ApiUserSignRequest,
+    GetApiUserSignStatusRequest)
 from yunzhanghu_sdk.client.api.model.payment import CreateWxpayOrderRequest
+from yunzhanghu_sdk.client.api.payment_client import PaymentClient
+from yunzhanghu_sdk.config import Config
+
 
 class YunAccountService:
     def __init__(self):
@@ -15,16 +18,16 @@ class YunAccountService:
             # host = "https://api-service.yunzhanghu.com/sandbox",
             # 个体工商户注册请求域名
             # host = "https://api-aic.yunzhanghu.com",
-            host = settings.YUNZHANGHU_HOST,
-            dealer_id = settings.YUNZHANGHU_DEALER_ID,
-            broker_id = settings.YUNZHANGHU_BROKER_ID,
-            sign_type = '',
-            app_key = settings.YUNZHANGHU_APP_KEY,
-            des3key = settings.YUNZHANGHU_3DES_KEY,
-            dealer_private_key = settings.YUNZHANGHU_PRIVATE_KEY,
-            yzh_public_key = settings.YUNZHANGHU_PUBLIC_KEY,
+            host=settings.YUNZHANGHU_HOST,
+            dealer_id=settings.YUNZHANGHU_DEALER_ID,
+            broker_id=settings.YUNZHANGHU_BROKER_ID,
+            sign_type="",
+            app_key=settings.YUNZHANGHU_APP_KEY,
+            des3key=settings.YUNZHANGHU_3DES_KEY,
+            dealer_private_key=settings.YUNZHANGHU_PRIVATE_KEY,
+            yzh_public_key=settings.YUNZHANGHU_PUBLIC_KEY,
             # 自定义超时时间
-            timeout = 30,
+            timeout=30,
         )
         self.payment_client = PaymentClient(config=config)
         self.sign_client = ApiUserSignServiceClient(config=config)
@@ -103,7 +106,9 @@ class YunAccountService:
             # 发生异常
             print(e)
 
-    def wechat_pay(self, request_id, real_name, openid, id_card, phone_no, pay, wx_app_id):
+    def wechat_pay(
+        self, request_id, real_name, openid, id_card, phone_no, pay, wx_app_id
+    ):
         req = CreateWxpayOrderRequest(
             order_id="202009010016562012987",
             dealer_id=settings.YUNZHANGHU_DEALER_ID,
