@@ -233,7 +233,7 @@ class WXCallback2(SocialLoginView):
         adapter = self.adapter_class(request)  # 这里我们实例化 adapter 时传入 request
 
         # 调用 complete_login 时，需要传递 app 和 token
-        sociallogin = SocialLogin(adapter.complete_login(request, app, token))
+        sociallogin = SocialLogin(self.complete_login(request, app, token))
         return sociallogin
 
     def complete_login(self, request, app, token, **kwargs):
