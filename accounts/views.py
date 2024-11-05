@@ -23,6 +23,7 @@ from allauth.socialaccount.providers.weixin.views import WeixinOAuth2Adapter
 from dj_rest_auth.registration.views import SocialLoginView
 from dj_rest_auth.utils import jwt_encode
 from wxappb.models import WxAppBTechs
+import jwt
 
 
 class WXQRCodeAPIView(APIView):
@@ -156,37 +157,53 @@ class WXCallback2(SocialLoginView):
     adapter_class = WeixinOAuth2Adapter
 
     def get(self, request, *args, **kwargs):
-        # 使用 WeixinOAuth2Adapter 获取并处理社交登录
-        # 这是为了通过 adapter 直接从微信获取用户信息并执行登录
-        sociallogin = self.get_social_login(request)
+        # 从 request 中获取 code 参数
+        code = request.GET.get('code')
+        if not code:
+            return Response({"detail": "缺少授权码"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # 如果登录成功
+        # 获取 SocialLogin 实例
+        sociallogin = self.get_social_login(request, code)
+
+        # 如果登录有效
         if sociallogin.is_valid():
             self.login(request, sociallogin)
             user = self.user
 
             # 生成 JWT token
-            token, _ = jwt_encode(user.user)
+            token, _ = self.get_jwt_token(user)
 
-            # 返回包含 access 和 refresh token 的响应
+            # 返回带有 token 的重定向
             return redirect(f"http://aidep.cn/web/?token={str(token)}")
 
-        # 如果登录失败，返回错误信息
+        # 登录失败
         return Response({"detail": "登录失败"}, status=status.HTTP_400_BAD_REQUEST)
 
-    def get_social_login(self, request):
+    def get_social_login(self, request, code):
         """
-        通过 WeixinOAuth2Adapter 获取并处理社交登录
+        使用 WeixinOAuth2Adapter 获取社交登录
         """
-        adapter = self.get_adapter()
-        provider = self.get_provider()
+        # 获取适配器实例
+        adapter = WeixinOAuth2Adapter(request)
 
-        # 创建 SocialLogin 对象，尝试获取微信的用户信息
-        sociallogin = SocialLogin(adapter.get_social_login_data(request))
+        # 构造 SocialLogin 实例
+        sociallogin = SocialLogin(adapter.complete_login(request, code))
 
-        # 通过适配器获取到用户
+        # 处理登录数据
         return sociallogin
 
+    def get_jwt_token(self, user):
+        """
+        生成 JWT token
+        """
+        # 这里假设你有一个 jwt_encode 函数，生成 JWT token
+        payload = {
+            "user_id": user.id,
+            "username": user.username,
+            # 根据需求可以添加更多字段
+        }
+        token = jwt.encode(payload, 'secret_key', algorithm='HS256')
+        return token, 'Bearer'  # 你可以调整返回内容的格式
 
 class GoogleLoginUrl(APIView):
     authentication_classes = []
