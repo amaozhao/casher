@@ -157,46 +157,67 @@ class WXCallback2(SocialLoginView):
     adapter_class = WeixinOAuth2Adapter
 
     def get(self, request, *args, **kwargs):
-        # 从 request 中获取 code 参数
+        # 获取微信回调中传递的 code 和 state 参数
         code = request.GET.get('code')
+        state = request.GET.get('state')
+
         if not code:
             return Response({"detail": "缺少授权码"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # 获取 SocialLogin 实例
-        sociallogin = self.get_social_login(request, code)
+        # 获取微信的 access_token
+        token = self.get_wechat_access_token(code)
 
-        # 如果登录有效
-        if sociallogin.is_valid():
-            self.login(request, sociallogin)
-            user = self.user
+        if not token:
+            return Response({"detail": "获取微信access_token失败"}, status=status.HTTP_400_BAD_REQUEST)
 
-            # 生成 JWT token
-            token, _ = self.get_jwt_token(user)
+        # 获取并处理社交登录
+        sociallogin = self.get_social_login(request, token)
 
-            # 返回带有 token 的重定向
-            return redirect(f"http://aidep.cn/web/?token={str(token)}")
+        # 调用父类的 perform_login 来完成登录
+        return self.perform_login(request, sociallogin)
 
-        # 登录失败
-        return Response({"detail": "登录失败"}, status=status.HTTP_400_BAD_REQUEST)
+    def get_wechat_access_token(self, code):
+        """
+        使用微信的授权 code 获取 access_token
+        """
+        token_url = "https://api.weixin.qq.com/sns/oauth2/access_token"
+        params = {
+            "appid": settings.SOCIALACCOUNT_PROVIDERS["weixin"]["APP"]["client_id"],
+            "secret": settings.SOCIALACCOUNT_PROVIDERS["weixin"]["APP"]["secret"],
+            "code": code,
+            "grant_type": "authorization_code",
+        }
+        response = requests.get(token_url, params=params)
+        token_data = response.json()
 
-    def get_social_login(self, request, code):
+        if "errcode" in token_data:
+            return Response(
+                {
+                    "status": status.HTTP_400_BAD_REQUEST,
+                    "error": "Failed to retrieve access token",
+                    "data": {"detail": token_data},
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        access_token = token_data.get("access_token")
+        return access_token
+
+    def get_social_login(self, request, token):
         """
         使用 WeixinOAuth2Adapter 获取社交登录
         """
-        # 获取适配器实例
-        adapter = WeixinOAuth2Adapter(request)
+        # 使用微信的 access_token 创建 SocialLogin 实例
+        adapter = self.adapter_class(request)  # 这里我们实例化 adapter 时传入 request
 
-        # 构造 SocialLogin 实例
-        sociallogin = SocialLogin(adapter.complete_login(request, code))
-
-        # 处理登录数据
+        # 创建 SocialLogin 实例，传入 token
+        sociallogin = SocialLogin(adapter.complete_login(request, token))
         return sociallogin
 
     def get_jwt_token(self, user):
         """
         生成 JWT token
         """
-        # 这里假设你有一个 jwt_encode 函数，生成 JWT token
         payload = {
             "user_id": user.id,
             "username": user.username,
@@ -204,6 +225,23 @@ class WXCallback2(SocialLoginView):
         }
         token = jwt.encode(payload, 'secret_key', algorithm='HS256')
         return token, 'Bearer'  # 你可以调整返回内容的格式
+
+    def perform_login(self, request, sociallogin):
+        """
+        调用父类的 perform_login 方法来完成登录
+        """
+        # 父类的 perform_login 方法已经自动处理了用户登录
+        super().perform_login(request, sociallogin)
+
+        # 获取当前登录的用户
+        user = self.user
+
+        # 生成 JWT token
+        token, _ = self.get_jwt_token(user)
+
+        # 返回带有 token 的重定向
+        return redirect(f"http://aidep.cn/web/?token={str(token)}")
+
 
 class GoogleLoginUrl(APIView):
     authentication_classes = []
