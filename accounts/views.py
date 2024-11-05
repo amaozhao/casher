@@ -211,7 +211,7 @@ class WXCallback2(SocialLoginView):
         adapter = self.adapter_class(request)  # 这里我们实例化 adapter 时传入 request
 
         # 创建 SocialLogin 实例，传入 token
-        sociallogin = SocialLogin(adapter.complete_login(request, token))
+        sociallogin = SocialLogin(adapter.complete_login(request=request, token=token))
         return sociallogin
 
     def get_jwt_token(self, user):
