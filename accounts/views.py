@@ -18,6 +18,7 @@ from allauth.socialaccount.helpers import complete_social_login
 from allauth.socialaccount.models import SocialAccount, SocialLogin
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+from allauth.socialaccount.providers.weixin.client import WeixinOAuth2Client
 from allauth.socialaccount.providers.weixin.provider import WeixinProvider
 from allauth.socialaccount.providers.weixin.views import WeixinOAuth2Adapter
 from dj_rest_auth.registration.views import SocialLoginView
@@ -53,7 +54,7 @@ class WXQRCodeAPIView(APIView):
 class WXLoginAPIView(SocialLoginView):
     adapter_class = WeixinOAuth2Adapter
     callback_url = settings.WEIXIN_OAUTH_CALLBACK_URL
-    client_class = OAuth2Client
+    client_class = WeixinOAuth2Client
 
 
 class WXCallback(APIView):
