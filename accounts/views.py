@@ -156,19 +156,36 @@ class WXCallback2(SocialLoginView):
     adapter_class = WeixinOAuth2Adapter
 
     def get(self, request, *args, **kwargs):
-        # 调用父类的方法以确保获取到用户
-        response = self.perform_login(request, self.get_adapter().get_provider().sociallogin_class)
-        if response.status_code != status.HTTP_200_OK:
-            return response
+        # 使用 WeixinOAuth2Adapter 获取并处理社交登录
+        # 这是为了通过 adapter 直接从微信获取用户信息并执行登录
+        sociallogin = self.get_social_login(request)
 
-        # 获取当前用户
-        user = self.user
+        # 如果登录成功
+        if sociallogin.is_valid():
+            self.login(request, sociallogin)
+            user = self.user
 
-        # 生成 JWT token
-        token, _ = jwt_encode(user.user)
+            # 生成 JWT token
+            token, _ = jwt_encode(user.user)
 
-        # 返回包含 access 和 refresh token 的响应
-        return redirect(f"http://aidep.cn/web/?token={str(token)}")
+            # 返回包含 access 和 refresh token 的响应
+            return redirect(f"http://aidep.cn/web/?token={str(token)}")
+
+        # 如果登录失败，返回错误信息
+        return Response({"detail": "登录失败"}, status=status.HTTP_400_BAD_REQUEST)
+
+    def get_social_login(self, request):
+        """
+        通过 WeixinOAuth2Adapter 获取并处理社交登录
+        """
+        adapter = self.get_adapter()
+        provider = self.get_provider()
+
+        # 创建 SocialLogin 对象，尝试获取微信的用户信息
+        sociallogin = SocialLogin(adapter.get_social_login_data(request))
+
+        # 通过适配器获取到用户
+        return sociallogin
 
 
 class GoogleLoginUrl(APIView):
