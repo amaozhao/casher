@@ -41,7 +41,7 @@ class WXQRCodeAPIView(APIView):
             f"&redirect_uri={redirect_uri}"
             f"&response_type=code"
             f"&scope=snsapi_login"
-            f"&state=STATE#wechat_redirect"  # 可设置自定义state参数
+            f"#wechat_redirect"  # 可设置自定义state参数
         )
 
         # 直接将微信提供的二维码URL返回给前端
@@ -173,7 +173,6 @@ class WXCallback2(SocialLoginView):
         response = requests.post(
             url=token_endpoint_url, data={"code": code}, timeout=60
         )
-        print(1111, response.text)
         res_json = response.json()
         user = res_json.get("user")
         if user and state:
