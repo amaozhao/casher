@@ -355,7 +355,7 @@ class UploadAPIView(APIView):
                         "html": self.get_login_html(s_key, qrcode),
                         "test": {"s_key": s_key, "subdomain": "11"},
                         "s_key": s_key,
-                        "techsid": s_key,
+                        "techsid": 'init',
                         "google_log_url": self.get_google_login_url(s_key),
                     }
                 },
