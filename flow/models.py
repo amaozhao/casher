@@ -81,3 +81,15 @@ class WorkFlowComment(models.Model):
     class Meta:
         db_table = "workflow_comment"
         ordering = ["-created"]
+
+
+class WorkFlowBanner(models.Model):
+    is_visible = models.BooleanField(default=True)
+    desc = models.TextField()
+    en_desc = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "workflow_banner"
+        ordering = ["-created"]

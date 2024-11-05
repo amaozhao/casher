@@ -2,7 +2,7 @@ from django.urls import path
 
 from flow.views import (BWorkFlowDetailView, BWorkFlowListView, UploadAPIView,
                         WorkFlowCommentList, WorkFlowDetailView,
-                        WorkFlowListView)
+                        WorkFlowListView, WorkFlowBannerView)
 
 urlpatterns = [
     path("api/upload/", UploadAPIView.as_view(), name="upload_api"),
@@ -14,5 +14,10 @@ urlpatterns = [
         "comments/",
         WorkFlowCommentList.as_view(),
         name="flow_comments",
+    ),
+    path(
+        "banner/",
+        WorkFlowBannerView.as_view(),
+        name="flow_banner",
     ),
 ]

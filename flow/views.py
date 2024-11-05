@@ -16,7 +16,7 @@ from rest_framework.generics import (ListAPIView, ListCreateAPIView,
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from flow.models import WorkFlowComment, WorkFlowData, WorkFlowImage
+from flow.models import WorkFlowComment, WorkFlowData, WorkFlowImage, WorkFlowBanner
 from flow.serializers.workflowdata import (WorkFlowCommentSerializer,
                                            WorkFlowDataSerializer)
 from wxapp.service import generate_mp_qr_code as c_generate_mp_qr_code
@@ -446,3 +446,28 @@ class WorkFlowCommentList(ListCreateAPIView):
             },
             status=status.HTTP_201_CREATED,
         )
+
+
+class WorkFlowBannerView(APIView):
+    authentication_classes = []
+    def get(self, request, *args, **kwargs):
+        banner = WorkFlowBanner.objects.first()
+        if not banner:
+            return Response(
+                {'data': {}, 'status': status.HTTP_200_OK}
+            )
+        if not banner.is_visible:
+            return Response(
+                {'data': {}, 'status': status.HTTP_200_OK}
+            )
+        return Response(
+            {
+                'data': {
+                    'id': banner.id,
+                    "desc": banner.desc,
+                    'en_desc': banner.en_desc,
+                },
+                'status': status.HTTP_200_OK
+            }
+        )
+
