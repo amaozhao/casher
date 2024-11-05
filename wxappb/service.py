@@ -45,10 +45,12 @@ def generate_mp_qr_code(path, query, width=430):
         else:
             path += f"?{query}"
 
-    url = f"https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token={access_token}&env_version=trial"
+    url = f"https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token={access_token}"
     payload = {
-        "path": path,
+        "page": '',
+        'scene': "btest",
         "width": width,
+        "env_version": "trial"
     }
     response = requests.post(url, json=payload)
 

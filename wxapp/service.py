@@ -45,12 +45,15 @@ def generate_mp_qr_code(path, query, width=430):
         else:
             path += f"?{query}"
 
-    url = f"https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token={access_token}&env_version=trial"
+    url = f"https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token={access_token}"
     payload = {
-        "path": path,
+        "page": '',
+        'scene': "ctest",
         "width": width,
+        "env_version": "trial"
     }
     response = requests.post(url, json=payload)
+    print(1111, response.content)
 
     if response.status_code == 200:
         f_name = settings.BASE_DIR / f"media/qrcode/c/{workflow_id}.png"
@@ -59,4 +62,3 @@ def generate_mp_qr_code(path, query, width=430):
         return f'http://aidep.cn/media/qrcode/c/{workflow_id}.png'
     else:
         return None
-

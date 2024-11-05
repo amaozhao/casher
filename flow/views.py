@@ -102,7 +102,6 @@ class UploadAPIView(APIView):
         """
         post_data = post_data.get("postData")
         techsid = post_data.get("techsid")
-        print(1111, techsid)
         if techsid in ('init', '', None):
             return Response(
                 {
