@@ -155,8 +155,16 @@ class WXCallback(APIView):
 class WXCallback2(SocialLoginView):
     adapter_class = WeixinOAuth2Adapter
 
-    def get_response(self):
+    def get(self, request, *args, **kwargs):
+        # 调用父类的方法以确保获取到用户
+        response = self.perform_login(request, self.get_adapter().get_provider().sociallogin_class)
+        if response.status_code != status.HTTP_200_OK:
+            return response
+
+        # 获取当前用户
         user = self.user
+
+        # 生成 JWT token
         token, _ = jwt_encode(user.user)
 
         # 返回包含 access 和 refresh token 的响应

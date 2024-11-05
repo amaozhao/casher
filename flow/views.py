@@ -151,7 +151,7 @@ class UploadAPIView(APIView):
                 query={"workflow_id": workflow.id},
             )
             wxp_b_image = b_generate_mp_qr_code(query={"techsid": techsid})
-            html = self.get_app_html(wxp_c_image, wxp_b_image)
+            html = self.get_app_html(wxp_c_image, wxp_b_image, workflow.id)
 
             r = {
                 "errno": 1,
@@ -264,7 +264,7 @@ class UploadAPIView(APIView):
         """
         return html
 
-    def get_app_html(self, wxp_c_image, wxp_b_image):
+    def get_app_html(self, wxp_c_image, wxp_b_image, workflow_id):
         html = f"""
         <style type="text/css">
 			body {{
@@ -303,7 +303,7 @@ class UploadAPIView(APIView):
 			<div>
 				<div class="login_text">用户端URL</div>
 				<div>URL:
-					<span style="color: #6AE1D6;">http://aidep.cn/web/</span>
+					<span style="color: #6AE1D6;">http://aidep.cn/web/?workflow_id={workflow_id}</span>
 				</div>
 				<img class="qrcode" src="{wxp_c_image}" />
 				<div class="mgT10">微信小程序</div>
