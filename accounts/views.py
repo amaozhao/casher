@@ -153,6 +153,13 @@ class WXCallback(APIView):
         return redirect(f"http://aidep.cn/web/?token={str(token)}")
 
 
+class FakeSocialApp:
+    def __init__(self, provider, client_id, secret):
+        self.provider = provider
+        self.client_id = client_id
+        self.secret = secret
+
+
 class WXCallback2(SocialLoginView):
     adapter_class = WeixinOAuth2Adapter
 
@@ -175,6 +182,19 @@ class WXCallback2(SocialLoginView):
 
         # 调用父类的 perform_login 来完成登录
         return self.perform_login(request, sociallogin)
+
+    def get_weixin_app(self):
+        """
+        从 settings.py 获取 WeChat 配置
+        """
+        # 从 settings.py 获取微信应用的 app_id 和 app_secret
+        app_id = settings.WEIXIN_APPID
+        app_secret = settings.WEIXIN_APPSECRET
+
+        # 创建并返回一个 FakeSocialApp 对象
+        app = FakeSocialApp(provider='wechat', client_id=app_id, secret=app_secret)
+
+        return app
 
     def get_wechat_access_token(self, code):
         """
@@ -207,11 +227,13 @@ class WXCallback2(SocialLoginView):
         """
         使用 WeixinOAuth2Adapter 获取社交登录
         """
+        app = self.get_weixin_app()
+
         # 使用微信的 access_token 创建 SocialLogin 实例
         adapter = self.adapter_class(request)  # 这里我们实例化 adapter 时传入 request
 
-        # 创建 SocialLogin 实例，传入 token
-        sociallogin = SocialLogin(adapter.complete_login(request=request, token=token))
+        # 调用 complete_login 时，需要传递 app 和 token
+        sociallogin = SocialLogin(adapter.complete_login(request, app, token))
         return sociallogin
 
     def get_jwt_token(self, user):
