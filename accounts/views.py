@@ -236,6 +236,25 @@ class WXCallback2(SocialLoginView):
         sociallogin = SocialLogin(adapter.complete_login(request, app, token))
         return sociallogin
 
+    def complete_login(self, request, app, token, **kwargs):
+        openid = kwargs.get("response", {}).get("openid")
+        resp = (
+            get_adapter()
+            .get_requests_session()
+            .get(
+                self.profile_url,
+                params={"access_token": token, "openid": openid},
+            )
+        )
+        resp.raise_for_status()
+        extra_data = resp.json()
+        nickname = extra_data.get("nickname")
+        if nickname:
+            extra_data["nickname"] = nickname.encode("raw_unicode_escape").decode(
+                "utf-8"
+            )
+        return self.get_provider().sociallogin_from_response(request, extra_data)
+
     def get_jwt_token(self, user):
         """
         生成 JWT token
