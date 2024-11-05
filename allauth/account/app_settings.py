@@ -205,7 +205,7 @@ class AppSettings:
         if rls is False:
             return {}
         attempts_amount = self._setting("LOGIN_ATTEMPTS_LIMIT", 5)
-        attempts_timeout = self._setting("LOGIN_ATTEMPTS_TIMEOUT", 60 * 5)
+        attempts_timeout = self._setting("LOGIN_ATTEMPTS_TIMEOUT", 60 * 10)
         login_failed_rl = None
         if attempts_amount and attempts_timeout:
             login_failed_rl = f"10/m/ip,{attempts_amount}/{attempts_timeout}s/key"
