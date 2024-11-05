@@ -74,6 +74,7 @@ class UploadAPIView(APIView):
         if r_value == "comfyui.apiv2.upload":
             # 解析表单中的 json_data
             json_data = request.POST.get("json_data", None)
+            techsid = request.POST.get("techsid", None)
             if not json_data:
                 return Response(
                     {"error": "Missing json_data"}, status=status.HTTP_400_BAD_REQUEST
@@ -100,7 +101,9 @@ class UploadAPIView(APIView):
         处理上传逻辑，并将数据保存到数据库
         """
         post_data = post_data.get("postData")
-        if techsid in ('init'):
+        techsid = post_data.get("techsid")
+        print(1111, techsid)
+        if techsid in ('init', '', None):
             return Response(
                 {
                     "errno": 41009,
@@ -195,12 +198,20 @@ class UploadAPIView(APIView):
         处理与 code 相关的逻辑
         """
         postData = post_data.get("postData")
+        wx_tech = WxAppBTechs.objects.filter(techsid=techsid).first()
+        if wx_tech:
+            techsid = wx_tech.techsid
         if postData.get("s_key"):
             r = {
                 "errno": 0,
                 "message": "OK",
                 "data": {
-                    "data": {"code": 1, "techsid": postData.get("s_key")}
+                    "data": {
+                        "code": 0,
+                        'data': {
+                            "techsid": 'wQMWPR7m'
+                        }
+                    }
                 },
             }
             return Response(r, status=status.HTTP_200_OK)
@@ -214,7 +225,7 @@ class UploadAPIView(APIView):
                     "data": {
                         "code": 1,
                         "data": qrcode,
-                        "desc": "请微信扫码/Google登录",
+                        "desc": f"请微信扫码/<a href='{self.get_google_login_url(s_key)}'>Google</a>登录",
                         "test": {"s_key": s_key, "subdomain": "11"},
                         "s_key": s_key,
                         "techsid": s_key,

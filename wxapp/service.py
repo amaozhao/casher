@@ -35,7 +35,7 @@ def generate_mp_qr_code(path, query, width=430):
     workflow_id = query.get('workflow_id')
     if workflow_id:
         if os.path.exists(settings.BASE_DIR / f"media/qrcode/c/{workflow_id}.png"):
-            return f'http://192.168.10.104:8000/media/qrcode/c/{workflow_id}.png'
+            return f'http://aidep.cn/media/qrcode/c/{workflow_id}.png'
     if query:
         if isinstance(query, dict):
             q = ''
@@ -56,7 +56,7 @@ def generate_mp_qr_code(path, query, width=430):
         f_name = settings.BASE_DIR / f"media/qrcode/c/{workflow_id}.png"
         with open(f_name, "wb") as f:
             f.write(response.content)
-        return f'http://192.168.10.104:8000/media/qrcode/c/{workflow_id}.png'
+        return f'http://aidep.cn/media/qrcode/c/{workflow_id}.png'
     else:
         return None
 

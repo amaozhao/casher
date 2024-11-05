@@ -12,4 +12,4 @@ def generate_h5_qr_code(workflow_id, web_type='c'):
     url = f'http://aidep.cn/web/id={workflow_id}'
     img = qrcode.make(url)
     img.save(_dir / f'{workflow_id}.png')
-    return f'http://192.168.10.104:8000/media/qrcode/h5/{web_type}/{workflow_id}.png'
+    return f'http://aidep.cn/media/qrcode/h5/{web_type}/{workflow_id}.png'
