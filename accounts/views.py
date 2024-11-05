@@ -152,7 +152,7 @@ class WXCallback(APIView):
         return redirect(f"http://aidep.cn/web/?token={str(token)}")
 
 
-class WXCallback2(APIView):
+class WXCallback2(SocialLoginView):
     adapter_class = WeixinOAuth2Adapter
 
     def get_response(self):
