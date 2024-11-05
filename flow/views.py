@@ -134,7 +134,8 @@ class UploadAPIView(APIView):
                 workflow.workflow = post_data.get("workflow")
                 workflow.fee = post_data.get("fee")
                 workflow.free_times = post_data.get("free_times")
-                workflow.post_data = post_data.get("post_data")
+                if post_data.get("post_data"):
+                    workflow.post_data = post_data.get("post_data")
                 workflow.save()
             TaskFreeCount.objects.get_or_create(
                 workflow=workflow, free_count=post_data.get("free_times") or 0
