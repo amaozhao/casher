@@ -150,10 +150,7 @@ class UploadAPIView(APIView):
                 f"/web/workflow/workflow_id={workflow.id}/",
                 query={"workflow_id": workflow.id},
             )
-            wxp_b_image = b_generate_mp_qr_code(
-                f"/web-b/workflow/workflow_id={workflow.id}/",
-                query={"workflow_id": workflow.id},
-            )
+            wxp_b_image = b_generate_mp_qr_code(query={"techsid": techsid})
             html = self.get_app_html(wxp_c_image, wxp_b_image)
 
             r = {
@@ -346,7 +343,7 @@ class UploadAPIView(APIView):
             return Response(r, status=status.HTTP_200_OK)
         else:
             s_key = "".join(random.choice(chars) for _ in range(8))
-            qrcode = b_generate_mp_qr_code(path="/", query={"techsid": s_key})
+            qrcode = b_generate_mp_qr_code(query={"techsid": s_key})
             r = {
                 "errno": 0,
                 "message": "OK",
