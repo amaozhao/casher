@@ -45,7 +45,7 @@ def generate_mp_qr_code(path, query, width=430):
         else:
             path += f"?{query}"
 
-    url = f"https://api.weixin.qq.com/wxa/getwxacode?access_token={access_token}&env_version=trial"
+    url = f"https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token={access_token}&env_version=trial"
     payload = {
         "path": path,
         "width": width,
