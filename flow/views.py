@@ -410,8 +410,10 @@ class WorkFlowDetailView(RetrieveAPIView):
 
     def get(self, request, *args, **kwargs):
         id = kwargs.get("id")
-        flows = WorkFlowData.objects.get(id=id)
-        serializer = WorkFlowDataSerializer(flows)
+        flow = WorkFlowData.objects.get(id=id)
+        if flow.fee > 0:
+            return Response({"data": {}, "status": status.HTTP_200_OK}, status=status.HTTP_401_UNAUTHORIZED)
+        serializer = WorkFlowDataSerializer(flow)
         return Response({"data": serializer.data, "status": status.HTTP_200_OK})
 
 
