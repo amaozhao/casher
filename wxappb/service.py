@@ -37,17 +37,9 @@ def generate_mp_qr_code(path, query, width=430):
     if workflow_id:
         if os.path.exists(settings.BASE_DIR / f"media/qrcode/b/{workflow_id}.png"):
             return f"http://aidep.cn/media/qrcode/b/{workflow_id}.png"
-    if query:
-        if isinstance(query, dict):
-            q = ""
-            for k, v in query.items():
-                q += f"{k}={v}&"
-            path += f"?{query}"
-        else:
-            path += f"?{query}"
 
     url = f"https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token={access_token}"
-    payload = {"page": "", "scene": "btest", "width": width, "env_version": "trial"}
+    payload = {"page": "", "scene": workflow_id, "width": width, "env_version": "trial"}
     response = requests.post(url, json=payload)
 
     if response.status_code == 200:

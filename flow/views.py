@@ -331,7 +331,7 @@ class UploadAPIView(APIView):
         wx_tech = WxAppBTechs.objects.filter(techsid=postData.get("s_key")).first()
         if wx_tech:
             techsid = wx_tech.techsid
-        if postData.get("s_key"):
+        if postData.get("s_key") and wx_tech:
             r = {
                 "errno": 1,
                 "message": "OK",
@@ -354,7 +354,7 @@ class UploadAPIView(APIView):
                     "data": {
                         "code": 1,
                         "data": qrcode,
-                        "desc": f"请微信扫码/<a href='{self.get_google_login_url(s_key)}'>Google</a>登录",
+                        "desc": "",
                         "html": self.get_login_html(s_key, qrcode),
                         "test": {"s_key": s_key, "subdomain": "11"},
                         "s_key": s_key,
