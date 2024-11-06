@@ -1,5 +1,4 @@
-from django.contrib.auth import (BACKEND_SESSION_KEY, HASH_SESSION_KEY,
-                                 SESSION_KEY)
+from django.contrib.auth import BACKEND_SESSION_KEY, HASH_SESSION_KEY, SESSION_KEY
 from django.contrib.auth.middleware import AuthenticationMiddleware
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.http import HttpResponse

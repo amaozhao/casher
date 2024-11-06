@@ -15,27 +15,46 @@ from django.views.generic.edit import FormView
 from allauth import app_settings as allauth_app_settings
 from allauth.account import app_settings
 from allauth.account.adapter import get_adapter
-from allauth.account.forms import (AddEmailForm, ChangePasswordForm,
-                                   ConfirmEmailVerificationCodeForm,
-                                   ConfirmLoginCodeForm, LoginForm,
-                                   ReauthenticateForm, RequestLoginCodeForm,
-                                   ResetPasswordForm, ResetPasswordKeyForm,
-                                   SetPasswordForm, SignupForm, UserTokenForm)
+from allauth.account.forms import (
+    AddEmailForm,
+    ChangePasswordForm,
+    ConfirmEmailVerificationCodeForm,
+    ConfirmLoginCodeForm,
+    LoginForm,
+    ReauthenticateForm,
+    RequestLoginCodeForm,
+    ResetPasswordForm,
+    ResetPasswordKeyForm,
+    SetPasswordForm,
+    SignupForm,
+    UserTokenForm,
+)
 from allauth.account.internal import flows
-from allauth.account.internal.decorators import (login_not_required,
-                                                 login_stage_required)
-from allauth.account.mixins import (AjaxCapableProcessFormViewMixin,
-                                    CloseableSignupMixin,
-                                    LogoutFunctionalityMixin,
-                                    NextRedirectMixin,
-                                    RedirectAuthenticatedUserMixin,
-                                    _ajax_response)
-from allauth.account.models import (EmailAddress, EmailConfirmation,
-                                    get_emailconfirmation_model)
-from allauth.account.stages import (EmailVerificationStage, LoginByCodeStage,
-                                    LoginStageController)
-from allauth.account.utils import (perform_login, send_email_confirmation,
-                                   sync_user_email_addresses, user_display)
+from allauth.account.internal.decorators import login_not_required, login_stage_required
+from allauth.account.mixins import (
+    AjaxCapableProcessFormViewMixin,
+    CloseableSignupMixin,
+    LogoutFunctionalityMixin,
+    NextRedirectMixin,
+    RedirectAuthenticatedUserMixin,
+    _ajax_response,
+)
+from allauth.account.models import (
+    EmailAddress,
+    EmailConfirmation,
+    get_emailconfirmation_model,
+)
+from allauth.account.stages import (
+    EmailVerificationStage,
+    LoginByCodeStage,
+    LoginStageController,
+)
+from allauth.account.utils import (
+    perform_login,
+    send_email_confirmation,
+    sync_user_email_addresses,
+    user_display,
+)
 from allauth.core import ratelimit
 from allauth.core.exceptions import ImmediateHttpResponse
 from allauth.core.internal.httpkit import redirect

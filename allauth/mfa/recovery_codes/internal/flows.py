@@ -3,8 +3,9 @@ from typing import Optional
 from django.contrib import messages
 
 from allauth.account.adapter import get_adapter as get_account_adapter
-from allauth.account.internal.flows.reauthentication import \
-    raise_if_reauthentication_required
+from allauth.account.internal.flows.reauthentication import (
+    raise_if_reauthentication_required,
+)
 from allauth.mfa import app_settings, signals
 from allauth.mfa.models import Authenticator
 from allauth.mfa.recovery_codes.internal.auth import RecoveryCodes

@@ -1,7 +1,13 @@
 from django.urls import path
 
-from accounts.views import (GoogleCallback, GoogleLoginUrl, GoogleLoginView,
-                            WXCallback, WXCallback, WXLoginAPIView, WXQRCodeAPIView)
+from accounts.views import (
+    GoogleCallback,
+    GoogleLoginUrl,
+    GoogleLoginView,
+    WXCallback,
+    WXLoginAPIView,
+    WXQRCodeAPIView,
+)
 
 urlpatterns = [
     path("google/login_url/", GoogleLoginUrl.as_view(), name="google_login_url"),

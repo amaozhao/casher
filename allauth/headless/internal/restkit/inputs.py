@@ -1,6 +1,13 @@
-from django.forms import (BooleanField, CharField, ChoiceField, EmailField,
-                          Field, Form, ModelChoiceField,
-                          ModelMultipleChoiceField)
+from django.forms import (
+    BooleanField,
+    CharField,
+    ChoiceField,
+    EmailField,
+    Field,
+    Form,
+    ModelChoiceField,
+    ModelMultipleChoiceField,
+)
 
 __all__ = [
     "Field",

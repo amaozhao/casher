@@ -11,14 +11,15 @@ from django.core.cache import cache
 from django.http import JsonResponse
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.generics import (ListAPIView, ListCreateAPIView,
-                                     RetrieveAPIView)
+from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from flow.models import WorkFlowComment, WorkFlowData, WorkFlowImage, WorkFlowBanner
-from flow.serializers.workflowdata import (WorkFlowCommentSerializer,
-                                           WorkFlowDataSerializer)
+from flow.models import WorkFlowBanner, WorkFlowComment, WorkFlowData, WorkFlowImage
+from flow.serializers.workflowdata import (
+    WorkFlowCommentSerializer,
+    WorkFlowDataSerializer,
+)
 from wxapp.service import generate_mp_qr_code as c_generate_mp_qr_code
 from wxappb.models import WxAppBTechs
 from wxappb.service import generate_mp_qr_code as b_generate_mp_qr_code
@@ -105,6 +106,7 @@ class UploadAPIView(APIView):
             return Response({"errno": 41009, "message": "用户未登陆"})
         try:
             from task.models import TaskFreeCount
+
             # 创建 PostData 实例并保存
             workflow = WorkFlowData.objects.filter(
                 uniqueid=post_data.get("uniqueid")
@@ -280,7 +282,7 @@ class UploadAPIView(APIView):
         return html
 
     def get_app_html(self, wxp_c_image, wxp_b_image, workflow_id, provider):
-        if provider == 'google':
+        if provider == "google":
             html = f"""
                     <style type="text/css">
             			body {{
@@ -425,7 +427,7 @@ class UploadAPIView(APIView):
                         "html": self.get_login_html(s_key, qrcode),
                         "test": {"s_key": s_key, "subdomain": "11"},
                         "s_key": s_key,
-                        "techsid": 'init',
+                        "techsid": "init",
                         "google_log_url": self.get_google_login_url(s_key),
                     }
                 },
@@ -482,7 +484,10 @@ class WorkFlowDetailView(RetrieveAPIView):
         id = kwargs.get("id")
         flow = WorkFlowData.objects.get(id=id)
         if flow.fee > 0:
-            return Response({"data": {}, "status": status.HTTP_200_OK}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(
+                {"data": {}, "status": status.HTTP_200_OK},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
         serializer = WorkFlowDataSerializer(flow)
         return Response({"data": serializer.data, "status": status.HTTP_200_OK})
 
@@ -520,24 +525,20 @@ class WorkFlowCommentList(ListCreateAPIView):
 
 class WorkFlowBannerView(APIView):
     authentication_classes = []
+
     def get(self, request, *args, **kwargs):
         banner = WorkFlowBanner.objects.first()
         if not banner:
-            return Response(
-                {'data': {}, 'status': status.HTTP_200_OK}
-            )
+            return Response({"data": {}, "status": status.HTTP_200_OK})
         if not banner.is_visible:
-            return Response(
-                {'data': {}, 'status': status.HTTP_200_OK}
-            )
+            return Response({"data": {}, "status": status.HTTP_200_OK})
         return Response(
             {
-                'data': {
-                    'id': banner.id,
+                "data": {
+                    "id": banner.id,
                     "desc": banner.desc,
-                    'en_desc': banner.en_desc,
+                    "en_desc": banner.en_desc,
                 },
-                'status': status.HTTP_200_OK
+                "status": status.HTTP_200_OK,
             }
         )
-

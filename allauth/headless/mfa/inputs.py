@@ -4,11 +4,13 @@ from allauth.mfa.base.forms import AuthenticateForm
 from allauth.mfa.models import Authenticator
 from allauth.mfa.recovery_codes.forms import GenerateRecoveryCodesForm
 from allauth.mfa.totp.forms import ActivateTOTPForm
-from allauth.mfa.webauthn.forms import (AddWebAuthnForm,
-                                        AuthenticateWebAuthnForm,
-                                        LoginWebAuthnForm,
-                                        ReauthenticateWebAuthnForm,
-                                        SignupWebAuthnForm)
+from allauth.mfa.webauthn.forms import (
+    AddWebAuthnForm,
+    AuthenticateWebAuthnForm,
+    LoginWebAuthnForm,
+    ReauthenticateWebAuthnForm,
+    SignupWebAuthnForm,
+)
 
 
 class AuthenticateInput(AuthenticateForm, inputs.Input):

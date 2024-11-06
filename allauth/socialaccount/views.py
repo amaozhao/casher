@@ -12,9 +12,11 @@ from allauth.socialaccount.internal import flows
 from allauth.socialaccount.models import SocialAccount
 
 from ..account import app_settings as account_settings
-from ..account.views import (AjaxCapableProcessFormViewMixin,
-                             CloseableSignupMixin,
-                             RedirectAuthenticatedUserMixin)
+from ..account.views import (
+    AjaxCapableProcessFormViewMixin,
+    CloseableSignupMixin,
+    RedirectAuthenticatedUserMixin,
+)
 from ..utils import get_form_class
 from . import app_settings
 from .adapter import get_adapter

@@ -3,23 +3,31 @@ from django.core.exceptions import ValidationError
 from allauth.account.internal.stagekit import get_pending_stage
 from allauth.account.models import Login
 from allauth.headless.account.views import SignupView
-from allauth.headless.base.response import (APIResponse,
-                                            AuthenticationResponse,
-                                            ConflictResponse)
-from allauth.headless.base.views import (APIView, AuthenticatedAPIView,
-                                         AuthenticationStageAPIView)
+from allauth.headless.base.response import (
+    APIResponse,
+    AuthenticationResponse,
+    ConflictResponse,
+)
+from allauth.headless.base.views import (
+    APIView,
+    AuthenticatedAPIView,
+    AuthenticationStageAPIView,
+)
 from allauth.headless.internal.restkit.response import ErrorResponse
 from allauth.headless.mfa import response
-from allauth.headless.mfa.inputs import (ActivateTOTPInput, AddWebAuthnInput,
-                                         AuthenticateInput,
-                                         AuthenticateWebAuthnInput,
-                                         CreateWebAuthnInput,
-                                         DeleteWebAuthnInput,
-                                         GenerateRecoveryCodesInput,
-                                         LoginWebAuthnInput,
-                                         ReauthenticateWebAuthnInput,
-                                         SignupWebAuthnInput,
-                                         UpdateWebAuthnInput)
+from allauth.headless.mfa.inputs import (
+    ActivateTOTPInput,
+    AddWebAuthnInput,
+    AuthenticateInput,
+    AuthenticateWebAuthnInput,
+    CreateWebAuthnInput,
+    DeleteWebAuthnInput,
+    GenerateRecoveryCodesInput,
+    LoginWebAuthnInput,
+    ReauthenticateWebAuthnInput,
+    SignupWebAuthnInput,
+    UpdateWebAuthnInput,
+)
 from allauth.mfa.adapter import DefaultMFAAdapter, get_adapter
 from allauth.mfa.internal.flows import add
 from allauth.mfa.models import Authenticator

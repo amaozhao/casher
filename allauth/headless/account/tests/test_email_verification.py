@@ -1,5 +1,8 @@
-from allauth.account.models import (EmailAddress, EmailConfirmationHMAC,
-                                    get_emailconfirmation_model)
+from allauth.account.models import (
+    EmailAddress,
+    EmailConfirmationHMAC,
+    get_emailconfirmation_model,
+)
 from allauth.headless.constants import Flow
 
 

@@ -3,9 +3,11 @@ from django.urls import reverse
 from allauth.account.internal.decorators import login_not_required
 from allauth.socialaccount.adapter import get_adapter
 from allauth.socialaccount.models import SocialToken
-from allauth.socialaccount.providers.oauth2.views import (OAuth2Adapter,
-                                                          OAuth2CallbackView,
-                                                          OAuth2LoginView)
+from allauth.socialaccount.providers.oauth2.views import (
+    OAuth2Adapter,
+    OAuth2CallbackView,
+    OAuth2LoginView,
+)
 from allauth.utils import build_absolute_uri
 
 

@@ -1,8 +1,14 @@
 from django.urls import path
 
-from flow.views import (BWorkFlowDetailView, BWorkFlowListView, UploadAPIView,
-                        WorkFlowCommentList, WorkFlowDetailView,
-                        WorkFlowListView, WorkFlowBannerView)
+from flow.views import (
+    BWorkFlowDetailView,
+    BWorkFlowListView,
+    UploadAPIView,
+    WorkFlowBannerView,
+    WorkFlowCommentList,
+    WorkFlowDetailView,
+    WorkFlowListView,
+)
 
 urlpatterns = [
     path("api/upload/", UploadAPIView.as_view(), name="upload_api"),

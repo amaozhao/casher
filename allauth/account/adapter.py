@@ -10,8 +10,10 @@ from django.contrib.auth import authenticate, get_backends, get_user_model
 from django.contrib.auth import login as django_login
 from django.contrib.auth import logout as django_logout
 from django.contrib.auth.models import AbstractUser
-from django.contrib.auth.password_validation import (MinimumLengthValidator,
-                                                     validate_password)
+from django.contrib.auth.password_validation import (
+    MinimumLengthValidator,
+    validate_password,
+)
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import FieldDoesNotExist
 from django.core.mail import EmailMessage, EmailMultiAlternatives
@@ -727,8 +729,9 @@ class DefaultAccountAdapter(BaseAdapter):
         """The order of the methods returned matters. The first method is the
         default when using the `@reauthentication_required` decorator.
         """
-        from allauth.account.internal.flows.reauthentication import \
-            get_reauthentication_flows
+        from allauth.account.internal.flows.reauthentication import (
+            get_reauthentication_flows,
+        )
 
         flow_by_id = {f["id"]: f for f in get_reauthentication_flows(user)}
         ret = []

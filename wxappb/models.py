@@ -27,7 +27,7 @@ class WxAppBTechs(models.Model):
         User,
         on_delete=models.deletion.CASCADE,
     )
-    provider = models.CharField(max_length=100, default='')
+    provider = models.CharField(max_length=100, default="")
     techsid = models.CharField(max_length=100)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

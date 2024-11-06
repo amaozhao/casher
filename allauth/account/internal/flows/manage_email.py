@@ -5,8 +5,9 @@ from django.http import HttpRequest
 
 from allauth.account import app_settings, signals
 from allauth.account.adapter import get_adapter
-from allauth.account.internal.flows.reauthentication import \
-    raise_if_reauthentication_required
+from allauth.account.internal.flows.reauthentication import (
+    raise_if_reauthentication_required,
+)
 from allauth.account.models import EmailAddress
 
 

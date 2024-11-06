@@ -6,13 +6,19 @@ from django.contrib.auth import SESSION_KEY, get_user_model
 from django.core.cache import cache
 from django.urls import reverse
 from django.utils.timezone import now
-from pytest_django.asserts import (assertRedirects, assertTemplateNotUsed,
-                                   assertTemplateUsed)
+from pytest_django.asserts import (
+    assertRedirects,
+    assertTemplateNotUsed,
+    assertTemplateUsed,
+)
 
 from allauth.account import app_settings
 from allauth.account.adapter import DefaultAccountAdapter
-from allauth.account.models import (EmailAddress, EmailConfirmation,
-                                    EmailConfirmationHMAC)
+from allauth.account.models import (
+    EmailAddress,
+    EmailConfirmation,
+    EmailConfirmationHMAC,
+)
 from allauth.account.signals import user_logged_in
 
 

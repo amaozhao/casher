@@ -1,7 +1,9 @@
 from allauth.socialaccount.adapter import get_adapter
-from allauth.socialaccount.providers.oauth2.views import (OAuth2Adapter,
-                                                          OAuth2CallbackView,
-                                                          OAuth2LoginView)
+from allauth.socialaccount.providers.oauth2.views import (
+    OAuth2Adapter,
+    OAuth2CallbackView,
+    OAuth2LoginView,
+)
 
 from .client import WeixinOAuth2Client
 

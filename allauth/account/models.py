@@ -14,8 +14,7 @@ from django.utils.translation import gettext_lazy as _
 
 from allauth.account import app_settings, signals
 from allauth.account.adapter import get_adapter
-from allauth.account.managers import (EmailAddressManager,
-                                      EmailConfirmationManager)
+from allauth.account.managers import EmailAddressManager, EmailConfirmationManager
 
 
 class EmailAddress(models.Model):
@@ -321,8 +320,9 @@ class Login:
 
 def get_emailconfirmation_model():
     if app_settings.EMAIL_VERIFICATION_BY_CODE_ENABLED:
-        from allauth.account.internal.flows.email_verification_by_code import \
-            EmailVerificationModel
+        from allauth.account.internal.flows.email_verification_by_code import (
+            EmailVerificationModel,
+        )
 
         return EmailVerificationModel
     elif app_settings.EMAIL_CONFIRMATION_HMAC:

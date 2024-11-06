@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from flow.models import WorkFlowData, WorkFlowImage, WorkFlowBanner
+from flow.models import WorkFlowBanner, WorkFlowData, WorkFlowImage
 
 
 @admin.register(WorkFlowData)

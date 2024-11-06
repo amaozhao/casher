@@ -13,15 +13,16 @@ from allauth.account.internal.decorators import login_not_required
 from allauth.core.exceptions import ImmediateHttpResponse
 from allauth.core.internal.httpkit import add_query_params
 from allauth.socialaccount.adapter import get_adapter
-from allauth.socialaccount.helpers import (complete_social_login,
-                                           render_authentication_error)
+from allauth.socialaccount.helpers import (
+    complete_social_login,
+    render_authentication_error,
+)
 from allauth.socialaccount.internal import statekit
 from allauth.socialaccount.models import SocialToken
 from allauth.socialaccount.providers.base import ProviderException
 from allauth.socialaccount.providers.base.constants import AuthError
 from allauth.socialaccount.providers.base.views import BaseLoginView
-from allauth.socialaccount.providers.oauth2.client import (OAuth2Client,
-                                                           OAuth2Error)
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client, OAuth2Error
 from allauth.utils import build_absolute_uri, get_request_param
 
 

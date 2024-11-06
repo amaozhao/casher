@@ -3,13 +3,13 @@ from typing import Optional, Tuple
 from django.contrib import messages
 
 from allauth.account.adapter import get_adapter as get_account_adapter
-from allauth.account.internal.flows.reauthentication import \
-    raise_if_reauthentication_required
+from allauth.account.internal.flows.reauthentication import (
+    raise_if_reauthentication_required,
+)
 from allauth.mfa import signals
 from allauth.mfa.base.internal.flows import delete_and_cleanup
 from allauth.mfa.models import Authenticator
-from allauth.mfa.recovery_codes.internal.flows import \
-    auto_generate_recovery_codes
+from allauth.mfa.recovery_codes.internal.flows import auto_generate_recovery_codes
 from allauth.mfa.totp.internal.auth import TOTP
 
 

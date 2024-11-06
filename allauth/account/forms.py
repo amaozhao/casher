@@ -20,9 +20,15 @@ from . import app_settings
 from .adapter import DefaultAccountAdapter, get_adapter
 from .app_settings import AuthenticationMethod
 from .models import EmailAddress, Login
-from .utils import (filter_users_by_email, setup_user_email,
-                    sync_user_email_addresses, url_str_to_user_pk, user_email,
-                    user_pk_to_url_str, user_username)
+from .utils import (
+    filter_users_by_email,
+    setup_user_email,
+    sync_user_email_addresses,
+    url_str_to_user_pk,
+    user_email,
+    user_pk_to_url_str,
+    user_username,
+)
 
 
 class EmailAwarePasswordResetTokenGenerator(PasswordResetTokenGenerator):

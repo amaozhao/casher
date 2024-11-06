@@ -7,13 +7,17 @@ from django.views.generic import View
 
 from allauth.account.internal.decorators import login_not_required
 from allauth.socialaccount.adapter import get_adapter
-from allauth.socialaccount.helpers import (complete_social_login,
-                                           render_authentication_error)
+from allauth.socialaccount.helpers import (
+    complete_social_login,
+    render_authentication_error,
+)
 from allauth.socialaccount.internal import jwtkit
 from allauth.socialaccount.providers.oauth2.client import OAuth2Error
-from allauth.socialaccount.providers.oauth2.views import (OAuth2Adapter,
-                                                          OAuth2CallbackView,
-                                                          OAuth2LoginView)
+from allauth.socialaccount.providers.oauth2.views import (
+    OAuth2Adapter,
+    OAuth2CallbackView,
+    OAuth2LoginView,
+)
 
 CERTS_URL = (
     getattr(settings, "SOCIALACCOUNT_PROVIDERS", {})

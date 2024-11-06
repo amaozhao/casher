@@ -10,8 +10,11 @@ from django.utils.translation import gettext_lazy as _
 import allauth.app_settings
 from allauth import app_settings as allauth_settings
 from allauth.account.models import EmailAddress
-from allauth.account.utils import (filter_users_by_email,
-                                   get_next_redirect_url, setup_user_email)
+from allauth.account.utils import (
+    filter_users_by_email,
+    get_next_redirect_url,
+    setup_user_email,
+)
 from allauth.core import context
 from allauth.socialaccount import app_settings, providers, signals
 from allauth.socialaccount.adapter import get_adapter
@@ -365,8 +368,9 @@ class SocialLogin:
                 return
 
     def _accept_login(self, request) -> None:
-        from allauth.socialaccount.internal.flows.email_authentication import \
-            wipe_password
+        from allauth.socialaccount.internal.flows.email_authentication import (
+            wipe_password,
+        )
 
         if self._did_authenticate_by_email:
             wipe_password(request, self.user, self._did_authenticate_by_email)

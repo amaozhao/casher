@@ -68,7 +68,7 @@ class WXCallback(SocialLoginView):
             state = urllib.parse.unquote_plus(state)
             state = json.loads(state)
             techsid = state.get("techsid")
-            WxAppBTechs.objects.create(user=user, techsid=techsid, provider='weixin')
+            WxAppBTechs.objects.create(user=user, techsid=techsid, provider="weixin")
             token = res_json.get("access")
             return redirect(f"http://aidep.cn/web-b/?token={token}")
 
@@ -135,7 +135,7 @@ class GoogleCallback(APIView):
             state = urllib.parse.unquote_plus(state)
             state = json.loads(state)
             techsid = state.get("techsid")
-            WxAppBTechs.objects.create(user=user, techsid=techsid, provider='google')
+            WxAppBTechs.objects.create(user=user, techsid=techsid, provider="google")
             token = res_json.get("access")
             return redirect(f"http://aidep.cn/web-b/?token={token}")
 

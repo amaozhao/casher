@@ -4,11 +4,16 @@ import fido2.features
 from django.contrib.auth import get_user_model
 from fido2.server import Fido2Server
 from fido2.utils import websafe_decode
-from fido2.webauthn import (AttestedCredentialData, AuthenticationResponse,
-                            AuthenticatorData, PublicKeyCredentialRpEntity,
-                            PublicKeyCredentialUserEntity,
-                            RegistrationResponse, ResidentKeyRequirement,
-                            UserVerificationRequirement)
+from fido2.webauthn import (
+    AttestedCredentialData,
+    AuthenticationResponse,
+    AuthenticatorData,
+    PublicKeyCredentialRpEntity,
+    PublicKeyCredentialUserEntity,
+    RegistrationResponse,
+    ResidentKeyRequirement,
+    UserVerificationRequirement,
+)
 
 from allauth.account.utils import url_str_to_user_pk
 from allauth.core import context

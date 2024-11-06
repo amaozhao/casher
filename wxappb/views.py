@@ -74,9 +74,7 @@ class WxAppBLogin(APIView):
                     profile.save()
                 if params.get("techsid"):
                     tesh, _ = WxAppBTechs.objects.get_or_create(
-                        user=has_user,
-                        techsid=params.get("techsid"),
-                        provider='weixin'
+                        user=has_user, techsid=params.get("techsid"), provider="weixin"
                     )
                 token, _ = jwt_encode(has_user)
                 return Response(

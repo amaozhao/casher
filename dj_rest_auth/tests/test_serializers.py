@@ -12,11 +12,12 @@ from rest_framework.test import APIRequestFactory, force_authenticate
 from allauth.core.exceptions import ImmediateHttpResponse
 from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.providers.facebook.views import (
-    FacebookOAuth2Adapter, FacebookProvider)
+    FacebookOAuth2Adapter,
+    FacebookProvider,
+)
 from dj_rest_auth.registration.serializers import SocialLoginSerializer
 from dj_rest_auth.registration.views import SocialLoginView
-from dj_rest_auth.serializers import (PasswordChangeSerializer,
-                                      UserDetailsSerializer)
+from dj_rest_auth.serializers import PasswordChangeSerializer, UserDetailsSerializer
 
 User = get_user_model()
 

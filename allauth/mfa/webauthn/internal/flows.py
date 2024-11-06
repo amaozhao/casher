@@ -6,15 +6,14 @@ from django.http import HttpRequest
 from allauth.account.adapter import get_adapter as get_account_adapter
 from allauth.account.authentication import get_authentication_records
 from allauth.account.internal import flows
-from allauth.account.internal.flows.reauthentication import \
-    raise_if_reauthentication_required
+from allauth.account.internal.flows.reauthentication import (
+    raise_if_reauthentication_required,
+)
 from allauth.account.models import Login
 from allauth.mfa import signals
-from allauth.mfa.base.internal.flows import (delete_and_cleanup,
-                                             post_authentication)
+from allauth.mfa.base.internal.flows import delete_and_cleanup, post_authentication
 from allauth.mfa.models import Authenticator
-from allauth.mfa.recovery_codes.internal.flows import \
-    auto_generate_recovery_codes
+from allauth.mfa.recovery_codes.internal.flows import auto_generate_recovery_codes
 from allauth.mfa.webauthn.internal import auth
 
 
