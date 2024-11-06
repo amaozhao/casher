@@ -86,7 +86,7 @@ class UploadAPIView(APIView):
                     {"error": "Invalid JSON data"}, status=status.HTTP_400_BAD_REQUEST
                 )
             mainImages = request.FILES.getlist("mainImages", [])
-            return self.handle_upload(post_data, client_id, techsid, mainImages)
+            return self.handle_upload(post_data, client_id, mainImages)
         elif r_value == "comfyui.apiv2.code":
             return self.handle_code_logic(request.data, techsid)
         else:
@@ -95,7 +95,7 @@ class UploadAPIView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-    def handle_upload(self, post_data, client_id, techsid, cs_img_files):
+    def handle_upload(self, post_data, client_id, cs_img_files):
         """
         处理上传逻辑，并将数据保存到数据库
         """
@@ -105,7 +105,6 @@ class UploadAPIView(APIView):
             return Response({"errno": 41009, "message": "用户未登陆"})
         try:
             from task.models import TaskFreeCount
-
             # 创建 PostData 实例并保存
             workflow = WorkFlowData.objects.filter(
                 uniqueid=post_data.get("uniqueid")
@@ -151,7 +150,9 @@ class UploadAPIView(APIView):
                 query={"workflow_id": workflow.id},
             )
             wxp_b_image = b_generate_mp_qr_code(query={"techsid": techsid})
-            html = self.get_app_html(wxp_c_image, wxp_b_image, workflow.id)
+            wx_tech = WxAppBTechs.objects.filter(techsid=techsid).first()
+            provider = wx_tech.provider
+            html = self.get_app_html(wxp_c_image, wxp_b_image, workflow.id, provider)
 
             r = {
                 "errno": 1,
@@ -264,7 +265,60 @@ class UploadAPIView(APIView):
         """
         return html
 
-    def get_app_html(self, wxp_c_image, wxp_b_image, workflow_id):
+    def get_app_html(self, wxp_c_image, wxp_b_image, workflow_id, provider):
+        if provider == 'google':
+            html = f"""
+                    <style type="text/css">
+            			body {{
+            				background-color: #161622;
+            				text-align: center;
+            				color: #fff;
+            			}}
+
+            			.login_text {{
+            				margin: 50px 0;
+            				height: 42px;
+            				font-size: 36px;
+            				color: #ffffff;
+            				line-height: 42px;
+            			}}
+
+            			.qrcode {{
+            				width: 280px;
+            				height: 280px;
+            				margin-top: 40px;
+            				border-radius: 20px;
+            			}}
+
+            			.mgT10 {{
+            				margin-top: 10px;
+            			}}
+
+            			.content {{
+            				width: 666px;
+            				margin: auto;
+            				display: flex;
+            				justify-content: space-between;
+            			}}
+            		</style>
+                    <div class="content">
+            			<div>
+            				<div class="login_text">用户端URL</div>
+            				<div>URL:
+            					<a style="color: #6AE1D6;" href="http://aidep.cn/web/?workflow_id={workflow_id}">
+            					    http://aidep.cn/web/?workflow_id={workflow_id}
+            					</a>
+            				</div>
+            			</div>
+            			<div>
+            				<div class="login_text">商户端URL</div>
+            				<div>URL:
+            					<span style="color: #6AE1D6;" href="http://aidep.cn/web-b/">http://aidep.cn/web-b/</span>
+            				</div>
+            			</div>
+            		</div>
+                    """
+            return html
         html = f"""
         <style type="text/css">
 			body {{
@@ -303,7 +357,9 @@ class UploadAPIView(APIView):
 			<div>
 				<div class="login_text">用户端URL</div>
 				<div>URL:
-					<span style="color: #6AE1D6;">http://aidep.cn/web/?workflow_id={workflow_id}</span>
+					<a style="color: #6AE1D6;" href="http://aidep.cn/web/?workflow_id={workflow_id}">
+					    http://aidep.cn/web/?workflow_id={workflow_id}
+					</a>
 				</div>
 				<img class="qrcode" src="{wxp_c_image}" />
 				<div class="mgT10">微信小程序</div>
@@ -311,7 +367,7 @@ class UploadAPIView(APIView):
 			<div>
 				<div class="login_text">商户端URL</div>
 				<div>URL:
-					<span style="color: #6AE1D6;">http://aidep.cn/web-b/</span>
+					<span style="color: #6AE1D6;" href="http://aidep.cn/web-b/">http://aidep.cn/web-b/</span>
 				</div>
 				<img class="qrcode" src="{wxp_b_image}" />
 				<div class="mgT10">商家后台</div>
