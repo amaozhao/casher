@@ -319,16 +319,16 @@ class UploadAPIView(APIView):
             			<div>
             				<div class="login_text">用户端URL</div>
             				<div>URL:
-            					<a style="color: #6AE1D6;" href="http://aidep.cn/web/?workflow_id={workflow_id}">
+            					<a style="color: #6AE1D6;" href="http://aidep.cn/web/?workflow_id={workflow_id}" target="_blank">
             					    http://aidep.cn/web/?workflow_id={workflow_id}
             					</a>
             				</div>
             			</div>
             			<div>
             				<div class="login_text">商户端URL</div>
-            				<div>URL:
-            					<span style="color: #6AE1D6;" href="http://aidep.cn/web-b/">http://aidep.cn/web-b/</span>
-            				</div>
+            				<a>URL:
+            					<span style="color: #6AE1D6;" href="http://aidep.cn/web-b/" target="_blank">http://aidep.cn/web-b/</span>
+            				</a>
             			</div>
             		</div>
                     """

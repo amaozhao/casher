@@ -1,6 +1,5 @@
 from django.conf import settings
-from yunzhanghu_sdk.client.api.apiusersign_client import \
-    ApiUserSignServiceClient
+from yunzhanghu_sdk.client.api.apiusersign_client import ApiUserSignServiceClient
 from yunzhanghu_sdk.client.api.model.apiusersign import (
     ApiUserSignContractRequest, ApiUserSignRequest,
     GetApiUserSignStatusRequest)
@@ -32,7 +31,7 @@ class YunAccountService:
         self.payment_client = PaymentClient(config=config)
         self.sign_client = ApiUserSignServiceClient(config=config)
 
-    def user_sign(self):
+    def get_user_sign_contract(self, request_id):
         req = ApiUserSignContractRequest(
             dealer_id=settings.YUNZHANGHU_DEALER_ID,
             broker_id=settings.YUNZHANGHU_BROKER_ID,
@@ -41,7 +40,7 @@ class YunAccountService:
         # 建议平台企业自定义 request-id，并记录在日志中，便于问题发现及排查
         # 如未自定义 request-id，将使用 SDK 中的 UUID 方法自动生成。
         # 注意：UUID 方法生成的 request-id 不能保证全局唯一，推荐自定义 request-id
-        req.request_id = "requestIdExample123456789"
+        req.request_id = request_id
         try:
             resp = self.sign_client.api_user_sign_contract(req)
             if resp.code == "0000":
@@ -52,22 +51,25 @@ class YunAccountService:
                 return resp
         except Exception as e:
             # 发生异常
-            print(e)
+            raise e
+
+
+    def user_sign(self, request_id, real_name, id_card, card_type):
 
         # 用户签约
         req = ApiUserSignRequest(
             dealer_id=settings.YUNZHANGHU_DEALER_ID,
             broker_id=settings.YUNZHANGHU_BROKER_ID,
-            real_name="张三",
-            id_card="11010519491231002X",
-            card_type="idcard",
+            real_name=real_name,
+            id_card=id_card,
+            card_type=card_type,
         )
 
         # request-id：请求 ID，请求的唯一标识
         # 建议平台企业自定义 request-id，并记录在日志中，便于问题发现及排查
         # 如未自定义 request-id，将使用 SDK 中的 UUID 方法自动生成。
         # 注意：UUID 方法生成的 request-id 不能保证全局唯一，推荐自定义 request-id
-        req.request_id = "requestIdExample123456789"
+        req.request_id = request_id
         try:
             resp = self.sign_client.api_user_sign(req)
             if resp.code == "0000":
@@ -85,8 +87,8 @@ class YunAccountService:
         req = GetApiUserSignStatusRequest(
             dealer_id=settings.YUNZHANGHU_DEALER_ID,
             broker_id=settings.YUNZHANGHU_BROKER_ID,
-            real_name="张三",
-            id_card="11010519491231002X",
+            real_name=real_name,
+            id_card=id_card,
         )
 
         # request-id：请求 ID，请求的唯一标识
@@ -113,14 +115,14 @@ class YunAccountService:
             order_id="202009010016562012987",
             dealer_id=settings.YUNZHANGHU_DEALER_ID,
             broker_id=settings.YUNZHANGHU_BROKER_ID,
-            real_name="张三",
-            openid="o4GgauInH_RCEdvrrNGrntXDuXXX",
-            id_card="11010519491231002X",
-            phone_no="188****8888",
-            pay="1.00",
+            real_name=real_name,
+            openid=openid,
+            id_card=id_card,
+            phone_no=phone_no,
+            pay=pay,
             pay_remark="",
             notify_url="https://www.example.com",
-            wx_app_id="",
+            wx_app_id=wx_app_id,
             wxpay_mode="transfer",
             project_id="casher",
         )
