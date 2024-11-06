@@ -117,7 +117,6 @@ class YunAccountService:
         req.request_id = request_id
         try:
             resp = self.payment_client.create_wxpay_order(req)
-            print(1111, resp)
             return resp
         except Exception as e:
             # 发生异常

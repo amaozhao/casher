@@ -536,8 +536,8 @@ class WorkFlowBannerView(APIView):
             {
                 "data": {
                     "id": banner.id,
-                    "desc": banner.desc,
-                    "en_desc": banner.en_desc,
+                    "url": banner.url,
+                    "desc": banner.desc
                 },
                 "status": status.HTTP_200_OK,
             }
