@@ -64,17 +64,19 @@ class WxAppBLogin(APIView):
                         avatarUrl=raw_data.get("avatarUrl"),
                         unionid=data.get("unionid"),
                     )
-                profile.nick_name = raw_data.get("nickName")
-                profile.gender = raw_data.get("gender")
-                profile.city = raw_data.get("city")
-                profile.province = raw_data.get("province")
-                profile.country = raw_data.get("country")
-                profile.avatarUrl = raw_data.get("avatarUrl")
-                profile.save()
+                else:
+                    profile.nick_name = raw_data.get("nickName")
+                    profile.gender = raw_data.get("gender")
+                    profile.city = raw_data.get("city")
+                    profile.province = raw_data.get("province")
+                    profile.country = raw_data.get("country")
+                    profile.avatarUrl = raw_data.get("avatarUrl")
+                    profile.save()
                 if params.get("techsid"):
                     tesh, _ = WxAppBTechs.objects.get_or_create(
                         user=has_user,
                         techsid=params.get("techsid"),
+                        provider='weixin'
                     )
                 token, _ = jwt_encode(has_user)
                 return Response(

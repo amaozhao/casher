@@ -187,6 +187,20 @@ class UploadAPIView(APIView):
         )
         return url
 
+    def get_weixin_login_url(self, techsid):
+        redirect_uri = urllib.parse.quote_plus(
+            urljoin("http://aidep.cn", reverse("weixin_callback"))
+        )
+        url = (
+            f"https://open.weixin.qq.com/connect/qrconnect?"
+            f"appid={settings.SOCIALACCOUNT_PROVIDERS['weixin']['APP']['client_id']}"
+            f"&redirect_uri={redirect_uri}"
+            f"&response_type=code"
+            f"&scope=snsapi_login"
+            f"#wechat_redirect"  # 可设置自定义state参数
+        )
+        return url
+
     def get_login_html(self, s_key, qrcode):
         html = f"""
         <style type="text/css">
