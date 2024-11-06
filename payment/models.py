@@ -64,3 +64,29 @@ class WechatOrder(models.Model):
 
     class Meta:
         db_table = "wechat_order"
+
+
+class WechatSign(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    real_name = models.CharField(max_length=100)
+    id_card = models.CharField(max_length=100)
+    id_type = models.CharField(max_length=40)
+    phone_no = models.CharField(max_length=100)
+
+    class Meta:
+        db_table = "wechat_sign"
+
+
+class WechatPayout(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    request_id = models.CharField(max_length=100)
+    order_id = models.CharField(max_length=100)
+    real_name = models.CharField(max_length=100)
+    open_id = models.CharField(max_length=100)
+    id_card = models.CharField(max_length=100)
+    phone_no = models.CharField(max_length=100)
+    pay = models.CharField(max_length=100)
+    status = models.CharField(max_length=100, default="init")
+
+    class Meta:
+        db_table = "wechat_payout"

@@ -18,7 +18,6 @@ class CurrentUserHashrateView(APIView):
 
 
 class HashrateTemplateView(APIView):
-
     def get(self, request, *args, **kwargs):
         return Response(
             {

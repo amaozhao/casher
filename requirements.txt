@@ -31,6 +31,7 @@ pyasn1==0.6.1
 pyasn1_modules==0.4.1
 pycparser==2.22
 pycryptodome==3.10.1
+pyDes==2.0.1
 PyJWT==2.9.0
 pyOpenSSL==24.2.1
 python-dateutil==2.9.0.post0
