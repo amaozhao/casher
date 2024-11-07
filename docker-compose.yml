@@ -7,7 +7,7 @@ services:
       - "8000:8000"
 #    network_mode: host  # 使用宿主机网络
     extra_hosts:
-      - "host.docker.internal:172.17.0.1"
+      - "host.docker.internal:193.112.191.2"
     volumes:
       - .:/app
     expose:
