@@ -60,7 +60,7 @@ class WXCallback(SocialLoginView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         token_endpoint_url = urljoin("https://aidep.cn", reverse("weixin_login"))
         response = requests.post(
-            url=token_endpoint_url, data={"code": code}, timeout=60
+            url=token_endpoint_url, data={"code": code}, timeout=60, verify=False
         )
         res_json = response.json()
         user = res_json.get("user")
@@ -139,7 +139,7 @@ class GoogleCallback(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         token_endpoint_url = urljoin("https://aidep.cn", reverse("google_login"))
         response = requests.post(
-            url=token_endpoint_url, data={"code": code}, timeout=60
+            url=token_endpoint_url, data={"code": code}, timeout=60, verify=False
         )
         res_json = response.json()
         user = res_json.get("user")
