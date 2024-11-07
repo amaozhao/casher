@@ -34,7 +34,7 @@ else:
     config = dotenv_values("prod.env")
 
 ALLOWED_HOSTS = ["https://aidep.cn", "http://aidep.cn", "*"]
-CSRF_TRUSTED_ORIGINS = ["https://aidep.cn", "http://aidep.cn"]
+CSRF_TRUSTED_ORIGINS = ["https://aidep.cn", "https://aidep.cn"]
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 
 
@@ -138,8 +138,8 @@ DATABASES = {
         "NAME": "casher",
         "USER": "root",
         "PASSWORD": "casher",
-        "HOST": "192.168.10.100",  # 如果数据库和应用在同一台服务器上
-        "PORT": "3307",  # PostgreSQL 的默认端口
+        "HOST": "172.17.0.1",  # 如果数据库和应用在同一台服务器上
+        "PORT": "3307",  # mysql 端口
         "OPTIONS": {"charset": "utf8mb4"},
     }
 }
