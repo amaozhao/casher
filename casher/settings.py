@@ -87,17 +87,22 @@ MIDDLEWARE = [
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_METHODS = [
-    "GET",
-    "POST",
-    "OPTIONS",
+    'GET',
+    'POST',
+    'OPTIONS',
+    'PUT',
+    'DELETE',
 ]
 
 # 允许的请求头
 CORS_ALLOW_HEADERS = [
     "Authorization",
+    "authorization",
     "Content-Type",
     "X-Requested-With",
+    "x-requested-with",
     "languageStr",
+    "languagestr",
 ]
 
 AUTHENTICATION_BACKENDS = (
