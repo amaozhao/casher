@@ -33,7 +33,10 @@ if DEBUG:
 else:
     config = dotenv_values("prod.env")
 
-ALLOWED_HOSTS = ["https://aidep.cn", "https://aidep.cn", "*"]
+SECURE_SSL_REDIRECT = False
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+ALLOWED_HOSTS = ["aidep.cn", "www.aidep.cn", "*"]
 CSRF_TRUSTED_ORIGINS = ["https://aidep.cn", "https://aidep.cn"]
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 
