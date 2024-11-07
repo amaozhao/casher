@@ -18,7 +18,7 @@ services:
     volumes:
       - ./web:/usr/share/nginx/html/web
       - ./web-b:/usr/share/nginx/html/web-b
-      - ./nginx-prod.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - ./static:/app/static
       - ./media:/app/media
       - ../aidep.cn_bundle.crt:/etc/nginx/aidep.cn_bundle.crt
