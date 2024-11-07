@@ -64,6 +64,7 @@ class WXCallback(SocialLoginView):
             url=token_endpoint_url,
             data={"code": code},
             timeout=60,
+            verify=False
         )
         res_json = response.json()
         user = res_json.get("user")
