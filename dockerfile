@@ -1,14 +1,9 @@
 # 使用官方 Python 镜像作为基础镜像
-FROM python:3.12-slim
+FROM python:3.12-alpine
 
-RUN mkdir -p /etc/apt
-RUN touch /etc/apt/sources.list
-RUN sed -i "s|http://deb.debian.org/debian|http://mirrors.aliyun.com/debian|g" /etc/apt/sources.list
-
-# 安装系统依赖
-RUN apt-get update && \
-    apt-get install -y default-libmysqlclient-dev build-essential pkg-config && \
-    rm -rf /var/lib/apt/lists/*
+RUN apk update \
+    && apk add --virtual build-deps gcc python3-dev musl-dev \
+    && apk add --no-cache mariadb-dev
 
 # 设置工作目录
 WORKDIR /app
@@ -22,6 +17,8 @@ ENV MYSQLCLIENT_LDFLAGS="-L/usr/lib/mysql -lmysqlclient"
 
 # 安装 Python 依赖
 RUN pip install --no-cache-dir -r requirements.txt
+
+RUN apk del build-deps
 
 # 复制项目文件到容器中，包括 H5 文件夹 `web`
 COPY . .
