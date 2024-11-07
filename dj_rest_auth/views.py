@@ -129,6 +129,7 @@ class LoginView(GenericAPIView):
         return response
 
     def post(self, request, *args, **kwargs):
+        print(11111111111, request.data)
         self.request = request
         self.serializer = self.get_serializer(data=self.request.data)
         self.serializer.is_valid(raise_exception=True)
