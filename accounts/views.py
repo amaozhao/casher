@@ -58,7 +58,7 @@ class WXCallback(SocialLoginView):
         state = request.GET.get("state")
         if code is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        token_endpoint_url = urljoin("http://web:8000", reverse("weixin_login"))
+        token_endpoint_url = urljoin("https://aidep.cn", reverse("weixin_login"))
         response = requests.post(
             url=token_endpoint_url,
             data={"code": code},
