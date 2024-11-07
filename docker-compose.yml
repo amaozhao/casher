@@ -11,7 +11,7 @@ services:
     env_file:
       - .env
 
-  nginx-ssl:
+  nginx:
     image: nginx:latest
     ports:
       - "8001:8001"
@@ -21,7 +21,6 @@ services:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - ./static:/app/static
       - ./media:/app/media
-      - ./aidep.cn.key:/etc/nginx/aidep.cn.key
-      - ./aidep.cn_bundle.crt:/etc/nginx/aidep.cn_bundle.crt
+      - aidep.cn.key:/etc/nginx
     depends_on:
       - web
