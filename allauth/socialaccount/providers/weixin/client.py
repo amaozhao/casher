@@ -30,6 +30,7 @@ class WeixinOAuth2Client(OAuth2Client):
             "secret": self.consumer_secret,
             "code": code,
         }
+        print(11111, self.consumer_key, self.consumer_secret)
         params = None
         self._strip_empty_keys(data)
         url = self.access_token_url
