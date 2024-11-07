@@ -6,14 +6,16 @@ services:
     ports:
       - "8000:8000"
 #    network_mode: host  # 使用宿主机网络
-#    extra_hosts:
-#      - "host.docker.internal:host-gateway"
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
     volumes:
       - .:/app
     expose:
       - "8000"
     env_file:
       - .env
+    networks:
+      - mynetwork
 
   nginx:
     image: nginx:latest
@@ -29,6 +31,8 @@ services:
       - ../aidep.cn.key:/etc/nginx/aidep.cn.key
     depends_on:
       - web
+    networks:
+      - mynetwork
 
 networks:
   mynetwork:
