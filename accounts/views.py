@@ -1,4 +1,5 @@
 import json
+import logging
 import urllib.parse
 from urllib.parse import urljoin
 
@@ -58,7 +59,8 @@ class WXCallback(SocialLoginView):
         state = request.GET.get("state")
         if code is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        token_endpoint_url = urljoin("http://0.0.0.0:8000", reverse("weixin_login"))
+        token_endpoint_url = urljoin("https://aidep.cn", reverse("weixin_login"))
+        logging.log(f"The weixin url is: {token_endpoint_url}")
         response = requests.post(
             url=token_endpoint_url,
             data={"code": code},
@@ -139,7 +141,7 @@ class GoogleCallback(APIView):
         state = request.GET.get("state")
         if code is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        token_endpoint_url = urljoin("http://127.0.0.1:8000", reverse("google_login"))
+        token_endpoint_url = urljoin("https://aidep.cn", reverse("google_login"))
         response = requests.post(
             url=token_endpoint_url, data={"code": code}, timeout=60, verify=False
         )

@@ -264,7 +264,6 @@ SOCIALACCOUNT_PROVIDERS = {
             {
                 "client_id": GOOGLE_OAUTH_CLIENT_ID,
                 "secret": GOOGLE_OAUTH_CLIENT_SECRET,
-                "key": "",
             },
         ],
         "SCOPE": ["profile", "email"],
