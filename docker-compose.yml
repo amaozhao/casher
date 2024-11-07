@@ -25,3 +25,7 @@ services:
       - ../aidep.cn.key:/etc/nginx/aidep.cn.key
     depends_on:
       - web
+
+networks:
+  mynetwork:
+    driver: bridge
