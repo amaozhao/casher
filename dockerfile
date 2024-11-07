@@ -1,6 +1,13 @@
 # 使用官方 Python 镜像作为基础镜像
 FROM python:3.12-slim
 
+RUN mkdir -p /etc/apt
+RUN touch /etc/apt/sources.list
+RUN sed -i "s/archive.ubuntu./mirrors.aliyun./g" /etc/apt/sources.list
+RUN sed -i "s/deb.debian.org/mirrors.aliyun.com/g" /etc/apt/sources.list
+RUN sed -i "s/security.debian.org\/debian-security/mirrors.aliyun.com\/debian-security/g" /etc/apt/sources.list
+RUN sed -i "s/httpredir.debian.org\/debian-security/mirrors.aliyun.com\/debian-security/g" /etc/apt/sources.list
+
 # 安装系统依赖
 RUN apt-get update && \
     apt-get install -y default-libmysqlclient-dev build-essential pkg-config && \
