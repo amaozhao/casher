@@ -59,8 +59,12 @@ class WXCallback(SocialLoginView):
         if code is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         token_endpoint_url = urljoin("http://127.0.0.1:8000", reverse("weixin_login"))
+        print("Token endpoint URL:", token_endpoint_url)
         response = requests.post(
-            url=token_endpoint_url, data={"code": code}, timeout=60, verify=False
+            url=token_endpoint_url,
+            data={"code": code},
+            timeout=60,
+            proxies={"http": None, "https": None}
         )
         res_json = response.json()
         user = res_json.get("user")
