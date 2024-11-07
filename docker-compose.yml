@@ -4,8 +4,8 @@ services:
     command: daphne -b 0.0.0.0 -p 8000 casher.asgi:application
     ports:
       - "8000:8000"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
     volumes:
       - .:/app
     expose:
