@@ -14,8 +14,6 @@ services:
       - "8000"
     env_file:
       - .env
-    networks:
-      - mynetwork
 
   nginx:
     image: nginx:latest
@@ -31,9 +29,3 @@ services:
       - ../aidep.cn.key:/etc/nginx/aidep.cn.key
     depends_on:
       - web
-    networks:
-      - mynetwork
-
-networks:
-  mynetwork:
-    driver: bridge
