@@ -7,8 +7,6 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from payment.models import UserHashrate
 from task.models import TaskFreeCount, UserTask
 
-# from django.core.cache import cache
-
 
 client_dict = {}
 channel_dict = {}
@@ -113,10 +111,14 @@ class ClientConsumer(AsyncWebsocketConsumer):
             print(f"Error handling prompt message: {e}")
 
     @database_sync_to_async
-    def update_user_task(self, jilu_id, prompt_id):
+    def update_user_task(self, jilu_id, prompt_id, is_ok=True):
         user_task = UserTask.objects.filter(jilu_id=jilu_id).first()
         if user_task:
             user_task.prompt_id = prompt_id
+            if is_ok:
+                user_task.status = 'success'
+            else:
+                user_task.status = 'fail'
             user_task.save()
             user_hashrate = UserHashrate.objects.filter(user=user_task.user).first()
             task_free_count = TaskFreeCount.objects.filter(
@@ -127,5 +129,6 @@ class ClientConsumer(AsyncWebsocketConsumer):
                 task_free_count.save()
                 return
             if user_hashrate:
-                user_hashrate.hashrate -= user_task.fee
-                user_hashrate.save()
+                if is_ok:
+                    user_hashrate.hashrate -= user_task.fee
+                    user_hashrate.save()
