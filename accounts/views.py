@@ -51,7 +51,7 @@ class WXLoginAPIView(SocialLoginView):
     client_class = WeixinOAuth2Client
 
 
-class WXCallback(SocialLoginView):
+class WXCallback(APIView):
     authentication_classes = []
 
     def get(self, request, *args, **kwargs):
