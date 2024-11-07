@@ -109,6 +109,18 @@ class WechatPayCheckView(APIView):
 
 
 class YunAccountSignView(APIView):
+    def get(self, request, *args, **kwargs):
+        _sign = WechatSign.objects.filter(user=request.user).first()
+        if _sign:
+            return Response(
+                {"data": {}, "status": status.HTTP_200_OK, "message": "用户已签约"},
+                status=status.HTTP_200_OK,
+            )
+        return Response(
+            {"data": {}, "status": status.HTTP_404_NOT_FOUND, "message": "用户未签约"},
+            status=status.HTTP_404_NOT_FOUND
+        )
+
     def post(self, request, *args, **kwargs):
         _sign = WechatSign.objects.filter(user=request.user).first()
         if _sign:

@@ -33,7 +33,7 @@ if DEBUG:
 else:
     config = dotenv_values("prod.env")
 
-ALLOWED_HOSTS = ["https://aidep.cn", "http://aidep.cn", "*"]
+ALLOWED_HOSTS = ["https://aidep.cn", "https://aidep.cn", "*"]
 CSRF_TRUSTED_ORIGINS = ["https://aidep.cn", "https://aidep.cn"]
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 
@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     "wxapp",
     "wxappb",
     "accounts",
+    "invitation",
 ]
 
 SITE_ID = 1
@@ -143,7 +144,8 @@ DATABASES = {
         "NAME": "casher",
         "USER": "root",
         "PASSWORD": "casher",
-        "HOST": "172.17.0.1",  # 如果数据库和应用在同一台服务器上
+        "HOST": "172.17.0.1",
+        # "HOST": "192.168.10.100",
         "PORT": "3307",  # mysql 端口
         "OPTIONS": {"charset": "utf8mb4"},
     }
@@ -269,9 +271,8 @@ SOCIALACCOUNT_PROVIDERS = {
     },
     "weixin": {
         "APP": {
-            "client_id": "wxf55b8e3b119d67cd",
-            "secret": "8be5d5ebe318ecfe220f2776d79fb732",
-            "key": "",
+            "client_id": config.get('WEIXINB_H5_APPID'),
+            "secret": config.get('WEIXINB_H5_APPSECRET'),
         },
     },
 }
@@ -281,6 +282,9 @@ WEIXIN_APPSECRET = config.get("WEIXIN_APPSECRET")
 
 WEIXINH5_APPID = config.get("WEIXINH5_APPID")
 WEIXINH5_APPSECRET = config.get("WEIXINH5_APPSECRET")
+
+WEIXINB_H5_APPID = config.get('WEIXINB_H5_APPID')
+WEIXINB_H5_APPSECRET = config.get('WEIXINB_H5_APPSECRET')
 
 WEIXINPAY_MCHID = config.get("WEIXINPAY_MCHID")
 WEIXINPAY_APPID = config.get("WEIXINPAY_APPID")

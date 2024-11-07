@@ -17,6 +17,7 @@ from allauth.socialaccount.providers.weixin.client import WeixinOAuth2Client
 from allauth.socialaccount.providers.weixin.views import WeixinOAuth2Adapter
 from dj_rest_auth.registration.views import SocialLoginView
 from wxappb.models import WxAppBTechs
+from invitation.models import InvitationCode, InvitationRelation
 
 
 class WXQRCodeAPIView(APIView):
@@ -25,11 +26,11 @@ class WXQRCodeAPIView(APIView):
     def get(self, request, *args, **kwargs):
         # 设置微信扫码登录的 URL，并传入相应的参数
         redirect_uri = urllib.parse.quote_plus(
-            urljoin("http://aidep.cn", reverse("weixin_callback"))
+            urljoin("https://aidep.cn", reverse("weixin_callback"))
         )
         wechat_qr_url = (
             f"https://open.weixin.qq.com/connect/qrconnect?"
-            f"appid={settings.SOCIALACCOUNT_PROVIDERS['weixin']['APP']['client_id']}"
+            f"appid={settings.WEIXINB_H5_APPID}"
             f"&redirect_uri={redirect_uri}"
             f"&response_type=code"
             f"&scope=snsapi_login"
@@ -57,24 +58,36 @@ class WXCallback(SocialLoginView):
         state = request.GET.get("state")
         if code is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        token_endpoint_url = urljoin("http://aidep.cn", reverse("weixin_login"))
+        token_endpoint_url = urljoin("https://aidep.cn", reverse("weixin_login"))
         response = requests.post(
             url=token_endpoint_url, data={"code": code}, timeout=60
         )
         res_json = response.json()
         user = res_json.get("user")
-        if user and state:
-            user = User.objects.get(id=user.get("pk"))
-            state = urllib.parse.unquote_plus(state)
-            state = json.loads(state)
-            techsid = state.get("techsid")
-            WxAppBTechs.objects.create(user=user, techsid=techsid, provider="weixin")
+        if user:
+            if state:
+                user = User.objects.get(id=user.get("pk"))
+                state = urllib.parse.unquote_plus(state)
+                state = json.loads(state)
+                techsid = state.get("techsid")
+                if techsid:
+                    WxAppBTechs.objects.create(user=user, techsid=techsid, provider="weixin")
+                invite = state.get("invite")
+                if invite:
+                    inviter = InvitationCode.objects.filter(code=invite).first()
+                    if inviter:
+                        InvitationRelation.objects.create(
+                            inviter=inviter.inviter,
+                            invitee=user
+                        )
+                        inviter.accepted = True
+                        inviter.save()
             token = res_json.get("access")
-            return redirect(f"http://aidep.cn/web-b/?token={token}")
+            return redirect(f"https://aidep.cn/web-b/?token={token}")
 
         token = res_json.get("access")
 
-        return redirect(f"http://aidep.cn/web/?token={token}")
+        return redirect(f"https://aidep.cn/web/?token={token}")
 
 
 class GoogleLoginUrl(APIView):
@@ -90,12 +103,12 @@ class GoogleLoginUrl(APIView):
         techsid = request.GET.get("techsid")
         if techsid:
             callback_url = urllib.parse.quote_plus(
-                urljoin("http://aidep.cn", reverse("google_callback"))
+                urljoin("https://aidep.cn", reverse("google_callback"))
                 + f"?techsid={techsid}"
             )
         else:
             callback_url = urllib.parse.quote_plus(
-                urljoin("http://aidep.cn", reverse("google_callback"))
+                urljoin("https://aidep.cn", reverse("google_callback"))
             )
         return Response(
             {
@@ -124,21 +137,33 @@ class GoogleCallback(APIView):
         state = request.GET.get("state")
         if code is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        token_endpoint_url = urljoin("http://aidep.cn", reverse("google_login"))
+        token_endpoint_url = urljoin("https://aidep.cn", reverse("google_login"))
         response = requests.post(
             url=token_endpoint_url, data={"code": code}, timeout=60
         )
         res_json = response.json()
         user = res_json.get("user")
-        if user and state:
-            user = User.objects.get(id=user.get("pk"))
-            state = urllib.parse.unquote_plus(state)
-            state = json.loads(state)
-            techsid = state.get("techsid")
-            WxAppBTechs.objects.create(user=user, techsid=techsid, provider="google")
+        if user:
+            if state:
+                user = User.objects.get(id=user.get("pk"))
+                state = urllib.parse.unquote_plus(state)
+                state = json.loads(state)
+                techsid = state.get("techsid")
+                if techsid:
+                    WxAppBTechs.objects.create(user=user, techsid=techsid, provider="google")
+                invite = state.get("invite")
+                if invite:
+                    inviter = InvitationCode.objects.filter(code=invite).first()
+                    if inviter:
+                        InvitationRelation.objects.create(
+                            inviter=inviter.inviter,
+                            invitee=user
+                        )
+                        inviter.accepted = True
+                        inviter.save()
             token = res_json.get("access")
-            return redirect(f"http://aidep.cn/web-b/?token={token}")
+            return redirect(f"https://aidep.cn/web-b/?token={token}")
 
         token = res_json.get("access")
 
-        return redirect(f"http://aidep.cn/web/?token={token}")
+        return redirect(f"https://aidep.cn/web/?token={token}")

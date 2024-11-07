@@ -4,8 +4,8 @@ from invitation.views import GetInvitationView
 
 urlpatterns = [
     path(
-        "invite-code/",
+        "invite-url/",
         GetInvitationView.as_view(),
-        name="invite_code",
+        name="invite_url",
     ),
 ]

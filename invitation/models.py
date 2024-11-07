@@ -20,7 +20,7 @@ class InvitationCode(models.Model):
     def generate_raw_code(cls):
         code = random.sample(s_set, raw_code_len)
         while True:
-            check = cls.objects.filter(key=code).first()
+            check = cls.objects.filter(code=code).first()
             if not check:
                 return code
             code = random.sample(s_set, raw_code_len)
@@ -31,8 +31,8 @@ class InvitationCode(models.Model):
 
 
 class InvitationRelation(models.Model):
-    inviter = models.ForeignKey(User, on_delete=models.CASCADE)
-    invitee = models.ForeignKey(User, on_delete=models.CASCADE)
+    inviter = models.ForeignKey(User, related_name='inviter_relation', on_delete=models.CASCADE)
+    invitee = models.ForeignKey(User, related_name='invitee_relation', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

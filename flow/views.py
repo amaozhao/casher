@@ -178,7 +178,7 @@ class UploadAPIView(APIView):
     def get_google_login_url(self, techsid):
         client_id = settings.GOOGLE_OAUTH_CLIENT_ID
         callback_url = urllib.parse.quote_plus(
-            urljoin("http://aidep.cn", reverse("google_callback"))
+            urljoin("https://aidep.cn", reverse("google_callback"))
         )
         state = {"techsid": techsid}
         url = (
@@ -191,7 +191,7 @@ class UploadAPIView(APIView):
 
     def get_weixin_login_url(self, techsid):
         redirect_uri = urllib.parse.quote_plus(
-            urljoin("http://aidep.cn", reverse("weixin_callback"))
+            urljoin("https://aidep.cn", reverse("weixin_callback"))
         )
         url = (
             f"https://open.weixin.qq.com/connect/qrconnect?"
@@ -321,15 +321,15 @@ class UploadAPIView(APIView):
             			<div>
             				<div class="login_text">用户端URL</div>
             				<div>URL:
-            					<a style="color: #6AE1D6;" href="http://aidep.cn/web/?workflow_id={workflow_id}" target="_blank">
-            					    http://aidep.cn/web/?workflow_id={workflow_id}
+            					<a style="color: #6AE1D6;" href="https://aidep.cn/web/?workflow_id={workflow_id}" target="_blank">
+            					    https://aidep.cn/web/?workflow_id={workflow_id}
             					</a>
             				</div>
             			</div>
             			<div>
             				<div class="login_text">商户端URL</div>
             				<a>URL:
-            					<span style="color: #6AE1D6;" href="http://aidep.cn/web-b/" target="_blank">http://aidep.cn/web-b/</span>
+            					<span style="color: #6AE1D6;" href="https://aidep.cn/web-b/" target="_blank">https://aidep.cn/web-b/</span>
             				</a>
             			</div>
             		</div>
@@ -373,8 +373,8 @@ class UploadAPIView(APIView):
 			<div>
 				<div class="login_text">用户端URL</div>
 				<div>URL:
-					<a style="color: #6AE1D6;" href="http://aidep.cn/web/?workflow_id={workflow_id}">
-					    http://aidep.cn/web/?workflow_id={workflow_id}
+					<a style="color: #6AE1D6;" href="https://aidep.cn/web/?workflow_id={workflow_id}">
+					    https://aidep.cn/web/?workflow_id={workflow_id}
 					</a>
 				</div>
 				<img class="qrcode" src="{wxp_c_image}" />
@@ -383,7 +383,7 @@ class UploadAPIView(APIView):
 			<div>
 				<div class="login_text">商户端URL</div>
 				<div>URL:
-					<span style="color: #6AE1D6;" href="http://aidep.cn/web-b/">http://aidep.cn/web-b/</span>
+					<span style="color: #6AE1D6;" href="https://aidep.cn/web-b/">https://aidep.cn/web-b/</span>
 				</div>
 				<img class="qrcode" src="{wxp_b_image}" />
 				<div class="mgT10">商家后台</div>
