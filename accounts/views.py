@@ -26,7 +26,7 @@ class WXQRCodeAPIView(APIView):
     def get(self, request, *args, **kwargs):
         # 设置微信扫码登录的 URL，并传入相应的参数
         redirect_uri = urllib.parse.quote_plus(
-            urljoin("https://aidep.cn", reverse("weixin_callback"))
+            urljoin("http://aidep.cn", reverse("weixin_callback"))
         )
         wechat_qr_url = (
             f"https://open.weixin.qq.com/connect/qrconnect?"
@@ -58,7 +58,7 @@ class WXCallback(SocialLoginView):
         state = request.GET.get("state")
         if code is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        token_endpoint_url = urljoin("https://aidep.cn", reverse("weixin_login"))
+        token_endpoint_url = urljoin("http://aidep.cn", reverse("weixin_login"))
         response = requests.post(
             url=token_endpoint_url,
             data={"code": code},
