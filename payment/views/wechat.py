@@ -212,11 +212,11 @@ class YunAccountPayOutView(APIView):
                 pay=pay,
             )
             return Response(
-                {"data": result.data, "status": status.HTTP_200_OK},
+                {"data": result.data, "status": status.HTTP_200_OK, "message": "提现成功"},
                 status=status.HTTP_200_OK,
             )
         return Response(
-            {"data": {}, "status": status.HTTP_500_INTERNAL_SERVER_ERROR},
+            {"data": {} , "message": "提现失败", "status": status.HTTP_500_INTERNAL_SERVER_ERROR},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
 
