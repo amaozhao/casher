@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 
 from payment.models import UserHashrate, WechatOrder, WechatPayout, WechatSign
 from payment.services import wechatpay_service, yun_account_service
+# from django.contrib.auth.models import User
 
 
 class CreateWechatPaymentView(APIView):
@@ -109,6 +110,8 @@ class WechatPayCheckView(APIView):
 
 
 class YunAccountSignView(APIView):
+    authentication_classes = []
+
     def get(self, request, *args, **kwargs):
         _sign = WechatSign.objects.filter(user=request.user).first()
         if _sign:
@@ -133,32 +136,32 @@ class YunAccountSignView(APIView):
         id_card = data.get("id_card")
         card_type = data.get("card_type")
         phone_no = data.get("phone_no")
-        request_id = uuid.uuid4()
+        request_id = str(uuid.uuid4())
         result = yun_account_service.user_sign(
             request_id, real_name, id_card, card_type
         )
         if result.code == "0000":
             WechatSign.objects.create(
-                user=self.request.user,
+                user=request.user,
                 real_name=real_name,
                 id_card=id_card,
                 id_type=card_type,
                 phone_no=phone_no,
             )
             return Response(
-                {"data": result, "status": status.HTTP_200_OK, "message": f'{result.message}'},
+                {"data": {}, "status": status.HTTP_200_OK, "message": f'{result.message}'},
                 status=status.HTTP_200_OK,
             )
         if result.code == '5288':
             WechatSign.objects.create(
-                user=self.request.user,
+                user=request.user,
                 real_name=real_name,
                 id_card=id_card,
                 id_type=card_type,
                 phone_no=phone_no,
             )
             return Response(
-                {"data": result, "status": status.HTTP_200_OK, "message": f'{result.message}'},
+                {"data": {}, "status": status.HTTP_200_OK, "message": f'{result.message}'},
                 status=status.HTTP_200_OK,
             )
         return Response(
@@ -198,7 +201,7 @@ class YunAccountPayOutView(APIView):
         )
         if result.code == "0000":
             WechatPayout.objects.create(
-                user=self.request.user,
+                user=request.user,
                 order_id=order_id,
                 request_id=request_id,
                 open_id=openid,
