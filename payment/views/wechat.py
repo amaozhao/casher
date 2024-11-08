@@ -146,7 +146,7 @@ class YunAccountSignView(APIView):
                 phone_no=phone_no,
             )
             return Response(
-                {"data": result, "status": status.HTTP_200_OK, "message": result.message},
+                {"data": result, "status": status.HTTP_200_OK, "message": f'{result.message}'},
                 status=status.HTTP_200_OK,
             )
         if result.code == '5288':
@@ -158,14 +158,14 @@ class YunAccountSignView(APIView):
                 phone_no=phone_no,
             )
             return Response(
-                {"data": result, "status": status.HTTP_200_OK, "message": result.message},
+                {"data": result, "status": status.HTTP_200_OK, "message": f'{result.message}'},
                 status=status.HTTP_200_OK,
             )
         return Response(
             {
                 "data": {},
                 "status": status.HTTP_400_BAD_REQUEST,
-                "message": result.message
+                "message": f'{result.message}'
             },
             status=status.HTTP_400_BAD_REQUEST,
         )
