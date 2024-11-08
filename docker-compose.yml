@@ -1,17 +1,17 @@
 services:
-  web:
-    build: .
-    command: daphne -b 0.0.0.0 -p 8000 casher.asgi:application
-    ports:
-      - "8000:8000"
-    extra_hosts:
-      - "host.docker.internal:172.17.0.1"
-    volumes:
-      - .:/app
-    expose:
-      - "8000"
-    env_file:
-      - .env
+#  web:
+#    build: .
+#    command: daphne -b 0.0.0.0 -p 8000 casher.asgi:application
+#    ports:
+#      - "8000:8000"
+#    extra_hosts:
+#      - "host.docker.internal:172.17.0.1"
+#    volumes:
+#      - .:/app
+#    expose:
+#      - "8000"
+#    env_file:
+#      - .env
 
   nginx:
     image: nginx:latest
@@ -25,5 +25,5 @@ services:
       - ./media:/app/media
       - ../aidep.cn_bundle.crt:/etc/nginx/aidep.cn_bundle.crt
       - ../aidep.cn.key:/etc/nginx/aidep.cn.key
-    depends_on:
-      - web
+#    depends_on:
+#      - web
