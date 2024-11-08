@@ -193,7 +193,13 @@ class ImageDisplayView(APIView):
 
 class TaskHistoryView(APIView):
     def get(self, request, *args, **kwargs):
-        query = TaskResult.objects.all()
+        data = request.data
+        user = request.user
+        query = UserTask.objects.filter(user=user)
+        workflow_id = data.get('workflow_id')
+        if workflow_id:
+            workflow = WorkFlowData.objects.filter(id=workflow_id).first()
+            query = query.filter(flow=workflow).all()
         serializer = TaskResultSerializer(query, many=True, context={"request": None})
         return Response({"data": serializer.data, "status": status.HTTP_200_OK})
 
