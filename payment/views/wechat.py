@@ -142,7 +142,7 @@ class YunAccountSignView(APIView):
                 user=self.request.user,
                 real_name=real_name,
                 id_card=id_card,
-                card_type=card_type,
+                id_type=card_type,
                 phone_no=phone_no,
             )
             return Response(
@@ -154,8 +154,12 @@ class YunAccountSignView(APIView):
                 user=self.request.user,
                 real_name=real_name,
                 id_card=id_card,
-                card_type=card_type,
+                id_type=card_type,
                 phone_no=phone_no,
+            )
+            return Response(
+                {"data": result, "status": status.HTTP_200_OK, "message": result.message},
+                status=status.HTTP_200_OK,
             )
         return Response(
             {
