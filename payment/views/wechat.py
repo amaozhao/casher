@@ -110,7 +110,7 @@ class WechatPayCheckView(APIView):
 
 
 class YunAccountSignView(APIView):
-    authentication_classes = []
+    # authentication_classes = []
 
     def get(self, request, *args, **kwargs):
         _sign = WechatSign.objects.filter(user=request.user).first()
