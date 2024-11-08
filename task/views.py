@@ -20,8 +20,6 @@ class ImageUploadView(APIView):
     """
 
     def post(self, request, *args, **kwargs):
-        print(request.FILES)
-        print(request.data)
         image_file = request.FILES.get("file")
         if not image_file:
             return Response(
@@ -134,6 +132,7 @@ class PromptView(APIView):
         channel_layer = get_channel_layer()
         client_id = workflow.client_id
         wss = client_dict.get(client_id)
+        print(f'current client_id: {client_id}, wss: {wss}')
         async_to_sync(channel_layer.send)(wss, prompt_message)
         return Response(
             {

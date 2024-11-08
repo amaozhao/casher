@@ -21,6 +21,7 @@ class ClientConsumer(AsyncWebsocketConsumer):
         if client_id:
             client_dict[client_id] = self.channel_name
             channel_dict[self.channel_name] = client_id
+            print(f'connect client_id: {client_id}, wss: {self.channel_name}')
         await self.accept()
 
     async def _get_client_id(self, query_string):
