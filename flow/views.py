@@ -128,6 +128,8 @@ class UploadAPIView(APIView):
                     post_data=post_data,
                 )
             else:
+                workflow.techsid = post_data.get("techsid")
+                workflow.client_id = client_id
                 workflow.title = post_data.get("title")
                 workflow.gn_desc = post_data.get("gn_desc")
                 workflow.sy_desc = post_data.get("sy_desc")
