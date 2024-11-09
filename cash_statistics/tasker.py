@@ -20,14 +20,14 @@ def update_statistics(self, user_id):
     payouted_fee = payout_cls.objects.filter(user=user).aggregate(total_fee=Sum('fee'))['payouted_fee']
     stat = CashStatistics.objects.filter(user=user).first()
     if not stat:
-        stat = CashStatistics.objects.create(
+        CashStatistics.objects.create(
             user=user,
-            cashable=total_fee - payouted_fee,
-            withdrawned=payouted_fee,
-            total_income=total_fee,
+            cashable=(total_fee - payouted_fee) / 100,
+            withdrawned=payouted_fee / 100,
+            total_income=total_fee / 100,
         )
     else:
-        stat.cashable = total_fee - payouted_fee
-        stat.withdrawned = payouted_fee
-        stat.total_income = total_fee
+        stat.cashable = (total_fee - payouted_fee) / 100
+        stat.withdrawned = payouted_fee / 100
+        stat.total_income = total_fee / 100
         stat.save()

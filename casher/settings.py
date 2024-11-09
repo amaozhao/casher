@@ -87,7 +87,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
-    "casher.log_middleware.LoggingMiddleware",
+    "casher.log_middleware.RequestResponseLoggingMiddleware",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -325,21 +325,41 @@ CELERY_RESULT_BACKEND = 'redis://0.0.0.0:6379/0'
 REDBEAT_REDIS_URL = 'redis://0.0.0.0:6379/0'
 
 LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'django': {
+            'level': 'INFO',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': BASE_DIR / 'logs/django.log',
+            'when': 'midnight',  # 按天切割日志
+            'backupCount': 7,     # 保留7天的日志
+        },
+        # Channels 日志
+        'channel': {
+            'level': 'INFO',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': BASE_DIR / 'logs/channel.log',  # Channels 日志文件
+            'when': 'midnight',
+            'backupCount': 7,  # 保留7天的日志
         },
     },
-    "loggers": {
-        "django": {
-            "handlers": ["console"],
-            "level": "INFO",
+    'loggers': {
+        'django': {
+            'handlers': ['django'],
+            'level': 'INFO',
+            'propagate': True,
         },
-        "channels": {
-            "handlers": ["console"],
-            "level": "INFO",
+        'django.request': {
+            'handlers': ['django'],
+            'level': 'ERROR',  # 只记录错误日志
+            'propagate': False,
+        },
+        # Channels 日志配置
+        'channel': {
+            'handlers': ['channel'],
+            'level': 'INFO',
+            'propagate': False,  # 防止重复日志
         },
     },
 }

@@ -9,6 +9,11 @@ from task.models import TaskFreeCount, UserTask
 from wxappb.models import AuthorTechs
 from payment.models import UserPayin
 from invitation.models import InvitationRelation
+from cash_statistics.tasker import update_statistics
+import logging
+
+# 获取 channels 的 logger
+logger = logging.getLogger('channel')
 
 
 client_dict = {}
@@ -82,7 +87,7 @@ class ClientConsumer(AsyncWebsocketConsumer):
         jilu_id = data["data"]["jilu_id"]
         prompt_id = data["data"]["prompt_id"]
         error_message = data["data"]["msg"]
-        print(f"Received prompt_error message for task {jilu_id}: {error_message}")
+        logger.info(f"Received prompt_error message for task {jilu_id}: {error_message}")
         # 记录错误日志，或采取其他处理
 
     async def handle_monitor(self, data):
@@ -94,12 +99,12 @@ class ClientConsumer(AsyncWebsocketConsumer):
             jilu_id = data["data"]["jilu_id"]
             prompt_id = data["data"]["prompt_id"]
             await self.update_user_success_task(jilu_id, prompt_id)
-            print(f"Handling prompt ok for task {jilu_id} with {prompt_id}")
+            logger.info(f"Handling prompt ok for task {jilu_id} with {prompt_id}")
             # 添加你需要的业务逻辑
         except KeyError as e:
-            print(f"Missing expected data in prompt message: {e}")
+            logger.info(f"Missing expected data in prompt message: {e}")
         except Exception as e:
-            print(f"Error handling prompt message: {e}")
+            logger.info(f"Error handling prompt message: {e}")
 
     @database_sync_to_async
     def update_user_success_task(self, jilu_id, prompt_id, is_ok=True):
@@ -125,11 +130,10 @@ class ClientConsumer(AsyncWebsocketConsumer):
                     user_hashrate.hashrate -= user_task.fee
                     user_hashrate.save()
             self.update_pay(user_task, is_free)
+            update_statistics.delay_on_commit(user_task.user.id)
 
     @database_sync_to_async
     def update_error_task(self, jilu_id, prompt_id):
-        # from wxappb.models import AuthorTechs
-        # from payment.models import UserPayin
         user_task = UserTask.objects.filter(jilu_id=jilu_id).first()
         if user_task:
             user_task.prompt_id = prompt_id
