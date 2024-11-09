@@ -72,7 +72,7 @@ INSTALLED_APPS = [
     "wxappb",
     "accounts",
     "invitation",
-    "django_apscheduler",
+    "cash_statistics",
 ]
 
 SITE_ID = 1
@@ -148,8 +148,8 @@ DATABASES = {
         "NAME": "casher",
         "USER": "root",
         "PASSWORD": "casher",
-        "HOST": "172.17.0.1",
-        # "HOST": "192.168.10.100",
+        # "HOST": "172.17.0.1",
+        "HOST": "192.168.10.100",
         "PORT": "3307",  # mysql 端口
         "OPTIONS": {"charset": "utf8mb4"},
     }
@@ -318,6 +318,11 @@ YUNZHANGHU_APP_KEY = config.get("YUNZHANGHU_APP_KEY")
 YUNZHANGHU_PUBLIC_KEY = config.get("YUNZHANGHU_PUBLIC_KEY")
 YUNZHANGHU_PRIVATE_KEY = config.get("YUNZHANGHU_PRIVATE_KEY")
 YUNZHANGHU_HOST = config.get("YUNZHANGHU_HOST")
+
+# Celery settings
+CELERY_BROKER_URL = 'redis://0.0.0.0:6379/0'
+CELERY_RESULT_BACKEND = 'redis://0.0.0.0:6379/0'
+REDBEAT_REDIS_URL = 'redis://0.0.0.0:6379/0'
 
 LOGGING = {
     "version": 1,

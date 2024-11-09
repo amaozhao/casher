@@ -21,7 +21,7 @@ from flow.serializers.workflowdata import (
     WorkFlowDataSerializer,
 )
 from wxapp.service import generate_mp_qr_code as c_generate_mp_qr_code
-from wxappb.models import WxAppBTechs
+from wxappb.models import AuthorTechs
 from wxappb.service import generate_mp_qr_code as b_generate_mp_qr_code
 
 chars = string.ascii_letters + string.digits
@@ -154,7 +154,7 @@ class UploadAPIView(APIView):
                 query={"workflow_id": workflow.id},
             )
             wxp_b_image = b_generate_mp_qr_code(query={"techsid": techsid})
-            wx_tech = WxAppBTechs.objects.filter(techsid=techsid).first()
+            wx_tech = AuthorTechs.objects.filter(techsid=techsid).first()
             provider = wx_tech.provider
             html = self.get_app_html(wxp_c_image, wxp_b_image, workflow.id, provider)
 
@@ -206,6 +206,10 @@ class UploadAPIView(APIView):
         return url
 
     def get_login_html(self, s_key, qrcode):
+        languestr = self.request.headers.get('languestr')
+        google_login = '使用Google 登录'
+        if languestr == 'en':
+            google_login = 'Login with Google'
         html = f"""
         <style type="text/css">
 			body {{
@@ -273,15 +277,26 @@ class UploadAPIView(APIView):
         </div>
         <div class="other_login_div" id="goodle">
             <img class="logo_img" src="data:image/svg+xml,%3csvg%20width='28'%20height='29'%20viewBox='0%200%2028%2029'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M6.28523%2011.6527C7.39816%208.28037%2010.5673%205.85837%2014.3212%205.85837C16.339%205.85837%2018.1616%206.57439%2019.5937%207.74607L23.7596%203.58011C21.221%201.36695%2017.9664%200%2014.3212%200C8.67659%200%203.8168%203.22007%201.48047%207.93595L6.28523%2011.6527Z'%20fill='%23EA4335'/%3e%3cpath%20d='M19.1424%2021.4954C17.8418%2022.3352%2016.1892%2022.7823%2014.3203%2022.7823C10.5808%2022.7823%207.42153%2020.3788%206.29721%2017.0266L1.47656%2020.6868C3.80999%2025.4109%208.66966%2028.6407%2014.3203%2028.6407C17.8202%2028.6407%2021.1647%2027.3964%2023.6694%2025.06L19.1424%2021.4954Z'%20fill='%2334A853'/%3e%3cpath%20d='M23.6694%2025.0601C26.2888%2022.6167%2027.9898%2018.9788%2027.9898%2014.3203C27.9898%2013.4741%2027.8597%2012.5628%2027.6644%2011.7166H14.3203V17.2495H22.0013C21.6223%2019.11%2020.605%2020.5511%2019.1424%2021.4955L23.6694%2025.0601Z'%20fill='%234A90E2'/%3e%3cpath%20d='M6.2974%2017.027C6.0126%2016.1778%205.85837%2015.2678%205.85837%2014.3205C5.85837%2013.3877%206.00795%2012.4909%206.28453%2011.6528L1.47977%207.93604C0.521011%209.85785%200%2012.0238%200%2014.3205C0%2016.6113%200.530789%2018.772%201.47675%2020.6872L6.2974%2017.027Z'%20fill='%23FBBC05'/%3e%3c/svg%3e" />
-            <a class="other_login_text"  href={self.get_google_login_url(s_key)} target="_blank">使用Goodle登录</a>
+            <a class="other_login_text" href="javascript:void(0);" onclick="openGoogleLoginPopup()">{google_login}</a>
         </div>
-        <script type="text/javascript">
-            document.getElementById("goodle").addEventListener('click', () => {{
-                window.open({self.get_google_login_url(s_key)})
-            }});
-        </script>
         """
         return html
+
+    def get_js_code(self, s_key):
+        js_code = f"""
+        <script>
+            function openGoogleLoginPopup() {{
+                const width = 600;
+                const height = 600;
+                const left = (window.innerWidth / 2) - (width / 2);
+                const top = (window.innerHeight / 2) - (height / 2);
+                const popupUrl = '{self.get_google_login_url(s_key)}';
+            
+                window.open(popupUrl, 'google-login', `width=${{width}},height=${{height}},top=${{top}},left=${{left}},resizable=yes,scrollbars=yes`);
+            }}
+        </script>
+        """
+        return js_code
 
     def get_app_html(self, wxp_c_image, wxp_b_image, workflow_id, provider):
         if provider == "google":
@@ -385,7 +400,7 @@ class UploadAPIView(APIView):
 			<div>
 				<div class="login_text">商户端URL</div>
 				<div>URL:
-					<span style="color: #6AE1D6;" href="https://aidep.cn/web-b/">https://aidep.cn/web-b/</span>
+					<a style="color: #6AE1D6;" href="https://aidep.cn/web-b/">https://aidep.cn/web-b/</a>
 				</div>
 				<img class="qrcode" src="{wxp_b_image}" />
 				<div class="mgT10">商家后台</div>
@@ -399,7 +414,7 @@ class UploadAPIView(APIView):
         处理与 code 相关的逻辑
         """
         postData = post_data.get("postData")
-        wx_tech = WxAppBTechs.objects.filter(techsid=postData.get("s_key")).first()
+        wx_tech = AuthorTechs.objects.filter(techsid=postData.get("s_key")).first()
         if wx_tech:
             techsid = wx_tech.techsid
         if postData.get("s_key") and wx_tech:
@@ -427,6 +442,7 @@ class UploadAPIView(APIView):
                         "data": qrcode,
                         "desc": "",
                         "html": self.get_login_html(s_key, qrcode),
+                        "js": self.get_js_code(s_key),
                         "test": {"s_key": s_key, "subdomain": "11"},
                         "s_key": s_key,
                         "techsid": "init",
@@ -455,7 +471,7 @@ class BWorkFlowListView(ListAPIView):
     def get(self, request):
         user = request.user
         if user.is_authenticated:
-            techs_ids = WxAppBTechs.objects.filter(user=user).all()
+            techs_ids = AuthorTechs.objects.filter(user=user).all()
             flows = WorkFlowData.objects.filter(
                 techsid__in=[t.techsid for t in techs_ids]
             )

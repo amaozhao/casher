@@ -22,7 +22,7 @@ class WxAppBUserProfile(models.Model):
         ordering = ["-created"]
 
 
-class WxAppBTechs(models.Model):
+class AuthorTechs(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.deletion.CASCADE,

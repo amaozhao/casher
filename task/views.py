@@ -132,7 +132,15 @@ class PromptView(APIView):
         channel_layer = get_channel_layer()
         client_id = workflow.client_id
         wss = client_dict.get(client_id)
-        print(f'current client_id: {client_id}, wss: {wss}')
+        if not wss:
+            return Response(
+            {
+                "data": {"jilu_id": jilu_id},
+                "message": "wss 连接失败，请检查ComfyUI设置是否正确",
+                "status": status.HTTP_400_BAD_REQUEST,
+            },
+            status=status.HTTP_400_BAD_REQUEST,
+        )
         async_to_sync(channel_layer.send)(wss, prompt_message)
         return Response(
             {

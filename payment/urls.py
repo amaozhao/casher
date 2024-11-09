@@ -1,6 +1,8 @@
 from django.urls import path
 
 from payment.views import (
+    CashOutListView,
+    CashInListView,
     CreateCheckoutView,
     CreateWechatPaymentView,
     CurrentUserHashrateView,
@@ -17,9 +19,19 @@ from payment.views import (
 
 urlpatterns = [
     path(
+        "cashout/",
+        CashOutListView.as_view(),
+        name="cashout",
+    ),
+    path(
+        "cashin/",
+        CashInListView.as_view(),
+        name="cashin",
+    ),
+    path(
         "create-payment/",
         CreateCheckoutView.as_view(),
-        name="create_checkout_paymentt",
+        name="create_checkout_payment",
     ),
     path(
         "create-wechatpay/",

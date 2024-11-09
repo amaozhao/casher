@@ -6,6 +6,9 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 
 from payment.models import UserHashrate
 from task.models import TaskFreeCount, UserTask
+from wxappb.models import AuthorTechs
+from payment.models import UserPayin
+from invitation.models import InvitationRelation
 
 
 client_dict = {}
@@ -77,33 +80,20 @@ class ClientConsumer(AsyncWebsocketConsumer):
     async def handle_prompt_error(self, data):
         # 处理 prompt_error 消息
         jilu_id = data["data"]["jilu_id"]
+        prompt_id = data["data"]["prompt_id"]
         error_message = data["data"]["msg"]
         print(f"Received prompt_error message for task {jilu_id}: {error_message}")
         # 记录错误日志，或采取其他处理
 
     async def handle_monitor(self, data):
         client_id = data["data"]["client_id"]
-        # cache.set(client_id, self.channel_name)
         channel_dict[self.channel_name] = client_id
-
-    async def prompt(self, data):
-        await self.send(json.dumps(data))
-
-    async def handle_prompt(self, data):
-        try:
-            jilu_id = data["data"]["jilu_id"]
-            print(f"Handling prompt for task {jilu_id}")
-            # 添加你需要的业务逻辑
-        except KeyError as e:
-            print(f"Missing expected data in prompt message: {e}")
-        except Exception as e:
-            print(f"Error handling prompt message: {e}")
 
     async def handle_prompt_ok(self, data):
         try:
             jilu_id = data["data"]["jilu_id"]
             prompt_id = data["data"]["prompt_id"]
-            await self.update_user_task(jilu_id, prompt_id)
+            await self.update_user_success_task(jilu_id, prompt_id)
             print(f"Handling prompt ok for task {jilu_id} with {prompt_id}")
             # 添加你需要的业务逻辑
         except KeyError as e:
@@ -112,7 +102,7 @@ class ClientConsumer(AsyncWebsocketConsumer):
             print(f"Error handling prompt message: {e}")
 
     @database_sync_to_async
-    def update_user_task(self, jilu_id, prompt_id, is_ok=True):
+    def update_user_success_task(self, jilu_id, prompt_id, is_ok=True):
         user_task = UserTask.objects.filter(jilu_id=jilu_id).first()
         if user_task:
             user_task.prompt_id = prompt_id
@@ -125,7 +115,8 @@ class ClientConsumer(AsyncWebsocketConsumer):
             task_free_count = TaskFreeCount.objects.filter(
                 workflow=user_task.flow
             ).first()
-            if task_free_count.free_count < user_task.flow.free_times:
+            is_free = task_free_count.free_count < user_task.flow.free_times
+            if is_free:
                 task_free_count.free_count += 1
                 task_free_count.save()
                 return
@@ -133,3 +124,48 @@ class ClientConsumer(AsyncWebsocketConsumer):
                 if is_ok:
                     user_hashrate.hashrate -= user_task.fee
                     user_hashrate.save()
+            self.update_pay(user_task, is_free)
+
+    @database_sync_to_async
+    def update_error_task(self, jilu_id, prompt_id):
+        # from wxappb.models import AuthorTechs
+        # from payment.models import UserPayin
+        user_task = UserTask.objects.filter(jilu_id=jilu_id).first()
+        if user_task:
+            user_task.prompt_id = prompt_id
+            user_task.status = 'failed'
+            user_task.save()
+            task_free_count = TaskFreeCount.objects.filter(
+                workflow=user_task.flow
+            ).first()
+            is_free = task_free_count.free_count < user_task.flow.free_times
+            if is_free:
+                task_free_count.free_count += 1
+                task_free_count.save()
+                return
+            self.update_pay(user_task, is_free, is_success=False)
+
+    def update_pay(self, user_task, is_free, is_success=True):
+        workflow = user_task.flow
+        fee = 0.0
+        if not is_free:
+            if is_success:
+                fee = workflow.fee * 0.7
+        tech = AuthorTechs.objects.filter(techsid=workflow.techsid).first()
+        if tech:
+            author = tech.user
+            UserPayin.objects.create(
+                user=author,
+                workflow=workflow,
+                fee=fee,
+                status='failed'
+            )
+            invite = InvitationRelation.objects.filter(invitee=author).first()
+            if invite:
+                author = invite.inviter
+                UserPayin.objects.create(
+                    user=author,
+                    workflow=workflow,
+                    fee=workflow.fee * 0.1,
+                    status='failed'
+                )

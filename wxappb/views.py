@@ -11,7 +11,7 @@ from rest_framework.views import APIView
 
 from dj_rest_auth.utils import jwt_encode
 from wxappb import service
-from wxappb.models import WxAppBTechs, WxAppBUserProfile
+from wxappb.models import AuthorTechs, WxAppBUserProfile
 
 
 class WxAppBLogin(APIView):
@@ -73,7 +73,7 @@ class WxAppBLogin(APIView):
                     profile.avatarUrl = raw_data.get("avatarUrl")
                     profile.save()
                 if params.get("techsid"):
-                    tesh, _ = WxAppBTechs.objects.get_or_create(
+                    tesh, _ = AuthorTechs.objects.get_or_create(
                         user=has_user, techsid=params.get("techsid"), provider="weixin"
                     )
                 token, _ = jwt_encode(has_user)

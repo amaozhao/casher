@@ -17,7 +17,7 @@ from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from allauth.socialaccount.providers.weixin.client import WeixinOAuth2Client
 from allauth.socialaccount.providers.weixin.views import WeixinOAuth2Adapter
 from dj_rest_auth.registration.views import SocialLoginView
-from wxappb.models import WxAppBTechs
+from wxappb.models import AuthorTechs
 from invitation.models import InvitationCode, InvitationRelation
 
 
@@ -75,7 +75,7 @@ class WXCallback(APIView):
                 state = json.loads(state)
                 techsid = state.get("techsid")
                 if techsid:
-                    WxAppBTechs.objects.create(user=user, techsid=techsid, provider="weixin")
+                    AuthorTechs.objects.create(user=user, techsid=techsid, provider="weixin")
                 invite = state.get("invite")
                 if invite:
                     inviter = InvitationCode.objects.filter(code=invite).first()
@@ -154,7 +154,7 @@ class GoogleCallback(APIView):
                 state = json.loads(state)
                 techsid = state.get("techsid")
                 if techsid:
-                    WxAppBTechs.objects.create(user=user, techsid=techsid, provider="google")
+                    AuthorTechs.objects.create(user=user, techsid=techsid, provider="google")
                 invite = state.get("invite")
                 if invite:
                     inviter = InvitationCode.objects.filter(code=invite).first()

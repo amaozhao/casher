@@ -1,10 +1,14 @@
 from django.conf import settings
 from django.db import models
 
+from flow.models import WorkFlowData
+
 
 class StripePaymentProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     stripe_customer_id = models.CharField(max_length=255, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = "payment_profile"
@@ -30,6 +34,8 @@ class PagsmilePayout(models.Model):
     additional_remark = models.TextField(default="")
     country = models.CharField(max_length=20, default="USA")
     status = models.CharField(max_length=20, default="prepayout")
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = "pagsmile_payout"
@@ -46,6 +52,8 @@ class PagsmilePayout(models.Model):
 class UserHashrate(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     hashrate = models.IntegerField(default=0)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = "user_hashrate"
@@ -59,6 +67,8 @@ class WechatOrder(models.Model):
     desc = models.TextField(default="")
     pay_type = models.IntegerField()
     status = models.CharField(max_length=100, default="prepay")
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = "wechat_order"
@@ -70,6 +80,8 @@ class WechatSign(models.Model):
     id_card = models.CharField(max_length=100)
     id_type = models.CharField(max_length=40)
     phone_no = models.CharField(max_length=100)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = "wechat_sign"
@@ -85,6 +97,22 @@ class WechatPayout(models.Model):
     phone_no = models.CharField(max_length=100)
     pay = models.CharField(max_length=100)
     status = models.CharField(max_length=100, default="init")
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = "wechat_payout"
+
+
+class UserPayin(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    workflow = models.ForeignKey(WorkFlowData, on_delete=models.CASCADE)
+    fee = models.DecimalField(max_digits=7, decimal_places=2, default=0.0)
+    currency = models.CharField(max_length=20, default="CNY")
+    pay_type = models.CharField(max_length=100, default="author")
+    status = models.CharField(max_length=100, default="success")
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "user_payin"
