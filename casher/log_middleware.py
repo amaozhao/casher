@@ -10,6 +10,8 @@ class RequestResponseLoggingMiddleware:
     def __call__(self, request):
         # 记录请求的输入数据
         logger.info(f"Request: {request.method} {request.path}")
+        if request.method == 'GET':
+            logger.info(f"Form data: {request.GET}")
         if request.method == 'POST':
             if request.content_type == 'application/x-www-form-urlencoded':
                 logger.info(f"Form data: {request.POST}")

@@ -1,6 +1,5 @@
 import json
 import logging
-import os
 import time
 import uuid
 from random import sample
@@ -9,13 +8,7 @@ from string import ascii_letters, digits
 from django.conf import settings
 from wechatpayv3 import WeChatPay, WeChatPayType
 
-logging.basicConfig(
-    filename=os.path.join(os.getcwd(), "wechatpay.log"),
-    level=logging.DEBUG,
-    filemode="a",
-    format="%(asctime)s - %(process)s - %(levelname)s: %(message)s",
-)
-LOGGER = logging.getLogger("demo")
+logger = logging.getLogger('django')
 
 
 class WechatPayService:
@@ -35,7 +28,7 @@ class WechatPayService:
             appid=settings.WEIXINH5_APPID,
             notify_url="https://aidep.cn/payment/wechat-notify/",
             cert_dir=None,
-            logger=LOGGER,
+            logger=logger,
             partner_mode=False,
             proxy=None,
             timeout=(10, 30),
@@ -54,7 +47,7 @@ class WechatPayService:
             appid=settings.WEIXINPAY_APPID,
             notify_url="https://aidep.cn/payment/wechat-notify/",
             cert_dir=None,
-            logger=LOGGER,
+            logger=logger,
             partner_mode=False,
             proxy=None,
             timeout=(10, 30),
