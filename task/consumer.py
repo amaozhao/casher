@@ -100,7 +100,6 @@ class ClientConsumer(AsyncWebsocketConsumer):
             prompt_id = data["data"]["prompt_id"]
             await self.update_user_success_task(jilu_id, prompt_id)
             logger.info(f"Handling prompt ok for task {jilu_id} with {prompt_id}")
-            # 添加你需要的业务逻辑
         except KeyError as e:
             logger.info(f"Missing expected data in prompt message: {e}")
         except Exception as e:
@@ -114,7 +113,7 @@ class ClientConsumer(AsyncWebsocketConsumer):
             if is_ok:
                 user_task.status = 'success'
             else:
-                user_task.status = 'fail'
+                user_task.status = 'failed'
             user_task.save()
             user_hashrate = UserHashrate.objects.filter(user=user_task.user).first()
             task_free_count = TaskFreeCount.objects.filter(

@@ -148,13 +148,16 @@ class UploadAPIView(APIView):
 
             for index, img_file in enumerate(cs_img_files):
                 WorkFlowImage.objects.create(workflow=workflow, image=img_file)
-            wxp_c_image = c_generate_mp_qr_code(
-                f"/web/workflow/workflow_id={workflow.id}/",
-                query={"workflow_id": workflow.id},
-            )
-            wxp_b_image = b_generate_mp_qr_code(query={"techsid": techsid})
             wx_tech = AuthorTechs.objects.filter(techsid=techsid).first()
             provider = wx_tech.provider
+            wxp_c_image = None
+            wxp_b_image = None
+            if provider != 'google':
+                wxp_c_image = c_generate_mp_qr_code(
+                    f"/web/workflow/workflow_id={workflow.id}/",
+                    query={"workflow_id": workflow.id},
+                )
+                wxp_b_image = b_generate_mp_qr_code(query={"techsid": techsid})
             html = self.get_app_html(wxp_c_image, wxp_b_image, workflow.id, provider)
 
             r = {
@@ -181,7 +184,7 @@ class UploadAPIView(APIView):
         callback_url = urllib.parse.quote_plus(
             urljoin("https://aidep.cn", reverse("google_callback"))
         )
-        state = {"techsid": techsid}
+        state = {"techsid": techsid, "only_login": 1}
         url = (
             f"https://accounts.google.com/o/oauth2/v2/auth?redirect_uri={callback_url}&"
             f"prompt=consent&response_type=code&client_id={client_id}&"
@@ -194,13 +197,14 @@ class UploadAPIView(APIView):
         redirect_uri = urllib.parse.quote_plus(
             urljoin("https://aidep.cn", reverse("weixin_callback"))
         )
+        state = {"techsid": techsid, "only_login": 1}
         url = (
             f"https://open.weixin.qq.com/connect/qrconnect?"
             f"appid={settings.SOCIALACCOUNT_PROVIDERS['weixin']['APP']['client_id']}"
             f"&redirect_uri={redirect_uri}"
             f"&response_type=code"
             f"&scope=snsapi_login"
-            f"#wechat_redirect"  # 可设置自定义state参数
+            f"&state={urllib.parse.quote_plus(json.dumps(state))}#wechat_redirect"  # 可设置自定义state参数
         )
         return url
 
@@ -280,22 +284,6 @@ class UploadAPIView(APIView):
         </div>
         """
         return html
-
-    def get_js_code(self, s_key):
-        js_code = f"""
-        <script>
-            function openGoogleLoginPopup() {{
-                const width = 600;
-                const height = 600;
-                const left = (window.innerWidth / 2) - (width / 2);
-                const top = (window.innerHeight / 2) - (height / 2);
-                const popupUrl = '{self.get_google_login_url(s_key)}';
-            
-                window.open(popupUrl, 'google-login', `width=${{width}},height=${{height}},top=${{top}},left=${{left}},resizable=yes,scrollbars=yes`);
-            }}
-        </script>
-        """
-        return js_code
 
     def get_app_html(self, wxp_c_image, wxp_b_image, workflow_id, provider):
         if provider == "google":
@@ -441,7 +429,7 @@ class UploadAPIView(APIView):
                         "data": qrcode,
                         "desc": "",
                         "html": self.get_login_html(s_key, qrcode),
-                        "js": self.get_js_code(s_key),
+                        "js": '',
                         "test": {"s_key": s_key, "subdomain": "11"},
                         "s_key": s_key,
                         "techsid": "init",

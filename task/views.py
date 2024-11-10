@@ -92,11 +92,11 @@ class PromptView(APIView):
             "data": {
                 "jilu_id": jilu_id,
                 "cs_videos": [],
-                "cs_texts": [
-                    {"node": cs_text_nodes[0].get("node"), "value": prompt_text}
-                ],
+                "cs_texts": [],
             },
         }
+        if cs_text_nodes:
+            prompt_message['data']['cs_texts'] = [{"node": cs_text_nodes[0].get("node"), "value": prompt_text}]
         if cs_img_nodes:
             if not image_url:
                 return Response(
