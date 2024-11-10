@@ -148,8 +148,8 @@ DATABASES = {
         "NAME": "casher",
         "USER": "root",
         "PASSWORD": "casher",
-        "HOST": "172.17.0.1",
-        # "HOST": "192.168.10.100",
+        # "HOST": "172.17.0.1",
+        "HOST": "192.168.10.100",
         "PORT": "3307",  # mysql 端口
         "OPTIONS": {"charset": "utf8mb4"},
     }
