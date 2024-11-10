@@ -274,9 +274,9 @@ class UploadAPIView(APIView):
             <div class="divider_text">或</div>
             <div class="divider_line"></div>
         </div>
-        <div class="other_login_div" id="goodle">
+        <div class="other_login_div" id="google">
             <img class="logo_img" src="data:image/svg+xml,%3csvg%20width='28'%20height='29'%20viewBox='0%200%2028%2029'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M6.28523%2011.6527C7.39816%208.28037%2010.5673%205.85837%2014.3212%205.85837C16.339%205.85837%2018.1616%206.57439%2019.5937%207.74607L23.7596%203.58011C21.221%201.36695%2017.9664%200%2014.3212%200C8.67659%200%203.8168%203.22007%201.48047%207.93595L6.28523%2011.6527Z'%20fill='%23EA4335'/%3e%3cpath%20d='M19.1424%2021.4954C17.8418%2022.3352%2016.1892%2022.7823%2014.3203%2022.7823C10.5808%2022.7823%207.42153%2020.3788%206.29721%2017.0266L1.47656%2020.6868C3.80999%2025.4109%208.66966%2028.6407%2014.3203%2028.6407C17.8202%2028.6407%2021.1647%2027.3964%2023.6694%2025.06L19.1424%2021.4954Z'%20fill='%2334A853'/%3e%3cpath%20d='M23.6694%2025.0601C26.2888%2022.6167%2027.9898%2018.9788%2027.9898%2014.3203C27.9898%2013.4741%2027.8597%2012.5628%2027.6644%2011.7166H14.3203V17.2495H22.0013C21.6223%2019.11%2020.605%2020.5511%2019.1424%2021.4955L23.6694%2025.0601Z'%20fill='%234A90E2'/%3e%3cpath%20d='M6.2974%2017.027C6.0126%2016.1778%205.85837%2015.2678%205.85837%2014.3205C5.85837%2013.3877%206.00795%2012.4909%206.28453%2011.6528L1.47977%207.93604C0.521011%209.85785%200%2012.0238%200%2014.3205C0%2016.6113%200.530789%2018.772%201.47675%2020.6872L6.2974%2017.027Z'%20fill='%23FBBC05'/%3e%3c/svg%3e" />
-            <a id="google-login-url" class="other_login_text" href="javascript:void(0);" data-login-url="{self.get_google_login_url(s_key)}">{google_login}</a>
+            <a id="google-login-url" class="other_login_text" href="javascript:window.open('{self.get_google_login_url(s_key)}', 'GoogleLoginPopup', 'width=600,height=800,top='+(window.innerHeight-800)/2+',left='+(window.innerWidth-600)/2+',scrollbars=yes');">{google_login}</a>
         </div>
         """
         return html
