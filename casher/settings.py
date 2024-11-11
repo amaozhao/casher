@@ -146,11 +146,10 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",  # 或者使用 'django.db.backends.mysql'
         "NAME": "casher",
-        "USER": "root",
-        "PASSWORD": "casher",
-        "HOST": "172.17.0.1",
-        # "HOST": "192.168.10.100",
-        "PORT": "3307",  # mysql 端口
+        "USER": config.get("MYSQL_USERNAME"),
+        "PASSWORD": config.get("MYSQL_PASSWORD"),
+        "HOST": config.get("MYSQL_HOST"),
+        "PORT": config.get("MYSQL_PORT"),  # mysql 端口
         "OPTIONS": {"charset": "utf8mb4"},
     }
 }
