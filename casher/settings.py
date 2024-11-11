@@ -239,7 +239,8 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
         # "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ]
+    ],
+    'EXCEPTION_HANDLER': 'utils.custom_exception_handler'
 }
 REST_AUTH_SERIALIZERS = {
     "JWT_SERIALIZER": "dj_rest_auth.serializers.JWTSerializer",

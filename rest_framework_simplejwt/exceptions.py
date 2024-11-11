@@ -46,10 +46,3 @@ class InvalidToken(AuthenticationFailed):
     status_code = status.HTTP_401_UNAUTHORIZED
     default_detail = _("Token is invalid or expired")
     default_code = "token_not_valid"
-
-
-class InvalidToken2(AuthenticationFailed):
-    status_code = status.HTTP_401_UNAUTHORIZED
-    status = status.HTTP_401_UNAUTHORIZED
-    default_detail = _("Token is invalid or expired")
-    default_code = "token_not_valid"
