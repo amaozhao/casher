@@ -80,6 +80,7 @@ class ClientConsumer(AsyncWebsocketConsumer):
             print(f"Error processing message: {e}")
 
     async def prompt(self, data):
+        logger.info(f'send {data}')
         await self.send(json.dumps(data))
 
     async def handle_bind(self, data):

@@ -134,10 +134,10 @@ class PromptView(APIView):
             # "type": "test",
             # "message": "Hello, this is a test message!"
             # "message": "{}"
-            # "uniqueid": uniqueid,
-            # "data": {
-            #     "jilu_id": jilu_id,
-            # },
+            "uniqueid": uniqueid,
+            "data": {
+                "jilu_id": jilu_id,
+            },
         }
 
         # 获取 Channels 的 layer
