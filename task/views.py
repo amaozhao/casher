@@ -131,7 +131,7 @@ class PromptView(APIView):
             ]
 
         prompt_message = {
-            # "type": "test",
+            "type": "prompt.test",
             # "message": "Hello, this is a test message!"
             # "message": "{}"
             "uniqueid": uniqueid,

@@ -84,6 +84,11 @@ class ClientConsumer(AsyncWebsocketConsumer):
         await self.send(json.dumps(data))
         logger.info(f'sended {data}')
 
+    async def prompt_test(self, data):
+        logger.info(f'send {data}')
+        await self.send(json.dumps(data))
+        logger.info(f'sended {data}')
+
     async def handle_bind(self, data):
         client_id = data["data"]["client_id"]
         client_dict[client_id] = self.channel_name
