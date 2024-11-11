@@ -18,7 +18,7 @@ class WorkFlowImageSerializer(serializers.ModelSerializer):
 
 class WorkFlowDataSerializer(serializers.ModelSerializer):
     images = WorkFlowImageSerializer(many=True)
-    fields = serializers.SerializerMethodField()
+    workflow_fields = serializers.SerializerMethodField()
 
     class Meta:
         model = WorkFlowData
@@ -34,10 +34,10 @@ class WorkFlowDataSerializer(serializers.ModelSerializer):
             "created",
             "updated",
             "images",
-            "fields",
+            "workflow_fields",
         ]
 
-    def get_fields(self, instance):
+    def get_workflow_fields(self, instance):
         post_data = instance.post_data
         result = {
             'cs_img_nodes': post_data.get('cs_img_nodes'),
