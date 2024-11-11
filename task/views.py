@@ -130,15 +130,15 @@ class PromptView(APIView):
                 {"node": cs_text_nodes[0].get("node"), "value": prompt_text}
             ]
 
-        prompt_message = {
-            "type": "prompt.test",
-            # "message": "Hello, this is a test message!"
-            # "message": "{}"
-            "uniqueid": uniqueid,
-            "data": {
-                "jilu_id": jilu_id,
-            },
-        }
+        # prompt_message = {
+        #     "type": "prompt.test",
+        #     # "message": "Hello, this is a test message!"
+        #     # "message": "{}"
+        #     "uniqueid": uniqueid,
+        #     "data": {
+        #         "jilu_id": jilu_id,
+        #     },
+        # }
 
         # 获取 Channels 的 layer
         channel_layer = get_channel_layer()
