@@ -217,7 +217,7 @@ class TaskHistoryView(APIView):
     def get(self, request, *args, **kwargs):
         data = request.data
         user = request.user
-        query = UserTask.objects.filter(user=user)
+        query = TaskResult.objects.filter(task__user=user)
         workflow_id = data.get('workflow_id')
         if workflow_id:
             workflow = WorkFlowData.objects.filter(id=workflow_id).first()
