@@ -10,6 +10,7 @@ from wxappb.models import AuthorTechs
 from payment.models import UserPayin
 from invitation.models import InvitationRelation
 from cash_statistics.tasker import update_statistics
+from django.conf import settings
 import logging
 
 # 获取 channels 的 logger
@@ -29,7 +30,7 @@ class ClientConsumer(AsyncWebsocketConsumer):
         if client_id:
             client_dict[client_id] = self.channel_name
             channel_dict[self.channel_name] = client_id
-            print(f'connect client_id: {client_id}, wss: {self.channel_name}')
+            logger.info(f'connect client_id: {client_id}, wss: {self.channel_name}')
         await self.accept()
 
     async def _get_client_id(self, query_string):
@@ -58,19 +59,19 @@ class ClientConsumer(AsyncWebsocketConsumer):
             elif message_type == "crystools.prompt_ok":
                 await self.handle_prompt_ok(data)
             elif message_type == "status":
-                print("executed")
+                logger.info("executed")
             elif message_type == "execution_start":
-                print("executed")
+                logger.info("execution start")
             elif message_type == "executing":
-                print("executed")
+                logger.info("executing")
             elif message_type == "execution_error":
-                print("execution_error")
+                logger.info("execution_error")
             elif message_type == "executed":
-                print("executed")
+                logger.info("executed")
             elif message_type == "progress":
-                print("execution_error")
+                logger.info("progress")
             elif message_type == "execution_cached":
-                print("executed")
+                logger.info("execution_cached")
             else:
                 pass
         except Exception as e:
@@ -80,7 +81,7 @@ class ClientConsumer(AsyncWebsocketConsumer):
         client_id = data["data"]["client_id"]
         client_dict[client_id] = self.channel_name
         channel_dict[self.channel_name] = client_id
-        print(f"Received bind message from client: {client_id}")
+        logger.info(f"Received bind message from client: {client_id}")
 
     async def handle_prompt_error(self, data):
         # 处理 prompt_error 消息
