@@ -10,7 +10,6 @@ from wxappb.models import AuthorTechs
 from payment.models import UserPayin
 from invitation.models import InvitationRelation
 from cash_statistics.tasker import update_statistics
-from django.conf import settings
 import logging
 
 # 获取 channels 的 logger

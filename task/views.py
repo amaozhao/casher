@@ -12,6 +12,9 @@ from payment.models import UserHashrate
 from task.consumer import client_dict
 from task.models import TaskFreeCount, TaskResult, UserTask, UserUpload
 from task.serializers import TaskResultSerializer
+import logging
+
+logger = logging.getLogger('channel')
 
 
 class ImageUploadView(APIView):
@@ -132,6 +135,7 @@ class PromptView(APIView):
         channel_layer = get_channel_layer()
         client_id = workflow.client_id
         wss = client_dict.get(client_id)
+        logger.info(f"client_id: {client_id}, wss: {wss}")
         if not wss:
             return Response(
             {
