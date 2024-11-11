@@ -63,6 +63,8 @@ class PromptView(APIView):
         jilu_id = str(uuid.uuid4())
         workflow_id = request.data.get("workflow_id")
         image_url = request.data.get("image_url", "")
+        cs_imgs = request.data.get("cs_imgs")
+        cs_texts = request.data.get("cs_texts")
         prompt_text = request.data.get("prompt_text", "")
         workflow = WorkFlowData.objects.filter(id=workflow_id).first()
         task_free_count = TaskFreeCount.objects.filter(workflow=workflow).first()
@@ -98,6 +100,7 @@ class PromptView(APIView):
                 "jilu_id": jilu_id,
                 "cs_videos": [],
                 "cs_texts": [],
+                "cs_imgs": [],
             },
         }
         if cs_img_nodes:
@@ -110,12 +113,23 @@ class PromptView(APIView):
                     },
                     status=status.HTTP_200_OK,
                 )
-            prompt_message["data"]["cs_imgs"] = [
-                {
-                    "upImage": image_url,
-                    "node": cs_img_nodes[0].get("node"),
-                }
-            ]
+            if cs_imgs:
+                for img in cs_imgs:
+                    prompt_message["data"]["cs_imgs"].append(
+                        [
+                            {
+                                "upImage": img.get('upImage'),
+                                "node": img.get('node')
+                            }
+                        ]
+                    )
+            else:
+                prompt_message["data"]["cs_imgs"] = [
+                    {
+                        "upImage": image_url,
+                        "node": cs_img_nodes[0].get("node"),
+                    }
+                ]
 
         if cs_text_nodes:
             if not prompt_text:
@@ -127,9 +141,20 @@ class PromptView(APIView):
                     },
                     status=status.HTTP_200_OK,
                 )
-            prompt_message["data"]["cs_texts"] = [
-                {"node": cs_text_nodes[0].get("node"), "value": prompt_text}
-            ]
+            if cs_texts:
+                for t in cs_texts:
+                    prompt_message["data"]["cs_texts"].append(
+                        [
+                            {
+                                "node": t.get('node'),
+                                "value": t.get('value')
+                            }
+                        ]
+                    )
+            else:
+                prompt_message["data"]["cs_texts"] = [
+                    {"node": cs_text_nodes[0].get("node"), "value": prompt_text}
+                ]
 
         # 获取 Channels 的 layer
         channel_layer = get_channel_layer()
