@@ -167,7 +167,7 @@ class GoogleCallback(APIView):
                         inviter.save()
                 only_login = state.get('only_login')
                 if only_login == 1:
-                    return redirect(f"https://aidep.cn/web-b/only_login")
+                    return redirect(f"https://aidep.cn/pages/tob/loginSuccess")
             token = res_json.get("access")
             return redirect(f"https://aidep.cn/web-b/?token={token}")
 
