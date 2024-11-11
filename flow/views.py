@@ -443,7 +443,7 @@ class UploadAPIView(APIView):
 class WorkFlowListView(ListAPIView):
     authentication_classes = []
 
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         flows = WorkFlowData.objects.all()
         serializer = WorkFlowDataSerializer(flows, many=True)
         return Response({"data": serializer.data, "status": status.HTTP_200_OK})
@@ -455,7 +455,7 @@ class WorkFlowListView(ListAPIView):
 class BWorkFlowListView(ListAPIView):
     authentication_classes = []
 
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         user = request.user
         if user.is_authenticated:
             techs_ids = AuthorTechs.objects.filter(user=user).all()

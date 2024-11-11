@@ -4,6 +4,7 @@ from rest_framework import exceptions, serializers, status
 from rest_framework.authentication import CSRFCheck
 
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.exceptions import InvalidToken2, TokenError
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 
 from .app_settings import api_settings
@@ -177,3 +178,23 @@ class JWTCookieAuthentication(JWTAuthentication):
 
         validated_token = self.get_validated_token(raw_token)
         return self.get_user(validated_token), validated_token
+
+    def get_validated_token(self, raw_token: bytes):
+        """
+        Validates an encoded JSON web token and returns a validated token
+        wrapper object.
+        """
+        message = ''
+        for AuthToken in api_settings.AUTH_TOKEN_CLASSES:
+            try:
+                return AuthToken(raw_token)
+            except TokenError as e:
+                message = e.args[0]
+
+        raise InvalidToken2(
+            {
+                "detail": _("Given token not valid for any token type"),
+                "message": message,
+                "status": status.HTTP_401_UNAUTHORIZED
+            }
+        )
