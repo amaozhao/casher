@@ -147,7 +147,7 @@ class PromptView(APIView):
             status=status.HTTP_400_BAD_REQUEST,
         )
         logger.info(f"prompt_message: {json.dumps(prompt_message)}")
-        async_to_sync(channel_layer.send)(wss, json.dumps(prompt_message))
+        async_to_sync(channel_layer.send)(wss, prompt_message)
         return Response(
             {
                 "data": {"jilu_id": jilu_id},
