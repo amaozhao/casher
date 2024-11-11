@@ -72,6 +72,8 @@ class ClientConsumer(AsyncWebsocketConsumer):
                 logger.info("progress")
             elif message_type == "execution_cached":
                 logger.info("execution_cached")
+            elif message_type == 'heartbeat':
+                logger.info(f'heartbeat with {self.channel_name}')
             else:
                 pass
         except Exception as e:
