@@ -79,6 +79,9 @@ class ClientConsumer(AsyncWebsocketConsumer):
         except Exception as e:
             print(f"Error processing message: {e}")
 
+    async def prompt(self, data):
+        await self.send(json.dumps(data))
+
     async def handle_bind(self, data):
         client_id = data["data"]["client_id"]
         client_dict[client_id] = self.channel_name
