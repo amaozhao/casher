@@ -66,7 +66,7 @@ class UserTask(models.Model):
 
 class TaskResult(models.Model):
     task = models.ForeignKey(UserTask, on_delete=models.CASCADE)
-    result = models.ImageField(upload_to=upload_cs_image_result)
+    result = models.ImageField(upload_to=upload_cs_image_result, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

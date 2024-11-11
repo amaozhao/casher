@@ -90,6 +90,7 @@ class PromptView(APIView):
             prompt_text=prompt_text,
         )
         user_task.save()
+        TaskResult.objects.create(task=user_task)
         prompt_message = {
             "type": "prompt",
             "uniqueid": uniqueid,
@@ -130,16 +131,6 @@ class PromptView(APIView):
                 {"node": cs_text_nodes[0].get("node"), "value": prompt_text}
             ]
 
-        # prompt_message = {
-        #     "type": "prompt.test",
-        #     # "message": "Hello, this is a test message!"
-        #     # "message": "{}"
-        #     "uniqueid": uniqueid,
-        #     "data": {
-        #         "jilu_id": jilu_id,
-        #     },
-        # }
-
         # 获取 Channels 的 layer
         channel_layer = get_channel_layer()
         client_id = workflow.client_id
@@ -173,7 +164,8 @@ class PromptCompleted(APIView):
         image_file = request.FILES.get("file")
         prompt_id = request.data.get("prompt_id")
         user_task = UserTask.objects.filter(prompt_id=prompt_id).first()
-        task_result = TaskResult(task=user_task, result=image_file)
+        task_result = TaskResult.objects.filter(task=user_task)
+        task_result.result = image_file
         task_result.save()
         query = TaskResult.objects.filter(task=user_task)
         if query.count() > 1:
