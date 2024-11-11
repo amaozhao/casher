@@ -9,6 +9,14 @@ class CurrentUserHashrateView(APIView):
 
     def get(self, request, *args, **kwargs):
         user = request.user  # 假设用户已通过身份验证
+        if not user.is_authenticated:
+            return Response(
+                {
+                    "stauts": status.HTTP_401_UNAUTHORIZED,
+                    "message": "用户未登陆",
+                    'data': {}
+                }, status=status.HTTP_401_UNAUTHORIZED
+            )
         hastrate = UserHashrate.objects.filter(user=user).first()
         if not hastrate:
             hastrate = UserHashrate.objects.create(user=user, hashrate=0)

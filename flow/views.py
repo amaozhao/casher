@@ -145,7 +145,7 @@ class UploadAPIView(APIView):
 
             # 处理图片节点上传
             # cs_img_descs = post_data.get("cs_img_nodes", [])
-
+            WorkFlowImage.objects.filter(workflow=workflow).delete()
             for index, img_file in enumerate(cs_img_files):
                 WorkFlowImage.objects.create(workflow=workflow, image=img_file)
             wx_tech = AuthorTechs.objects.filter(techsid=techsid).first()
