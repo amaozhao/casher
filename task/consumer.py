@@ -39,6 +39,7 @@ class ClientConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, close_code):
         client = channel_dict.get(self.channel_name)
+        logger.info(f'disconnect close_code: {close_code}, client: {client}, wss: {self.channel_name}')
         client_dict.pop(client, None)
         channel_dict.pop(self.channel_name, None)
 
