@@ -330,17 +330,16 @@ LOGGING = {
         'django': {
             'level': 'INFO',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': BASE_DIR / 'logs/django.log',
-            'when': 'midnight',  # 按天切割日志
-            'backupCount': 7,     # 保留7天的日志
-        },
-        # Channels 日志
-        'channel': {
-            'level': 'INFO',
-            'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': BASE_DIR / 'logs/channel.log',  # Channels 日志文件
+            'filename': str(BASE_DIR / 'logs/django.log'),
             'when': 'midnight',
-            'backupCount': 7,  # 保留7天的日志
+            'backupCount': 7,
+        },
+        'channel': {
+            'level': 'DEBUG',  # 变为 DEBUG 以捕获更多日志
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': str(BASE_DIR / 'logs/channel.log'),
+            'when': 'midnight',
+            'backupCount': 7,
         },
     },
     'loggers': {
@@ -351,14 +350,13 @@ LOGGING = {
         },
         'django.request': {
             'handlers': ['django'],
-            'level': 'ERROR',  # 只记录错误日志
+            'level': 'ERROR',
             'propagate': False,
         },
-        # Channels 日志配置
         'channel': {
             'handlers': ['channel'],
-            'level': 'INFO',
-            'propagate': False,  # 防止重复日志
+            'level': 'DEBUG',  # 确保捕获到所有日志
+            'propagate': False,
         },
     },
 }
