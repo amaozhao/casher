@@ -99,22 +99,22 @@ class PromptView(APIView):
                 "cs_texts": [],
             },
         }
-        # if cs_img_nodes:
-        #     if not image_url:
-        #         return Response(
-        #             {
-        #                 "message": "缺少参数image_url",
-        #                 "jilu_id": jilu_id,
-        #                 "status": status.HTTP_400_BAD_REQUEST,
-        #             },
-        #             status=status.HTTP_200_OK,
-        #         )
-        #     prompt_message["data"]["cs_imgs"] = [
-        #         {
-        #             "upImage": image_url,
-        #             "node": cs_img_nodes[0].get("node"),
-        #         }
-        #     ]
+        if cs_img_nodes:
+            if not image_url:
+                return Response(
+                    {
+                        "message": "缺少参数image_url",
+                        "jilu_id": jilu_id,
+                        "status": status.HTTP_400_BAD_REQUEST,
+                    },
+                    status=status.HTTP_200_OK,
+                )
+            prompt_message["data"]["cs_imgs"] = [
+                {
+                    "upImage": image_url,
+                    "node": cs_img_nodes[0].get("node"),
+                }
+            ]
 
         if cs_text_nodes:
             if not prompt_text:
@@ -129,6 +129,14 @@ class PromptView(APIView):
             prompt_message["data"]["cs_texts"] = [
                 {"node": cs_text_nodes[0].get("node"), "value": prompt_text}
             ]
+
+        prompt_message = {
+            "type": "test",
+            "uniqueid": uniqueid,
+            "data": {
+                "jilu_id": jilu_id,
+            },
+        }
 
         # 获取 Channels 的 layer
         channel_layer = get_channel_layer()
