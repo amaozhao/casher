@@ -84,11 +84,6 @@ class ClientConsumer(AsyncWebsocketConsumer):
         await self.send(json.dumps(data))
         logger.info(f'sended {data}')
 
-    # async def prompt_test(self, data):
-    #     logger.info(f'send {data}')
-    #     await self.send(json.dumps(data))
-    #     logger.info(f'sended {data}')
-
     async def handle_bind(self, data):
         client_id = data["data"]["client_id"]
         client_dict[client_id] = self.channel_name
@@ -166,7 +161,7 @@ class ClientConsumer(AsyncWebsocketConsumer):
         fee = 0.0
         if not is_free:
             if is_success:
-                fee = workflow.fee * 0.7
+                fee = float(workflow.fee) * 0.7
         tech = AuthorTechs.objects.filter(techsid=workflow.techsid).first()
         if tech:
             author = tech.user
@@ -182,6 +177,6 @@ class ClientConsumer(AsyncWebsocketConsumer):
                 UserPayin.objects.create(
                     user=author,
                     workflow=workflow,
-                    fee=workflow.fee * 0.1,
+                    fee=float(workflow.fee) * 0.1,
                     status='failed'
                 )
