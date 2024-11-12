@@ -24,7 +24,7 @@ class WechatPayoutSerializer(ModelSerializer):
         fields = ("id", "pay", "status", 'currency', "updated")
 
     def get_currency(self, instance):
-        return "$" if instance.currency == 'USD' else "¥"
+        return "¥"
 
     def get_status(self, instance):
         if instance.status == 'success':
