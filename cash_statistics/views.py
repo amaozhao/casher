@@ -10,7 +10,7 @@ class CashStatisticsView(APIView):
         user = request.user
         cash_stat = CashStatistics.objects.filter(user=user).first()
         if not cash_stat:
-            cash_stat = CashStatistics.objects.create(inviter=user)
+            cash_stat = CashStatistics.objects.create(user=user)
         return Response(
             {
                 "data": {
