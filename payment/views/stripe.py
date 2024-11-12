@@ -1,11 +1,10 @@
 import stripe
 from django.conf import settings
+from djstripe import settings as djstripe_settings
+from djstripe.models import Customer
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-from djstripe import settings as djstripe_settings
-from djstripe.models import Customer
 
 stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
 
@@ -17,9 +16,7 @@ class CreateCheckoutView(APIView):
             amount = request.data.get("amount")
             currency = request.data.get("currency", "usd")
             current_url = request.data.get("current_url")
-            metadata = {
-                "user_id": self.request.user.id
-            }
+            metadata = {"user_id": self.request.user.id}
 
             customer = Customer.objects.get(subscriber=self.request.user)
 

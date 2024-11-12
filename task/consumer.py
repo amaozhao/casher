@@ -1,19 +1,18 @@
 import json
+import logging
 import urllib.parse
 
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 
-from payment.models import UserHashrate
+from cash_statistics.tasker import update_statistics
+from invitation.models import InvitationRelation
+from payment.models import UserHashrate, UserPayin
 from task.models import TaskFreeCount, UserTask
 from wxappb.models import AuthorTechs
-from payment.models import UserPayin
-from invitation.models import InvitationRelation
-from cash_statistics.tasker import update_statistics
-import logging
 
 # 获取 channels 的 logger
-logger = logging.getLogger('channel')
+logger = logging.getLogger("channel")
 
 
 client_dict = {}
@@ -29,7 +28,7 @@ class ClientConsumer(AsyncWebsocketConsumer):
         if client_id:
             client_dict[client_id] = self.channel_name
             channel_dict[self.channel_name] = client_id
-            logger.info(f'connect client_id: {client_id}, wss: {self.channel_name}')
+            logger.info(f"connect client_id: {client_id}, wss: {self.channel_name}")
         await self.accept()
 
     async def _get_client_id(self, query_string):
@@ -39,7 +38,9 @@ class ClientConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, close_code):
         client = channel_dict.get(self.channel_name)
-        logger.info(f'disconnect close_code: {close_code}, client: {client}, wss: {self.channel_name}')
+        logger.info(
+            f"disconnect close_code: {close_code}, client: {client}, wss: {self.channel_name}"
+        )
         client_dict.pop(client, None)
         channel_dict.pop(self.channel_name, None)
 
@@ -72,17 +73,17 @@ class ClientConsumer(AsyncWebsocketConsumer):
                 logger.info("progress")
             elif message_type == "execution_cached":
                 logger.info("execution_cached")
-            elif message_type == 'heartbeat':
-                logger.info(f'heartbeat with {self.channel_name}')
+            elif message_type == "heartbeat":
+                logger.info(f"heartbeat with {self.channel_name}")
             else:
                 pass
         except Exception as e:
             print(f"Error processing message: {e}")
 
     async def prompt(self, data):
-        logger.info(f'send {data}')
+        logger.info(f"send {data}")
         await self.send(json.dumps(data))
-        logger.info(f'sended {data}')
+        logger.info(f"sended {data}")
 
     async def handle_bind(self, data):
         client_id = data["data"]["client_id"]
@@ -95,7 +96,9 @@ class ClientConsumer(AsyncWebsocketConsumer):
         jilu_id = data["data"]["jilu_id"]
         prompt_id = data["data"]["prompt_id"]
         error_message = data["data"]["msg"]
-        logger.info(f"Received prompt_error message for task {jilu_id}: {error_message}")
+        logger.info(
+            f"Received prompt_error message for task {jilu_id}: {error_message}"
+        )
         # 记录错误日志，或采取其他处理
 
     async def handle_monitor(self, data):
@@ -119,9 +122,9 @@ class ClientConsumer(AsyncWebsocketConsumer):
         if user_task:
             user_task.prompt_id = prompt_id
             if is_ok:
-                user_task.status = 'success'
+                user_task.status = "success"
             else:
-                user_task.status = 'failed'
+                user_task.status = "failed"
             user_task.save()
             user_hashrate = UserHashrate.objects.filter(user=user_task.user).first()
             task_free_count = TaskFreeCount.objects.filter(
@@ -144,7 +147,7 @@ class ClientConsumer(AsyncWebsocketConsumer):
         user_task = UserTask.objects.filter(jilu_id=jilu_id).first()
         if user_task:
             user_task.prompt_id = prompt_id
-            user_task.status = 'failed'
+            user_task.status = "failed"
             user_task.save()
             task_free_count = TaskFreeCount.objects.filter(
                 workflow=user_task.flow
@@ -166,10 +169,7 @@ class ClientConsumer(AsyncWebsocketConsumer):
         if tech:
             author = tech.user
             UserPayin.objects.create(
-                user=author,
-                workflow=workflow,
-                fee=fee,
-                status='failed'
+                user=author, workflow=workflow, fee=fee, status="failed"
             )
             invite = InvitationRelation.objects.filter(invitee=author).first()
             if invite:
@@ -178,5 +178,5 @@ class ClientConsumer(AsyncWebsocketConsumer):
                     user=author,
                     workflow=workflow,
                     fee=float(workflow.fee) * 0.1,
-                    status='failed'
+                    status="failed",
                 )

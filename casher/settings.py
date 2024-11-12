@@ -34,7 +34,7 @@ else:
     config = dotenv_values("prod.env")
 
 SECURE_SSL_REDIRECT = False
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 ALLOWED_HOSTS = ["aidep.cn", "www.aidep.cn", "*"]
 CSRF_TRUSTED_ORIGINS = ["https://aidep.cn", "https://aidep.cn"]
@@ -92,11 +92,11 @@ MIDDLEWARE = [
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_METHODS = [
-    'GET',
-    'POST',
-    'OPTIONS',
-    'PUT',
-    'DELETE',
+    "GET",
+    "POST",
+    "OPTIONS",
+    "PUT",
+    "DELETE",
 ]
 
 # 允许的请求头
@@ -240,7 +240,7 @@ REST_FRAMEWORK = {
         "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
         # "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
-    'EXCEPTION_HANDLER': 'utils.custom_exception_handler'
+    "EXCEPTION_HANDLER": "utils.custom_exception_handler",
 }
 REST_AUTH_SERIALIZERS = {
     "JWT_SERIALIZER": "dj_rest_auth.serializers.JWTSerializer",
@@ -274,8 +274,8 @@ SOCIALACCOUNT_PROVIDERS = {
     },
     "weixin": {
         "APP": {
-            "client_id": config.get('WEIXINB_H5_APPID'),
-            "secret": config.get('WEIXINB_H5_APPSECRET'),
+            "client_id": config.get("WEIXINB_H5_APPID"),
+            "secret": config.get("WEIXINB_H5_APPSECRET"),
         },
     },
 }
@@ -286,8 +286,8 @@ WEIXIN_APPSECRET = config.get("WEIXIN_APPSECRET")
 WEIXINH5_APPID = config.get("WEIXINH5_APPID")
 WEIXINH5_APPSECRET = config.get("WEIXINH5_APPSECRET")
 
-WEIXINB_H5_APPID = config.get('WEIXINB_H5_APPID')
-WEIXINB_H5_APPSECRET = config.get('WEIXINB_H5_APPSECRET')
+WEIXINB_H5_APPID = config.get("WEIXINB_H5_APPID")
+WEIXINB_H5_APPSECRET = config.get("WEIXINB_H5_APPSECRET")
 
 WEIXINPAY_MCHID = config.get("WEIXINPAY_MCHID")
 WEIXINPAY_APPID = config.get("WEIXINPAY_APPID")
@@ -325,51 +325,51 @@ CELERY_RESULT_BACKEND = config.get("CELERY_RESULT_BACKEND")
 REDBEAT_REDIS_URL = config.get("REDBEAT_REDIS_URL")
 
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {message}',
-            'style': '{',  # 使用花括号作为格式化符号
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {message}",
+            "style": "{",  # 使用花括号作为格式化符号
         },
-        'simple': {
-            'format': '{levelname} {message}',
-            'style': '{',
-        },
-    },
-    'handlers': {
-        'django': {
-            'level': 'INFO',
-            'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': str(BASE_DIR / 'logs/django.log'),
-            'when': 'midnight',  # 按天切割日志
-            'backupCount': 7,     # 保留7天的日志
-            'formatter': 'verbose',  # 使用 verbose 格式
-        },
-        'channel': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': str(BASE_DIR / 'logs/channel.log'),
-            'when': 'midnight',
-            'backupCount': 7,
-            'formatter': 'verbose',  # 使用 verbose 格式
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
         },
     },
-    'loggers': {
-        'django': {
-            'handlers': ['django'],
-            'level': 'INFO',
-            'propagate': True,
+    "handlers": {
+        "django": {
+            "level": "INFO",
+            "class": "logging.handlers.TimedRotatingFileHandler",
+            "filename": str(BASE_DIR / "logs/django.log"),
+            "when": "midnight",  # 按天切割日志
+            "backupCount": 7,  # 保留7天的日志
+            "formatter": "verbose",  # 使用 verbose 格式
         },
-        'django.request': {
-            'handlers': ['django'],
-            'level': 'ERROR',  # 只记录错误日志
-            'propagate': False,
+        "channel": {
+            "level": "DEBUG",
+            "class": "logging.handlers.TimedRotatingFileHandler",
+            "filename": str(BASE_DIR / "logs/channel.log"),
+            "when": "midnight",
+            "backupCount": 7,
+            "formatter": "verbose",  # 使用 verbose 格式
         },
-        'channel': {
-            'handlers': ['channel'],
-            'level': 'DEBUG',  # 记录所有日志
-            'propagate': False,
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["django"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "django.request": {
+            "handlers": ["django"],
+            "level": "ERROR",  # 只记录错误日志
+            "propagate": False,
+        },
+        "channel": {
+            "handlers": ["channel"],
+            "level": "DEBUG",  # 记录所有日志
+            "propagate": False,
         },
     },
 }

@@ -1,6 +1,7 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
 from cash_statistics.models import CashStatistics
 
 
@@ -21,7 +22,7 @@ class CashStatisticsView(APIView):
                         "in_transit": cash_stat.in_transit,
                         "refunded": cash_stat.refunded,
                     },
-                    "status": status.HTTP_200_OK
+                    "status": status.HTTP_200_OK,
                 }
             }
         )

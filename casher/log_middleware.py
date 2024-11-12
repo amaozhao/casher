@@ -1,6 +1,6 @@
 import logging
 
-logger = logging.getLogger('django')
+logger = logging.getLogger("django")
 
 
 class RequestResponseLoggingMiddleware:
@@ -10,12 +10,12 @@ class RequestResponseLoggingMiddleware:
     def __call__(self, request):
         # 记录请求的输入数据
         logger.info(f"Request: {request.method} {request.path}")
-        if request.method == 'GET':
+        if request.method == "GET":
             logger.info(f"Form data: {request.GET}")
-        if request.method == 'POST':
-            if request.content_type == 'application/x-www-form-urlencoded':
+        if request.method == "POST":
+            if request.content_type == "application/x-www-form-urlencoded":
                 logger.info(f"Form data: {request.POST}")
-            elif request.content_type == 'application/json':
+            elif request.content_type == "application/json":
                 logger.info(f"JSON data: {request.body.decode('utf-8')}")
 
         response = self.get_response(request)
@@ -24,6 +24,8 @@ class RequestResponseLoggingMiddleware:
         logger.info(f"Response: {response.status_code}")
 
         if response.status_code == 200:
-            logger.info(f"Response content: {response.content.decode('utf-8')[:1000]}")  # 限制日志内容的长度
+            logger.info(
+                f"Response content: {response.content.decode('utf-8')[:1000]}"
+            )  # 限制日志内容的长度
 
         return response

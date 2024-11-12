@@ -1,14 +1,15 @@
-import urllib.parse
 import json
+import urllib.parse
 from urllib.parse import urljoin
+
+from django.conf import settings
+from django.urls import reverse
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.urls import reverse
-from django.conf import settings
 
-from invitation.models import InvitationCode
 from allauth.socialaccount.models import SocialAccount
+from invitation.models import InvitationCode
 
 
 class GetInvitationView(APIView):
@@ -30,8 +31,8 @@ class GetInvitationView(APIView):
 
     def genarate_googleb_url(self, code):
         redirect_uri = urllib.parse.quote_plus(
-                urljoin("https://aidep.cn", reverse("google_callback"))
-            )
+            urljoin("https://aidep.cn", reverse("google_callback"))
+        )
         state = {urllib.parse.quote_plus(json.dumps({"invite": code}))}
         url = (
             f"https://accounts.google.com/o/oauth2/v2/auth?redirect_uri={redirect_uri}&"
@@ -47,13 +48,12 @@ class GetInvitationView(APIView):
         if social_account:
             provider = social_account.get_provider()
         else:
-            provider = 'weixin'
+            provider = "weixin"
 
         invition = InvitationCode.objects.filter(inviter=user, accepted=False).first()
         if not invition:
             invition = InvitationCode.objects.create(
-                inviter=user,
-                code=InvitationCode.generate_raw_code()
+                inviter=user, code=InvitationCode.generate_raw_code()
             )
         if provider == "google":
             invite_url = self.genarate_googleb_url(invition.code)
@@ -65,6 +65,6 @@ class GetInvitationView(APIView):
                     "invition": invite_url,
                     "message": "",
                 },
-                "status": status.HTTP_200_OK
+                "status": status.HTTP_200_OK,
             }
         )

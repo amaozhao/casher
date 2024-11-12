@@ -40,9 +40,9 @@ class WorkFlowDataSerializer(serializers.ModelSerializer):
     def get_workflow_fields(self, instance):
         post_data = instance.post_data
         result = {
-            'cs_img_nodes': post_data.get('cs_img_nodes'),
-            'cs_text_nodes': post_data.get('cs_text_nodes'),
-            'cs_video_nodes': post_data.get('cs_video_nodes'),
+            "cs_img_nodes": post_data.get("cs_img_nodes"),
+            "cs_text_nodes": post_data.get("cs_text_nodes"),
+            "cs_video_nodes": post_data.get("cs_video_nodes"),
         }
         return result
 
@@ -68,9 +68,8 @@ class BWorkFlowDataSerializer(WorkFlowDataSerializer):
         ]
 
     def get_preview_url(self, instance):
-        result = f'https://aidep.cn/workflow_id={instance.id}'
+        result = f"https://aidep.cn/workflow_id={instance.id}"
         return result
-
 
 
 class WorkFlowCommentSerializer(serializers.ModelSerializer):

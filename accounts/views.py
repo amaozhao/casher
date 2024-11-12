@@ -1,5 +1,4 @@
 import json
-import logging
 import urllib.parse
 from urllib.parse import urljoin
 
@@ -17,8 +16,8 @@ from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from allauth.socialaccount.providers.weixin.client import WeixinOAuth2Client
 from allauth.socialaccount.providers.weixin.views import WeixinOAuth2Adapter
 from dj_rest_auth.registration.views import SocialLoginView
-from wxappb.models import AuthorTechs
 from invitation.models import InvitationCode, InvitationRelation
+from wxappb.models import AuthorTechs
 
 
 class WXQRCodeAPIView(APIView):
@@ -61,10 +60,7 @@ class WXCallback(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         token_endpoint_url = urljoin("https://aidep.cn", reverse("weixin_login"))
         response = requests.post(
-            url=token_endpoint_url,
-            data={"code": code},
-            timeout=60,
-            verify=False
+            url=token_endpoint_url, data={"code": code}, timeout=60, verify=False
         )
         res_json = response.json()
         user = res_json.get("user")
@@ -76,19 +72,20 @@ class WXCallback(APIView):
                 state = json.loads(state)
                 techsid = state.get("techsid")
                 if techsid:
-                    AuthorTechs.objects.create(user=user, techsid=techsid, provider="weixin")
+                    AuthorTechs.objects.create(
+                        user=user, techsid=techsid, provider="weixin"
+                    )
                 invite = state.get("invite")
                 if invite:
                     inviter = InvitationCode.objects.filter(code=invite).first()
                     if inviter:
                         InvitationRelation.objects.create(
-                            inviter=inviter.inviter,
-                            invitee=user
+                            inviter=inviter.inviter, invitee=user
                         )
                         inviter.accepted = True
                         inviter.save()
-            token = res_json.get("access")
-            return redirect(f"https://aidep.cn/web-b/?token={token}")
+                token = res_json.get("access")
+                return redirect(f"https://aidep.cn/web-b/?token={token}")
 
         token = res_json.get("access")
 
@@ -156,18 +153,19 @@ class GoogleCallback(APIView):
                 state = json.loads(state)
                 techsid = state.get("techsid")
                 if techsid:
-                    AuthorTechs.objects.create(user=user, techsid=techsid, provider="google")
+                    AuthorTechs.objects.create(
+                        user=user, techsid=techsid, provider="google"
+                    )
                 invite = state.get("invite")
                 if invite:
                     inviter = InvitationCode.objects.filter(code=invite).first()
                     if inviter:
                         InvitationRelation.objects.create(
-                            inviter=inviter.inviter,
-                            invitee=user
+                            inviter=inviter.inviter, invitee=user
                         )
                         inviter.accepted = True
                         inviter.save()
-                only_login = state.get('only_login')
+                only_login = state.get("only_login")
                 if only_login == 1:
                     return redirect(f"https://aidep.cn/#pages/tob/loginSuccess")
             token = res_json.get("access")

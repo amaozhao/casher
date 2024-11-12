@@ -1,8 +1,8 @@
 from django.urls import path
 
 from payment.views import (
-    CashOutListView,
     CashInListView,
+    CashOutListView,
     CreateCheckoutView,
     CreateWechatPaymentView,
     CurrentUserHashrateView,
@@ -43,20 +43,12 @@ urlpatterns = [
         WechatPayNotifyView.as_view(),
         name="wechat_notify",
     ),
+    path("yun_account/sign/", YunAccountSignView.as_view(), name="yunaccount-sign"),
     path(
-        "yun_account/sign/",
-        YunAccountSignView.as_view(),
-        name="yunaccount-sign"
+        "yun_account/payout/", YunAccountPayOutView.as_view(), name="yunaccount-payout"
     ),
     path(
-        "yun_account/payout/",
-        YunAccountPayOutView.as_view(),
-        name="yunaccount-payout"
-    ),
-    path(
-        "yun_account/notify/",
-        YunAccountNotifyView.as_view(),
-        name="yunaccount-notify"
+        "yun_account/notify/", YunAccountNotifyView.as_view(), name="yunaccount-notify"
     ),
     path(
         "wechat-check/",

@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 
 from payment.models import UserHashrate, WechatOrder, WechatPayout, WechatSign
 from payment.services import wechatpay_service, yun_account_service
+
 # from django.contrib.auth.models import User
 
 
@@ -121,7 +122,7 @@ class YunAccountSignView(APIView):
             )
         return Response(
             {"data": {}, "status": status.HTTP_404_NOT_FOUND, "message": "用户未签约"},
-            status=status.HTTP_404_NOT_FOUND
+            status=status.HTTP_404_NOT_FOUND,
         )
 
     def post(self, request, *args, **kwargs):
@@ -149,10 +150,14 @@ class YunAccountSignView(APIView):
                 phone_no=phone_no,
             )
             return Response(
-                {"data": {}, "status": status.HTTP_200_OK, "message": f'{result.message}'},
+                {
+                    "data": {},
+                    "status": status.HTTP_200_OK,
+                    "message": f"{result.message}",
+                },
                 status=status.HTTP_200_OK,
             )
-        if result.code == '5288':
+        if result.code == "5288":
             WechatSign.objects.create(
                 user=request.user,
                 real_name=real_name,
@@ -161,14 +166,18 @@ class YunAccountSignView(APIView):
                 phone_no=phone_no,
             )
             return Response(
-                {"data": {}, "status": status.HTTP_200_OK, "message": f'{result.message}'},
+                {
+                    "data": {},
+                    "status": status.HTTP_200_OK,
+                    "message": f"{result.message}",
+                },
                 status=status.HTTP_200_OK,
             )
         return Response(
             {
                 "data": {},
                 "status": status.HTTP_400_BAD_REQUEST,
-                "message": f'{result.message}'
+                "message": f"{result.message}",
             },
             status=status.HTTP_400_BAD_REQUEST,
         )
@@ -212,11 +221,19 @@ class YunAccountPayOutView(APIView):
                 pay=pay,
             )
             return Response(
-                {"data": result.data, "status": status.HTTP_200_OK, "message": "提现成功"},
+                {
+                    "data": result.data,
+                    "status": status.HTTP_200_OK,
+                    "message": "提现成功",
+                },
                 status=status.HTTP_200_OK,
             )
         return Response(
-            {"data": {} , "message": "提现失败", "status": status.HTTP_500_INTERNAL_SERVER_ERROR},
+            {
+                "data": {},
+                "message": "提现失败",
+                "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+            },
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
 

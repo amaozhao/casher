@@ -152,7 +152,7 @@ class UploadAPIView(APIView):
             provider = wx_tech.provider
             wxp_c_image = None
             wxp_b_image = None
-            if provider != 'google':
+            if provider != "google":
                 wxp_c_image = c_generate_mp_qr_code(
                     f"/web/workflow/workflow_id={workflow.id}/",
                     query={"workflow_id": workflow.id},
@@ -209,10 +209,10 @@ class UploadAPIView(APIView):
         return url
 
     def get_login_html(self, s_key, qrcode):
-        languestr = self.request.headers.get('languestr')
-        google_login = '使用Google 登录'
-        if languestr == 'en':
-            google_login = 'Login with Google'
+        languestr = self.request.headers.get("languestr")
+        google_login = "使用Google 登录"
+        if languestr == "en":
+            google_login = "Login with Google"
         html = f"""
         <style type="text/css">
 			body {{
@@ -429,7 +429,7 @@ class UploadAPIView(APIView):
                         "data": qrcode,
                         "desc": "",
                         "html": self.get_login_html(s_key, qrcode),
-                        "js": '',
+                        "js": "",
                         "test": {"s_key": s_key, "subdomain": "11"},
                         "s_key": s_key,
                         "techsid": "init",
@@ -539,11 +539,7 @@ class WorkFlowBannerView(APIView):
             return Response({"data": {}, "status": status.HTTP_200_OK})
         return Response(
             {
-                "data": {
-                    "id": banner.id,
-                    "url": banner.url,
-                    "desc": banner.desc
-                },
+                "data": {"id": banner.id, "url": banner.url, "desc": banner.desc},
                 "status": status.HTTP_200_OK,
             }
         )

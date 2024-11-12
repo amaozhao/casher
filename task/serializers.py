@@ -23,7 +23,11 @@ class TaskResultSerializer(serializers.ModelSerializer):
         fields = ["id", "result", "created", "workflow_id"]
 
     def get_result(self, instance):
-        return urljoin("https://aidep.cn", instance.result.url) if instance.result else None
+        return (
+            urljoin("https://aidep.cn", instance.result.url)
+            if instance.result
+            else None
+        )
 
     def get_workflow_id(self, instance):
         task = instance.task

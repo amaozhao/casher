@@ -1,9 +1,8 @@
 import random
 import string
 
-
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 
 s_set = string.ascii_letters + string.digits
 raw_code_len = 8
@@ -31,12 +30,15 @@ class InvitationCode(models.Model):
 
 
 class InvitationRelation(models.Model):
-    inviter = models.ForeignKey(User, related_name='inviter_relation', on_delete=models.CASCADE)
-    invitee = models.ForeignKey(User, related_name='invitee_relation', on_delete=models.CASCADE)
+    inviter = models.ForeignKey(
+        User, related_name="inviter_relation", on_delete=models.CASCADE
+    )
+    invitee = models.ForeignKey(
+        User, related_name="invitee_relation", on_delete=models.CASCADE
+    )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = "invitation_relation"
         ordering = ["-updated"]
-

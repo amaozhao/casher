@@ -1,4 +1,5 @@
 import json
+import logging
 import uuid
 
 from asgiref.sync import async_to_sync
@@ -13,9 +14,8 @@ from payment.models import UserHashrate
 from task.consumer import client_dict
 from task.models import TaskFreeCount, TaskResult, UserTask, UserUpload
 from task.serializers import TaskResultSerializer
-import logging
 
-logger = logging.getLogger('channel')
+logger = logging.getLogger("channel")
 
 
 class ImageUploadView(APIView):
@@ -116,12 +116,7 @@ class PromptView(APIView):
             if cs_imgs:
                 for img in cs_imgs:
                     prompt_message["data"]["cs_imgs"].append(
-                        [
-                            {
-                                "upImage": img.get('upImage'),
-                                "node": img.get('node')
-                            }
-                        ]
+                        [{"upImage": img.get("upImage"), "node": img.get("node")}]
                     )
             else:
                 prompt_message["data"]["cs_imgs"] = [
@@ -144,12 +139,7 @@ class PromptView(APIView):
             if cs_texts:
                 for t in cs_texts:
                     prompt_message["data"]["cs_texts"].append(
-                        [
-                            {
-                                "node": t.get('node'),
-                                "value": t.get('value')
-                            }
-                        ]
+                        [{"node": t.get("node"), "value": t.get("value")}]
                     )
             else:
                 prompt_message["data"]["cs_texts"] = [
@@ -163,13 +153,13 @@ class PromptView(APIView):
         logger.info(f"client_id: {client_id}, wss: {wss}")
         if not wss:
             return Response(
-            {
-                "data": {"jilu_id": jilu_id},
-                "message": "wss 连接失败，请检查ComfyUI设置是否正确",
-                "status": status.HTTP_400_BAD_REQUEST,
-            },
-            status=status.HTTP_400_BAD_REQUEST,
-        )
+                {
+                    "data": {"jilu_id": jilu_id},
+                    "message": "wss 连接失败，请检查ComfyUI设置是否正确",
+                    "status": status.HTTP_400_BAD_REQUEST,
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         logger.info(f"prompt_message: {json.dumps(prompt_message)}")
         async_to_sync(channel_layer.send)(wss, prompt_message)
         return Response(
@@ -235,7 +225,7 @@ class TaskHistoryView(APIView):
         data = request.data
         user = request.user
         query = TaskResult.objects.filter(task__user=user)
-        workflow_id = data.get('workflow_id')
+        workflow_id = data.get("workflow_id")
         if workflow_id:
             workflow = WorkFlowData.objects.filter(id=workflow_id).first()
             query = query.filter(flow=workflow).all()

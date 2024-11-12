@@ -8,7 +8,7 @@ from string import ascii_letters, digits
 from django.conf import settings
 from wechatpayv3 import WeChatPay, WeChatPayType
 
-logger = logging.getLogger('django')
+logger = logging.getLogger("django")
 
 
 class WechatPayService:

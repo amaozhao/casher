@@ -14,8 +14,9 @@ class CurrentUserHashrateView(APIView):
                 {
                     "stauts": status.HTTP_401_UNAUTHORIZED,
                     "message": "用户未登陆",
-                    'data': {}
-                }, status=status.HTTP_401_UNAUTHORIZED
+                    "data": {},
+                },
+                status=status.HTTP_401_UNAUTHORIZED,
             )
         hastrate = UserHashrate.objects.filter(user=user).first()
         if not hastrate:

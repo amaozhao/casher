@@ -5,20 +5,20 @@ from yunzhanghu_sdk.config import Config
 # 实时支付
 if __name__ == "__main__":
     conf = Config(
-            # 生产环境请求域名
-            # host = "https://api-service.yunzhanghu.com",
-            # 沙箱环境请求域名
-            # host = "https://api-service.yunzhanghu.com/sandbox",
-            # 个体工商户注册请求域名
-            # host = "https://api-aic.yunzhanghu.com",
-            # host=settings.YUNZHANGHU_HOST,
-            host="https://api-service.yunzhanghu.com/sandbox",
-            dealer_id='28789345',
-            broker_id='27532644',
-            sign_type="rsa",
-            app_key='nemrX7lEmjBd8O3LiUgK23bbqaSxnHQD',
-            des3key="U26yJ75JAyVIs5GmLZd9pX6N",
-            dealer_private_key="""-----BEGIN PRIVATE KEY-----
+        # 生产环境请求域名
+        # host = "https://api-service.yunzhanghu.com",
+        # 沙箱环境请求域名
+        # host = "https://api-service.yunzhanghu.com/sandbox",
+        # 个体工商户注册请求域名
+        # host = "https://api-aic.yunzhanghu.com",
+        # host=settings.YUNZHANGHU_HOST,
+        host="https://api-service.yunzhanghu.com/sandbox",
+        dealer_id="28789345",
+        broker_id="27532644",
+        sign_type="rsa",
+        app_key="nemrX7lEmjBd8O3LiUgK23bbqaSxnHQD",
+        des3key="U26yJ75JAyVIs5GmLZd9pX6N",
+        dealer_private_key="""-----BEGIN PRIVATE KEY-----
 MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC+twZemyIMH+/B
 tnXn6SrMTuINP0WfaMQktPqlGUoG6HoeQlT/e0zNjF9SjVBiuR80Kc7Kxjylry6f
 SmUPqaPAibic9SATzHUngo2cE1ISEPC1N9x3Bl2Q1kIGZXii4PD3oJslLRio4Dxq
@@ -46,15 +46,15 @@ ml0M7XRlDvgFF7x5WRq3Uxr5DWO5xgZPqjSMGGSz/5p+5mNNA4r2dAZLnm5l1T9a
 MfSsEJJu6RmhifCU+VMxISzomjTJDiI9QJs3Rl5/iIcutnfvTmsgk6JULgItbOxa
 I8YpyBPZF5yCAUfmPOyOGes=
 -----END PRIVATE KEY-----""",
-            yzh_public_key="""-----BEGIN PUBLIC KEY-----
+        yzh_public_key="""-----BEGIN PUBLIC KEY-----
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDSCHhZvdWZhJo4nASvxsoW7pMg
 ZUvWm0GZleoCFpPSVnQ5zUGAaIAuvNaqG0QsCjvCbnrXMfDvjrEEKVSGAUbB8Azz
 guD2Q/iELU4z3Kxb1EXYoS9QkSxQvUYlAcV3/o4i+xrBHDpPuYrxTpWzAPGnUOtc
 1sz4bKDdvBF12bjywwIDAQAB
 -----END PUBLIC KEY-----""",
-            # 自定义超时时间
-            timeout=30,
-        )
+        # 自定义超时时间
+        timeout=30,
+    )
     client = PaymentClient(config=conf)
 
     # 微信实时支付
@@ -85,7 +85,15 @@ guD2Q/iELU4z3Kxb1EXYoS9QkSxQvUYlAcV3/o4i+xrBHDpPuYrxTpWzAPGnUOtc
             print("操作成功 ", resp.data)
         else:
             # 失败返回
-            print("失败返回 ", "code：" + resp.code + " message：" + resp.message + " request_id：" + resp.request_id)
+            print(
+                "失败返回 ",
+                "code："
+                + resp.code
+                + " message："
+                + resp.message
+                + " request_id："
+                + resp.request_id,
+            )
     except Exception as e:
         # 发生异常
         print(e)
