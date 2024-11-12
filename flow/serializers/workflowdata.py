@@ -47,6 +47,32 @@ class WorkFlowDataSerializer(serializers.ModelSerializer):
         return result
 
 
+class BWorkFlowDataSerializer(WorkFlowDataSerializer):
+    preview_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = WorkFlowData
+        fields = [
+            "id",
+            "title",
+            "gn_desc",
+            "sy_desc",
+            "fee",
+            "free_times",
+            "uniqueid",
+            "client_id",
+            "created",
+            "updated",
+            "images",
+            "preview_url",
+        ]
+
+    def get_preview_url(self, instance):
+        result = f'https://aidep.cn/workflow_id={instance.id}'
+        return result
+
+
+
 class WorkFlowCommentSerializer(serializers.ModelSerializer):
 
     class Meta:
