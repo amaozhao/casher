@@ -39,6 +39,7 @@ urlpatterns = [
     path("wxappb/", include("wxappb.urls")),
     path("accounts/", include("accounts.urls")),
     path("invite/", include("invitation.urls")),
+    path("statis/", include("cash_statistics.urls")),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
