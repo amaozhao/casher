@@ -21,8 +21,8 @@ class CashStatisticsView(APIView):
                         "total_income": cash_stat.total_income,
                         "in_transit": cash_stat.in_transit,
                         "refunded": cash_stat.refunded,
-                    },
-                    "status": status.HTTP_200_OK,
-                }
+                    }
+                },
+                "status": status.HTTP_200_OK,
             }
         )

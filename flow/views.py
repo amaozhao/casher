@@ -333,7 +333,7 @@ class UploadAPIView(APIView):
             			<div>
             				<div class="login_text">商户端URL</div>
             				<a>URL:
-            					<span style="color: #6AE1D6;" href="https://aidep.cn/web-b/" target="_blank">https://aidep.cn/web-b/</span>
+            					<a style="color: #6AE1D6;" href="https://aidep.cn/web-b/" target="_blank">https://aidep.cn/web-b/</a>
             				</a>
             			</div>
             		</div>

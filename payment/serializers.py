@@ -22,7 +22,7 @@ class WechatPayoutSerializer(ModelSerializer):
 
     class Meta:
         model = WechatPayout
-        fields = ("id", "pay", "status", "updated")
+        fields = ("id", 'workflow_title', "pay", "status", 'currency', "updated")
 
     def get_currency(self, instance):
         return "$" if instance.currency == 'USD' else "¥"
