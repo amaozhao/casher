@@ -4,22 +4,27 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from payment.utils import get_or_create_stripe_customer
+from djstripe import settings as djstripe_settings
+from djstripe.models import Customer
 
 stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
 
 
 class CreateCheckoutView(APIView):
     def post(self, request, *args, **kwargs):
-        user = request.user  # 假设用户已通过身份验证
-
         try:
             # 从请求数据中获取金额和货币信息
             amount = request.data.get("amount")
             currency = request.data.get("currency", "usd")
             current_url = request.data.get("current_url")
+            metadata = {
+                "user_id": self.request.user.id
+            }
+
+            customer = Customer.objects.get(subscriber=self.request.user)
 
             checkout_session = stripe.checkout.Session.create(
+                customer=customer.id,
                 payment_method_types=["card"],
                 line_items=[
                     {
@@ -36,6 +41,7 @@ class CreateCheckoutView(APIView):
                 mode="payment",
                 success_url=current_url,
                 cancel_url=current_url,
+                metadata=metadata,
             )
 
             return Response(

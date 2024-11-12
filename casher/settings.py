@@ -320,27 +320,39 @@ YUNZHANGHU_PRIVATE_KEY = config.get("YUNZHANGHU_PRIVATE_KEY")
 YUNZHANGHU_HOST = config.get("YUNZHANGHU_HOST")
 
 # Celery settings
-CELERY_BROKER_URL = 'redis://0.0.0.0:6379/0'
-CELERY_RESULT_BACKEND = 'redis://0.0.0.0:6379/0'
-REDBEAT_REDIS_URL = 'redis://0.0.0.0:6379/0'
+CELERY_BROKER_URL = config.get("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = config.get("CELERY_RESULT_BACKEND")
+REDBEAT_REDIS_URL = config.get("REDBEAT_REDIS_URL")
 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',  # 使用花括号作为格式化符号
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
     'handlers': {
         'django': {
             'level': 'INFO',
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'filename': str(BASE_DIR / 'logs/django.log'),
-            'when': 'midnight',
-            'backupCount': 7,
+            'when': 'midnight',  # 按天切割日志
+            'backupCount': 7,     # 保留7天的日志
+            'formatter': 'verbose',  # 使用 verbose 格式
         },
         'channel': {
-            'level': 'DEBUG',  # 变为 DEBUG 以捕获更多日志
+            'level': 'DEBUG',
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'filename': str(BASE_DIR / 'logs/channel.log'),
             'when': 'midnight',
             'backupCount': 7,
+            'formatter': 'verbose',  # 使用 verbose 格式
         },
     },
     'loggers': {
@@ -351,12 +363,12 @@ LOGGING = {
         },
         'django.request': {
             'handlers': ['django'],
-            'level': 'ERROR',
+            'level': 'ERROR',  # 只记录错误日志
             'propagate': False,
         },
         'channel': {
             'handlers': ['channel'],
-            'level': 'DEBUG',  # 确保捕获到所有日志
+            'level': 'DEBUG',  # 记录所有日志
             'propagate': False,
         },
     },

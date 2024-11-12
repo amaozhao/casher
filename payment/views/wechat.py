@@ -72,7 +72,7 @@ class WechatPayNotifyView(APIView):
                 order.save()
                 user = order.user
                 hashrate = UserHashrate.objects.filter(user=user).first()
-                hashrate.hashrate += amount * 100
+                hashrate.hashrate += amount * 1000
                 hashrate.save()
             return Response({"code": "SUCCESS", "message": "成功"})
         else:
