@@ -69,6 +69,7 @@ class WXCallback(APIView):
         res_json = response.json()
         user = res_json.get("user")
         if user:
+            # 提交数据到GPU平台换取token，并保存
             if state:
                 user = User.objects.get(id=user.get("pk"))
                 state = urllib.parse.unquote_plus(state)
@@ -148,6 +149,7 @@ class GoogleCallback(APIView):
         res_json = response.json()
         user = res_json.get("user")
         if user:
+            # 提交数据到GPU平台换取token，并保存
             if state:
                 user = User.objects.get(id=user.get("pk"))
                 state = urllib.parse.unquote_plus(state)
@@ -167,7 +169,7 @@ class GoogleCallback(APIView):
                         inviter.save()
                 only_login = state.get('only_login')
                 if only_login == 1:
-                    return redirect(f"https://aidep.cn/pages/tob/loginSuccess")
+                    return redirect(f"https://aidep.cn/web-b/pages/tob/loginSuccess")
             token = res_json.get("access")
             return redirect(f"https://aidep.cn/web-b/?token={token}")
 
