@@ -8,7 +8,7 @@ from cash_statistics.models import CashStatistics
 class CashStatisticsView(APIView):
     def get(self, request, *args, **kwargs):
         user = request.user
-        cash_stat = CashStatistics.objects.filter(user=user, accepted=False).first()
+        cash_stat = CashStatistics.objects.filter(user=user).first()
         if not cash_stat:
             cash_stat = CashStatistics.objects.create(inviter=user)
         return Response(
