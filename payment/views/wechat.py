@@ -101,7 +101,7 @@ class WechatPayCheckView(APIView):
             {
                 "status": status.HTTP_200_OK,
                 "message": message,
-                "data": {"out_trade_no": out_trade_no, "trade_status": None},
+                "data": {"out_trade_no": out_trade_no, "trade_status": 'prepay'},
             }
         )
 
