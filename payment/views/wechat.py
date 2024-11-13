@@ -96,12 +96,10 @@ class WechatPayCheckView(APIView):
                     },
                 }
             )
-        message = "支付未完成"
-        if langStr == "en-us":
-            message = "Payment not completed"
+        message = "支付未完成" if langStr != "en-us" else "Payment not completed"
         return Response(
             {
-                "status": status.HTTP_400_BAD_REQUEST,
+                "status": status.HTTP_200_OK,
                 "message": message,
                 "data": {"out_trade_no": out_trade_no, "trade_status": None},
             }

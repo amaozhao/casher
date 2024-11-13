@@ -421,7 +421,7 @@ class WorkFlowListView(ListAPIView):
     def get(self, request, *args, **kwargs):
         workflow_id = request.GET.get("workflow_id")
         if workflow_id:
-            current_flow = WorkFlowData.objects.get(id=workflow_id)
+            current_flow = WorkFlowData.objects.get(id=workflow_id, deleted=False)
             if not current_flow:
                 return Response(
                     {
@@ -431,7 +431,7 @@ class WorkFlowListView(ListAPIView):
                     },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
-            flows = WorkFlowData.objects.exclude(id=workflow_id).all()
+            flows = WorkFlowData.objects.exclude(id=workflow_id, deleted=False).all()
             serializer = WorkFlowDataSerializer(flows, many=True)
             current_serializer = WorkFlowDataSerializer(current_flow)
             data = serializer.data
@@ -454,7 +454,9 @@ class BWorkFlowListView(ListAPIView):
         if user.is_authenticated:
             techs_ids = AuthorTechs.objects.filter(user=user).all()
             flows = WorkFlowData.objects.filter(
-                techsid__in=[t.techsid for t in techs_ids]
+                techsid__in=[t.techsid for t in techs_ids],
+                deleted=False,
+                status='online',
             )
         else:
             flows = WorkFlowData.objects.all()

@@ -36,6 +36,8 @@ class WorkFlowDataSerializer(serializers.ModelSerializer):
             "created",
             "updated",
             "images",
+            "status",
+            "deleted",
             "workflow_fields",
             "consuming",
         ]
@@ -79,6 +81,8 @@ class BWorkFlowDataSerializer(WorkFlowDataSerializer):
             "created",
             "updated",
             "images",
+            "status",
+            "deleted",
             "preview_url",
         ]
 

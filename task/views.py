@@ -66,7 +66,16 @@ class PromptView(APIView):
         cs_imgs = request.data.get("cs_imgs")
         cs_texts = request.data.get("cs_texts")
         prompt_text = request.data.get("prompt_text", "")
-        workflow = WorkFlowData.objects.filter(id=workflow_id).first()
+        workflow = WorkFlowData.objects.filter(id=workflow_id, deleted=False).first()
+        if not workflow:
+            return Response(
+                    {
+                        "data": {"workflow_id": workflow_id},
+                        "message": "工作流未找到",
+                        "status": status.HTTP_400_BAD_REQUEST,
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
         task_free_count = TaskFreeCount.objects.filter(workflow=workflow).first()
         if task_free_count and task_free_count.free_count >= workflow.free_times:
             hashrate = UserHashrate.objects.filter(user=request.user).first()
