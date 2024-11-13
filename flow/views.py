@@ -247,7 +247,6 @@ class UploadAPIView(APIView):
 			.logo_img {{
 				width: 28px;
 				height: 28px;
-				margin-top: 20px;
 			}}
 
 			.btn_div {{
