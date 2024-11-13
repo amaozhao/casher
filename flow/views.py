@@ -435,7 +435,6 @@ class WorkFlowListView(ListAPIView):
             serializer = WorkFlowDataSerializer(flows, many=True)
             current_serializer = WorkFlowDataSerializer(current_flow)
             data = serializer.data
-            print(type(data), data)
             data.insert(0, current_serializer.data)
             return Response({"data": data, "status": status.HTTP_200_OK})
         flows = WorkFlowData.objects.all()

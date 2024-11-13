@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     "accounts",
     "invitation",
     "cash_statistics",
+    "gpucloud",
 ]
 
 SITE_ID = 1
