@@ -61,8 +61,6 @@ class WorkFlowDataSerializer(serializers.ModelSerializer):
             return int((t_result.updated - t_result.created).total_seconds()) + 3
         return random.randint(10, 30)
 
-    image = serializers.SerializerMethodField()
-
 
 class BWorkFlowDataSerializer(WorkFlowDataSerializer):
     preview_url = serializers.SerializerMethodField()
