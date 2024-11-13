@@ -179,7 +179,7 @@ class PromptCompleted(APIView):
         image_file = request.FILES.get("file")
         prompt_id = request.data.get("prompt_id")
         user_task = UserTask.objects.filter(prompt_id=prompt_id).first()
-        task_result = TaskResult.objects.filter(task=user_task)
+        task_result = TaskResult.objects.filter(task=user_task).first()
         task_result.result = image_file
         task_result.save()
         query = TaskResult.objects.filter(task=user_task)
