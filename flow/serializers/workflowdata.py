@@ -51,15 +51,16 @@ class WorkFlowDataSerializer(serializers.ModelSerializer):
 
     def get_consuming(self, instance):
         from task.models import TaskResult
+
         t_result = TaskResult.objects.filter(
-            task__flow=instance,
-            result__isnull=False,
-            task__status='success'
+            task__flow=instance, result__isnull=False, task__status="success"
         ).first()
         if t_result:
             return int((t_result.updated - t_result.created).total_seconds()) + 3
         return random.randint(10, 30)
+
     image = serializers.SerializerMethodField()
+
 
 class BWorkFlowDataSerializer(WorkFlowDataSerializer):
     preview_url = serializers.SerializerMethodField()

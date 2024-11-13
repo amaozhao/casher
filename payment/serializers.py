@@ -21,15 +21,15 @@ class WechatPayoutSerializer(ModelSerializer):
 
     class Meta:
         model = WechatPayout
-        fields = ("id", "pay", "status", 'currency', "updated")
+        fields = ("id", "pay", "status", "currency", "updated")
 
     def get_currency(self, instance):
         return "¥"
 
     def get_status(self, instance):
-        if instance.status == 'success':
+        if instance.status == "success":
             return "已提现"
-        if instance.status == 'init':
+        if instance.status == "init":
             return "提现中"
         return ""
 
@@ -48,10 +48,10 @@ class UserPayinSerializer(ModelSerializer):
         return instance.fee
 
     def get_currency(self, instance):
-        return "$" if instance.currency == 'USD' else "¥"
+        return "$" if instance.currency == "USD" else "¥"
 
     def get_status(self, instance):
-        if instance.status == 'success':
+        if instance.status == "success":
             return "已付款"
         return ""
 

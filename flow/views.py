@@ -19,7 +19,7 @@ from flow.models import WorkFlowBanner, WorkFlowComment, WorkFlowData, WorkFlowI
 from flow.serializers.workflowdata import (
     WorkFlowCommentSerializer,
     WorkFlowDataSerializer,
-    BWorkFlowDataSerializer
+    BWorkFlowDataSerializer,
 )
 from wxapp.service import generate_mp_qr_code as c_generate_mp_qr_code
 from wxappb.models import AuthorTechs
@@ -445,15 +445,17 @@ class WorkFlowListView(ListAPIView):
     authentication_classes = []
 
     def get(self, request, *args, **kwargs):
-        workflow_id = request.GET.get('workflow_id')
+        workflow_id = request.GET.get("workflow_id")
         if workflow_id:
             current_flow = WorkFlowData.objects.get(id=workflow_id)
             if not current_flow:
                 return Response(
-                    {"data": [],
-                         "message": "工作流未找到",
-                         "status": status.HTTP_400_BAD_REQUEST
-                    }, status=status.HTTP_400_BAD_REQUEST
+                    {
+                        "data": [],
+                        "message": "工作流未找到",
+                        "status": status.HTTP_400_BAD_REQUEST,
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
                 )
             flows = WorkFlowData.objects.exclude(id=workflow_id).all()
             serializer = WorkFlowDataSerializer(flows, many=True)
