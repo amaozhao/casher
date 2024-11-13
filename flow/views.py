@@ -306,7 +306,7 @@ class UploadAPIView(APIView):
             			}}
 
             			.content {{
-            				width: 666px;
+            				width: 888px;
             				margin: auto;
             				display: flex;
             				justify-content: space-between;
