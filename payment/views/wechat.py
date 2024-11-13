@@ -7,8 +7,6 @@ from rest_framework.views import APIView
 from payment.models import UserHashrate, WechatOrder, WechatPayout, WechatSign
 from payment.services import wechatpay_service, yun_account_service
 
-# from django.contrib.auth.models import User
-
 
 class CreateWechatPaymentView(APIView):
 
@@ -73,7 +71,7 @@ class WechatPayNotifyView(APIView):
                 order.save()
                 user = order.user
                 hashrate = UserHashrate.objects.filter(user=user).first()
-                hashrate.hashrate += amount * 1000
+                hashrate.hashrate += amount * 100
                 hashrate.save()
             return Response({"code": "SUCCESS", "message": "成功"})
         else:

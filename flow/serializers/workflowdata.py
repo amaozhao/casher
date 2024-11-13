@@ -1,4 +1,5 @@
 from urllib.parse import urljoin
+import random
 
 from rest_framework import serializers
 
@@ -19,6 +20,7 @@ class WorkFlowImageSerializer(serializers.ModelSerializer):
 class WorkFlowDataSerializer(serializers.ModelSerializer):
     images = WorkFlowImageSerializer(many=True)
     workflow_fields = serializers.SerializerMethodField()
+    consuming = serializers.SerializerMethodField()
 
     class Meta:
         model = WorkFlowData
@@ -35,6 +37,7 @@ class WorkFlowDataSerializer(serializers.ModelSerializer):
             "updated",
             "images",
             "workflow_fields",
+            "consuming",
         ]
 
     def get_workflow_fields(self, instance):
@@ -46,6 +49,17 @@ class WorkFlowDataSerializer(serializers.ModelSerializer):
         }
         return result
 
+    def get_consuming(self, instance):
+        from task.models import TaskResult
+        t_result = TaskResult.objects.filter(
+            task__flow=instance,
+            result__isnull=False,
+            task__status='success'
+        ).first()
+        if t_result:
+            return int((t_result.updated - t_result.created).total_seconds()) + 3
+        return random.randint(10, 30)
+    image = serializers.SerializerMethodField()
 
 class BWorkFlowDataSerializer(WorkFlowDataSerializer):
     preview_url = serializers.SerializerMethodField()
@@ -68,7 +82,7 @@ class BWorkFlowDataSerializer(WorkFlowDataSerializer):
         ]
 
     def get_preview_url(self, instance):
-        result = f"https://aidep.cn/workflow_id={instance.id}"
+        result = f"https://aidep.cn/?workflow_id={instance.id}"
         return result
 
 
