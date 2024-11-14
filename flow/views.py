@@ -484,9 +484,24 @@ class BWorkFlowDetailView(ListAPIView):
 
     def get(self, request, *args, **kwargs):
         id = kwargs.get("id")
-        flows = WorkFlowData.objects.get(id=id)
-        serializer = WorkFlowDataSerializer(flows)
+        flow = WorkFlowData.objects.get(id=id)
+        serializer = WorkFlowDataSerializer(flow)
         return Response({"data": serializer.data, "status": status.HTTP_200_OK})
+
+    def put(self, request, *args, **kwargs):
+        id = kwargs.get("id")
+        flow = WorkFlowData.objects.get(id=id)
+        flow.status = 'offline'
+        flow.save()
+        serializer = WorkFlowDataSerializer(flow)
+        return Response({"data": serializer.data, "status": status.HTTP_200_OK})
+
+    def delete(self, request, *args, **kwargs):
+        id = kwargs.get("id")
+        flow = WorkFlowData.objects.get(id=id)
+        flow.deleted = True
+        flow.save()
+        return Response({"data": {}, "status": status.HTTP_200_OK})
 
 
 class WorkFlowDetailView(RetrieveAPIView):
@@ -539,7 +554,8 @@ class WorkFlowBannerView(APIView):
     authentication_classes = []
 
     def get(self, request, *args, **kwargs):
-        banner = WorkFlowBanner.objects.first()
+        workflow_id = request.GET.get('workflow_id')
+        banner = WorkFlowBanner.objects.filter(workflow_id=workflow_id).first()
         if not banner:
             return Response({"data": {}, "status": status.HTTP_200_OK})
         if not banner.is_visible:
@@ -549,4 +565,28 @@ class WorkFlowBannerView(APIView):
                 "data": {"id": banner.id, "url": banner.url, "desc": banner.desc},
                 "status": status.HTTP_200_OK,
             }
+        )
+
+    def put(self, request, *args, **kwargs):
+        workflow_id = request.data.get('workflow_id')
+        banner = WorkFlowBanner.objects.filter(workflow_id=workflow_id).first()
+        if banner:
+            banner.is_visible = False
+            banner.save()
+        return Response(
+            {
+                "data": {},
+                "status": status.HTTP_200_OK,
+            }
+        )
+
+
+class ComfyUIView(APIView):
+    def get(self, request, *args, **kwargs):
+        return Response(
+            {
+                "url": "https://github.com/amaozhao/ComfyUI_DeployCash.git",
+                "status": status.HTTP_200_OK
+            },
+            status=status.HTTP_200_OK
         )

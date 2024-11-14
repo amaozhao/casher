@@ -218,11 +218,19 @@ class ImageDisplayView(APIView):
         result = TaskResult.objects.filter(task=user_task).order_by("-updated").first()
         if not result or not result.result:
             return Response(
-                {"data": None, "status": status.HTTP_200_OK}, status=status.HTTP_200_OK
+                {"data": {
+                    "url": None,
+                    "task_status": user_task.status
+                },
+                "status": status.HTTP_200_OK},
+                status=status.HTTP_200_OK
             )
         return Response(
             {
-                "data": {"url": request.build_absolute_uri(result.result.url)},
+                "data": {
+                    "url": request.build_absolute_uri(result.result.url),
+                    "task_status": "success"
+                },
                 "status": status.HTTP_200_OK,
             },
             status=status.HTTP_200_OK,

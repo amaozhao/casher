@@ -8,6 +8,7 @@ from flow.views import (
     WorkFlowCommentList,
     WorkFlowDetailView,
     WorkFlowListView,
+    ComfyUIView,
 )
 
 urlpatterns = [
@@ -25,5 +26,10 @@ urlpatterns = [
         "banner/",
         WorkFlowBannerView.as_view(),
         name="flow_banner",
+    ),
+    path(
+        "comfyui/",
+        ComfyUIView.as_view(),
+        name="comfyui",
     ),
 ]

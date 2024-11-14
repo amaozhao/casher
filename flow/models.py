@@ -86,6 +86,7 @@ class WorkFlowComment(models.Model):
 
 
 class WorkFlowBanner(models.Model):
+    workflow = models.ForeignKey(WorkFlowData, on_delete=models.CASCADE)
     is_visible = models.BooleanField(default=True)
     desc = models.TextField()
     url = models.TextField()
