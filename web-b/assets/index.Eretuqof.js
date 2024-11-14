@@ -1,0 +1,1 @@
+import{r as t,c as e}from"./home.CHC42ZYg.js";function o(o){return t.httpRequest({url:e.flowsList,method:"GET"},o)}function r(o){return t.httpRequest({url:e.mplogin,method:"POST"},o)}export{o as f,r as m};

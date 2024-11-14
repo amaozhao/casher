@@ -40,7 +40,7 @@ class GPUCloudService:
         data, unique_target = self.get_user_profile(user)
         if not account or account.expired <= datetime.now():
             response = self.signin(data)
-            token = response.json.get('data').get('token')
+            token = response.json().get('data').get('token')
             GPUAccount.objects.create(
                 user=user,
                 unique_target=unique_target,
@@ -53,7 +53,8 @@ class GPUCloudService:
     def request_data(self, url, user, method, data):
         headers = {
             "Content-Type": "application/json",
-            "Authorization": f"bearer {self.get_token(user)}"
+            "Authorization": f"bearer {token}"
+            # "Authorization": f"bearer {self.get_token(user)}"
         }
         request_method = getattr(requests, method)
         if method == 'get':
@@ -64,3 +65,13 @@ class GPUCloudService:
 
 
 gpucloud_service = GPUCloudService()
+
+
+if __name__ == '__main__':
+    response = gpucloud_service.request_data(
+        url='/api/users/credit-cards',
+        user=None,
+        method='get',
+        data={}
+    )
+    print(response.json())
