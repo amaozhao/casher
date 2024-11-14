@@ -4,11 +4,7 @@ import string
 import urllib.parse
 from urllib.parse import urljoin
 
-from asgiref.sync import async_to_sync
-from channels.layers import get_channel_layer
 from django.conf import settings
-from django.core.cache import cache
-from django.http import JsonResponse
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveAPIView
@@ -21,6 +17,7 @@ from flow.serializers.workflowdata import (
     WorkFlowDataSerializer,
     BWorkFlowDataSerializer,
 )
+from accounts.models import OfficialAccount
 from wxapp.service import generate_mp_qr_code as c_generate_mp_qr_code
 from wxappb.models import AuthorTechs
 from wxappb.service import generate_mp_qr_code as b_generate_mp_qr_code
@@ -476,7 +473,32 @@ class BWorkFlowListView(ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return WorkFlowData.objects.firter(user=user)
+        return WorkFlowData.objects.filter(user=user)
+
+
+class BWorkFlowTemplateView(ListAPIView):
+    authentication_classes = []
+
+    def get(self, request, *args, **kwargs):
+        users = OfficialAccount.objects.filter(is_official=True).all()
+        techs_ids = AuthorTechs.objects.filter(user__in=users).all()
+        flows = WorkFlowData.objects.filter(
+                techsid__in=[t.techsid for t in techs_ids],
+                deleted=False,
+                status='online',
+            )
+        serializer = BWorkFlowDataSerializer(flows, many=True)
+        return Response({"data": serializer.data, "status": status.HTTP_200_OK})
+
+    def get_queryset(self):
+        users = OfficialAccount.objects.filter(is_official=True).all()
+        techs_ids = AuthorTechs.objects.filter(user__in=users).all()
+        flows = WorkFlowData.objects.filter(
+            techsid__in=[t.techsid for t in techs_ids],
+            deleted=False,
+            status='online',
+        )
+        return flows
 
 
 class BWorkFlowDetailView(ListAPIView):

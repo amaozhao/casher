@@ -8,6 +8,7 @@ from flow.views import (
     WorkFlowCommentList,
     WorkFlowDetailView,
     WorkFlowListView,
+    BWorkFlowTemplateView,
     ComfyUIView,
 )
 
@@ -15,6 +16,7 @@ urlpatterns = [
     path("api/upload/", UploadAPIView.as_view(), name="upload_api"),
     path("flows/", WorkFlowListView.as_view()),
     path("b_flows/", BWorkFlowListView.as_view()),
+    path("b_templates/", BWorkFlowTemplateView.as_view()),
     path("flows/<int:id>/", WorkFlowDetailView.as_view()),
     path("b_flows/<int:id>/", BWorkFlowDetailView.as_view()),
     path(
