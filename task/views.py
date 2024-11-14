@@ -60,6 +60,7 @@ class PromptView(APIView):
     """
 
     def post(self, request, *args, **kwargs):
+        languestr = self.request.headers.get("languestr")
         jilu_id = str(uuid.uuid4())
         workflow_id = request.data.get("workflow_id")
         image_url = request.data.get("image_url", "")
@@ -113,10 +114,12 @@ class PromptView(APIView):
             },
         }
         if cs_img_nodes:
+            image_message = 'Please upload a image first' if languestr == 'en' else '请先上传图片'
             if not image_url:
                 return Response(
                     {
-                        "message": "缺少参数image_url",
+                        "message": image_message,
+                        "field": 'image_url',
                         "jilu_id": jilu_id,
                         "status": status.HTTP_400_BAD_REQUEST,
                     },
@@ -136,10 +139,12 @@ class PromptView(APIView):
                 ]
 
         if cs_text_nodes:
+            text_message = 'Please enter a prompt first' if languestr == 'en' else '请先填写提示词'
             if not prompt_text:
                 return Response(
                     {
-                        "message": "缺少参数 prompt_text",
+                        "message": text_message,
+                        "field": prompt_text,
                         "jilu_id": jilu_id,
                         "status": status.HTTP_400_BAD_REQUEST,
                     },
@@ -174,7 +179,7 @@ class PromptView(APIView):
         return Response(
             {
                 "data": {"jilu_id": jilu_id},
-                "message": "任务提交成功",
+                "message": "Task submitted!" if languestr == 'en' else '任务提交成功',
                 "status": status.HTTP_200_OK,
             },
             status=status.HTTP_200_OK,
