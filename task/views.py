@@ -258,9 +258,6 @@ class TaskHistoryView(APIView):
     def get(self, request, *args, **kwargs):
         data = request.data
         user = request.user
-        from django.contrib.auth.models import User
-
-        user = User.objects.get(id=3)
         query = TaskResult.objects.filter(task__user=user)
         workflow_id = data.get("workflow_id")
         if workflow_id:
