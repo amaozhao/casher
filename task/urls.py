@@ -7,6 +7,7 @@ from task.views import (
     PromptView,
     TaskHistoryDeleteView,
     TaskHistoryView,
+    TaskHistoryDetailView,
 )
 
 urlpatterns = [
@@ -19,5 +20,10 @@ urlpatterns = [
         "history/delete/",
         TaskHistoryDeleteView.as_view(),
         name="history-delete",
+    ),
+    path(
+        "history/detail/",
+        TaskHistoryDetailView.as_view(),
+        name="history-detail",
     ),
 ]
