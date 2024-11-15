@@ -12,6 +12,7 @@ from rest_framework.views import APIView
 from dj_rest_auth.utils import jwt_encode
 from wxappb import service
 from wxappb.models import AuthorTechs, WxAppBUserProfile
+from wxappb.service import generate_mp_qr_code
 
 
 class WxAppBLogin(APIView):
@@ -106,3 +107,21 @@ class WxAppBLogin(APIView):
                 },
                 status=status.HTTP_401_UNAUTHORIZED,
             )
+
+
+class WxQrCodeView(APIView):
+    authentication_classes = []
+
+    def get(self, request, *args, **kwargs):
+        workflow_id = request.GET.get('workflow_id')
+        qr_url = generate_mp_qr_code(f'workflow_id={workflow_id}')
+        return Response(
+            {
+                'data': {
+                    'url': qr_url,
+                },
+                'status': status.HTTP_200_OK
+            },
+            status=status.HTTP_200_OK
+        )
+

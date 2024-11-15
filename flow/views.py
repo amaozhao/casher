@@ -430,7 +430,7 @@ class WorkFlowListView(ListAPIView):
     def get(self, request, *args, **kwargs):
         workflow_id = request.GET.get("workflow_id")
         if workflow_id:
-            current_flow = WorkFlowData.objects.get(id=workflow_id, deleted=False)
+            current_flow = WorkFlowData.objects.get(id=workflow_id, deleted=False, status='online')
             if not current_flow:
                 return Response(
                     {
@@ -449,7 +449,7 @@ class WorkFlowListView(ListAPIView):
             else:
                 flow_count.view_count += 1
                 flow_count.save()
-            flows = WorkFlowData.objects.exclude(id=workflow_id, deleted=False).all()
+            flows = WorkFlowData.objects.exclude(id=workflow_id, deleted=False, status='online').all()
             serializer = WorkFlowDataSerializer(flows, many=True)
             current_serializer = WorkFlowDataSerializer(current_flow)
             data = serializer.data
