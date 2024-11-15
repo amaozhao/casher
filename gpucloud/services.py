@@ -10,7 +10,7 @@ class GPUCloudService:
     base_url = "http://www.deploycloud.cn"
 
     def signin(self, data):
-        return requests.post(urljoin(self.base_url, "/api/c/signin"), json=data)
+        return requests.post(urljoin(self.base_url, "/api/users/login"), json=data)
 
     def get_user_profile(self, user):
         wx_user = WxAppBUserProfile.objects.filter(user=user).first()
@@ -18,20 +18,37 @@ class GPUCloudService:
         if wx_user:
             data.update(
                 {
-                    "nickname": wx_user.nick_name,
-                    "sex": wx_user.gender,
-                    "city": wx_user.city,
-                    "province": wx_user.province,
-                    "country": wx_user.country,
-                    "avatarUrl": wx_user.avatarUrl,
-                    "unionid": wx_user.unionid,
-                    "provider": "wxapp",
+                    "login_type": "wechat",
+                    "name": wx_user.nick_name,
+                    "avatar": wx_user.avatarUrl,
+                    "wechat_union_id": wx_user.unionid,
+                    "wechat_open_id": wx_user.user.username,
                 }
             )
             unique_target = wx_user.unionid
         else:
             social_account = SocialAccount.objects.filter(user=user).first()
-            data.update(social_account.extra_data)
+            extra_data = social_account.extra_data
+            if social_account.provider == 'google':
+                data.update(
+                    {
+                        "login_type": "google",
+                        "name": extra_data.get('name'),
+                        "avatar": extra_data.get('picture'),
+                        "google_id": social_account.uid,
+                        "google_email": extra_data.get('email'),
+                    }
+                )
+            else:
+                data.update(
+                    {
+                        "login_type": "wechat",
+                        "name": extra_data.get('nickname'),
+                        "avatar": extra_data.get('headimgurl'),
+                        "wechat_union_id": extra_data.get('unionid'),
+                        "wechat_open_id": extra_data.get('openid'),
+                    }
+                )
             unique_target = social_account.extra_data.get(
                 "unionid"
             ) or social_account.extra_data.get("email")
@@ -40,8 +57,9 @@ class GPUCloudService:
     def get_token(self, user):
         account = GPUAccount.objects.filter(user=user).first()
         data, unique_target = self.get_user_profile(user)
-        if not account or account.expired <= datetime.now():
+        if not account or account.expired.replace(tzinfo=None) >= datetime.now().replace(tzinfo=None):
             response = self.signin(data)
+            print(response.status_code, response.content)
             token = response.json().get("data").get("token")
             GPUAccount.objects.create(
                 user=user,
