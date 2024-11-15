@@ -76,6 +76,8 @@ class WorkFlowDataSerializer(serializers.ModelSerializer):
 
 class BWorkFlowDataSerializer(WorkFlowDataSerializer):
     preview_url = serializers.SerializerMethodField()
+    view_count = serializers.SerializerMethodField()
+    task_count = serializers.SerializerMethodField()
 
     class Meta:
         model = WorkFlowData
@@ -94,11 +96,21 @@ class BWorkFlowDataSerializer(WorkFlowDataSerializer):
             "status",
             "deleted",
             "preview_url",
+            "view_count",
+            "task_count"
         ]
 
     def get_preview_url(self, instance):
         result = f"https://aidep.cn/?workflow_id={instance.id}"
         return result
+
+    def get_view_count(self, instance):
+        flow_count = WorkFlowCount.objects.filter(workflow=instance).first()
+        return flow_count.view_count if flow_count else 0
+
+    def get_task_count(self, instance):
+        flow_count = WorkFlowCount.objects.filter(workflow=instance).first()
+        return flow_count.task_count if flow_count else 0
 
 
 class WorkFlowCommentSerializer(serializers.ModelSerializer):
