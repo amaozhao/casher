@@ -81,7 +81,7 @@ class GPUCloudService:
                 urljoin(self.base_url, url), headers=headers, params=data
             )
             return response
-        response = request_method(url, headers=headers, json=data)
+        response = request_method(urljoin(self.base_url, url), headers=headers, json=data)
         return response
 
 
