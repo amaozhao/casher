@@ -616,7 +616,7 @@ class ComfyUIView(APIView):
     def get(self, request, *args, **kwargs):
         return Response(
             {
-                "url": "https://github.com/amaozhao/ComfyUI_DeployCash.git",
+                "url": "https://github.com/jacklukai/ComfyUI_DeployCash",
                 "status": status.HTTP_200_OK,
             },
             status=status.HTTP_200_OK,
