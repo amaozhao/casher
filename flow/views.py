@@ -489,7 +489,7 @@ class BWorkFlowTemplateView(ListAPIView):
     authentication_classes = []
 
     def get(self, request, *args, **kwargs):
-        users = OfficialAccount.objects.filter(is_official=True).all()
+        users = [o_account.user for o_account in OfficialAccount.objects.filter(is_official=True).all()]
         techs_ids = AuthorTechs.objects.filter(user__in=users).all()
         flows = WorkFlowData.objects.filter(
             techsid__in=[t.techsid for t in techs_ids],
@@ -500,7 +500,7 @@ class BWorkFlowTemplateView(ListAPIView):
         return Response({"data": serializer.data, "status": status.HTTP_200_OK})
 
     def get_queryset(self):
-        users = OfficialAccount.objects.filter(is_official=True).all()
+        users = [o_account.user for o_account in OfficialAccount.objects.filter(is_official=True).all()]
         techs_ids = AuthorTechs.objects.filter(user__in=users).all()
         flows = WorkFlowData.objects.filter(
             techsid__in=[t.techsid for t in techs_ids],
