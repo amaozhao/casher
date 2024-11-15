@@ -234,6 +234,14 @@ class ImageDisplayView(APIView):
 
     def get(self, request, *args, **kwargs):
         jilu_id = request.GET.get("jilu_id")
+        if not jilu_id:
+            return Response(
+                {
+                    "data": {},
+                    "status": status.HTTP_404_NOT_FOUND
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
         user_task = UserTask.objects.filter(jilu_id=jilu_id).first()
         result = TaskResult.objects.filter(task=user_task).order_by("-updated").first()
         if not result or not result.result:
@@ -290,7 +298,12 @@ class TaskHistoryDetailView(APIView):
 class TaskHistoryDeleteView(APIView):
     def delete(self, request, *args, **kwargs):
         id = request.data.get("history_id")
-        task = TaskResult.objects.get(id=id)
+        task = TaskResult.objects.filter(id=id).first()
+        if not task:
+            return Response(
+                {"data": {}, "status": status.HTTP_404_NOT_FOUND},
+                status=status.HTTP_404_NOT_FOUND
+            )
         task.result.delete(save=True)
         task.delete()
         return Response({"data": {}, "status": status.HTTP_204_NO_CONTENT})
