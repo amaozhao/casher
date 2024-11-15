@@ -55,8 +55,7 @@ class GPUCloudService:
     def request_data(self, url, user, method, data):
         headers = {
             "Content-Type": "application/json",
-            "Authorization": f"bearer {token}",
-            # "Authorization": f"bearer {self.get_token(user)}"
+            "Authorization": f"bearer {self.get_token(user)}"
         }
         request_method = getattr(requests, method)
         if method == "get":
