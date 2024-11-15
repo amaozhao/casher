@@ -183,10 +183,24 @@ class AccountInfoView(APIView):
         user = request.user
         socialaccount = SocialAccount.objects.filter(user=user).first()
         extra_data = socialaccount.extra_data
+        invite_count, flow_count = self.get_extra(user)
         data = {
             "username": extra_data.get("nickname") or extra_data.get("name"),
             "headimgurl": extra_data.get("headimgurl") or extra_data.get("picture"),
+            "invite_count": invite_count,
+            "flow_count": flow_count
         }
         return Response(
             {"status": status.HTTP_200_OK, "data": data}, status=status.HTTP_200_OK
         )
+
+    def get_extra(self, user):
+        from invitation.models import InvitationRelation
+        from wxappb.models import AuthorTechs
+        from flow.models import WorkFlowData
+        invite_count = InvitationRelation.objects.filter(inviter=user).count()
+        techs = AuthorTechs.objects.filter(user=user)
+        techs = [t.techsid for t in techs]
+        flow_count = WorkFlowData.objects.filter(techsid__in=tech_flows).count()
+        return invite_count, flow_count
+

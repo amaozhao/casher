@@ -17,12 +17,12 @@ class InvitationCode(models.Model):
 
     @classmethod
     def generate_raw_code(cls):
-        code = random.sample(s_set, raw_code_len)
+        code = ''.join(random.sample(s_set, raw_code_len))
         while True:
             check = cls.objects.filter(code=code).first()
             if not check:
                 return code
-            code = random.sample(s_set, raw_code_len)
+            code = ''.join(random.sample(s_set, raw_code_len))
 
     class Meta:
         db_table = "invitation_code"
