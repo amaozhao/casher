@@ -201,6 +201,6 @@ class AccountInfoView(APIView):
         invite_count = InvitationRelation.objects.filter(inviter=user).count()
         techs = AuthorTechs.objects.filter(user=user)
         techs = [t.techsid for t in techs]
-        flow_count = WorkFlowData.objects.filter(techsid__in=tech_flows).count()
+        flow_count = WorkFlowData.objects.filter(techsid__in=techs).count()
         return invite_count, flow_count
 
