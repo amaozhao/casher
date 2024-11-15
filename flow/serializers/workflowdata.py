@@ -78,6 +78,8 @@ class BWorkFlowDataSerializer(WorkFlowDataSerializer):
     preview_url = serializers.SerializerMethodField()
     view_count = serializers.SerializerMethodField()
     task_count = serializers.SerializerMethodField()
+    created = serializers.SerializerMethodField()
+    updated = serializers.SerializerMethodField()
 
     class Meta:
         model = WorkFlowData
@@ -111,6 +113,12 @@ class BWorkFlowDataSerializer(WorkFlowDataSerializer):
     def get_task_count(self, instance):
         flow_count = WorkFlowCount.objects.filter(workflow=instance).first()
         return flow_count.task_count if flow_count else 0
+
+    def get_created(self, instance):
+        return instance.created.strftime('%Y-%m-%d')
+
+    def get_updated(self, instance):
+        return instance.updated.strftime('%Y-%m-%d')
 
 
 class WorkFlowCommentSerializer(serializers.ModelSerializer):
