@@ -11,7 +11,7 @@ from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveAPIV
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from flow.models import WorkFlowBanner, WorkFlowComment, WorkFlowData, WorkFlowImage
+from flow.models import WorkFlowBanner, WorkFlowComment, WorkFlowData, WorkFlowImage, WorkFlowCount
 from flow.serializers.workflowdata import (
     WorkFlowCommentSerializer,
     WorkFlowDataSerializer,
@@ -440,6 +440,15 @@ class WorkFlowListView(ListAPIView):
                     },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
+            flow_count = WorkFlowCount.objects.filter(workflow=current_flow).first()
+            if not flow_count:
+                WorkFlowCount.objects.create(
+                    workflow=current_flow,
+                    view_count=1
+                )
+            else:
+                flow_count.view_count += 1
+                flow_count.save()
             flows = WorkFlowData.objects.exclude(id=workflow_id, deleted=False).all()
             serializer = WorkFlowDataSerializer(flows, many=True)
             current_serializer = WorkFlowDataSerializer(current_flow)

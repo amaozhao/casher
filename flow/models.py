@@ -72,6 +72,20 @@ class WorkFlowImage(models.Model):
         ordering = ["-created"]
 
 
+class WorkFlowCount(models.Model):
+    workflow = models.ForeignKey(
+        WorkFlowData, related_name="counts", on_delete=models.CASCADE
+    )
+    view_count = models.IntegerField(default=0)
+    task_count = models.IntegerField(default=0)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "workflow_count"
+        ordering = ["-created"]
+
+
 class WorkFlowComment(models.Model):
     workflow = models.ForeignKey(
         WorkFlowData, related_name="comments", on_delete=models.CASCADE

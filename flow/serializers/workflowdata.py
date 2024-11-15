@@ -3,7 +3,7 @@ import random
 
 from rest_framework import serializers
 
-from flow.models import WorkFlowComment, WorkFlowData, WorkFlowImage
+from flow.models import WorkFlowComment, WorkFlowData, WorkFlowImage, WorkFlowCount
 
 
 class WorkFlowImageSerializer(serializers.ModelSerializer):
@@ -21,6 +21,8 @@ class WorkFlowDataSerializer(serializers.ModelSerializer):
     images = WorkFlowImageSerializer(many=True)
     workflow_fields = serializers.SerializerMethodField()
     consuming = serializers.SerializerMethodField()
+    view_count = serializers.SerializerMethodField()
+    task_count = serializers.SerializerMethodField()
 
     class Meta:
         model = WorkFlowData
@@ -40,6 +42,8 @@ class WorkFlowDataSerializer(serializers.ModelSerializer):
             "deleted",
             "workflow_fields",
             "consuming",
+            "view_count",
+            "task_count"
         ]
 
     def get_workflow_fields(self, instance):
@@ -60,6 +64,14 @@ class WorkFlowDataSerializer(serializers.ModelSerializer):
         if t_result:
             return int((t_result.updated - t_result.created).total_seconds()) + 3
         return random.randint(10, 30)
+
+    def get_view_count(self, instance):
+        flow_count = WorkFlowCount.objects.filter(workflow=instance).first()
+        return flow_count.view_count if flow_count else 0
+
+    def get_task_count(self, instance):
+        flow_count = WorkFlowCount.objects.filter(workflow=instance).first()
+        return flow_count.task_count if flow_count else 0
 
 
 class BWorkFlowDataSerializer(WorkFlowDataSerializer):

@@ -10,7 +10,7 @@ from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from flow.models import WorkFlowData
+from flow.models import WorkFlowData, WorkFlowCount
 from payment.models import UserHashrate
 from task.consumer import client_dict
 from task.models import TaskFreeCount, TaskResult, UserTask, UserUpload
@@ -104,6 +104,16 @@ class PromptView(APIView):
         )
         user_task.save()
         TaskResult.objects.create(task=user_task)
+        flow_count = WorkFlowCount.objects.filter(workflow=workflow).first()
+        if flow_count:
+            flow_count.task_count += 1
+            flow_count.save()
+        else:
+            WorkFlowCount.objects.create(
+                workflow=workflow,
+                view_count=1,
+                task_count=1
+            )
         prompt_message = {
             "type": "prompt",
             "uniqueid": uniqueid,

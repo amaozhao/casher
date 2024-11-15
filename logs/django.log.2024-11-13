@@ -1,0 +1,417 @@
+INFO 2024-11-13 05:40:39,866 log_middleware Request: GET /flow/flows/
+INFO 2024-11-13 05:40:39,867 log_middleware Form data: <QueryDict: {}>
+ERROR 2024-11-13 05:40:41,152 log Internal Server Error: /flow/flows/
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/flow/views.py", line 449, in get
+    return Response({"data": serializer.data, "status": status.HTTP_200_OK})
+                             ^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 795, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 249, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 713, in to_representation
+    return [
+           ^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 714, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 538, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/fields.py", line 1870, in to_representation
+    return method(value)
+           ^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/flow/serializers/workflowdata.py", line 56, in get_consuming
+    return (t_result.updated - t_result.created).total_secends() + 3
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'datetime.timedelta' object has no attribute 'total_secends'
+INFO 2024-11-13 05:40:41,156 log_middleware Response: 500
+INFO 2024-11-13 05:41:26,918 log_middleware Request: GET /flow/flows/
+INFO 2024-11-13 05:41:26,918 log_middleware Form data: <QueryDict: {}>
+ERROR 2024-11-13 05:41:28,316 log Internal Server Error: /flow/flows/
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/flow/views.py", line 449, in get
+    return Response({"data": serializer.data, "status": status.HTTP_200_OK})
+                             ^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 795, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 249, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 713, in to_representation
+    return [
+           ^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 714, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 538, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/fields.py", line 1870, in to_representation
+    return method(value)
+           ^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/flow/serializers/workflowdata.py", line 56, in get_consuming
+    return (t_result.updated - t_result.created).total_secend() + 3
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'datetime.timedelta' object has no attribute 'total_secend'
+INFO 2024-11-13 05:41:28,319 log_middleware Response: 500
+INFO 2024-11-13 05:44:49,221 log_middleware Request: GET /flow/flows/
+INFO 2024-11-13 05:44:49,221 log_middleware Form data: <QueryDict: {}>
+INFO 2024-11-13 05:44:50,685 log_middleware Response: 200
+INFO 2024-11-13 05:44:50,685 log_middleware Response content: {"data":[{"id":13,"title":"这是默认作品标题，请在comfyui中修改","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"0.00","free_times":0,"uniqueid":"m3fe8c4qoibcyaazvbsgrjs234","client_id":"f94408c1-fb3c-4518-8b57-d3d253d56ae0","created":"2024-11-13T04:41:30.781313Z","updated":"2024-11-13T04:41:30.781342Z","images":[{"id":57,"image":"https://aidep.cn/media/user/images/084a53e84355fd7c48dd535341156a35_Bvmrn3q.png"}],"workflow_fields":{"cs_img_nodes":[],"cs_text_nodes":[{"desc":"请输入文本","node":"48"}],"cs_video_nodes":[]},"consuming":11},{"id":12,"title":"这是默认作品标题，请在comfyui中修改","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"0.00","free_times":0,"uniqueid":"m3fdzv0mvw180lm9ia14gk46iy","client_id":"f94408c1-fb3c-4518-8b57-d3d253d56ae0","created":"2024-11-13T04:35:36.180376Z","updated":"2024-11-13T04:38:48.683582Z","images":[{"id":56,"image":"https://aidep.cn/media/user/images/084a53e84355fd7c48dd535341156a35_wFoc2FN.png"}],"workflow_fields":{"cs_img_nodes":[],"cs_text_nodes":[{"desc":
+INFO 2024-11-13 05:46:42,796 log_middleware Request: GET /flow/flows/
+INFO 2024-11-13 05:46:42,796 log_middleware Form data: <QueryDict: {}>
+INFO 2024-11-13 05:46:44,139 log_middleware Response: 200
+INFO 2024-11-13 05:46:44,139 log_middleware Response content: {"data":[{"id":13,"title":"这是默认作品标题，请在comfyui中修改","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"0.00","free_times":0,"uniqueid":"m3fe8c4qoibcyaazvbsgrjs234","client_id":"f94408c1-fb3c-4518-8b57-d3d253d56ae0","created":"2024-11-13T04:41:30.781313Z","updated":"2024-11-13T04:41:30.781342Z","images":[{"id":57,"image":"https://aidep.cn/media/user/images/084a53e84355fd7c48dd535341156a35_Bvmrn3q.png"}],"workflow_fields":{"cs_img_nodes":[],"cs_text_nodes":[{"desc":"请输入文本","node":"48"}],"cs_video_nodes":[]},"consuming":11},{"id":12,"title":"这是默认作品标题，请在comfyui中修改","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"0.00","free_times":0,"uniqueid":"m3fdzv0mvw180lm9ia14gk46iy","client_id":"f94408c1-fb3c-4518-8b57-d3d253d56ae0","created":"2024-11-13T04:35:36.180376Z","updated":"2024-11-13T04:38:48.683582Z","images":[{"id":56,"image":"https://aidep.cn/media/user/images/084a53e84355fd7c48dd535341156a35_wFoc2FN.png"}],"workflow_fields":{"cs_img_nodes":[],"cs_text_nodes":[{"desc":
+INFO 2024-11-13 06:13:10,674 log_middleware Request: GET /flow/flows/
+INFO 2024-11-13 06:13:10,675 log_middleware Form data: <QueryDict: {'workflow_id': ['6']}>
+ERROR 2024-11-13 06:13:14,372 log Internal Server Error: /flow/flows/
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/flow/views.py", line 457, in get
+    flows = WorkFlowData.objects.filter(id!=workflow_id).all()
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/query.py", line 1436, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/query.py", line 1454, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/query.py", line 1461, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/sql/query.py", line 1546, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/sql/query.py", line 1577, in _add_q
+    child_clause, needed_inner = self.build_filter(
+                                 ^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/sql/query.py", line 1424, in build_filter
+    arg, value = filter_expr
+    ^^^^^^^^^^
+TypeError: cannot unpack non-iterable bool object
+INFO 2024-11-13 06:13:14,377 log_middleware Response: 500
+INFO 2024-11-13 06:16:11,135 log_middleware Request: GET /flow/flows/
+INFO 2024-11-13 06:16:11,135 log_middleware Form data: <QueryDict: {'workflow_id': ['6']}>
+ERROR 2024-11-13 06:16:12,933 log Internal Server Error: /flow/flows/
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/flow/views.py", line 460, in get
+    data = serializer.data.insert(current_serializer.data, 0)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'ReturnDict' object cannot be interpreted as an integer
+INFO 2024-11-13 06:16:12,935 log_middleware Response: 500
+INFO 2024-11-13 06:18:42,102 log_middleware Request: GET /flow/flows/
+INFO 2024-11-13 06:18:42,102 log_middleware Form data: <QueryDict: {'workflow_id': ['6']}>
+ERROR 2024-11-13 06:18:43,660 log Internal Server Error: /flow/flows/
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/flow/views.py", line 462, in get
+    data = data.insert(current_serializer.data, 0)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'ReturnDict' object cannot be interpreted as an integer
+INFO 2024-11-13 06:18:43,662 log_middleware Response: 500
+INFO 2024-11-13 06:20:04,451 log_middleware Request: GET /flow/flows/
+INFO 2024-11-13 06:20:04,451 log_middleware Form data: <QueryDict: {'workflow_id': ['6']}>
+INFO 2024-11-13 06:20:05,971 log_middleware Response: 200
+INFO 2024-11-13 06:20:05,971 log_middleware Response content: {"data":null,"status":200}
+INFO 2024-11-13 06:20:26,593 log_middleware Request: GET /flow/flows/
+INFO 2024-11-13 06:20:26,593 log_middleware Form data: <QueryDict: {'workflow_id': ['6']}>
+INFO 2024-11-13 06:20:28,061 log_middleware Response: 200
+INFO 2024-11-13 06:20:28,062 log_middleware Response content: {"data":[{"id":6,"title":"文本生成图片","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"0.00","free_times":0,"uniqueid":"m39183yy6cs6csptts38keawit","client_id":"c27fa78e-0930-47b9-b854-a184f41efeb1","created":"2024-11-08T17:51:09.307268Z","updated":"2024-11-08T17:55:16.255002Z","images":[{"id":21,"image":"https://aidep.cn/media/user/images/1263300321107775509_1_NqyhNm3.jpg"},{"id":20,"image":"https://aidep.cn/media/user/images/1263300321107775509_1_UIaQuYN.jpg"},{"id":19,"image":"https://aidep.cn/media/user/images/1263300321107775509_1.jpg"}],"workflow_fields":{"cs_img_nodes":[],"cs_text_nodes":[{"desc":"请输入文本","node":"12"}],"cs_video_nodes":[]},"consuming":3},{"id":13,"title":"这是默认作品标题，请在comfyui中修改","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"10.00","free_times":0,"uniqueid":"m3fe8c4qoibcyaazvbsgrjs234","client_id":"f94408c1-fb3c-4518-8b57-d3d253d56ae0","created":"2024-11-13T04:41:30.781313Z","updated":"2024-11-13T05:55:29.750404Z","images":[{"id":59,"image":"ht
+INFO 2024-11-13 06:20:36,115 log_middleware Request: GET /flow/flows/
+INFO 2024-11-13 06:20:36,116 log_middleware Form data: <QueryDict: {'workflow_id': ['6']}>
+INFO 2024-11-13 06:20:37,035 log_middleware Response: 200
+INFO 2024-11-13 06:20:37,035 log_middleware Response content: {"data":[{"id":6,"title":"文本生成图片","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"0.00","free_times":0,"uniqueid":"m39183yy6cs6csptts38keawit","client_id":"c27fa78e-0930-47b9-b854-a184f41efeb1","created":"2024-11-08T17:51:09.307268Z","updated":"2024-11-08T17:55:16.255002Z","images":[{"id":21,"image":"https://aidep.cn/media/user/images/1263300321107775509_1_NqyhNm3.jpg"},{"id":20,"image":"https://aidep.cn/media/user/images/1263300321107775509_1_UIaQuYN.jpg"},{"id":19,"image":"https://aidep.cn/media/user/images/1263300321107775509_1.jpg"}],"workflow_fields":{"cs_img_nodes":[],"cs_text_nodes":[{"desc":"请输入文本","node":"12"}],"cs_video_nodes":[]},"consuming":3},{"id":13,"title":"这是默认作品标题，请在comfyui中修改","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"10.00","free_times":0,"uniqueid":"m3fe8c4qoibcyaazvbsgrjs234","client_id":"f94408c1-fb3c-4518-8b57-d3d253d56ae0","created":"2024-11-13T04:41:30.781313Z","updated":"2024-11-13T05:55:29.750404Z","images":[{"id":59,"image":"ht
+INFO 2024-11-13 06:20:42,389 log_middleware Request: GET /flow/flows/
+INFO 2024-11-13 06:20:42,389 log_middleware Form data: <QueryDict: {'workflow_id': ['6']}>
+INFO 2024-11-13 06:20:43,319 log_middleware Response: 200
+INFO 2024-11-13 06:20:43,319 log_middleware Response content: {"data":[{"id":6,"title":"文本生成图片","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"0.00","free_times":0,"uniqueid":"m39183yy6cs6csptts38keawit","client_id":"c27fa78e-0930-47b9-b854-a184f41efeb1","created":"2024-11-08T17:51:09.307268Z","updated":"2024-11-08T17:55:16.255002Z","images":[{"id":21,"image":"https://aidep.cn/media/user/images/1263300321107775509_1_NqyhNm3.jpg"},{"id":20,"image":"https://aidep.cn/media/user/images/1263300321107775509_1_UIaQuYN.jpg"},{"id":19,"image":"https://aidep.cn/media/user/images/1263300321107775509_1.jpg"}],"workflow_fields":{"cs_img_nodes":[],"cs_text_nodes":[{"desc":"请输入文本","node":"12"}],"cs_video_nodes":[]},"consuming":3},{"id":13,"title":"这是默认作品标题，请在comfyui中修改","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"10.00","free_times":0,"uniqueid":"m3fe8c4qoibcyaazvbsgrjs234","client_id":"f94408c1-fb3c-4518-8b57-d3d253d56ae0","created":"2024-11-13T04:41:30.781313Z","updated":"2024-11-13T05:55:29.750404Z","images":[{"id":59,"image":"ht
+INFO 2024-11-13 06:21:22,245 log_middleware Request: GET /flow/b-flows/
+INFO 2024-11-13 06:21:22,245 log_middleware Form data: <QueryDict: {'workflow_id': ['6']}>
+INFO 2024-11-13 06:21:22,266 log_middleware Response: 404
+INFO 2024-11-13 06:21:38,536 log_middleware Request: GET /flow/b_flows/
+INFO 2024-11-13 06:21:38,537 log_middleware Form data: <QueryDict: {'workflow_id': ['6']}>
+INFO 2024-11-13 06:21:39,406 log_middleware Response: 200
+INFO 2024-11-13 06:21:39,406 log_middleware Response content: {"data":[{"id":13,"title":"这是默认作品标题，请在comfyui中修改","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"10.00","free_times":0,"uniqueid":"m3fe8c4qoibcyaazvbsgrjs234","client_id":"f94408c1-fb3c-4518-8b57-d3d253d56ae0","created":"2024-11-13T04:41:30.781313Z","updated":"2024-11-13T05:55:29.750404Z","images":[{"id":59,"image":"https://aidep.cn/media/user/images/084a53e84355fd7c48dd535341156a35_sRX91HZ.png"}],"workflow_fields":{"cs_img_nodes":[],"cs_text_nodes":[{"desc":"请输入文本","node":"48"}],"cs_video_nodes":[]},"consuming":11},{"id":12,"title":"这是默认作品标题，请在comfyui中修改","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"0.00","free_times":0,"uniqueid":"m3fdzv0mvw180lm9ia14gk46iy","client_id":"f94408c1-fb3c-4518-8b57-d3d253d56ae0","created":"2024-11-13T04:35:36.180376Z","updated":"2024-11-13T04:38:48.683582Z","images":[{"id":56,"image":"https://aidep.cn/media/user/images/084a53e84355fd7c48dd535341156a35_wFoc2FN.png"}],"workflow_fields":{"cs_img_nodes":[],"cs_text_nodes":[{"desc"
+INFO 2024-11-13 06:23:27,030 log_middleware Request: GET /flow/b_flows/
+INFO 2024-11-13 06:23:27,031 log_middleware Form data: <QueryDict: {'workflow_id': ['6']}>
+INFO 2024-11-13 06:23:28,152 log_middleware Response: 200
+INFO 2024-11-13 06:23:28,152 log_middleware Response content: {"data":[{"id":13,"title":"这是默认作品标题，请在comfyui中修改","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"10.00","free_times":0,"uniqueid":"m3fe8c4qoibcyaazvbsgrjs234","client_id":"f94408c1-fb3c-4518-8b57-d3d253d56ae0","created":"2024-11-13T04:41:30.781313Z","updated":"2024-11-13T05:55:29.750404Z","images":[{"id":59,"image":"https://aidep.cn/media/user/images/084a53e84355fd7c48dd535341156a35_sRX91HZ.png"}],"preview_url":"https://aidep.cn/workflow_id=13"},{"id":12,"title":"这是默认作品标题，请在comfyui中修改","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"0.00","free_times":0,"uniqueid":"m3fdzv0mvw180lm9ia14gk46iy","client_id":"f94408c1-fb3c-4518-8b57-d3d253d56ae0","created":"2024-11-13T04:35:36.180376Z","updated":"2024-11-13T04:38:48.683582Z","images":[{"id":56,"image":"https://aidep.cn/media/user/images/084a53e84355fd7c48dd535341156a35_wFoc2FN.png"}],"preview_url":"https://aidep.cn/workflow_id=12"},{"id":11,"title":"这是默认作品标题，请在comfyui中修改","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc"
+INFO 2024-11-13 06:23:55,067 log_middleware Request: GET /flow/b_flows/
+INFO 2024-11-13 06:23:55,068 log_middleware Form data: <QueryDict: {'workflow_id': ['6']}>
+INFO 2024-11-13 06:23:56,271 log_middleware Response: 200
+INFO 2024-11-13 06:23:56,272 log_middleware Response content: {"data":[{"id":13,"title":"这是默认作品标题，请在comfyui中修改","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"10.00","free_times":0,"uniqueid":"m3fe8c4qoibcyaazvbsgrjs234","client_id":"f94408c1-fb3c-4518-8b57-d3d253d56ae0","created":"2024-11-13T04:41:30.781313Z","updated":"2024-11-13T05:55:29.750404Z","images":[{"id":59,"image":"https://aidep.cn/media/user/images/084a53e84355fd7c48dd535341156a35_sRX91HZ.png"}],"preview_url":"https://aidep.cn/?workflow_id=13"},{"id":12,"title":"这是默认作品标题，请在comfyui中修改","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"0.00","free_times":0,"uniqueid":"m3fdzv0mvw180lm9ia14gk46iy","client_id":"f94408c1-fb3c-4518-8b57-d3d253d56ae0","created":"2024-11-13T04:35:36.180376Z","updated":"2024-11-13T04:38:48.683582Z","images":[{"id":56,"image":"https://aidep.cn/media/user/images/084a53e84355fd7c48dd535341156a35_wFoc2FN.png"}],"preview_url":"https://aidep.cn/?workflow_id=12"},{"id":11,"title":"这是默认作品标题，请在comfyui中修改","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_des
+INFO 2024-11-13 06:24:06,338 log_middleware Request: GET /flow/b_flows/
+INFO 2024-11-13 06:24:06,338 log_middleware Form data: <QueryDict: {'workflow_id': ['6']}>
+INFO 2024-11-13 06:24:07,117 log_middleware Response: 200
+INFO 2024-11-13 06:24:07,117 log_middleware Response content: {"data":[{"id":13,"title":"这是默认作品标题，请在comfyui中修改","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"10.00","free_times":0,"uniqueid":"m3fe8c4qoibcyaazvbsgrjs234","client_id":"f94408c1-fb3c-4518-8b57-d3d253d56ae0","created":"2024-11-13T04:41:30.781313Z","updated":"2024-11-13T05:55:29.750404Z","images":[{"id":59,"image":"https://aidep.cn/media/user/images/084a53e84355fd7c48dd535341156a35_sRX91HZ.png"}],"preview_url":"https://aidep.cn/?workflow_id=13"},{"id":12,"title":"这是默认作品标题，请在comfyui中修改","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"0.00","free_times":0,"uniqueid":"m3fdzv0mvw180lm9ia14gk46iy","client_id":"f94408c1-fb3c-4518-8b57-d3d253d56ae0","created":"2024-11-13T04:35:36.180376Z","updated":"2024-11-13T04:38:48.683582Z","images":[{"id":56,"image":"https://aidep.cn/media/user/images/084a53e84355fd7c48dd535341156a35_wFoc2FN.png"}],"preview_url":"https://aidep.cn/?workflow_id=12"},{"id":11,"title":"这是默认作品标题，请在comfyui中修改","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_des
+INFO 2024-11-13 08:08:14,097 log_middleware Request: GET /flow/b_flows/
+INFO 2024-11-13 08:08:14,099 log_middleware Form data: <QueryDict: {'workflow_id': ['6']}>
+INFO 2024-11-13 08:08:15,314 log_middleware Response: 200
+INFO 2024-11-13 08:08:15,314 log_middleware Response content: {"data":[{"id":13,"title":"这是默认作品标题，请在comfyui中修改","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"10.00","free_times":0,"uniqueid":"m3fe8c4qoibcyaazvbsgrjs234","client_id":"f94408c1-fb3c-4518-8b57-d3d253d56ae0","created":"2024-11-13T04:41:30.781313Z","updated":"2024-11-13T07:53:32.591588Z","images":[{"id":60,"image":"https://aidep.cn/media/user/images/084a53e84355fd7c48dd535341156a35_pS8rQcl.png"}],"status":"online","deleted":false,"preview_url":"https://aidep.cn/?workflow_id=13"},{"id":12,"title":"这是默认作品标题，请在comfyui中修改","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"0.00","free_times":0,"uniqueid":"m3fdzv0mvw180lm9ia14gk46iy","client_id":"f94408c1-fb3c-4518-8b57-d3d253d56ae0","created":"2024-11-13T04:35:36.180376Z","updated":"2024-11-13T04:38:48.683582Z","images":[{"id":56,"image":"https://aidep.cn/media/user/images/084a53e84355fd7c48dd535341156a35_wFoc2FN.png"}],"status":"online","deleted":false,"preview_url":"https://aidep.cn/?workflow_id=12"},{"id":11,"titl
+INFO 2024-11-13 08:22:16,016 log_middleware Request: GET /flow/flows/
+INFO 2024-11-13 08:22:16,016 log_middleware Form data: <QueryDict: {'workflow_id': ['6']}>
+ERROR 2024-11-13 08:22:17,269 log Internal Server Error: /flow/flows/
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/flow/views.py", line 437, in get
+    data = serializer.data
+           ^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 795, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 249, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 713, in to_representation
+    return [
+           ^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 714, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 523, in to_representation
+    for field in fields:
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 384, in _readable_fields
+    for field in self.fields.values():
+                 ^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 372, in fields
+    for key, value in self.get_fields().items():
+                      ^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 1079, in get_fields
+    field_names = self.get_field_names(declared_fields, info)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 1175, in get_field_names
+    assert field_name in fields, (
+           ^^^^^^^^^^^^^^^^^^^^
+AssertionError: The field 'image' was declared on serializer WorkFlowDataSerializer, but has not been included in the 'fields' option.
+INFO 2024-11-13 08:22:17,273 log_middleware Response: 500
+INFO 2024-11-13 08:23:27,765 log_middleware Request: GET /flow/flows/
+INFO 2024-11-13 08:23:27,765 log_middleware Form data: <QueryDict: {'workflow_id': ['6']}>
+INFO 2024-11-13 08:23:29,424 log_middleware Response: 200
+INFO 2024-11-13 08:23:29,424 log_middleware Response content: {"data":[{"id":6,"title":"文本生成图片","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"0.00","free_times":0,"uniqueid":"m39183yy6cs6csptts38keawit","client_id":"c27fa78e-0930-47b9-b854-a184f41efeb1","created":"2024-11-08T17:51:09.307268Z","updated":"2024-11-08T17:55:16.255002Z","images":[{"id":21,"image":"https://aidep.cn/media/user/images/1263300321107775509_1_NqyhNm3.jpg"},{"id":20,"image":"https://aidep.cn/media/user/images/1263300321107775509_1_UIaQuYN.jpg"},{"id":19,"image":"https://aidep.cn/media/user/images/1263300321107775509_1.jpg"}],"status":"online","deleted":false,"workflow_fields":{"cs_img_nodes":[],"cs_text_nodes":[{"desc":"请输入文本","node":"12"}],"cs_video_nodes":[]},"consuming":3},{"id":13,"title":"这是默认作品标题，请在comfyui中修改","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"10.00","free_times":0,"uniqueid":"m3fe8c4qoibcyaazvbsgrjs234","client_id":"f94408c1-fb3c-4518-8b57-d3d253d56ae0","created":"2024-11-13T04:41:30.781313Z","updated":"2024-11-13T07:53:32.59158
+INFO 2024-11-13 10:06:45,179 log_middleware Request: GET /gpu/gpucloud-fetch/
+INFO 2024-11-13 10:06:45,180 log_middleware Form data: <QueryDict: {}>
+INFO 2024-11-13 10:06:45,900 log_middleware Response: 200
+INFO 2024-11-13 10:06:45,900 log_middleware Response content: {"code":20000,"data":{"gpus":[{"ID":1,"GpuType":"NVIDIA RTX 3090","VramGB":24,"MemoryGB":64,"Description":"4x1","Status":"available"},{"ID":2,"GpuType":"NVIDIA RTX 4090","VramGB":24,"MemoryGB":64,"Description":"6x1","Status":"sold_out"},{"ID":3,"GpuType":"NVIDIA A100","VramGB":40,"MemoryGB":128,"Description":"8x1","Status":"sold_out"}]},"message":"操作成功"}
+INFO 2024-11-13 10:09:18,670 log_middleware Request: POST /gpu/gpucloud-fetch/
+INFO 2024-11-13 10:09:18,670 log_middleware JSON data: {
+    "url": "/api/capps/gpus",
+    "method": "get",
+    "data": null
+}
+INFO 2024-11-13 10:09:19,351 log_middleware Response: 200
+INFO 2024-11-13 10:09:19,351 log_middleware Response content: {"code":20000,"data":{"gpus":[{"ID":1,"GpuType":"NVIDIA RTX 3090","VramGB":24,"MemoryGB":64,"Description":"4x1","Status":"available"},{"ID":2,"GpuType":"NVIDIA RTX 4090","VramGB":24,"MemoryGB":64,"Description":"6x1","Status":"sold_out"},{"ID":3,"GpuType":"NVIDIA A100","VramGB":40,"MemoryGB":128,"Description":"8x1","Status":"sold_out"}]},"message":"操作成功"}
