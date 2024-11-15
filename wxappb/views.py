@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from dj_rest_auth.utils import jwt_encode
+from flow.models import WorkFlowData
 from wxappb import service
 from wxappb.models import AuthorTechs, WxAppBUserProfile
 from wxappb.service import generate_mp_qr_code
@@ -114,7 +115,8 @@ class WxQrCodeView(APIView):
 
     def get(self, request, *args, **kwargs):
         workflow_id = request.GET.get('workflow_id')
-        qr_url = generate_mp_qr_code(f'workflow_id={workflow_id}')
+        workflow = WorkFlowData.objects.get(id=workflow_id)
+        qr_url = generate_mp_qr_code(f'techsid={workflow.techsid}')
         return Response(
             {
                 'data': {
