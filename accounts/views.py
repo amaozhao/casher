@@ -15,6 +15,7 @@ from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from allauth.socialaccount.providers.weixin.client import WeixinOAuth2Client
 from allauth.socialaccount.providers.weixin.views import WeixinOAuth2Adapter
+from allauth.socialaccount.models import SocialAccount
 from dj_rest_auth.registration.views import SocialLoginView
 from invitation.models import InvitationCode, InvitationRelation
 from wxappb.models import AuthorTechs
@@ -174,3 +175,18 @@ class GoogleCallback(APIView):
         token = res_json.get("access")
 
         return redirect(f"https://aidep.cn/web/?token={token}")
+
+
+class AccountInfoView(APIView):
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        socialaccount = SocialAccount.objects.filter(user=user).first()
+        extra_data = socialaccount.extra_data
+        data = {
+            "username": extra_data.get("nickname") or extra_data.get("name"),
+            "headimgurl": extra_data.get("headimgurl") or extra_data.get("picture"),
+        }
+        return Response(
+            {"status": status.HTTP_200_OK, "data": data}, status=status.HTTP_200_OK
+        )

@@ -11,4 +11,3 @@ class OfficialAccount(models.Model):
     class Meta:
         db_table = "official_account"
         ordering = ["-updated"]
-

@@ -63,6 +63,7 @@ class GetInvitationView(APIView):
             {
                 "data": {
                     "invition": invite_url,
+                    "invition_code": invition.code,
                     "message": "",
                 },
                 "status": status.HTTP_200_OK,

@@ -1,4 +1,5 @@
 from urllib.parse import urljoin
+from datetime import datetime, timedelta
 
 from rest_framework import serializers
 
@@ -17,10 +18,11 @@ class TaskSerializer(serializers.Serializer):
 class TaskResultSerializer(serializers.ModelSerializer):
     result = serializers.SerializerMethodField()
     workflow_id = serializers.SerializerMethodField()
+    status = serializers.SerializerMethodField()
 
     class Meta:
         model = TaskResult
-        fields = ["id", "result", "created", "workflow_id"]
+        fields = ["id", "result", "status", "created", "workflow_id"]
 
     def get_result(self, instance):
         return (
@@ -32,3 +34,13 @@ class TaskResultSerializer(serializers.ModelSerializer):
     def get_workflow_id(self, instance):
         task = instance.task
         return task.flow.id
+
+    def get_status(self, instance):
+        task = instance.task
+        if (
+            datetime.now().replace(tzinfo=None) - task.created.replace(tzinfo=None)
+            > timedelta(hours=1)
+            and task.status == "queue"
+        ):
+            return "fail"
+        return task.status

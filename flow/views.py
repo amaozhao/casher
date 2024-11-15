@@ -464,7 +464,7 @@ class BWorkFlowListView(ListAPIView):
             flows = WorkFlowData.objects.filter(
                 techsid__in=[t.techsid for t in techs_ids],
                 deleted=False,
-                status='online',
+                status="online",
             )
         else:
             flows = WorkFlowData.objects.all()
@@ -483,10 +483,10 @@ class BWorkFlowTemplateView(ListAPIView):
         users = OfficialAccount.objects.filter(is_official=True).all()
         techs_ids = AuthorTechs.objects.filter(user__in=users).all()
         flows = WorkFlowData.objects.filter(
-                techsid__in=[t.techsid for t in techs_ids],
-                deleted=False,
-                status='online',
-            )
+            techsid__in=[t.techsid for t in techs_ids],
+            deleted=False,
+            status="online",
+        )
         serializer = BWorkFlowDataSerializer(flows, many=True)
         return Response({"data": serializer.data, "status": status.HTTP_200_OK})
 
@@ -496,7 +496,7 @@ class BWorkFlowTemplateView(ListAPIView):
         flows = WorkFlowData.objects.filter(
             techsid__in=[t.techsid for t in techs_ids],
             deleted=False,
-            status='online',
+            status="online",
         )
         return flows
 
@@ -513,7 +513,7 @@ class BWorkFlowDetailView(ListAPIView):
     def put(self, request, *args, **kwargs):
         id = kwargs.get("id")
         flow = WorkFlowData.objects.get(id=id)
-        flow.status = 'offline'
+        flow.status = "offline"
         flow.save()
         serializer = WorkFlowDataSerializer(flow)
         return Response({"data": serializer.data, "status": status.HTTP_200_OK})
@@ -576,7 +576,7 @@ class WorkFlowBannerView(APIView):
     authentication_classes = []
 
     def get(self, request, *args, **kwargs):
-        workflow_id = request.GET.get('workflow_id')
+        workflow_id = request.GET.get("workflow_id")
         banner = WorkFlowBanner.objects.filter(workflow_id=workflow_id).first()
         if not banner:
             return Response({"data": {}, "status": status.HTTP_200_OK})
@@ -590,7 +590,7 @@ class WorkFlowBannerView(APIView):
         )
 
     def put(self, request, *args, **kwargs):
-        workflow_id = request.data.get('workflow_id')
+        workflow_id = request.data.get("workflow_id")
         banner = WorkFlowBanner.objects.filter(workflow_id=workflow_id).first()
         if banner:
             banner.is_visible = False
@@ -608,7 +608,7 @@ class ComfyUIView(APIView):
         return Response(
             {
                 "url": "https://github.com/amaozhao/ComfyUI_DeployCash.git",
-                "status": status.HTTP_200_OK
+                "status": status.HTTP_200_OK,
             },
-            status=status.HTTP_200_OK
+            status=status.HTTP_200_OK,
         )

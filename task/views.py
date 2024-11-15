@@ -1,6 +1,7 @@
 import json
 import logging
 import uuid
+from datetime import datetime, timedelta
 
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
@@ -70,13 +71,13 @@ class PromptView(APIView):
         workflow = WorkFlowData.objects.filter(id=workflow_id, deleted=False).first()
         if not workflow:
             return Response(
-                    {
-                        "data": {"workflow_id": workflow_id},
-                        "message": "工作流未找到",
-                        "status": status.HTTP_400_BAD_REQUEST,
-                    },
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
+                {
+                    "data": {"workflow_id": workflow_id},
+                    "message": "工作流未找到",
+                    "status": status.HTTP_400_BAD_REQUEST,
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         task_free_count = TaskFreeCount.objects.filter(workflow=workflow).first()
         if task_free_count and task_free_count.free_count >= workflow.free_times:
             hashrate = UserHashrate.objects.filter(user=request.user).first()
@@ -114,12 +115,14 @@ class PromptView(APIView):
             },
         }
         if cs_img_nodes:
-            image_message = 'Please upload a image first' if languestr == 'en' else '请先上传图片'
+            image_message = (
+                "Please upload a image first" if languestr == "en" else "请先上传图片"
+            )
             if not image_url:
                 return Response(
                     {
                         "message": image_message,
-                        "field": 'image_url',
+                        "field": "image_url",
                         "jilu_id": jilu_id,
                         "status": status.HTTP_400_BAD_REQUEST,
                     },
@@ -139,7 +142,9 @@ class PromptView(APIView):
                 ]
 
         if cs_text_nodes:
-            text_message = 'Please enter a prompt first' if languestr == 'en' else '请先填写提示词'
+            text_message = (
+                "Please enter a prompt first" if languestr == "en" else "请先填写提示词"
+            )
             if not prompt_text:
                 return Response(
                     {
@@ -179,7 +184,7 @@ class PromptView(APIView):
         return Response(
             {
                 "data": {"jilu_id": jilu_id},
-                "message": "Task submitted!" if languestr == 'en' else '任务提交成功',
+                "message": "Task submitted!" if languestr == "en" else "任务提交成功",
                 "status": status.HTTP_200_OK,
             },
             status=status.HTTP_200_OK,
@@ -222,19 +227,26 @@ class ImageDisplayView(APIView):
         user_task = UserTask.objects.filter(jilu_id=jilu_id).first()
         result = TaskResult.objects.filter(task=user_task).order_by("-updated").first()
         if not result or not result.result:
+            task_status = user_task.status
+            if (
+                datetime.now().replace(tzinfo=None)
+                - user_task.created.replace(tzinfo=None)
+                > timedelta(hours=1)
+                and user_task.status == "queue"
+            ):
+                task_status = "fail"
             return Response(
-                {"data": {
-                    "url": None,
-                    "task_status": user_task.status
+                {
+                    "data": {"url": None, "task_status": task_status},
+                    "status": status.HTTP_200_OK,
                 },
-                "status": status.HTTP_200_OK},
-                status=status.HTTP_200_OK
+                status=status.HTTP_200_OK,
             )
         return Response(
             {
                 "data": {
                     "url": request.build_absolute_uri(result.result.url),
-                    "task_status": "success"
+                    "task_status": "success",
                 },
                 "status": status.HTTP_200_OK,
             },
@@ -246,18 +258,23 @@ class TaskHistoryView(APIView):
     def get(self, request, *args, **kwargs):
         data = request.data
         user = request.user
+        from django.contrib.auth.models import User
+
+        user = User.objects.get(id=3)
         query = TaskResult.objects.filter(task__user=user)
         workflow_id = data.get("workflow_id")
         if workflow_id:
             workflow = WorkFlowData.objects.filter(id=workflow_id).first()
             query = query.filter(flow=workflow).all()
-        serializer = TaskResultSerializer(query, many=True, context={"request": None})
+        serializer = TaskResultSerializer(
+            query, many=True, context={"request": request}
+        )
         return Response({"data": serializer.data, "status": status.HTTP_200_OK})
 
 
 class TaskHistoryDeleteView(APIView):
     def delete(self, request, *args, **kwargs):
-        id = kwargs.get("id")
+        id = request.data.get("history_id")
         task = TaskResult.objects.get(id=id)
         task.result.delete(save=True)
         task.delete()

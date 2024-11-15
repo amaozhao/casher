@@ -7,6 +7,7 @@ from accounts.views import (
     WXCallback,
     WXLoginAPIView,
     WXQRCodeAPIView,
+    AccountInfoView,
 )
 
 urlpatterns = [
@@ -16,4 +17,5 @@ urlpatterns = [
     path("weixin/login_url/", WXQRCodeAPIView.as_view(), name="weixin_login_url"),
     path("weixin/login/", WXLoginAPIView.as_view(), name="weixin_login"),
     path("weixin/callback/", WXCallback.as_view(), name="weixin_callback"),
+    path("user-info/", AccountInfoView.as_view(), name="user_info"),
 ]

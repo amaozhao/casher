@@ -29,7 +29,7 @@ class WorkFlowData(models.Model):
     output = models.JSONField(null=True, blank=True)  # 保存原始输出数据
     workflow = models.JSONField(null=True, blank=True)  # 保存工作流数据
     post_data = models.JSONField(null=False)  # 保存提交的postData
-    status = models.CharField(max_length=10, default='online')
+    status = models.CharField(max_length=10, default="online")
     deleted = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

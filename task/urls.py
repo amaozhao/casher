@@ -16,7 +16,7 @@ urlpatterns = [
     path("view/", ImageDisplayView.as_view(), name="view"),
     path("history/", TaskHistoryView.as_view(), name="history"),
     path(
-        "history/delete/<int:id>/",
+        "history/delete/",
         TaskHistoryDeleteView.as_view(),
         name="history-delete",
     ),

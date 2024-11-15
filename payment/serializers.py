@@ -6,7 +6,7 @@ from payment.models import PagsmilePayout, UserPayin, WechatPayout
 
 class PagsmilePayoutSerializer(ModelSerializer):
     pay = serializers.SerializerMethodField()
-    order_id = serializers.CharField(source='custom_code', read_only=True)
+    order_id = serializers.CharField(source="custom_code", read_only=True)
 
     class Meta:
         model = PagsmilePayout
@@ -22,7 +22,7 @@ class WechatPayoutSerializer(ModelSerializer):
 
     class Meta:
         model = WechatPayout
-        fields = ("id", "pay", "status", "currency", "updated", 'order_id')
+        fields = ("id", "pay", "status", "currency", "updated", "order_id")
 
     def get_currency(self, instance):
         return "¥"
