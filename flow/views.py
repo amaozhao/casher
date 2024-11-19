@@ -516,7 +516,7 @@ class BWorkFlowDetailView(ListAPIView):
     def get(self, request, *args, **kwargs):
         id = kwargs.get("id")
         flow = WorkFlowData.objects.get(id=id)
-        serializer = WorkFlowDataSerializer(flow)
+        serializer = BWorkFlowDataSerializer(flow)
         return Response({"data": serializer.data, "status": status.HTTP_200_OK})
 
     def put(self, request, *args, **kwargs):
@@ -524,7 +524,7 @@ class BWorkFlowDetailView(ListAPIView):
         flow = WorkFlowData.objects.get(id=id)
         flow.status = "offline"
         flow.save()
-        serializer = WorkFlowDataSerializer(flow)
+        serializer = BWorkFlowDataSerializer(flow)
         return Response({"data": serializer.data, "status": status.HTTP_200_OK})
 
     def delete(self, request, *args, **kwargs):

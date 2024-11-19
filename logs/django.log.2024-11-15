@@ -1,0 +1,709 @@
+INFO 2024-11-15 02:58:25,512 log_middleware Request: GET /task/history/
+INFO 2024-11-15 02:58:25,513 log_middleware Form data: <QueryDict: {}>
+INFO 2024-11-15 02:58:26,392 log_middleware Response: 400
+INFO 2024-11-15 03:00:22,437 log_middleware Request: GET /task/history/
+INFO 2024-11-15 03:00:22,437 log_middleware Form data: <QueryDict: {}>
+INFO 2024-11-15 03:00:23,363 log_middleware Response: 400
+INFO 2024-11-15 03:00:48,595 log_middleware Request: GET /task/history/
+INFO 2024-11-15 03:00:48,596 log_middleware Form data: <QueryDict: {}>
+INFO 2024-11-15 03:00:48,911 log_middleware Response: 200
+INFO 2024-11-15 03:00:48,911 log_middleware Response content: {"data":[],"status":200}
+INFO 2024-11-15 03:02:29,140 log_middleware Request: GET /task/history/
+INFO 2024-11-15 03:02:29,140 log_middleware Form data: <QueryDict: {}>
+INFO 2024-11-15 03:02:30,491 log_middleware Response: 200
+INFO 2024-11-15 03:02:30,491 log_middleware Response content: {"data":[{"id":37,"result":null,"created":"2024-11-14T10:29:07.917161Z","workflow_id":14},{"id":36,"result":null,"created":"2024-11-14T10:28:41.512554Z","workflow_id":14},{"id":35,"result":null,"created":"2024-11-14T10:23:49.545966Z","workflow_id":14},{"id":34,"result":null,"created":"2024-11-14T08:32:16.792179Z","workflow_id":6},{"id":33,"result":null,"created":"2024-11-14T08:32:00.031485Z","workflow_id":4},{"id":32,"result":null,"created":"2024-11-14T08:31:45.276811Z","workflow_id":14},{"id":31,"result":null,"created":"2024-11-14T08:31:40.593622Z","workflow_id":14},{"id":11,"result":null,"created":"2024-11-11T16:14:59.114861Z","workflow_id":7},{"id":10,"result":"https://aidep.cn/media/result/images/sdCash_ComfyUI_00001__ouMGSUj.png","created":"2024-11-11T16:14:59.114861Z","workflow_id":7},{"id":9,"result":"https://aidep.cn/media/result/images/sdCash_ComfyUI_00001_.png","created":"2024-11-11T15:53:20.289308Z","workflow_id":7},{"id":6,"result":"https://aidep.cn/media/result/images/Comf
+INFO 2024-11-15 03:03:08,909 log_middleware Request: GET /task/history/
+INFO 2024-11-15 03:03:08,909 log_middleware Form data: <QueryDict: {}>
+ERROR 2024-11-15 03:03:09,813 log Internal Server Error: /task/history/
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/task/views.py", line 257, in get
+    return Response({"data": serializer.data, "status": status.HTTP_200_OK})
+                             ^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 795, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 249, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 713, in to_representation
+    return [
+           ^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 714, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/serializers.py", line 538, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/fields.py", line 1870, in to_representation
+    return method(value)
+           ^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/task/serializers.py", line 40, in get_status
+    if datetime.now() - task.created > timedelta(hours=1) and task.status == 'queue':
+       ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+TypeError: can't subtract offset-naive and offset-aware datetimes
+INFO 2024-11-15 03:03:09,817 log_middleware Response: 500
+INFO 2024-11-15 03:04:49,664 log_middleware Request: GET /task/history/
+INFO 2024-11-15 03:04:49,665 log_middleware Form data: <QueryDict: {}>
+INFO 2024-11-15 03:04:51,204 log_middleware Response: 200
+INFO 2024-11-15 03:04:51,204 log_middleware Response content: {"data":[{"id":37,"result":null,"status":"failed","created":"2024-11-14T10:29:07.917161Z","workflow_id":14},{"id":36,"result":null,"status":"failed","created":"2024-11-14T10:28:41.512554Z","workflow_id":14},{"id":35,"result":null,"status":"failed","created":"2024-11-14T10:23:49.545966Z","workflow_id":14},{"id":34,"result":null,"status":"failed","created":"2024-11-14T08:32:16.792179Z","workflow_id":6},{"id":33,"result":null,"status":"failed","created":"2024-11-14T08:32:00.031485Z","workflow_id":4},{"id":32,"result":null,"status":"failed","created":"2024-11-14T08:31:45.276811Z","workflow_id":14},{"id":31,"result":null,"status":"failed","created":"2024-11-14T08:31:40.593622Z","workflow_id":14},{"id":11,"result":null,"status":"failed","created":"2024-11-11T16:14:59.114861Z","workflow_id":7},{"id":10,"result":"https://aidep.cn/media/result/images/sdCash_ComfyUI_00001__ouMGSUj.png","status":"success","created":"2024-11-11T16:14:59.114861Z","workflow_id":7},{"id":9,"result":"https://aidep.cn/
+INFO 2024-11-15 03:15:58,726 log_middleware Request: GET /task/view/
+INFO 2024-11-15 03:15:58,726 log_middleware Form data: <QueryDict: {'jilu_id': ['7fb3da3b-7a0d-4b4f-ad90-7a56d89db429']}>
+INFO 2024-11-15 03:15:59,532 log_middleware Response: 200
+INFO 2024-11-15 03:15:59,532 log_middleware Response content: {"data":{"url":null,"task_status":"fail"},"status":200}
+INFO 2024-11-15 07:36:41,283 log_middleware Request: POST /gpu/gpucloud-fetch/
+INFO 2024-11-15 07:36:41,284 log_middleware JSON data: {
+    "url": "http://www.deploycloud.cn/api/capps/7",
+    "method": "delete",
+    "data": {
+
+    }
+}
+ERROR 2024-11-15 07:36:42,491 log Internal Server Error: /gpu/gpucloud-fetch/
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/gpucloud/views.py", line 13, in post
+    resp = gpucloud_service.request_data(url, user, method, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/gpucloud/services.py", line 77, in request_data
+    "Authorization": f"bearer {self.get_token(user)}"
+                               ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/gpucloud/services.py", line 59, in get_token
+    data, unique_target = self.get_user_profile(user)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/gpucloud/services.py", line 46, in get_user_profile
+    "name": extra_data.nickname,
+            ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'dict' object has no attribute 'nickname'
+INFO 2024-11-15 07:36:42,495 log_middleware Response: 500
+INFO 2024-11-15 07:39:46,915 log_middleware Request: POST /gpu/gpucloud-fetch/
+INFO 2024-11-15 07:39:46,915 log_middleware JSON data: {
+    "url": "http://www.deploycloud.cn/api/capps/7",
+    "method": "delete",
+    "data": {
+
+    }
+}
+ERROR 2024-11-15 07:39:47,847 log Internal Server Error: /gpu/gpucloud-fetch/
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/requests/models.py", line 974, in json
+    return complexjson.loads(self.text, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/json/decoder.py", line 340, in decode
+    raise JSONDecodeError("Extra data", s, end)
+json.decoder.JSONDecodeError: Extra data: line 1 column 5 (char 4)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/gpucloud/views.py", line 13, in post
+    resp = gpucloud_service.request_data(url, user, method, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/gpucloud/services.py", line 77, in request_data
+    "Authorization": f"bearer {self.get_token(user)}"
+                               ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/gpucloud/services.py", line 62, in get_token
+    token = response.json().get("data").get("token")
+            ^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/requests/models.py", line 978, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Extra data: line 1 column 5 (char 4)
+INFO 2024-11-15 07:39:47,851 log_middleware Response: 500
+INFO 2024-11-15 07:41:00,401 log_middleware Request: POST /gpu/gpucloud-fetch/
+INFO 2024-11-15 07:41:00,402 log_middleware JSON data: {
+    "url": "http://www.deploycloud.cn/api/capps/7",
+    "method": "delete",
+    "data": {
+
+    }
+}
+ERROR 2024-11-15 07:41:01,356 log Internal Server Error: /gpu/gpucloud-fetch/
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/requests/models.py", line 974, in json
+    return complexjson.loads(self.text, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/json/decoder.py", line 340, in decode
+    raise JSONDecodeError("Extra data", s, end)
+json.decoder.JSONDecodeError: Extra data: line 1 column 5 (char 4)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/gpucloud/views.py", line 13, in post
+    resp = gpucloud_service.request_data(url, user, method, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/gpucloud/services.py", line 78, in request_data
+    "Authorization": f"bearer {self.get_token(user)}"
+                               ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/gpucloud/services.py", line 63, in get_token
+    token = response.json().get("data").get("token")
+            ^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/requests/models.py", line 978, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Extra data: line 1 column 5 (char 4)
+INFO 2024-11-15 07:41:01,359 log_middleware Response: 500
+INFO 2024-11-15 07:41:36,183 log_middleware Request: POST /gpu/gpucloud-fetch/
+INFO 2024-11-15 07:41:36,183 log_middleware JSON data: {
+    "url": "http://www.deploycloud.cn/api/capps/7",
+    "method": "delete",
+    "data": {
+
+    }
+}
+INFO 2024-11-15 07:41:37,190 log_middleware Response: 404
+INFO 2024-11-15 07:42:52,862 log_middleware Request: POST /gpu/gpucloud-fetch/
+INFO 2024-11-15 07:42:52,862 log_middleware JSON data: {
+    "url": "http://www.deploycloud.cn/api/capps/create",
+    "method": "post",
+    "data": {
+        "gpu_config_id": 1, 
+        "template_id": 1, 
+        "name": "comfyui", 
+        "description": "ComfyUI with all models", 
+        "billing_type": "hourly", 
+        "power_per_unit": 20 
+    }
+}
+ERROR 2024-11-15 07:42:53,124 log Internal Server Error: /gpu/gpucloud-fetch/
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/gpucloud/views.py", line 13, in post
+    resp = gpucloud_service.request_data(url, user, method, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/gpucloud/services.py", line 78, in request_data
+    "Authorization": f"bearer {self.get_token(user)}"
+                               ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/gpucloud/services.py", line 60, in get_token
+    if not account or account.expired <= datetime.now():
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: can't compare offset-naive and offset-aware datetimes
+INFO 2024-11-15 07:42:53,127 log_middleware Response: 500
+INFO 2024-11-15 07:45:26,650 log_middleware Request: POST /gpu/gpucloud-fetch/
+INFO 2024-11-15 07:45:26,651 log_middleware JSON data: {
+    "url": "http://www.deploycloud.cn/api/capps/create",
+    "method": "post",
+    "data": {
+        "gpu_config_id": 1, 
+        "template_id": 1, 
+        "name": "comfyui", 
+        "description": "ComfyUI with all models", 
+        "billing_type": "hourly", 
+        "power_per_unit": 20 
+    }
+}
+INFO 2024-11-15 07:45:27,733 log_middleware Response: 403
+INFO 2024-11-15 09:55:29,073 log_middleware Request: POST /gpu/gpucloud-fetch/
+INFO 2024-11-15 09:55:29,074 log_middleware JSON data: {
+    "url": "/api/capps/templates",
+    "method": "get"
+}
+ERROR 2024-11-15 09:55:29,974 log Internal Server Error: /gpu/gpucloud-fetch/
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/fields/__init__.py", line 2053, in get_prep_value
+    return int(value)
+           ^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/contrib/auth/models.py", line 437, in __int__
+    raise TypeError(
+TypeError: Cannot cast AnonymousUser to int. Are you trying to use it in place of User?
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/gpucloud/views.py", line 13, in post
+    resp = gpucloud_service.request_data(url, user, method, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/gpucloud/services.py", line 76, in request_data
+    "Authorization": f"bearer {self.get_token(user)}"
+                               ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/gpucloud/services.py", line 58, in get_token
+    account = GPUAccount.objects.filter(user=user).first()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/query.py", line 1436, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/query.py", line 1454, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/query.py", line 1461, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/sql/query.py", line 1546, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/sql/query.py", line 1577, in _add_q
+    child_clause, needed_inner = self.build_filter(
+                                 ^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/sql/query.py", line 1492, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/sql/query.py", line 1319, in build_lookup
+    lookup = lookup_class(lhs, rhs)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/lookups.py", line 27, in __init__
+    self.rhs = self.get_prep_lookup()
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/fields/related_lookups.py", line 166, in get_prep_lookup
+    self.rhs = target_field.get_prep_value(self.rhs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/fields/__init__.py", line 2055, in get_prep_value
+    raise e.__class__(
+TypeError: Field 'id' expected a number but got <django.contrib.auth.models.AnonymousUser object at 0x111907190>.
+INFO 2024-11-15 09:55:29,979 log_middleware Response: 500
+INFO 2024-11-15 09:56:00,996 log_middleware Request: POST /gpu/gpucloud-fetch/
+INFO 2024-11-15 09:56:00,996 log_middleware JSON data: {
+    "url": "/api/capps/templates",
+    "method": "get"
+}
+INFO 2024-11-15 09:56:01,501 log_middleware Response: 200
+INFO 2024-11-15 09:56:01,501 log_middleware Response content: {"code":20000,"data":{"templates":[{"ID":2,"Title":"ComfyUI","Subtitle":"轻量版","Description":"基于节点流程的 Stable Diffusion,已预装 FLUX模型和AIGODLIKE-COMFYUI-TRANSLATION、ComfyUI-Manager 、comfyui-workspace-manager、ComfyUI-Crystools等节点","ProjectLink":"https://github.com/comfyanonymous/ComfyUI","Hcl":"","ImageName":"low_cfy:v2","PowerPerMinute":1,"Tag":"comfyui-boot","IsActive":true,"UpdateKey":"更新内容","UpdateValue":"2024.11.8"}]},"message":"操作成功"}
+INFO 2024-11-15 09:56:10,114 log_middleware Request: POST /gpu/gpucloud-fetch/
+INFO 2024-11-15 09:56:10,120 log_middleware JSON data: {
+    "url": "/api/capps/templates",
+    "method": "GET"
+}
+ERROR 2024-11-15 09:56:10,450 log Internal Server Error: /gpu/gpucloud-fetch/
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/gpucloud/views.py", line 13, in post
+    resp = gpucloud_service.request_data(url, user, method, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/gpucloud/services.py", line 78, in request_data
+    request_method = getattr(requests, method)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'requests' has no attribute 'GET'
+INFO 2024-11-15 09:56:10,452 log_middleware Response: 500
+INFO 2024-11-15 09:56:41,665 log_middleware Request: POST /gpu/gpucloud-fetch/
+INFO 2024-11-15 09:56:41,665 log_middleware JSON data: {
+    "url": "/api/capps/templates",
+    "method": "get"
+}
+INFO 2024-11-15 09:56:42,015 log_middleware Response: 200
+INFO 2024-11-15 09:56:42,016 log_middleware Response content: {"code":20000,"data":{"templates":[{"ID":2,"Title":"ComfyUI","Subtitle":"轻量版","Description":"基于节点流程的 Stable Diffusion,已预装 FLUX模型和AIGODLIKE-COMFYUI-TRANSLATION、ComfyUI-Manager 、comfyui-workspace-manager、ComfyUI-Crystools等节点","ProjectLink":"https://github.com/comfyanonymous/ComfyUI","Hcl":"","ImageName":"low_cfy:v2","PowerPerMinute":1,"Tag":"comfyui-boot","IsActive":true,"UpdateKey":"更新内容","UpdateValue":"2024.11.8"}]},"message":"操作成功"}
+INFO 2024-11-15 10:19:11,848 log_middleware Request: GET /flow/flows/
+INFO 2024-11-15 10:19:11,849 log_middleware Form data: <QueryDict: {'workflow_id': ['6']}>
+ERROR 2024-11-15 10:19:12,954 log Internal Server Error: /flow/flows/
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/backends/mysql/base.py", line 75, in execute
+    return self.cursor.execute(query, args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/MySQLdb/cursors.py", line 206, in execute
+    res = self._query(query)
+          ^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/MySQLdb/cursors.py", line 319, in _query
+    db.query(q)
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/MySQLdb/connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+MySQLdb._exceptions.ProgrammingError: (1146, "Table 'casher.workflow_count' doesn't exist")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/flow/views.py", line 443, in get
+    flow_count = WorkFlowCount.objects.filter(workflow=current_flow).first()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/query.py", line 1057, in first
+    for obj in queryset[:1]:
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/query.py", line 398, in __iter__
+    self._fetch_all()
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/query.py", line 1881, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/models/sql/compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/backends/utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/backends/utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/backends/utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/backends/utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/db/backends/mysql/base.py", line 75, in execute
+    return self.cursor.execute(query, args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/MySQLdb/cursors.py", line 206, in execute
+    res = self._query(query)
+          ^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/MySQLdb/cursors.py", line 319, in _query
+    db.query(q)
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/MySQLdb/connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+django.db.utils.ProgrammingError: (1146, "Table 'casher.workflow_count' doesn't exist")
+INFO 2024-11-15 10:19:12,959 log_middleware Response: 500
+INFO 2024-11-15 10:19:46,097 log_middleware Request: GET /flow/flows/
+INFO 2024-11-15 10:19:46,101 log_middleware Form data: <QueryDict: {'workflow_id': ['6']}>
+INFO 2024-11-15 10:19:47,541 log_middleware Response: 200
+INFO 2024-11-15 10:19:47,541 log_middleware Response content: {"data":[{"id":6,"title":"文本生成图片","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"0.00","free_times":0,"uniqueid":"m39183yy6cs6csptts38keawit","client_id":"c27fa78e-0930-47b9-b854-a184f41efeb1","created":"2024-11-08T17:51:09.307268Z","updated":"2024-11-08T17:55:16.255002Z","images":[{"id":21,"image":"https://aidep.cn/media/user/images/1263300321107775509_1_NqyhNm3.jpg"},{"id":20,"image":"https://aidep.cn/media/user/images/1263300321107775509_1_UIaQuYN.jpg"},{"id":19,"image":"https://aidep.cn/media/user/images/1263300321107775509_1.jpg"}],"status":"online","deleted":false,"workflow_fields":{"cs_img_nodes":[],"cs_text_nodes":[{"desc":"请输入文本","node":"12"}],"cs_video_nodes":[]},"consuming":3,"view_count":1,"task_count":0},{"id":14,"title":"flux文生图","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"0.00","free_times":0,"uniqueid":"m3gs82kswhwqorfm449cg7agtr","client_id":"3577995c-c789-413f-be63-87267a3103a6","created":"2024-11-14T04:05:29.854077Z","updated":"2024-11-14
+INFO 2024-11-15 10:20:15,401 log_middleware Request: GET /flow/flows/
+INFO 2024-11-15 10:20:15,402 log_middleware Form data: <QueryDict: {'workflow_id': ['6']}>
+INFO 2024-11-15 10:20:16,799 log_middleware Response: 200
+INFO 2024-11-15 10:20:16,799 log_middleware Response content: {"data":[{"id":6,"title":"文本生成图片","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"0.00","free_times":0,"uniqueid":"m39183yy6cs6csptts38keawit","client_id":"c27fa78e-0930-47b9-b854-a184f41efeb1","created":"2024-11-08T17:51:09.307268Z","updated":"2024-11-08T17:55:16.255002Z","images":[{"id":21,"image":"https://aidep.cn/media/user/images/1263300321107775509_1_NqyhNm3.jpg"},{"id":20,"image":"https://aidep.cn/media/user/images/1263300321107775509_1_UIaQuYN.jpg"},{"id":19,"image":"https://aidep.cn/media/user/images/1263300321107775509_1.jpg"}],"status":"online","deleted":false,"workflow_fields":{"cs_img_nodes":[],"cs_text_nodes":[{"desc":"请输入文本","node":"12"}],"cs_video_nodes":[]},"consuming":3,"view_count":2,"task_count":0},{"id":14,"title":"flux文生图","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"0.00","free_times":0,"uniqueid":"m3gs82kswhwqorfm449cg7agtr","client_id":"3577995c-c789-413f-be63-87267a3103a6","created":"2024-11-14T04:05:29.854077Z","updated":"2024-11-14
+INFO 2024-11-15 11:17:14,374 log_middleware Request: GET /flow/b_templates/
+INFO 2024-11-15 11:17:14,374 log_middleware Form data: <QueryDict: {}>
+INFO 2024-11-15 11:17:15,100 log_middleware Response: 200
+INFO 2024-11-15 11:17:15,100 log_middleware Response content: {"data":[],"status":200}
+INFO 2024-11-15 11:20:58,031 log_middleware Request: GET /flow/b_templates/
+INFO 2024-11-15 11:20:58,033 log_middleware Form data: <QueryDict: {}>
+INFO 2024-11-15 11:20:58,222 log_middleware Response: 200
+INFO 2024-11-15 11:20:58,222 log_middleware Response content: {"data":[],"status":200}
+INFO 2024-11-15 11:21:01,029 log_middleware Request: GET /flow/b_templates/
+INFO 2024-11-15 11:21:01,029 log_middleware Form data: <QueryDict: {}>
+INFO 2024-11-15 11:21:01,214 log_middleware Response: 200
+INFO 2024-11-15 11:21:01,214 log_middleware Response content: {"data":[],"status":200}
+INFO 2024-11-15 11:21:23,250 log_middleware Request: GET /flow/b_templates/
+INFO 2024-11-15 11:21:23,254 log_middleware Form data: <QueryDict: {}>
+INFO 2024-11-15 11:21:23,641 log_middleware Response: 200
+INFO 2024-11-15 11:21:23,641 log_middleware Response content: {"data":[{"id":6,"title":"文本生成图片","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"0.00","free_times":0,"uniqueid":"m39183yy6cs6csptts38keawit","client_id":"c27fa78e-0930-47b9-b854-a184f41efeb1","created":"2024-11-08T17:51:09.307268Z","updated":"2024-11-08T17:55:16.255002Z","images":[{"id":21,"image":"https://aidep.cn/media/user/images/1263300321107775509_1_NqyhNm3.jpg"},{"id":20,"image":"https://aidep.cn/media/user/images/1263300321107775509_1_UIaQuYN.jpg"},{"id":19,"image":"https://aidep.cn/media/user/images/1263300321107775509_1.jpg"}],"status":"online","deleted":false,"preview_url":"https://aidep.cn/?workflow_id=6","view_count":2,"task_count":0},{"id":5,"title":"我是谁","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"0.00","free_times":0,"uniqueid":"m38slnni8d060t3vx28u7s6gy7","client_id":"ae2a6cfc-9bc9-4b8e-8470-d5555146ad9b","created":"2024-11-08T14:27:43.035132Z","updated":"2024-11-08T18:00:16.819854Z","images":[{"id":23,"image":"https://aidep.cn/media/user/i
+INFO 2024-11-15 11:31:18,233 log_middleware Request: GET /flow/b_templates/
+INFO 2024-11-15 11:31:18,233 log_middleware Form data: <QueryDict: {}>
+INFO 2024-11-15 11:31:19,168 log_middleware Response: 200
+INFO 2024-11-15 11:31:19,169 log_middleware Response content: {"data":[{"id":6,"title":"文本生成图片","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"0.00","free_times":0,"uniqueid":"m39183yy6cs6csptts38keawit","client_id":"c27fa78e-0930-47b9-b854-a184f41efeb1","created":"2024-11-08","updated":"2024-11-08","images":[{"id":21,"image":"https://aidep.cn/media/user/images/1263300321107775509_1_NqyhNm3.jpg"},{"id":20,"image":"https://aidep.cn/media/user/images/1263300321107775509_1_UIaQuYN.jpg"},{"id":19,"image":"https://aidep.cn/media/user/images/1263300321107775509_1.jpg"}],"status":"online","deleted":false,"preview_url":"https://aidep.cn/?workflow_id=6","view_count":2,"task_count":0},{"id":5,"title":"我是谁","gn_desc":"这是默认功能介绍，请在comfyui中修改","sy_desc":"作品使用说明","fee":"0.00","free_times":0,"uniqueid":"m38slnni8d060t3vx28u7s6gy7","client_id":"ae2a6cfc-9bc9-4b8e-8470-d5555146ad9b","created":"2024-11-08","updated":"2024-11-08","images":[{"id":23,"image":"https://aidep.cn/media/user/images/084a53e84355fd7c48dd535341156a35_eRUFlop.png"},{"id":22,"image
+INFO 2024-11-15 12:50:09,833 log_middleware Request: GET /task/history/detail/
+INFO 2024-11-15 12:50:09,833 log_middleware Form data: <QueryDict: {}>
+INFO 2024-11-15 12:50:10,636 log_middleware Response: 200
+INFO 2024-11-15 12:50:10,636 log_middleware Response content: {"data":{},"status":200}
+INFO 2024-11-15 12:52:39,010 log_middleware Request: GET /task/history/detail/
+INFO 2024-11-15 12:52:39,010 log_middleware Form data: <QueryDict: {}>
+ERROR 2024-11-15 12:52:39,876 log Internal Server Error: /task/history/detail/
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/opt/anaconda3/envs/casher/lib/python3.11/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/amaozhao/workspace/casher/task/views.py", line 286, in get
+    print(result.id)
+          ^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'id'
+INFO 2024-11-15 12:52:39,879 log_middleware Response: 500
+INFO 2024-11-15 12:53:30,370 log_middleware Request: GET /task/history/detail/
+INFO 2024-11-15 12:53:30,370 log_middleware Form data: <QueryDict: {'jilu_id': ['fcabc9ec-c0c2-43bf-b1f5-63cd9f147cee']}>
+INFO 2024-11-15 12:53:30,596 log_middleware Response: 200
+INFO 2024-11-15 12:53:30,596 log_middleware Response content: {"data":{"id":44,"result":null,"status":"queue","created":"2024-11-15T12:27:24.924205Z","workflow_id":6},"status":200}
