@@ -103,7 +103,7 @@ class BWorkFlowDataSerializer(WorkFlowDataSerializer):
         ]
 
     def get_preview_url(self, instance):
-        result = f"https://aidep.cn/?workflow_id={instance.id}"
+        result = f"https://aidep.cn/web/?workflow_id={instance.id}"
         return result
 
     def get_view_count(self, instance):
