@@ -40,7 +40,7 @@ class WXQRCodeAPIView(APIView):
             f"&redirect_uri={redirect_uri}"
             f"&response_type=code"
             f"&scope=snsapi_login"
-            f"&state={urllib.parse.quote_plus(json.dumps(state))}#wechat_redirect"  # 可设置自定义state参数
+            f"#wechat_redirect"  # 可设置自定义state参数
         )
 
         # 直接将微信提供的二维码URL返回给前端
@@ -134,7 +134,7 @@ class GoogleLoginUrl(APIView):
                     "url": f"https://accounts.google.com/o/oauth2/v2/auth?redirect_uri={callback_url}&"
                     f"prompt=consent&response_type=code&client_id={client_id}&"
                     f"scope=openid%20email%20profile&access_type=online"
-                    f"&state={urllib.parse.quote_plus(json.dumps(state))}"
+                    # f"&state={urllib.parse.quote_plus(json.dumps(state))}"
                 },
             },
             status=status.HTTP_200_OK,
