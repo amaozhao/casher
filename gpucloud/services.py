@@ -84,6 +84,25 @@ class GPUCloudService:
         response = request_method(urljoin(self.base_url, url), headers=headers, json=data)
         return response
 
+    def get_longest_gpu(self, user):
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"bearer {self.get_token(user)}"
+        }
+        response = requests.get(
+            urljoin(self.base_url, '/api/capps'), headers=headers, params={}
+        )
+        containers = response.json().get('data', {}).get('containers', [])
+
+        def compare_time(a):
+            start = a.get('StartTime')
+            start = datetime.strptime(start, '%Y-%m-%d %H:%M:%S')
+            end = a.get('EndTime')
+            end = datetime.strptime(end, '%Y-%m-%d %H:%M:%S')
+            return (end - start).total_seconds() > 30 * 24 * 3600
+        containers = [c for c in containers if compare_time(c)]
+        return containers[0] if containers else None
+
 
 gpucloud_service = GPUCloudService()
 

@@ -10,6 +10,8 @@ from flow.views import (
     WorkFlowListView,
     BWorkFlowTemplateView,
     ComfyUIView,
+    WorkflowDownloadAPIView,
+    ContactAPIView,
 )
 
 urlpatterns = [
@@ -33,5 +35,15 @@ urlpatterns = [
         "comfyui/",
         ComfyUIView.as_view(),
         name="comfyui",
+    ),
+    path(
+        "download/",
+        WorkflowDownloadAPIView.as_view(),
+        name="flow_download",
+    ),
+    path(
+        "contact/",
+        ContactAPIView.as_view(),
+        name="contact",
     ),
 ]

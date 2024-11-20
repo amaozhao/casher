@@ -6,6 +6,7 @@ from urllib.parse import urljoin
 
 from django.conf import settings
 from django.urls import reverse
+from django.http import HttpResponse
 from rest_framework import status
 from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveAPIView
 from rest_framework.response import Response
@@ -599,6 +600,18 @@ class WorkFlowBannerView(APIView):
         )
 
     def put(self, request, *args, **kwargs):
+        from gpucloud.services import gpucloud_service
+        user = request.user
+        longest_gpu = gpucloud_service.get_longest_gpu(user)
+        if not longest_gpu:
+            return Response(
+                {
+                    "data": {
+                        "message": "会员才可以移除，开通月周期的实例，免费赠送1个月会员」【去开通】"
+                    },
+                    "status": status.HTTP_400_BAD_REQUEST,
+                }
+            )
         workflow_id = request.data.get("workflow_id")
         banner = WorkFlowBanner.objects.filter(workflow_id=workflow_id).first()
         if banner:
@@ -606,7 +619,11 @@ class WorkFlowBannerView(APIView):
             banner.save()
         return Response(
             {
-                "data": {},
+                "data": {
+                    'id': banner.id,
+                    "is_visible": False,
+                    'url': banner.url
+                },
                 "status": status.HTTP_200_OK,
             }
         )
@@ -620,4 +637,35 @@ class ComfyUIView(APIView):
                 "status": status.HTTP_200_OK,
             },
             status=status.HTTP_200_OK,
+        )
+
+
+class WorkflowDownloadAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        workflow_id = request.GET.get('workflow_id')
+        try:
+            workflow = WorkFlowData.objects.get(id=workflow_id)
+        except WorkFlowData.DoesNotExist:
+            return Response({"error": "工作流未找到"}, status=status.HTTP_404_NOT_FOUND)
+
+        json_data = workflow.workflow
+
+        response = HttpResponse(json.dumps(json_data, indent=4), content_type='application/json')
+        response['Content-Disposition'] = f'attachment; filename="workflow_{workflow_id}.json"'
+        return response
+
+
+class ContactAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        languestr = self.request.headers.get("languestr")
+        docs = "如有疑问，请使用微信扫描二维码，添加小助手，进行咨询（工作日 10:00-19:00）"
+        if languestr == 'en':
+            docs = ("For any questions, please email mailto:jackywood@brincloud.com "
+                    "during business hours (Monday to Friday, 10:00 AM - 7:00 PM).")
+        return Response(
+            {
+                "docs": docs,
+                "qrcode_url": "***"
+            },
+            status=status.HTTP_200_OK
         )
