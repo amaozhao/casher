@@ -255,7 +255,7 @@ class ImageDisplayView(APIView):
                 task_status = "fail"
             return Response(
                 {
-                    "data": {"url": None, "task_status": task_status},
+                    "data": {"url": None, "task_status": task_status, 'id': result.id,},
                     "status": status.HTTP_200_OK,
                 },
                 status=status.HTTP_200_OK,
@@ -264,6 +264,7 @@ class ImageDisplayView(APIView):
             {
                 "data": {
                     "url": request.build_absolute_uri(result.result.url),
+                    'id': result.id,
                     "task_status": "success",
                 },
                 "status": status.HTTP_200_OK,

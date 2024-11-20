@@ -29,18 +29,17 @@ class WXQRCodeAPIView(APIView):
         redirect_uri = urllib.parse.quote_plus(
             urljoin("https://aidep.cn", reverse("weixin_callback"))
         )
-        workflow_id = request.GET.get('workflow_id') or ""
-        state = {
-            "workflow_id": workflow_id,
-            "c": 1
-        }
+        workflow_id = request.GET.get('workflow_id')
+        state = {"c": 1}
+        if workflow_id:
+            state["wf_id"] = workflow_id
         wechat_qr_url = (
             f"https://open.weixin.qq.com/connect/qrconnect?"
             f"appid={settings.WEIXINB_H5_APPID}"
             f"&redirect_uri={redirect_uri}"
             f"&response_type=code"
             f"&scope=snsapi_login"
-            f"#wechat_redirect"  # 可设置自定义state参数
+            f"&state={urllib.parse.quote_plus(json.dumps(state))}#wechat_redirect"  # 可设置自定义state参数
         )
 
         # 直接将微信提供的二维码URL返回给前端
@@ -77,7 +76,7 @@ class WXCallback(APIView):
                 state = urllib.parse.unquote_plus(state)
                 state = json.loads(state)
                 if state.get("c"):
-                    wf_id = state.get('workflow_id')
+                    wf_id = state.get('wf_id')
                     token = res_json.get("access")
                     return redirect(f"https://aidep.cn/web/?workflow_id={wf_id}&token={token}")
                 techsid = state.get("techsid")
