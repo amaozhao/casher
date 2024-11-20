@@ -29,10 +29,10 @@ class WXQRCodeAPIView(APIView):
         redirect_uri = urllib.parse.quote_plus(
             urljoin("https://aidep.cn", reverse("weixin_callback"))
         )
-        current_url = request.GET.get('current_url') or 'https://aidep.cn/web/'
+        current_url = request.GET.get('current_url') or "https://aidep.cn/web/"
         # current_url = urllib.parse.quote_plus(current_url)
         state = {
-            'current_url': current_url
+            "current_url": current_url
         }
         wechat_qr_url = (
             f"https://open.weixin.qq.com/connect/qrconnect?"
@@ -113,10 +113,10 @@ class GoogleLoginUrl(APIView):
         """
         client_id = settings.GOOGLE_OAUTH_CLIENT_ID
         techsid = request.GET.get("techsid")
-        current_url = request.GET.get('current_url') or 'https://aidep.cn/web/'
+        current_url = request.GET.get('current_url') or "https://aidep.cn/web/"
         # current_url = urllib.parse.quote_plus(current_url)
         state = {
-            'current_url': current_url
+            "current_url": current_url
         }
         if techsid:
             callback_url = urllib.parse.quote_plus(
