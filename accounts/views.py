@@ -34,13 +34,14 @@ class WXQRCodeAPIView(APIView):
         state = {"c": 1}
         if workflow_id:
             state["wf_id"] = workflow_id
+        state = urllib.parse.quote_plus(urllib.parse.quote_plus(json.dumps(state)))
         wechat_qr_url = (
             f"https://open.weixin.qq.com/connect/qrconnect?"
             f"appid={settings.WEIXINB_H5_APPID}"
             f"&redirect_uri={redirect_uri}"
             f"&response_type=code"
             f"&scope=snsapi_login"
-            f"&state={urllib.parse.quote_plus(urlencode(state))}#wechat_redirect"  # 可设置自定义state参数
+            f"&state={state}#wechat_redirect"  # 可设置自定义state参数
         )
 
         # 直接将微信提供的二维码URL返回给前端
