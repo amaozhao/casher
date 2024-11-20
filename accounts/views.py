@@ -40,7 +40,7 @@ class WXQRCodeAPIView(APIView):
             f"&redirect_uri={redirect_uri}"
             f"&response_type=code"
             f"&scope=snsapi_login"
-            f"&state={urlencode(state)}#wechat_redirect"  # 可设置自定义state参数
+            f"&state={urllib.parse.quote_plus(urlencode(state))}#wechat_redirect"  # 可设置自定义state参数
         )
 
         # 直接将微信提供的二维码URL返回给前端
