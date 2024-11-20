@@ -1,6 +1,7 @@
 import json
 import urllib.parse
 from urllib.parse import urljoin
+from django.utils.http import urlencode
 
 import requests
 from django.conf import settings
@@ -39,7 +40,7 @@ class WXQRCodeAPIView(APIView):
             f"&redirect_uri={redirect_uri}"
             f"&response_type=code"
             f"&scope=snsapi_login"
-            f"&state={urllib.parse.quote_plus(json.dumps(state))}#wechat_redirect"  # 可设置自定义state参数
+            f"&state={urlencode(state)}#wechat_redirect"  # 可设置自定义state参数
         )
 
         # 直接将微信提供的二维码URL返回给前端
