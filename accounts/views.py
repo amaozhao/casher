@@ -29,10 +29,10 @@ class WXQRCodeAPIView(APIView):
         redirect_uri = urllib.parse.quote_plus(
             urljoin("https://aidep.cn", reverse("weixin_callback"))
         )
-        current_url = request.GET.get('current_url') or "https://aidep.cn/web/"
-        # current_url = urllib.parse.quote_plus(current_url)
+        workflow_id = request.GET.get('workflow_id') or ""
         state = {
-            "current_url": current_url
+            "workflow_id": workflow_id,
+            "c": 1
         }
         wechat_qr_url = (
             f"https://open.weixin.qq.com/connect/qrconnect?"
@@ -76,10 +76,10 @@ class WXCallback(APIView):
                 user = User.objects.get(id=user.get("pk"))
                 state = urllib.parse.unquote_plus(state)
                 state = json.loads(state)
-                if state.get("current_url"):
-                    current_url = urllib.parse.unquote_plus(state.get("current_url"))
+                if state.get("c"):
+                    wf_id = state.get('workflow_id')
                     token = res_json.get("access")
-                    return redirect(f"{current_url}?token={token}")
+                    return redirect(f"https://aidep.cn/web/?workflow_id={wf_id}&token={token}")
                 techsid = state.get("techsid")
                 if techsid:
                     AuthorTechs.objects.create(
@@ -113,10 +113,10 @@ class GoogleLoginUrl(APIView):
         """
         client_id = settings.GOOGLE_OAUTH_CLIENT_ID
         techsid = request.GET.get("techsid")
-        current_url = request.GET.get('current_url') or "https://aidep.cn/web/"
-        # current_url = urllib.parse.quote_plus(current_url)
+        workflow_id = request.GET.get('workflow_id') or ""
         state = {
-            "current_url": current_url
+            "workflow_id": workflow_id,
+            "c": 1
         }
         if techsid:
             callback_url = urllib.parse.quote_plus(
@@ -184,10 +184,10 @@ class GoogleCallback(APIView):
                 only_login = state.get("only_login")
                 if only_login == 1:
                     return redirect(f"https://aidep.cn/#pages/tob/loginSuccess")
-                current_url = state.get('current_url')
-                if current_url:
+                if state.get("c"):
+                    wf_id = state.get('workflow_id')
                     token = res_json.get("access")
-                    return redirect(f"{current_url}?token={token}")
+                    return redirect(f"https://aidep.cn/web/?workflow_id={wf_id}&token={token}")
             token = res_json.get("access")
             return redirect(f"https://aidep.cn/web-b/?token={token}")
 
