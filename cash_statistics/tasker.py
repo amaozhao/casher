@@ -1,8 +1,11 @@
 from django.contrib.auth.models import User
 from django.db.models import Sum
+from django.utils.timezone import now
+from datetime import timedelta
 
 from allauth.socialaccount.models import SocialAccount
 from cash_statistics.models import CashStatistics
+from task.models import UserTask
 from casher.celery_casher import app
 from payment.models import PagsmilePayout, UserPayin, WechatPayout
 
@@ -36,3 +39,10 @@ def update_statistics(self, user_id):
         stat.withdrawned = payouted_fee
         stat.total_income = total_fee
         stat.save()
+
+
+@app.task(bind=True, ignore_result=True)
+def update_task_result(self):
+    current_time = now()
+    one_hour_ago = current_time - timedelta(hours=1)
+    UserTask.objects.filter(status='queue', updated__lt=one_hour_ago).update(status='fail')

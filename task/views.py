@@ -289,6 +289,8 @@ class TaskHistoryView(APIView):
 class TaskHistoryDetailView(APIView):
 
     def get(self, request, *args, **kwargs):
+        from cash_statistics.tasker import update_task_result
+        update_task_result.delay()
         jilu_id=request.GET.get("jilu_id")
         result = TaskResult.objects.filter(task__jilu_id=jilu_id).first()
         serializer = TaskResultSerializer(result)
