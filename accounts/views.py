@@ -114,9 +114,9 @@ class GoogleLoginUrl(APIView):
         """
         client_id = settings.GOOGLE_OAUTH_CLIENT_ID
         techsid = request.GET.get("techsid")
-        workflow_id = request.GET.get('workflow_id') or ""
+        wf_id = request.GET.get('workflow_id') or ""
         state = {
-            "workflow_id": workflow_id,
+            "wf_id": wf_id,
             "c": 1
         }
         if techsid:
@@ -135,7 +135,7 @@ class GoogleLoginUrl(APIView):
                     "url": f"https://accounts.google.com/o/oauth2/v2/auth?redirect_uri={callback_url}&"
                     f"prompt=consent&response_type=code&client_id={client_id}&"
                     f"scope=openid%20email%20profile&access_type=online"
-                    # f"&state={urllib.parse.quote_plus(json.dumps(state))}"
+                    f"&state={urllib.parse.quote_plus(urllib.parse.quote_plus(json.dumps(state)))}"
                 },
             },
             status=status.HTTP_200_OK,
@@ -186,7 +186,7 @@ class GoogleCallback(APIView):
                 if only_login == 1:
                     return redirect(f"https://aidep.cn/#pages/tob/loginSuccess")
                 if state.get("c"):
-                    wf_id = state.get('workflow_id')
+                    wf_id = state.get('wf_id')
                     token = res_json.get("access")
                     return redirect(f"https://aidep.cn/web/?workflow_id={wf_id}&token={token}")
             token = res_json.get("access")
