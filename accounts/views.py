@@ -30,7 +30,7 @@ class WXQRCodeAPIView(APIView):
             urljoin("https://aidep.cn", reverse("weixin_callback"))
         )
         current_url = request.GET.get('current_url') or 'https://aidep.cn/web/'
-        current_url = urllib.parse.quote_plus(current_url)
+        # current_url = urllib.parse.quote_plus(current_url)
         state = {
             'current_url': current_url
         }
@@ -114,7 +114,7 @@ class GoogleLoginUrl(APIView):
         client_id = settings.GOOGLE_OAUTH_CLIENT_ID
         techsid = request.GET.get("techsid")
         current_url = request.GET.get('current_url') or 'https://aidep.cn/web/'
-        current_url = urllib.parse.quote_plus(current_url)
+        # current_url = urllib.parse.quote_plus(current_url)
         state = {
             'current_url': current_url
         }
