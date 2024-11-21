@@ -59,13 +59,12 @@ class GPUCloudService:
         data, unique_target = self.get_user_profile(user)
         if not account or account.expired.replace(tzinfo=None) >= datetime.now().replace(tzinfo=None):
             response = self.signin(data)
-            print(response.status_code, response.content)
             token = response.json().get("data").get("token")
             GPUAccount.objects.create(
                 user=user,
                 unique_target=unique_target,
                 token=token,
-                expired=datetime.now() + timedelta(days=1),
+                expired=datetime.now() + timedelta(hours=5),
             )
             return token
         return account.token
