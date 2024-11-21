@@ -34,14 +34,13 @@ def generate_mp_qr_code(query, width=430):
     _dir = settings.BASE_DIR / f"media/qrcode/b/"
     if not os.path.exists(_dir):
         os.mkdir(_dir)
+    url = f"https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token={access_token}"
+    payload = {"page": "", "width": width, "env_version": "trial"}
     if techsid:
         if os.path.exists(settings.BASE_DIR / f"media/qrcode/b/{techsid}.png"):
             return f"https://aidep.cn/media/qrcode/b/{techsid}.png"
-
-    url = f"https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token={access_token}"
-    payload = {"page": "", "scene": techsid, "width": width, "env_version": "trial"}
+        payload['scene'] = techsid
     response = requests.post(url, json=payload)
-
     if response.status_code == 200:
         f_name = settings.BASE_DIR / f"media/qrcode/b/{techsid}.png"
         with open(f_name, "wb") as f:
