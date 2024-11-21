@@ -54,10 +54,10 @@ class GPUCloudService:
             ) or social_account.extra_data.get("email")
         return data, unique_target
 
-    def get_token(self, user):
+    def get_token(self, user, refresh=False):
         account = GPUAccount.objects.filter(user=user).first()
         data, unique_target = self.get_user_profile(user)
-        if not account or account.expired.replace(tzinfo=None) >= datetime.now().replace(tzinfo=None):
+        if not account:
             response = self.signin(data)
             token = response.json().get("data").get("token")
             GPUAccount.objects.create(
@@ -67,12 +67,19 @@ class GPUCloudService:
                 expired=datetime.now() + timedelta(hours=5),
             )
             return token
+        if refresh:
+            response = self.signin(data)
+            token = response.json().get("data").get("token")
+            account.token = token
+            account.expired = datetime.now() + timedelta(hours=5)
+            account.save()
+            return token
         return account.token
 
     def request_data(self, url, user, method, data):
         headers = {
             "Content-Type": "application/json",
-            "Authorization": f"bearer {self.get_token(user)}"
+            "Authorization": f"bearer {self.get_token(user, True)}"
         }
         request_method = getattr(requests, method)
         if method == "get":
@@ -86,7 +93,7 @@ class GPUCloudService:
     def get_longest_gpu(self, user):
         headers = {
             "Content-Type": "application/json",
-            "Authorization": f"bearer {self.get_token(user)}"
+            "Authorization": f"bearer {self.get_token(user, True)}"
         }
         response = requests.get(
             urljoin(self.base_url, '/api/capps'), headers=headers, params={}
