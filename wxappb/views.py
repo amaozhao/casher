@@ -115,8 +115,19 @@ class WxQrCodeView(APIView):
 
     def get(self, request, *args, **kwargs):
         workflow_id = request.GET.get('workflow_id')
-        workflow = WorkFlowData.objects.get(id=workflow_id)
-        qr_url = generate_mp_qr_code(f'techsid={workflow.techsid}')
+        workflow = WorkFlowData.objects.filter(id=workflow_id).first()
+        if workflow:
+            qr_url = generate_mp_qr_code({'techsid': 'a01lZBgB'})
+            return Response(
+                {
+                    'data': {
+                        'url': qr_url,
+                    },
+                    'status': status.HTTP_200_OK
+                },
+                status=status.HTTP_200_OK
+            )
+        qr_url = generate_mp_qr_code({'techsid': 'init'})
         return Response(
             {
                 'data': {
