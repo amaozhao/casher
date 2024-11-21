@@ -208,11 +208,24 @@ class AccountInfoView(APIView):
     def get(self, request, *args, **kwargs):
         user = request.user
         socialaccount = SocialAccount.objects.filter(user=user).first()
-        extra_data = socialaccount.extra_data
+        if socialaccount:
+            extra_data = socialaccount.extra_data
+            invite_count, flow_count = self.get_extra(user)
+            data = {
+                "username": extra_data.get("nickname") or extra_data.get("name"),
+                "headimgurl": extra_data.get("headimgurl") or extra_data.get("picture"),
+                "invite_count": invite_count,
+                "flow_count": flow_count
+            }
+            return Response(
+                {"status": status.HTTP_200_OK, "data": data}, status=status.HTTP_200_OK
+            )
+        from wxappb.models import WxAppBUserProfile
+        profile = WxAppBUserProfile.objects.filter(user=user).first()
         invite_count, flow_count = self.get_extra(user)
         data = {
-            "username": extra_data.get("nickname") or extra_data.get("name"),
-            "headimgurl": extra_data.get("headimgurl") or extra_data.get("picture"),
+            "username": profile.nick_name,
+            "headimgurl": profile.avatarUrl,
             "invite_count": invite_count,
             "flow_count": flow_count
         }
