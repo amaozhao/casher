@@ -99,14 +99,8 @@ class GPUCloudService:
             urljoin(self.base_url, '/api/capps'), headers=headers, params={}
         )
         containers = response.json().get('data', {}).get('containers', [])
+        containers = [c for c in containers if c.get('BillingType') == 'mounthly']
 
-        def compare_time(a):
-            start = a.get('StartTime')
-            start = datetime.strptime(start, '%Y-%m-%d %H:%M:%S')
-            end = a.get('EndTime')
-            end = datetime.strptime(end, '%Y-%m-%d %H:%M:%S')
-            return (end - start).total_seconds() > 30 * 24 * 3600
-        containers = [c for c in containers if compare_time(c)]
         return containers[0] if containers else None
 
 

@@ -27,11 +27,12 @@ class WXQRCodeAPIView(APIView):
 
     def get(self, request, *args, **kwargs):
         # 设置微信扫码登录的 URL，并传入相应的参数
+        client_type = request.GET.get('client_type')
         redirect_uri = urllib.parse.quote_plus(
             urljoin("https://aidep.cn", reverse("weixin_callback"))
         )
         workflow_id = request.GET.get('workflow_id')
-        state = {"c": 1}
+        state = {"client_type": client_type}
         if workflow_id:
             state["wf_id"] = workflow_id
         state = urllib.parse.quote_plus(urllib.parse.quote_plus(json.dumps(state)))
@@ -77,10 +78,12 @@ class WXCallback(APIView):
                 user = User.objects.get(id=user.get("pk"))
                 state = urllib.parse.unquote_plus(state)
                 state = json.loads(state)
-                if state.get("c"):
+                if state.get("client_type"):
                     wf_id = state.get('wf_id')
                     token = res_json.get("access")
-                    return redirect(f"https://aidep.cn/web/?workflow_id={wf_id}&token={token}")
+                    if state.get("client_type") == 'c':
+                        return redirect(f"https://aidep.cn/web/?workflow_id={wf_id}&token={token}")
+                    return redirect(f"https://aidep.cn/web-b/?token={token}")
                 techsid = state.get("techsid")
                 if techsid:
                     AuthorTechs.objects.create(
@@ -114,10 +117,11 @@ class GoogleLoginUrl(APIView):
         """
         client_id = settings.GOOGLE_OAUTH_CLIENT_ID
         techsid = request.GET.get("techsid")
+        client_type = request.GET.get('client_type')
         wf_id = request.GET.get('workflow_id') or ""
         state = {
             "wf_id": wf_id,
-            "c": 1
+            "client_type": client_type
         }
         if techsid:
             callback_url = urllib.parse.quote_plus(
@@ -185,10 +189,12 @@ class GoogleCallback(APIView):
                 only_login = state.get("only_login")
                 if only_login == 1:
                     return redirect(f"https://aidep.cn/#pages/tob/loginSuccess")
-                if state.get("c"):
+                if state.get("client_type"):
                     wf_id = state.get('wf_id')
                     token = res_json.get("access")
-                    return redirect(f"https://aidep.cn/web/?workflow_id={wf_id}&token={token}")
+                    if state.get('client_type') == 'c':
+                        return redirect(f"https://aidep.cn/web/?workflow_id={wf_id}&token={token}")
+                    return redirect(f"https://aidep.cn/web-b/?token={token}")
             token = res_json.get("access")
             return redirect(f"https://aidep.cn/web-b/?token={token}")
 
