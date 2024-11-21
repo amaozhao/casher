@@ -35,7 +35,7 @@ def generate_mp_qr_code(query, width=430):
     if not os.path.exists(_dir):
         os.mkdir(_dir)
     url = f"https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token={access_token}"
-    payload = {"page": "", "width": width, "env_version": "trial"}
+    payload = {"page": "pages/index/index", "width": width, "env_version": "trial"}
     if techsid:
         if os.path.exists(settings.BASE_DIR / f"media/qrcode/b/{techsid}.png"):
             return f"https://aidep.cn/media/qrcode/b/{techsid}.png"

@@ -664,8 +664,11 @@ class ContactAPIView(APIView):
                     "during business hours (Monday to Friday, 10:00 AM - 7:00 PM).")
         return Response(
             {
-                "docs": docs,
-                "qrcode_url": "***"
+                "data": {
+                    "docs": docs,
+                    "qrcode_url": "***"
+                },
+                "status": status.HTTP_200_OK
             },
             status=status.HTTP_200_OK
         )
