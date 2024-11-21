@@ -696,7 +696,7 @@ class ContactAPIView(APIView):
             {
                 "data": {
                     "docs": docs,
-                    "qrcode_url": "https://aidep.cn/media/contact.jpeg"
+                    "qrcode_url": "https://aidep.cn/static/contact.jpeg"
                 },
                 "status": status.HTTP_200_OK
             },
