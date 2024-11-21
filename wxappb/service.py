@@ -41,7 +41,7 @@ def generate_mp_qr_code(query, width=430):
     # 构建请求 URL 和 Payload
     url = f"https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token={access_token}"
     payload = {
-        "page": "",  # 替换为实际页面路径
+        "page": "pages/index/index",  # 替换为实际页面路径
         "width": width,
         "env_version": "trial",  # 小程序版本：trial=体验版
     }
