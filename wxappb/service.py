@@ -41,7 +41,7 @@ def generate_mp_qr_code(query, width=430):
     # 构建请求 URL 和 Payload
     url = f"https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token={access_token}"
     payload = {
-        "page": "pages/index/index",  # 替换为实际页面路径
+        "page": "",  # 替换为实际页面路径
         "width": width,
         "env_version": "trial",  # 小程序版本：trial=体验版
     }
@@ -50,13 +50,12 @@ def generate_mp_qr_code(query, width=430):
 
     # 生成二维码文件路径
     file_path = settings.BASE_DIR / f"media/qrcode/b/{techsid}.png"
-    if not os.path.exists(file_path):  # 如果文件不存在，则生成
-        response = requests.post(url, json=payload)
-        if response.status_code == 200:  # 如果请求成功
-            with open(file_path, "wb") as f:
-                f.write(response.content)
-        else:
-            return None  # 请求失败，返回 None
+    response = requests.post(url, json=payload)
+    if response.status_code == 200:  # 如果请求成功
+        with open(file_path, "wb") as f:
+            f.write(response.content)
+    else:
+        return None  # 请求失败，返回 None
 
     # 返回二维码的 URL
     return f"https://aidep.cn/media/qrcode/b/{techsid}.png"
