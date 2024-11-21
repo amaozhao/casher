@@ -1,7 +1,11 @@
 import os
+import logging
 
 import requests
 from django.conf import settings
+
+
+logger = logging.getLogger("django")
 
 
 # 调用微信code2Session接口,换取用户唯一标识 OpenID 和 会话密钥 session_key
@@ -46,6 +50,7 @@ def generate_mp_qr_code(query, width=430):
         "env_version": "trial",  # 小程序版本：trial=体验版
     }
     if techsid:
+        logger.info(f'receive the techsid: {techsid}')
         payload["scene"] = techsid[:32]  # 确保scene参数不超过32个字符
 
     # 生成二维码文件路径

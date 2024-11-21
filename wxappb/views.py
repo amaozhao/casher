@@ -56,7 +56,7 @@ class WxAppBLogin(APIView):
                 has_user.save()
                 profile = WxAppBUserProfile.objects.filter(user=has_user).first()
                 if not profile:
-                    profile = WxAppBUserProfile.objects.create(
+                    WxAppBUserProfile.objects.create(
                         user=has_user,
                         nick_name=raw_data.get("nickName"),
                         gender=raw_data.get("gender"),
