@@ -12,6 +12,8 @@ from flow.views import (
     ComfyUIView,
     WorkflowDownloadAPIView,
     ContactAPIView,
+    WorkflowReuseDocView,
+    WorkflowEditDocView,
 )
 
 urlpatterns = [
@@ -45,5 +47,15 @@ urlpatterns = [
         "contact/",
         ContactAPIView.as_view(),
         name="contact",
+    ),
+    path(
+        "reuse-doc/",
+        WorkflowReuseDocView.as_view(),
+        name="reuse_doc",
+    ),
+    path(
+        "edit-doc/",
+        WorkflowEditDocView.as_view(),
+        name="edit_doc",
     ),
 ]

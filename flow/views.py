@@ -652,7 +652,21 @@ class WorkflowReuseDocView(APIView):
                 "btn3_doc": "找到deploycash节点并点击登录生成web即可",
                 "btn3_url": ''
             },
-            status=status.HTTP_404_NOT_FOUND
+            status=status.HTTP_200_OK
+        )
+
+
+class WorkflowEditDocView(APIView):
+    def get(self, request, *args, **kwargs):
+        workflow_id = request.GET.get('workflow_id')
+        return Response(
+            {
+                "doc": f"1.打开comfyUI\n"
+                       f"2.在comfyUI中加载并编辑您的"
+                       f"<a href='https://aidep.cn/web/?workflow_id={workflow_id}'>工作流</a>",
+                "status": status.HTTP_200_OK
+            },
+            status=status.HTTP_200_OK
         )
 
 
@@ -682,7 +696,7 @@ class ContactAPIView(APIView):
             {
                 "data": {
                     "docs": docs,
-                    "qrcode_url": "***"
+                    "qrcode_url": "https://aidep.cn/media/contact.jpeg"
                 },
                 "status": status.HTTP_200_OK
             },
