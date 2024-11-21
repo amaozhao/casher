@@ -640,6 +640,22 @@ class ComfyUIView(APIView):
         )
 
 
+class WorkflowReuseDocView(APIView):
+    def get(self, request, *args, **kwargs):
+        workflow_id = request.GET.get('workflow_id')
+        return Response(
+            {
+                "btn1_doc": "下载工作流",
+                "btn1_url": f'https://flow/downloads/?workflow_id={workflow_id}',
+                "btn2_doc": "打开comfyUI",
+                "btn2_url": '',
+                "btn3_doc": "找到deploycash节点并点击登录生成web即可",
+                "btn3_url": ''
+            },
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+
 class WorkflowDownloadAPIView(APIView):
     def get(self, request, *args, **kwargs):
         workflow_id = request.GET.get('workflow_id')
