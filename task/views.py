@@ -210,6 +210,7 @@ class PromptCompleted(APIView):
         user_task = UserTask.objects.filter(prompt_id=prompt_id).first()
         task_result = TaskResult.objects.filter(task=user_task).first()
         task_result.result = image_file
+        task_result.status = 'success'
         task_result.save()
         query = TaskResult.objects.filter(task=user_task)
         if query.count() > 1:

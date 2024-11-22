@@ -122,9 +122,9 @@ class ClientConsumer(AsyncWebsocketConsumer):
         if user_task:
             user_task.prompt_id = prompt_id
             if is_ok:
-                user_task.status = "success"
+                pass
             else:
-                user_task.status = "failed"
+                user_task.status = "fail"
             user_task.save()
             user_hashrate = UserHashrate.objects.filter(user=user_task.user).first()
             task_free_count = TaskFreeCount.objects.filter(
@@ -147,16 +147,16 @@ class ClientConsumer(AsyncWebsocketConsumer):
         user_task = UserTask.objects.filter(jilu_id=jilu_id).first()
         if user_task:
             user_task.prompt_id = prompt_id
-            user_task.status = "failed"
+            user_task.status = "fail"
             user_task.save()
             task_free_count = TaskFreeCount.objects.filter(
                 workflow=user_task.flow
             ).first()
             is_free = task_free_count.free_count < user_task.flow.free_times
-            if is_free:
-                task_free_count.free_count += 1
-                task_free_count.save()
-                return
+            # if is_free:
+            #     task_free_count.free_count += 1
+            #     task_free_count.save()
+            #     return
             self.update_pay(user_task, is_free, is_success=False)
 
     def update_pay(self, user_task, is_free, is_success=True):
