@@ -35,7 +35,7 @@ class CreateCheckoutView(APIView):
                         "quantity": 1,
                     }
                 ],
-                mode="payment",
+                mode="subscription",
                 success_url=current_url,
                 cancel_url=current_url,
                 metadata=metadata,

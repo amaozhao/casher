@@ -586,8 +586,8 @@ class WorkFlowBannerView(APIView):
     authentication_classes = []
 
     def get(self, request, *args, **kwargs):
-        workflow_id = request.GET.get("workflow_id")
-        banner = WorkFlowBanner.objects.filter(workflow_id=workflow_id).first()
+        # workflow_id = request.GET.get("workflow_id")
+        banner = WorkFlowBanner.objects.first()
         if not banner:
             return Response({"data": {}, "status": status.HTTP_200_OK})
         if not banner.is_visible:
