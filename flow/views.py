@@ -182,9 +182,9 @@ class UploadAPIView(APIView):
         return url
 
     def get_login_html(self, s_key, qrcode):
-        languestr = self.request.headers.get("languestr")
+        languagestr = self.request.headers.get("languagestr")
         google_login = "使用 Google 登录"
-        if languestr == "en":
+        if languagestr == "en":
             google_login = "Login with Google"
         html = f"""
         <style type="text/css">
@@ -687,9 +687,9 @@ class WorkflowDownloadAPIView(APIView):
 
 class ContactAPIView(APIView):
     def get(self, request, *args, **kwargs):
-        languestr = self.request.headers.get("languestr")
+        languagestr = self.request.headers.get("languagestr")
         docs = "如有疑问，请使用微信扫描二维码，添加小助手，进行咨询（工作日 10:00-19:00）"
-        if languestr == 'en':
+        if languagestr == 'en':
             docs = ("For any questions, please email mailto:jackywood@brincloud.com "
                     "during business hours (Monday to Friday, 10:00 AM - 7:00 PM).")
         return Response(
