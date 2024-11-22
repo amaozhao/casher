@@ -48,6 +48,6 @@ class TaskResultSerializer(serializers.ModelSerializer):
             and task.status == "queue"
         ):
             return "fail"
-        if task.status == 'success' and not instance.result:
+        if task.status == 'success' and not instance.result.url:
             return 'queue'
         return task.status
