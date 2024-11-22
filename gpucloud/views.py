@@ -7,11 +7,12 @@ from gpucloud.services import gpucloud_service
 
 class GPUCloudView(APIView):
     def post(self, request, *args, **kwargs):
+        languagestr = request.headers.get('languagestr')
         url = request.data.get("url")
         data = request.data.get("data")
         method = request.data.get("method").lower()
         user = request.user
-        resp = gpucloud_service.request_data(url, user, method, data)
+        resp = gpucloud_service.request_data(url, user, method, data, languagestr=languagestr)
         return Response(resp.json(), status=resp.status_code)
 
 

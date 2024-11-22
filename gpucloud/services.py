@@ -76,10 +76,11 @@ class GPUCloudService:
             return token
         return account.token
 
-    def request_data(self, url, user, method, data):
+    def request_data(self, url, user, method, data, languagestr='zh'):
         headers = {
             "Content-Type": "application/json",
-            "Authorization": f"bearer {self.get_token(user, True)}"
+            "Authorization": f"bearer {self.get_token(user, True)}",
+            'languagestr': languagestr
         }
         request_method = getattr(requests, method)
         if method == "get":
