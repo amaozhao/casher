@@ -179,12 +179,14 @@ class PromptView(APIView):
         channel_layer = get_channel_layer()
         client_id = workflow.client_id
         wss = client_dict.get(client_id)
-        logger.info(f"client_id: {client_id}, wss: {wss}")
         if not wss:
+            message = '已下架或作者关闭了服务'
+            if languagestr == 'en':
+                message = 'The service has been removed or the author has closed it'
             return Response(
                 {
                     "data": {"jilu_id": jilu_id},
-                    "message": "wss 连接失败，请检查ComfyUI设置是否正确",
+                    "message": message,
                     "status": status.HTTP_400_BAD_REQUEST,
                 },
                 status=status.HTTP_400_BAD_REQUEST,
