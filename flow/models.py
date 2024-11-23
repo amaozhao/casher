@@ -103,6 +103,7 @@ class WorkFlowBanner(models.Model):
     workflow = models.ForeignKey(WorkFlowData, on_delete=models.CASCADE)
     is_visible = models.BooleanField(default=True)
     desc = models.TextField()
+    en_desc = models.TextField(default='')
     url = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

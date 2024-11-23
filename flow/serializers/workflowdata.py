@@ -23,6 +23,7 @@ class WorkFlowDataSerializer(serializers.ModelSerializer):
     consuming = serializers.SerializerMethodField()
     view_count = serializers.SerializerMethodField()
     task_count = serializers.SerializerMethodField()
+    share_url = serializers.SerializerMethodField()
 
     class Meta:
         model = WorkFlowData
@@ -43,7 +44,8 @@ class WorkFlowDataSerializer(serializers.ModelSerializer):
             "workflow_fields",
             "consuming",
             "view_count",
-            "task_count"
+            "task_count",
+            'share_url',
         ]
 
     def get_workflow_fields(self, instance):
@@ -72,6 +74,9 @@ class WorkFlowDataSerializer(serializers.ModelSerializer):
     def get_task_count(self, instance):
         flow_count = WorkFlowCount.objects.filter(workflow=instance).first()
         return flow_count.task_count if flow_count else 0
+
+    def get_share_url(self, instance):
+        return urljoin("https://aidep.cn", f'/web/#/?workflow_id={instance.id}')
 
 
 class BWorkFlowDataSerializer(WorkFlowDataSerializer):

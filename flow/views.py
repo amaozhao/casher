@@ -583,13 +583,18 @@ class WorkFlowBannerView(APIView):
     def get(self, request, *args, **kwargs):
         # workflow_id = request.GET.get("workflow_id")
         banner = WorkFlowBanner.objects.first()
+        languagestr = self.request.headers.get("languagestr")
         if not banner:
             return Response({"data": {}, "status": status.HTTP_200_OK})
         if not banner.is_visible:
             return Response({"data": {}, "status": status.HTTP_200_OK})
         return Response(
             {
-                "data": {"id": banner.id, "url": banner.url, "desc": banner.desc},
+                "data": {
+                    "id": banner.id,
+                    "url": banner.url,
+                    "desc": banner.en_desc if languagestr == 'en' else banner.desc
+                },
                 "status": status.HTTP_200_OK,
             }
         )
