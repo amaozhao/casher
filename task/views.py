@@ -84,10 +84,13 @@ class PromptView(APIView):
             if not hashrate:
                 hashrate = UserHashrate.objects.create(user=request.user)
             if hashrate.hashrate < workflow.fee:
+                msg = '余额不足，请充值'
+                if languagestr == 'en':
+                    msg = 'Insufficient balance, please recharge'
                 return Response(
                     {
                         "data": {"jilu_id": jilu_id},
-                        "message": "余额不足，请充值",
+                        "message": msg,
                         "status": status.HTTP_400_BAD_REQUEST,
                     },
                     status=status.HTTP_200_OK,

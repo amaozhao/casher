@@ -81,7 +81,8 @@ class UploadAPIView(APIView):
 
             # 创建 PostData 实例并保存
             workflow = WorkFlowData.objects.filter(
-                uniqueid=post_data.get("uniqueid")
+                uniqueid=post_data.get("uniqueid"),
+                techsid=techsid
             ).first()
             if not workflow:
                 workflow = WorkFlowData.objects.create(
@@ -100,9 +101,10 @@ class UploadAPIView(APIView):
                     post_data=post_data,
                 )
             else:
-                workflow.techsid = post_data.get("techsid")
+                # workflow.techsid = post_data.get("techsid")
                 workflow.client_id = client_id
                 workflow.title = post_data.get("title")
+                # workflow.uniqueid = post_data.get("uniqueid")
                 workflow.gn_desc = post_data.get("gn_desc")
                 workflow.sy_desc = post_data.get("sy_desc")
                 workflow.output = post_data.get("output")
