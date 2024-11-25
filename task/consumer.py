@@ -8,7 +8,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from cash_statistics.tasker import update_statistics
 from invitation.models import InvitationRelation
 from payment.models import UserHashrate, UserPayin
-from task.models import TaskFreeCount, UserTask
+from task.models import TaskFreeCount, UserTask, TaskResult
 from wxappb.models import AuthorTechs
 
 # 获取 channels 的 logger
@@ -122,7 +122,11 @@ class ClientConsumer(AsyncWebsocketConsumer):
         if user_task:
             user_task.prompt_id = prompt_id
             if is_ok:
-                pass
+                _result = TaskResult.objects.filter(task=user_task).first()
+                if _result.result in ('', None):
+                    pass
+                else:
+                    user_task.status = "success"
             else:
                 user_task.status = "fail"
             user_task.save()
