@@ -23,19 +23,7 @@ class CreateCheckoutView(APIView):
             checkout_session = stripe.checkout.Session.create(
                 customer=customer.id,
                 payment_method_types=["card"],
-                line_items=[
-                    {
-                        "price_data": {
-                            "currency": currency,
-                            "product_data": {
-                                "name": "Hashrate charge",
-                            },
-                            "unit_amount": int(int(amount) / 10),  # 以分为单位
-                        },
-                        "quantity": 1,
-                    }
-                ],
-                mode="subscription",
+                mode="setup",
                 success_url=current_url,
                 cancel_url=current_url,
                 metadata=metadata,
