@@ -7,7 +7,7 @@ from urllib.parse import urljoin
 
 
 class GPUCloudService:
-    base_url = "http://www.deploycloud.cn"
+    base_url = "https://www.deploycloud.cn"
 
     def signin(self, data):
         return requests.post(urljoin(self.base_url, "/api/users/login"), json=data)

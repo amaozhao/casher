@@ -55,7 +55,7 @@ class PagsmileService:
             "amount": str(amount),
             "source_currency": source_currency,
             "arrival_currency": arrival_currency,
-            "notify_url": "http://www.deploycloud.cn/api/transactions/callbacks/withdraw",
+            "notify_url": "https://aidep.cn/payment/pagsmile-notify/",
             "additional_remark": additional_remark,
             "country": country,
         }

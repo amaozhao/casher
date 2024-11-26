@@ -15,6 +15,8 @@ from payment.views import (
     YunAccountNotifyView,
     YunAccountPayOutView,
     YunAccountSignView,
+    BindPaymentMethodView,
+    GenerateInvoiceView,
 )
 
 urlpatterns = [
@@ -27,6 +29,16 @@ urlpatterns = [
         "cashin/",
         CashInListView.as_view(),
         name="cashin",
+    ),
+    path(
+        "stripe-bind/",
+        BindPaymentMethodView.as_view(),
+        name="stripe_bind",
+    ),
+    path(
+        "stripe-invoice/",
+        GenerateInvoiceView.as_view(),
+        name="stripe_invoice",
     ),
     path(
         "create-payment/",
