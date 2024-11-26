@@ -1,6 +1,5 @@
 import stripe
 from django.conf import settings
-from djstripe import settings as djstripe_settings
 from djstripe.models import Customer
 from rest_framework import status
 from rest_framework.response import Response
@@ -103,41 +102,3 @@ class BindPaymentMethodView(APIView):
                 },
                 status=400
             )
-
-
-class GenerateInvoiceView(APIView):
-    """
-    生成账单视图
-    """
-
-    def post(self, request, *args, **kwargs):
-        user = request.user  # 假设用户已登录
-        amount = request.POST.get("amount")  # 单位：分
-
-        if not amount:
-            return Response({"error": "缺少金额参数"}, status=400)
-
-        try:
-            # 获取用户的 Stripe Customer
-            customer = Customer.objects.get(subscriber=user)
-
-            # 添加账单条目
-            stripe.InvoiceItem.create(
-                customer=customer.id,
-                amount=int(amount),  # 确保金额为整数
-                currency="usd",
-                description="服务使用费",
-            )
-
-            # 创建账单
-            invoice = stripe.Invoice.create(
-                customer=customer.id,
-                auto_advance=True,  # 自动完成账单
-            )
-
-            return Response({"success": True, "invoice_id": invoice.id})
-        except Customer.DoesNotExist:
-            return Response({"error": "用户未绑定 Stripe Customer"}, status=400)
-        except stripe.error.StripeError as e:
-            return Response({"error": str(e)}, status=400)
-

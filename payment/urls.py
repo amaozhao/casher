@@ -16,7 +16,6 @@ from payment.views import (
     YunAccountPayOutView,
     YunAccountSignView,
     BindPaymentMethodView,
-    GenerateInvoiceView,
 )
 
 urlpatterns = [
@@ -34,11 +33,6 @@ urlpatterns = [
         "stripe-bind/",
         BindPaymentMethodView.as_view(),
         name="stripe_bind",
-    ),
-    path(
-        "stripe-invoice/",
-        GenerateInvoiceView.as_view(),
-        name="stripe_invoice",
     ),
     path(
         "create-payment/",
