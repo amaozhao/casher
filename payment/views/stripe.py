@@ -12,8 +12,6 @@ class CreateCheckoutView(APIView):
     def post(self, request, *args, **kwargs):
         try:
             # 从请求数据中获取金额和货币信息
-            amount = request.data.get("amount")
-            currency = request.data.get("currency", "usd")
             current_url = request.data.get("current_url")
             metadata = {"user_id": self.request.user.id}
 
