@@ -609,7 +609,8 @@ class WorkFlowBannerView(APIView):
             return Response(
                 {
                     "data": {
-                        "message": "会员才可以移除，开通月周期的实例，免费赠送1个月会员」【去开通】"
+                        "message": "会员才可以移除，开通月周期的实例，免费赠送1个月会员」【去开通】",
+                        "BillingType": "mounthly"
                     },
                     "status": status.HTTP_400_BAD_REQUEST,
                 }
