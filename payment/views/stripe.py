@@ -13,9 +13,9 @@ class CreateCheckoutView(APIView):
         try:
             # 从请求数据中获取金额和货币信息
             current_url = request.data.get("current_url")
-            metadata = {"user_id": self.request.user.id}
+            # metadata = {"user_id": self.request.user.id}
 
-            customer = Customer.objects.get(subscriber=self.request.user)
+            customer, created = Customer.get_or_create(subscriber=self.request.user)
 
             checkout_session = stripe.checkout.Session.create(
                 customer=customer.id,
@@ -23,7 +23,7 @@ class CreateCheckoutView(APIView):
                 mode="setup",
                 success_url=current_url,
                 cancel_url=current_url,
-                metadata=metadata,
+                # metadata=metadata,
             )
 
             return Response(
