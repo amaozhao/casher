@@ -11,6 +11,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from flow.models import WorkFlowData, WorkFlowCount
+import stripe
+from djstripe.models import Customer, PaymentMethod, Invoice, InvoiceItem
 from payment.models import UserHashrate
 from task.consumer import client_dict
 from task.models import TaskFreeCount, TaskResult, UserTask, UserUpload
@@ -84,17 +86,78 @@ class PromptView(APIView):
             if not hashrate:
                 hashrate = UserHashrate.objects.create(user=request.user)
             if hashrate.hashrate < workflow.fee:
+                user = request.user
                 msg = '余额不足，请充值'
-                if languagestr == 'en':
+                if languagestr.lower() in ('en', 'en-us'):
                     msg = 'Insufficient balance, please recharge'
-                return Response(
-                    {
-                        "data": {"jilu_id": jilu_id},
-                        "message": msg,
-                        "status": status.HTTP_400_BAD_REQUEST,
-                    },
-                    status=status.HTTP_200_OK,
-                )
+                    customer, created = Customer.get_or_create(subscriber=user)
+                    if created:
+                        return Response(
+                            {
+                                "data": {"jilu_id": jilu_id},
+                                "message": msg,
+                                "status": status.HTTP_400_BAD_REQUEST,
+                            },
+                            status=status.HTTP_200_OK,
+                        )
+                    payment_methods = PaymentMethod.objects.filter(customer=customer)
+                    if payment_methods.exists():
+                        # 创建账单项
+                        invoice_item = stripe.InvoiceItem.create(
+                            customer=customer.stripeCustomer.id,
+                            amount=workflow.fee / 7.1,  # 金额（以分为单位）
+                            currency="usd",
+                            description='Recharge',
+                        )
+
+                        # 保存 InvoiceItem 到 dj-stripe
+                        invoice_item_dj = InvoiceItem(
+                            customer=customer,
+                            amount=workflow.fee / 7.1,
+                            currency="usd",
+                            description='Recharge',
+                            stripe_id=invoice_item.id,
+                            stripe_object=invoice_item
+                        )
+                        invoice_item_dj.save()
+
+                        # 创建账单
+                        invoice = stripe.Invoice.create(
+                            customer=customer.stripeCustomer.id,
+                            auto_advance=True,  # 自动生成支付请求
+                        )
+
+                        # 保存 Invoice 到 dj-stripe
+                        invoice_dj = Invoice(
+                            customer=customer,
+                            amount_due=invoice.amount_due,
+                            amount_paid=invoice.amount_paid,
+                            status=invoice.status,
+                            stripe_id=invoice.id,
+                            stripe_object=invoice
+                        )
+                        invoice_dj.save()
+
+                        # 完成账单支付（如果设置为自动支付，Stripe 会自动扣费）
+                        stripe.Invoice.finalize_invoice(invoice.id)
+                    else:
+                        return Response(
+                            {
+                                "data": {"jilu_id": jilu_id},
+                                "message": msg,
+                                "status": status.HTTP_400_BAD_REQUEST,
+                            },
+                            status=status.HTTP_200_OK,
+                        )
+                else:
+                    return Response(
+                        {
+                            "data": {"jilu_id": jilu_id},
+                            "message": msg,
+                            "status": status.HTTP_400_BAD_REQUEST,
+                        },
+                        status=status.HTTP_200_OK,
+                    )
         cs_img_nodes = workflow.post_data.get("cs_img_nodes")
         cs_text_nodes = workflow.post_data.get("cs_text_nodes")
         uniqueid = workflow.uniqueid
