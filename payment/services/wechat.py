@@ -104,7 +104,7 @@ class WechatPayService:
                 description=desc or "充值",
                 out_trade_no=out_trade_no,
                 amount={"total": amount},
-                pay_type=WeChatPayType.H5,
+                pay_type=WeChatPayType.NATIVE,
             )
             return {
                 "out_trade_no": out_trade_no,
