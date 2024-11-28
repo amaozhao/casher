@@ -648,12 +648,15 @@ class WorkflowReuseDocView(APIView):
         workflow_id = request.GET.get('workflow_id')
         return Response(
             {
-                "btn1_doc": "下载工作流",
-                "btn1_url": f'https://flow/downloads/?workflow_id={workflow_id}',
-                "btn2_doc": "打开comfyUI",
-                "btn2_url": '',
-                "btn3_doc": "找到deploycash节点并点击登录生成web即可",
-                "btn3_url": '',
+                'data': {
+                    "btn1_doc": "下载工作流",
+                    "btn1_url": f'https://flow/downloads/?workflow_id={workflow_id}',
+                    "btn2_doc": "打开comfyUI",
+                    "btn2_url": '',
+                    "btn3_doc": "找到deploycash节点并点击登录生成web即可",
+                    "btn3_url": '',
+                    "status": status.HTTP_200_OK
+                },
                 "status": status.HTTP_200_OK
             },
             status=status.HTTP_200_OK
@@ -665,12 +668,15 @@ class WorkflowEditDocView(APIView):
         workflow_id = request.GET.get('workflow_id')
         return Response(
             {
-                "btn1_doc": "1.打开comfyUI",
-                "btn1_url": '',
-                "btn2_doc": "2.在comfyUI中加载并编辑您的工作流",
-                "btn2_url": f'https://aidep.cn/web/#/?workflow_id=={workflow_id}',
-                "btn3_doc": "",
-                "btn3_url": '',
+                "data": {
+                    "btn1_doc": "1.打开comfyUI",
+                    "btn1_url": '',
+                    "btn2_doc": "2.在comfyUI中加载并编辑您的工作流",
+                    "btn2_url": f'https://aidep.cn/web/#/?workflow_id=={workflow_id}',
+                    "btn3_doc": "",
+                    "btn3_url": '',
+                    "status": status.HTTP_200_OK
+                },
                 "status": status.HTTP_200_OK
             },
             status=status.HTTP_200_OK
