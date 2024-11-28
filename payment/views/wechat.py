@@ -58,6 +58,32 @@ class CreateWechatPaymentView(APIView):
 class WechatPayNotifyView(APIView):
 
     def post(self, request, *args, **kwargs):
+        result = wechatpay_service.h5_pay_instance.callback(
+            headers=request.META, body=request.body
+        )
+        if result and result.get("event_type") == "TRANSACTION.SUCCESS":
+            resp = result.get("resource")
+            out_trade_no = resp.get("out_trade_no")
+            amount = resp.get("amount").get("total")
+            order = WechatOrder.objects.filter(out_trade_no=out_trade_no).first()
+            if order:
+                order.status = "succes"
+                order.save()
+                user = order.user
+                hashrate = UserHashrate.objects.filter(user=user).first()
+                hashrate.hashrate += amount * 100
+                hashrate.save()
+            return Response({"code": "SUCCESS", "message": "成功"})
+        else:
+            return Response(
+                {"code": "FAILED", "message": "失败"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+
+class WechatMiniPayNotifyView(APIView):
+
+    def post(self, request, *args, **kwargs):
         result = wechatpay_service.minip_pay_instance.callback(
             headers=request.META, body=request.body
         )
@@ -83,7 +109,7 @@ class WechatPayNotifyView(APIView):
 
 class WechatPayCheckView(APIView):
     def get(self, request, *args, **kwargs):
-        langStr = request.headers.get("languageStr")
+        languagestr = request.headers.get("languagestr")
         out_trade_no = request.GET.get("out_trade_no")
         order = WechatOrder.objects.filter(out_trade_no=out_trade_no).first()
         if order:
@@ -96,7 +122,7 @@ class WechatPayCheckView(APIView):
                     },
                 }
             )
-        message = "支付未完成" if langStr != "en-us" else "Payment not completed"
+        message = "支付未完成" if languagestr != "en-us" else "Payment not completed"
         return Response(
             {
                 "status": status.HTTP_200_OK,

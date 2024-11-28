@@ -11,6 +11,7 @@ from payment.views import (
     PagsmileNotify,
     PagsmilePayoutView,
     WechatPayCheckView,
+    WechatMiniPayNotifyView,
     WechatPayNotifyView,
     YunAccountNotifyView,
     YunAccountPayOutView,
@@ -47,6 +48,11 @@ urlpatterns = [
     path(
         "wechat-notify/",
         WechatPayNotifyView.as_view(),
+        name="wechat_notify",
+    ),
+    path(
+        "wechat-mini-notify/",
+        WechatMiniPayNotifyView.as_view(),
         name="wechat_notify",
     ),
     path("yun_account/sign/", YunAccountSignView.as_view(), name="yunaccount-sign"),

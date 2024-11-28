@@ -42,6 +42,8 @@ class TaskResultSerializer(serializers.ModelSerializer):
 
     def get_status(self, instance):
         task = instance.task
+        if instance.result:
+            return 'success'
         if (
             datetime.now().replace(tzinfo=None) - task.created.replace(tzinfo=None)
             > timedelta(hours=1)

@@ -186,7 +186,7 @@ class UploadAPIView(APIView):
     def get_login_html(self, s_key, qrcode):
         languagestr = self.request.headers.get("languagestr")
         google_login = "使用 Google 登录"
-        if languagestr == "en":
+        if languagestr in ["en", "en-us"]:
             google_login = "Login with Google"
         html = f"""
         <style type="text/css">
@@ -213,7 +213,7 @@ class UploadAPIView(APIView):
 			.bottomLine {{
 				display: flex;
 				width: 325px;
-				margin: 40px auto;
+				margin: 20px auto 1px auto;
 				align-items: center;
 			}}
 
@@ -595,7 +595,7 @@ class WorkFlowBannerView(APIView):
                 "data": {
                     "id": banner.id,
                     "url": banner.url,
-                    "desc": banner.en_desc if languagestr == 'en' else banner.desc
+                    "desc": banner.en_desc if languagestr in ["en", "en-us"] else banner.desc
                 },
                 "status": status.HTTP_200_OK,
             }
@@ -653,7 +653,8 @@ class WorkflowReuseDocView(APIView):
                 "btn2_doc": "打开comfyUI",
                 "btn2_url": '',
                 "btn3_doc": "找到deploycash节点并点击登录生成web即可",
-                "btn3_url": ''
+                "btn3_url": '',
+                "status": status.HTTP_200_OK
             },
             status=status.HTTP_200_OK
         )
@@ -664,9 +665,12 @@ class WorkflowEditDocView(APIView):
         workflow_id = request.GET.get('workflow_id')
         return Response(
             {
-                "doc": f"1.打开comfyUI\n"
-                       f"2.在comfyUI中加载并编辑您的"
-                       f"<a href='https://aidep.cn/web/?workflow_id={workflow_id}'>工作流</a>",
+                "btn1_doc": "1.打开comfyUI",
+                "btn1_url": '',
+                "btn2_doc": "2.在comfyUI中加载并编辑您的工作流",
+                "btn2_url": f'https://aidep.cn/web/#/?workflow_id=={workflow_id}',
+                "btn3_doc": "",
+                "btn3_url": '',
                 "status": status.HTTP_200_OK
             },
             status=status.HTTP_200_OK
@@ -692,7 +696,7 @@ class ContactAPIView(APIView):
     def get(self, request, *args, **kwargs):
         languagestr = self.request.headers.get("languagestr")
         docs = "如有疑问，请使用微信扫描二维码，添加小助手，进行咨询（工作日 10:00-19:00）"
-        if languagestr == 'en':
+        if languagestr in ["en", "en-us"]:
             docs = ("For any questions, please email mailto:jackywood@brincloud.com "
                     "during business hours (Monday to Friday, 10:00 AM - 7:00 PM).")
         return Response(

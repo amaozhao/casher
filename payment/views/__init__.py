@@ -5,6 +5,7 @@ from .stripe import CreateCheckoutView, BindPaymentMethodView
 from .wechat import (
     CreateWechatPaymentView,
     WechatPayCheckView,
+    WechatMiniPayNotifyView,
     WechatPayNotifyView,
     YunAccountNotifyView,
     YunAccountPayOutView,
@@ -17,6 +18,7 @@ __all__ = [
     "CreateCheckoutView",
     "CreateWechatPaymentView",
     "WechatPayCheckView",
+    "WechatMiniPayNotifyView",
     "WechatPayNotifyView",
     "YunAccountNotifyView",
     "YunAccountPayOutView",

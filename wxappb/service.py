@@ -47,7 +47,7 @@ def generate_mp_qr_code(query, width=430):
     payload = {
         "page": "",  # 替换为实际页面路径
         "width": width,
-        "env_version": "trial",  # 小程序版本：trial=体验版
+        # "env_version": "trial",  # 小程序版本：trial=体验版
     }
     if techsid:
         logger.info(f'receive the techsid: {techsid}')

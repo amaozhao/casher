@@ -39,7 +39,7 @@ def generate_mp_qr_code(path, query, width=430):
             return f"https://aidep.cn/media/qrcode/c/{workflow_id}.png"
 
     url = f"https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token={access_token}"
-    payload = {"page": "", "scene": workflow_id, "width": width, "env_version": "trial"}
+    payload = {"page": "", "scene": workflow_id, "width": width}
     response = requests.post(url, json=payload)
 
     if response.status_code == 200:

@@ -45,7 +45,7 @@ class WechatPayService:
             cert_serial_no=settings.WEIXINPAY_SERIAL_NO,
             apiv3_key=settings.WEIXINPAY_APIV3KEY,
             appid=settings.WEIXINPAY_APPID,
-            notify_url="https://aidep.cn/payment/wechat-notify/",
+            notify_url="https://aidep.cn/payment/wechat-mini-notify/",
             cert_dir=None,
             logger=logger,
             partner_mode=False,
@@ -104,7 +104,7 @@ class WechatPayService:
                 description=desc or "充值",
                 out_trade_no=out_trade_no,
                 amount={"total": amount},
-                pay_type=WeChatPayType.NATIVE,
+                pay_type=WeChatPayType.H5,
             )
             return {
                 "out_trade_no": out_trade_no,
