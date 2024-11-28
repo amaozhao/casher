@@ -40,6 +40,7 @@ class CreateWechatPaymentView(APIView):
                     "message": "",
                     "data": {
                         "out_trade_no": result.get("out_trade_no"),
+                        "id": result.get("out_trade_no"),
                         "url": result.get("message").get("code_url"),
                     },
                 },
