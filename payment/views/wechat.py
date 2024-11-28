@@ -68,7 +68,7 @@ class WechatPayNotifyView(APIView):
             amount = resp.get("amount").get("total")
             order = WechatOrder.objects.filter(out_trade_no=out_trade_no).first()
             if order:
-                order.status = "succes"
+                order.status = "success"
                 order.save()
                 user = order.user
                 hashrate = UserHashrate.objects.filter(user=user).first()
