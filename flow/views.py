@@ -134,6 +134,7 @@ class UploadAPIView(APIView):
                 )
                 wxp_b_image = b_generate_mp_qr_code(query={"techsid": techsid})
             html = self.get_app_html(wxp_c_image, wxp_b_image, workflow.id, provider)
+            lang = 'en' if provider == 'google' else 'cn'
 
             r = {
                 "errno": 1,
@@ -144,6 +145,7 @@ class UploadAPIView(APIView):
                         "code": 1,
                         "name": post_data.get("uniqueid"),
                         "html": html,
+                        'lang': lang
                     }
                 },
             }
