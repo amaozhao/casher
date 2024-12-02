@@ -1,0 +1,1 @@
+import{j as a,w as e,k as s,o as t,p as o}from"./index-CUXRWkV4.js";import{_ as r}from"./_plugin-vue_export-helper.BCo6x5W8.js";const d=r({data:()=>({}),onShow:()=>{},methods:{}},[["render",function(r,d,n,p,c,i){const l=s;return t(),a(l,{class:"title"},{default:e((()=>[o("登录成功")])),_:1})}],["__scopeId","data-v-7626aeac"]]);export{d as default};
