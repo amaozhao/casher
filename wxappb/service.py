@@ -3,6 +3,7 @@ import logging
 
 import requests
 from django.conf import settings
+from django.core.cache import cache
 
 
 logger = logging.getLogger("django")
@@ -23,12 +24,17 @@ def login(code):
 
 
 def get_access_token():
+    if cache.get('wxappb_token'):
+        print(f'wxappb_token: cache.get("wxappb_token")')
+        return cache.get('wxappb_token')
     appid = settings.WEIXINB_APPID
     appsecret = settings.WEIXINB_APPSECRET
     url = f"https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={appid}&secret={appsecret}"
     response = requests.get(url)
     data = response.json()
-    return data.get("access_token")
+    access_token = data.get("access_token")
+    cache.set('wxappb_token', access_token, 7200)
+    return access_token
 
 
 def generate_mp_qr_code(query, width=430):
