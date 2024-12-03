@@ -5,6 +5,10 @@ from wxappb.models import WxAppBUserProfile
 from gpucloud.models import GPUAccount
 from urllib.parse import urljoin
 
+import logging
+
+logger = logging.getLogger("django")
+
 
 class GPUCloudService:
     base_url = "https://www.deploycloud.cn"
@@ -89,6 +93,7 @@ class GPUCloudService:
             )
             return response
         response = request_method(urljoin(self.base_url, url), headers=headers, json=data)
+        logger.info(f'gpu response is: {response.content}')
         return response
 
     def get_longest_gpu(self, user):
@@ -101,7 +106,6 @@ class GPUCloudService:
         )
         containers = response.json().get('data', {}).get('containers', [])
         containers = [c for c in containers if c.get('BillingType') == 'mounthly']
-
         return containers[0] if containers else None
 
 
