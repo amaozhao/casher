@@ -75,6 +75,7 @@ class WXCallback(APIView):
         )
         res_json = response.json()
         user = res_json.get("user")
+        token = res_json.get("access")
         if user:
             # 提交数据到GPU平台换取token，并保存
             if state:
@@ -82,10 +83,9 @@ class WXCallback(APIView):
                 state = urllib.parse.unquote_plus(state)
                 state = json.loads(state)
                 if state.get('origin_url'):
-                    return redirect(state.get('origin_url'))
+                    return redirect(state.get('origin_url') + f'?token={token}')
                 if state.get("client_type"):
                     wf_id = state.get('wf_id')
-                    token = res_json.get("access")
                     if state.get("client_type") == 'c':
                         return redirect(f"https://aidep.cn/web/?workflow_id={wf_id}&token={token}")
                     return redirect(f"https://aidep.cn/web-b/?token={token}")
@@ -173,6 +173,7 @@ class GoogleCallback(APIView):
             url=token_endpoint_url, data={"code": code}, timeout=60, verify=False
         )
         res_json = response.json()
+        token = res_json.get("access")
         user = res_json.get("user")
         if user:
             # 提交数据到GPU平台换取token，并保存
@@ -195,7 +196,9 @@ class GoogleCallback(APIView):
                         inviter.accepted = True
                         inviter.save()
                 if state.get('origin_url'):
-                    return redirect(state.get('origin_url'))
+                    # origin_url = state.get('origin_url')
+                    # params = {'token': token}
+                    return redirect(state.get('origin_url') + f'?token={token}')
                 only_login = state.get("only_login")
                 if only_login == 1:
                     return redirect(f"https://aidep.cn/#pages/tob/loginSuccess")
@@ -207,8 +210,6 @@ class GoogleCallback(APIView):
                     return redirect(f"https://aidep.cn/web-b/?token={token}")
             token = res_json.get("access")
             return redirect(f"https://aidep.cn/web-b/?token={token}")
-
-        token = res_json.get("access")
 
         return redirect(f"https://aidep.cn/web/?token={token}")
 
