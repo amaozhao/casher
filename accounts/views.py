@@ -83,7 +83,8 @@ class WXCallback(APIView):
                 state = urllib.parse.unquote_plus(state)
                 state = json.loads(state)
                 if state.get('origin_url'):
-                    return redirect(state.get('origin_url') + f'?token={token}')
+                    _origin = f'https://aidep.cn/#{state.get("origin_url")}?token={token}'
+                    return redirect(_origin)
                 if state.get("client_type"):
                     wf_id = state.get('wf_id')
                     if state.get("client_type") == 'c':
@@ -196,9 +197,8 @@ class GoogleCallback(APIView):
                         inviter.accepted = True
                         inviter.save()
                 if state.get('origin_url'):
-                    # origin_url = state.get('origin_url')
-                    # params = {'token': token}
-                    return redirect(state.get('origin_url') + f'?token={token}')
+                    _origin = f'https://aidep.cn/#{state.get("origin_url")}?token={token}'
+                    return redirect(_origin)
                 only_login = state.get("only_login")
                 if only_login == 1:
                     return redirect(f"https://aidep.cn/#pages/tob/loginSuccess")
