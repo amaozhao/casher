@@ -651,10 +651,13 @@ class WorkflowReuseDocView(APIView):
         return Response(
             {
                 'data': {
+                    "doc1": "1. 下载工作流",
                     "btn1_doc": "下载工作流",
-                    "btn1_url": f'https://flow/downloads/?workflow_id={workflow_id}',
+                    "btn1_url": f'https://aidep.cn/flow/downloads/?workflow_id={workflow_id}',
+                    "doc2": "2. 打开comfyUI",
                     "btn2_doc": "打开comfyUI",
                     "btn2_url": '',
+                    "doc3": "3. 打开comfyUI",
                     "btn3_doc": "找到deploycash节点并点击登录生成web即可",
                     "btn3_url": '',
                     "status": status.HTTP_200_OK
