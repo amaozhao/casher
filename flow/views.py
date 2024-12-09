@@ -19,6 +19,7 @@ from flow.serializers.workflowdata import (
     BWorkFlowDataSerializer,
 )
 from accounts.models import OfficialAccount
+from accounts.service import genarate_wx_url
 from wxapp.service import generate_mp_qr_code as c_generate_mp_qr_code
 from wxappb.models import AuthorTechs
 from wxappb.service import generate_mp_qr_code as b_generate_mp_qr_code
@@ -185,7 +186,7 @@ class UploadAPIView(APIView):
         )
         return url
 
-    def get_login_html(self, s_key, qrcode):
+    def get_login_html(self, s_key, wx_url):
         languagestr = self.request.headers.get("languagestr")
         google_login = "使用 Google 登录"
         if languagestr in ["en", "en-us"]:
@@ -261,7 +262,7 @@ class UploadAPIView(APIView):
 				margin-top: 40px;
 			}}
 		</style>
-        <img class="qrcode" src="{qrcode}" />
+        <iframe src="{wx_url}"></iframe>
         <div class="bottomLine">
             <div class="divider_line"></div>
             <div class="divider_text">或</div>
@@ -408,16 +409,16 @@ class UploadAPIView(APIView):
             return Response(r, status=status.HTTP_200_OK)
         else:
             s_key = "".join(random.choice(chars) for _ in range(8))
-            qrcode = b_generate_mp_qr_code(query={"techsid": s_key})
+            wx_url = genarate_wx_url(techsid=s_key)
             r = {
                 "errno": 0,
                 "message": "OK",
                 "data": {
                     "data": {
                         "code": 1,
-                        "data": qrcode,
+                        "data": wx_url,
                         "desc": "",
-                        "html": self.get_login_html(s_key, qrcode),
+                        "html": self.get_login_html(s_key, wx_url),
                         "js": "",
                         "test": {"s_key": s_key, "subdomain": "11"},
                         "s_key": s_key,

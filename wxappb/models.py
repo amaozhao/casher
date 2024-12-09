@@ -29,6 +29,7 @@ class AuthorTechs(models.Model):
     )
     provider = models.CharField(max_length=100, default="")
     techsid = models.CharField(max_length=100)
+    unionid = models.CharField(max_length=100, default="")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

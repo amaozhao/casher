@@ -1,7 +1,6 @@
 import json
 import urllib.parse
 from urllib.parse import urljoin
-from django.utils.http import urlencode
 
 import requests
 from django.conf import settings
@@ -92,8 +91,13 @@ class WXCallback(APIView):
                     return redirect(f"https://aidep.cn/web-b/?token={token}")
                 techsid = state.get("techsid")
                 if techsid:
+                    socialaccount = SocialAccount.objects.filter(user=user).first()
+                    unionid = socialaccount.extra_data.get('unionid')
                     AuthorTechs.objects.create(
-                        user=user, techsid=techsid, provider="weixin"
+                        user=user,
+                        techsid=techsid,
+                        unionid=unionid,
+                        provider="weixin"
                     )
                 invite = state.get("invite")
                 if invite:
@@ -246,10 +250,10 @@ class AccountInfoView(APIView):
 
     def get_extra(self, user):
         from invitation.models import InvitationRelation
-        from wxappb.models import AuthorTechs
+        from django.db.models import Q
         from flow.models import WorkFlowData
         invite_count = InvitationRelation.objects.filter(inviter=user).count()
-        techs = AuthorTechs.objects.filter(user=user)
+        techs = AuthorTechs.objects.filter(Q(user=user) | Q(unionid=user.username))
         techs = [t.techsid for t in techs]
         flow_count = WorkFlowData.objects.filter(techsid__in=techs).count()
         return invite_count, flow_count

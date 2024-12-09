@@ -25,7 +25,6 @@ def login(code):
 
 def get_access_token():
     if cache.get('wxappb_token'):
-        print(f'wxappb_token: cache.get("wxappb_token")')
         return cache.get('wxappb_token')
     appid = settings.WEIXINB_APPID
     appsecret = settings.WEIXINB_APPSECRET

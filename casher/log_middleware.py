@@ -24,8 +24,13 @@ class RequestResponseLoggingMiddleware:
         logger.info(f"Response: {response.status_code}")
 
         if response.status_code == 200:
-            logger.info(
-                f"Response content: {response.content.decode('utf-8')[:1000]}"
-            )  # 限制日志内容的长度
+            try:
+                logger.info(
+                    f"Response content: {response.content.decode('utf-8')[:1000]}"
+                )  # 限制日志内容的长度
+            except:
+                logger.info(
+                    f"Response content is not json"
+                )
 
         return response
