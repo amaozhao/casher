@@ -13,7 +13,7 @@ from rest_framework.views import APIView
 from flow.models import WorkFlowData, WorkFlowCount
 import stripe
 from djstripe.models import Customer, PaymentMethod, Invoice, InvoiceItem
-from payment.models import UserHashrate
+from payment.models import UserHashrate, StripeBill
 from task.consumer import client_dict
 from task.models import TaskFreeCount, TaskResult, UserTask, UserUpload
 from task.serializers import TaskResultSerializer
@@ -88,7 +88,7 @@ class PromptView(APIView):
             if hashrate.hashrate < workflow.fee:
                 user = request.user
                 msg = '余额不足，请充值'
-                if languagestr.lower() in ('en', 'en-us'):
+                if languagestr.lower() in ('en', 'en-us', 'en-US'):
                     msg = 'Insufficient balance, please recharge'
                     customer, created = Customer.get_or_create(subscriber=user)
                     if created:
@@ -102,44 +102,7 @@ class PromptView(APIView):
                         )
                     payment_methods = PaymentMethod.objects.filter(customer=customer)
                     if payment_methods.exists():
-                        # 创建账单项
-                        invoice_item = stripe.InvoiceItem.create(
-                            customer=customer.stripeCustomer.id,
-                            amount=workflow.fee / 7.1,  # 金额（以分为单位）
-                            currency="usd",
-                            description='Recharge',
-                        )
-
-                        # 保存 InvoiceItem 到 dj-stripe
-                        invoice_item_dj = InvoiceItem(
-                            customer=customer,
-                            amount=workflow.fee / 7.1,
-                            currency="usd",
-                            description='Recharge',
-                            stripe_id=invoice_item.id,
-                            stripe_object=invoice_item
-                        )
-                        invoice_item_dj.save()
-
-                        # 创建账单
-                        invoice = stripe.Invoice.create(
-                            customer=customer.stripeCustomer.id,
-                            auto_advance=True,  # 自动生成支付请求
-                        )
-
-                        # 保存 Invoice 到 dj-stripe
-                        invoice_dj = Invoice(
-                            customer=customer,
-                            amount_due=invoice.amount_due,
-                            amount_paid=invoice.amount_paid,
-                            status=invoice.status,
-                            stripe_id=invoice.id,
-                            stripe_object=invoice
-                        )
-                        invoice_dj.save()
-
-                        # 完成账单支付（如果设置为自动支付，Stripe 会自动扣费）
-                        stripe.Invoice.finalize_invoice(invoice.id)
+                        StripeBill.objects.create(user=user, amount=workflow.fee)
                     else:
                         return Response(
                             {

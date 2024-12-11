@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_celery_beat",
     "corsheaders",
     "rest_framework",
     "rest_framework.authtoken",
@@ -324,6 +325,18 @@ YUNZHANGHU_HOST = config.get("YUNZHANGHU_HOST")
 CELERY_BROKER_URL = config.get("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = config.get("CELERY_RESULT_BACKEND")
 REDBEAT_REDIS_URL = config.get("REDBEAT_REDIS_URL")
+# 时区
+CELERY_TIMEZONE = 'UTC'
+# 启用 UTC 时间
+CELERY_ENABLE_UTC = True
+# 如果任务失败，自动重试的次数（可选）
+CELERY_TASK_ACKS_LATE = True
+CELERY_TASK_RETRY_POLICY = {
+    'max_retries': 3,
+    'interval_start': 0,  # 秒
+    'interval_step': 0.2,  # 秒
+    'interval_max': 0.2,  # 秒
+}
 
 LOGGING = {
     "version": 1,

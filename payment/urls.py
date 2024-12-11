@@ -3,7 +3,7 @@ from django.urls import path
 from payment.views import (
     CashInListView,
     CashOutListView,
-    CreateCheckoutView,
+    StripBindView,
     CreateWechatPaymentView,
     CurrentUserHashrateView,
     HashrateconvertView,
@@ -16,7 +16,6 @@ from payment.views import (
     YunAccountNotifyView,
     YunAccountPayOutView,
     YunAccountSignView,
-    BindPaymentMethodView,
 )
 
 urlpatterns = [
@@ -32,13 +31,8 @@ urlpatterns = [
     ),
     path(
         "stripe-bind/",
-        BindPaymentMethodView.as_view(),
-        name="stripe_bind",
-    ),
-    path(
-        "create-payment/",
-        CreateCheckoutView.as_view(),
-        name="create_checkout_payment",
+        StripBindView.as_view(),
+        name="stripe_bind_payment",
     ),
     path(
         "create-wechatpay/",

@@ -14,6 +14,16 @@ class StripePaymentProfile(models.Model):
         db_table = "payment_profile"
 
 
+class StripeBill(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    generated_at = models.DateTimeField(auto_now_add=True)
+    paid = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = "stripe_bill"
+
+
 class PagsmilePayout(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, default="")

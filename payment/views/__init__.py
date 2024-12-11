@@ -1,7 +1,7 @@
 from .cash import CashInListView, CashOutListView
 from .hashrate import CurrentUserHashrateView, HashrateconvertView, HashrateTemplateView
 from .pagsmile import PagsmileNotify, PagsmilePayoutView
-from .stripe import CreateCheckoutView, BindPaymentMethodView
+from .stripe import StripBindView
 from .wechat import (
     CreateWechatPaymentView,
     WechatPayCheckView,
@@ -15,7 +15,7 @@ from .wechat import (
 __all__ = [
     "CashOutListView",
     "CashInListView",
-    "CreateCheckoutView",
+    "StripBindView",
     "CreateWechatPaymentView",
     "WechatPayCheckView",
     "WechatMiniPayNotifyView",
@@ -28,5 +28,4 @@ __all__ = [
     "CurrentUserHashrateView",
     "HashrateTemplateView",
     "HashrateconvertView",
-    "BindPaymentMethodView",
 ]
