@@ -707,13 +707,16 @@ class WorkflowDownloadAPIView(APIView):
 class ContactAPIView(APIView):
     def get(self, request, *args, **kwargs):
         languagestr = self.request.headers.get("languagestr")
+        button_txt = '联系客服'
         docs = "如有疑问，请使用微信扫描二维码，添加小助手，进行咨询（工作日 10:00-19:00）"
         if languagestr in ["en", "en-us"]:
+            button_txt = 'Contact'
             docs = ("For any questions, please email mailto:jackywood@brincloud.com "
                     "during business hours (Monday to Friday, 10:00 AM - 7:00 PM).")
         return Response(
             {
                 "data": {
+                    'button_txt': button_txt,
                     "docs": docs,
                     "qrcode_url": "https://aidep.cn/static/contact.jpeg"
                 },
