@@ -82,7 +82,7 @@ class WXCallback(APIView):
                 state = urllib.parse.unquote_plus(state)
                 state = json.loads(state)
                 if state.get('origin_url'):
-                    _origin = f'https://aidep.cn/web/#{state.get("origin_url")}?token={token}'
+                    _origin = f'{state.get("origin_url")}?token={token}'
                     return redirect(_origin)
                 if state.get("client_type"):
                     wf_id = state.get('wf_id')
