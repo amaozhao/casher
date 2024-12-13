@@ -340,3 +340,17 @@ class TaskHistoryDeleteView(APIView):
         task.result.delete(save=True)
         task.delete()
         return Response({"data": {}, "status": status.HTTP_204_NO_CONTENT})
+
+
+class TaskHistoryDeleteViewV2(APIView):
+    def delete(self, request, *args, **kwargs):
+        id = kwargs.get('id')
+        task = TaskResult.objects.filter(id=id).first()
+        if not task:
+            return Response(
+                {"data": {}, "status": status.HTTP_404_NOT_FOUND},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        task.result.delete(save=True)
+        task.delete()
+        return Response({"data": {}, "status": status.HTTP_204_NO_CONTENT})
