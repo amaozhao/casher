@@ -17,7 +17,7 @@ class GPUCloudView(APIView):
         method = request.data.get("method").lower()
         user = request.user
         resp = gpucloud_service.request_data(url, user, method, data, languagestr=languagestr)
-        logger.info(f"GPU response is: {resp}")
+        logger.info(f"GPU response is: {url} {resp}")
         return Response(resp.json(), status=resp.status_code)
 
 
