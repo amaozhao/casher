@@ -43,10 +43,22 @@ class StripBindView(APIView):
         payment_method = PaymentMethod.objects.filter(customer=customer.id).first()
         if payment_method:
             return Response(
-                {"status": status.HTTP_200_OK, "data": {"bind_status": True}},
+                {
+                    "status": status.HTTP_200_OK,
+                    "data": {
+                        "bind_status": True,
+                        "message": "信用卡已绑定！"
+                    }
+                },
                 status=status.HTTP_200_OK,
             )
         return Response(
-            {"status": status.HTTP_400_BAD_REQUEST, "data": {"bind_status": False}},
+            {
+                "status": status.HTTP_400_BAD_REQUEST,
+                "data": {
+                    "bind_status": False,
+                    "message": "信用卡未绑定！"
+                }
+            },
             status=status.HTTP_400_BAD_REQUEST,
         )
