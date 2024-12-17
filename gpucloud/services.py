@@ -14,7 +14,9 @@ class GPUCloudService:
     base_url = "https://www.deploycloud.cn"
 
     def signin(self, data):
-        return requests.post(urljoin(self.base_url, "/api/users/login"), json=data)
+        resp = requests.post(urljoin(self.base_url, "/api/users/login"), json=data)
+        logger.info(f'GPU signin resp: {resp}')
+        return resp
 
     def get_user_profile(self, user):
         wx_user = WxAppBUserProfile.objects.filter(user=user).first()
