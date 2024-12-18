@@ -68,4 +68,4 @@ def generate_mp_qr_code(query, width=430):
         return None  # 请求失败，返回 None
 
     # 返回二维码的 URL
-    return f"https://aidep.cn/media/qrcode/b/{techsid}.png"
+    return f"https://test.aidep.cn/media/qrcode/b/{techsid}.png"

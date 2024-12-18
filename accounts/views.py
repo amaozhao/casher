@@ -28,7 +28,7 @@ class WXQRCodeAPIView(APIView):
         # 设置微信扫码登录的 URL，并传入相应的参数
         client_type = request.GET.get('client_type')
         redirect_uri = urllib.parse.quote_plus(
-            urljoin("https://aidep.cn", reverse("weixin_callback"))
+            urljoin("https://test.aidep.cn", reverse("weixin_callback"))
         )
         origin_url = request.GET.get('origin_url')
         workflow_id = request.GET.get('workflow_id')
@@ -68,7 +68,7 @@ class WXCallback(APIView):
         state = request.GET.get("state")
         if code is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        token_endpoint_url = urljoin("https://aidep.cn", reverse("weixin_login"))
+        token_endpoint_url = urljoin("https://test.aidep.cn", reverse("weixin_login"))
         response = requests.post(
             url=token_endpoint_url, data={"code": code}, timeout=60, verify=False
         )
@@ -87,8 +87,8 @@ class WXCallback(APIView):
                 if state.get("client_type"):
                     wf_id = state.get('wf_id')
                     if state.get("client_type") == 'c':
-                        return redirect(f"https://aidep.cn/web/?workflow_id={wf_id}&token={token}")
-                    return redirect(f"https://aidep.cn/web-b/?token={token}")
+                        return redirect(f"https://test.aidep.cn/web/?workflow_id={wf_id}&token={token}")
+                    return redirect(f"https://test.aidep.cn/web-b/?token={token}")
                 techsid = state.get("techsid")
                 if techsid:
                     socialaccount = SocialAccount.objects.filter(user=user).first()
@@ -109,11 +109,11 @@ class WXCallback(APIView):
                         inviter.accepted = True
                         inviter.save()
                 token = res_json.get("access")
-                return redirect(f"https://aidep.cn/web-b/?token={token}")
+                return redirect(f"https://test.aidep.cn/web-b/?token={token}")
 
         token = res_json.get("access")
 
-        return redirect(f"https://aidep.cn/web/?token={token}")
+        return redirect(f"https://test.aidep.cn/web/?token={token}")
 
 
 class GoogleLoginUrl(APIView):
@@ -138,12 +138,12 @@ class GoogleLoginUrl(APIView):
             state['origin_url'] = origin_url
         if techsid:
             callback_url = urllib.parse.quote_plus(
-                urljoin("https://aidep.cn", reverse("google_callback"))
+                urljoin("https://test.aidep.cn", reverse("google_callback"))
                 + f"?techsid={techsid}"
             )
         else:
             callback_url = urllib.parse.quote_plus(
-                urljoin("https://aidep.cn", reverse("google_callback"))
+                urljoin("https://test.aidep.cn", reverse("google_callback"))
             )
         return Response(
             {
@@ -173,7 +173,7 @@ class GoogleCallback(APIView):
         state = request.GET.get("state")
         if code is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        token_endpoint_url = urljoin("https://aidep.cn", reverse("google_login"))
+        token_endpoint_url = urljoin("https://test.aidep.cn", reverse("google_login"))
         response = requests.post(
             url=token_endpoint_url, data={"code": code}, timeout=60, verify=False
         )
@@ -201,21 +201,21 @@ class GoogleCallback(APIView):
                         inviter.accepted = True
                         inviter.save()
                 if state.get('origin_url'):
-                    _origin = f'https://aidep.cn/web/#{state.get("origin_url")}?token={token}'
+                    _origin = f'https://test.aidep.cn/web/#{state.get("origin_url")}?token={token}'
                     return redirect(_origin)
                 only_login = state.get("only_login")
                 if only_login == 1:
-                    return redirect(f"https://aidep.cn/#pages/tob/loginSuccess")
+                    return redirect(f"https://test.aidep.cn/#pages/tob/loginSuccess")
                 if state.get("client_type"):
                     wf_id = state.get('wf_id')
                     token = res_json.get("access")
                     if state.get('client_type') == 'c':
-                        return redirect(f"https://aidep.cn/web/?workflow_id={wf_id}&token={token}")
-                    return redirect(f"https://aidep.cn/web-b/?token={token}")
+                        return redirect(f"https://test.aidep.cn/web/?workflow_id={wf_id}&token={token}")
+                    return redirect(f"https://test.aidep.cn/web-b/?token={token}")
             token = res_json.get("access")
-            return redirect(f"https://aidep.cn/web-b/?token={token}")
+            return redirect(f"https://test.aidep.cn/web-b/?token={token}")
 
-        return redirect(f"https://aidep.cn/web/?token={token}")
+        return redirect(f"https://test.aidep.cn/web/?token={token}")
 
 
 class AccountInfoView(APIView):

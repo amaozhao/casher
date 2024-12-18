@@ -17,7 +17,7 @@ class GetInvitationView(APIView):
     def genarate_weixinb_url(self, code):
         state = {urllib.parse.quote_plus(json.dumps({"invite": code}))}
         redirect_uri = urllib.parse.quote_plus(
-            urljoin("https://aidep.cn", reverse("weixin_callback"))
+            urljoin("https://test.aidep.cn", reverse("weixin_callback"))
         )
         url = (
             f"https://open.weixin.qq.com/connect/qrconnect?"
@@ -31,7 +31,7 @@ class GetInvitationView(APIView):
 
     def genarate_googleb_url(self, code):
         redirect_uri = urllib.parse.quote_plus(
-            urljoin("https://aidep.cn", reverse("google_callback"))
+            urljoin("https://test.aidep.cn", reverse("google_callback"))
         )
         state = {urllib.parse.quote_plus(json.dumps({"invite": code}))}
         url = (

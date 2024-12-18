@@ -36,7 +36,7 @@ def generate_mp_qr_code(path, query, width=430):
     workflow_id = query.get("workflow_id")
     if workflow_id:
         if os.path.exists(settings.BASE_DIR / f"media/qrcode/c/{workflow_id}.png"):
-            return f"https://aidep.cn/media/qrcode/c/{workflow_id}.png"
+            return f"https://test.aidep.cn/media/qrcode/c/{workflow_id}.png"
 
     url = f"https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token={access_token}"
     payload = {"page": "", "scene": workflow_id, "width": width}
@@ -46,6 +46,6 @@ def generate_mp_qr_code(path, query, width=430):
         f_name = settings.BASE_DIR / f"media/qrcode/c/{workflow_id}.png"
         with open(f_name, "wb") as f:
             f.write(response.content)
-        return f"https://aidep.cn/media/qrcode/c/{workflow_id}.png"
+        return f"https://test.aidep.cn/media/qrcode/c/{workflow_id}.png"
     else:
         return None

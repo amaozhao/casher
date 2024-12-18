@@ -39,7 +39,7 @@ class PagsmilePayout(models.Model):
     source_currency = models.CharField(max_length=20, default="USD")
     arrival_currency = models.CharField(max_length=20, default="USD")
     notify_url = models.CharField(
-        max_length=20, default="https://aidep.cn/payment/pagsmile/callback/"
+        max_length=20, default="https://test.aidep.cn/payment/pagsmile/callback/"
     )
     additional_remark = models.TextField(default="")
     country = models.CharField(max_length=20, default="USA")

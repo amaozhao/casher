@@ -14,7 +14,7 @@ class WorkFlowImageSerializer(serializers.ModelSerializer):
         fields = ["id", "image"]
 
     def get_image(self, instance):
-        return urljoin("https://aidep.cn", instance.image.url)
+        return urljoin("https://test.aidep.cn", instance.image.url)
 
 
 class WorkFlowDataSerializer(serializers.ModelSerializer):
@@ -76,7 +76,7 @@ class WorkFlowDataSerializer(serializers.ModelSerializer):
         return flow_count.task_count if flow_count else 0
 
     def get_share_url(self, instance):
-        return urljoin("https://aidep.cn", f'/web/#/?workflow_id={instance.id}')
+        return urljoin("https://test.aidep.cn", f'/web/#/?workflow_id={instance.id}')
 
 
 class BWorkFlowDataSerializer(WorkFlowDataSerializer):
@@ -108,7 +108,7 @@ class BWorkFlowDataSerializer(WorkFlowDataSerializer):
         ]
 
     def get_preview_url(self, instance):
-        result = f"https://aidep.cn/web/?workflow_id={instance.id}"
+        result = f"https://test.aidep.cn/web/?workflow_id={instance.id}"
         return result
 
     def get_view_count(self, instance):

@@ -104,7 +104,7 @@ class YunAccountService:
             phone_no=phone_no,
             pay=pay,
             pay_remark="",
-            notify_url="https://aidep.cn/payment/yun_account/notify/",
+            notify_url="https://test.aidep.cn/payment/yun_account/notify/",
             wx_app_id="",
             wxpay_mode="transfer",
             project_id="casher",

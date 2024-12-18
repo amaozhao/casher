@@ -130,7 +130,7 @@ class Migration(migrations.Migration):
                 (
                     "notify_url",
                     models.CharField(
-                        default="https://aidep.cn/payment/pagsmile/callback/",
+                        default="https://test.aidep.cn/payment/pagsmile/callback/",
                         max_length=20,
                     ),
                 ),

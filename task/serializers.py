@@ -27,7 +27,7 @@ class TaskResultSerializer(serializers.ModelSerializer):
 
     def get_result(self, instance):
         return (
-            urljoin("https://aidep.cn", instance.result.url)
+            urljoin("https://test.aidep.cn", instance.result.url)
             if instance.result
             else None
         )

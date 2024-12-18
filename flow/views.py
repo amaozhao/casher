@@ -160,7 +160,7 @@ class UploadAPIView(APIView):
     def get_google_login_url(self, techsid):
         client_id = settings.GOOGLE_OAUTH_CLIENT_ID
         callback_url = urllib.parse.quote_plus(
-            urljoin("https://aidep.cn", reverse("google_callback"))
+            urljoin("https://test.aidep.cn", reverse("google_callback"))
         )
         state = {"techsid": techsid, "only_login": 1}
         url = (
@@ -173,7 +173,7 @@ class UploadAPIView(APIView):
 
     def get_weixin_login_url(self, techsid):
         redirect_uri = urllib.parse.quote_plus(
-            urljoin("https://aidep.cn", reverse("weixin_callback"))
+            urljoin("https://test.aidep.cn", reverse("weixin_callback"))
         )
         state = {"techsid": techsid, "only_login": 1}
         url = (
@@ -315,15 +315,15 @@ class UploadAPIView(APIView):
             			<div>
             				<div class="login_text">用户端URL</div>
             				<div>URL:
-            					<a style="color: #6AE1D6;display: block;" href="https://aidep.cn/web/#/?workflow_id={workflow_id}" target="_blank">
-            					    https://aidep.cn/web/#/?workflow_id={workflow_id}
+            					<a style="color: #6AE1D6;display: block;" href="https://test.aidep.cn/web/#/?workflow_id={workflow_id}" target="_blank">
+            					    https://test.aidep.cn/web/#/?workflow_id={workflow_id}
             					</a>
             				</div>
             			</div>
             			<div>
             				<div class="login_text">商户端URL</div>
             				<div>URL:
-            					<a style="color: #6AE1D6;display: block;line-height:50px;" href="https://aidep.cn/web-b/" target="_blank">https://aidep.cn/web-b/</a>
+            					<a style="color: #6AE1D6;display: block;line-height:50px;" href="https://test.aidep.cn/web-b/" target="_blank">https://test.aidep.cn/web-b/</a>
             				</div>
             			</div>
             		</div>
@@ -367,8 +367,8 @@ class UploadAPIView(APIView):
 			<div>
 				<div class="login_text">用户端URL</div>
 				<div>URL:
-					<a style="color: #6AE1D6;" href="https://aidep.cn/web/#/?workflow_id={workflow_id}">
-					    https://aidep.cn/web/#/?workflow_id={workflow_id}
+					<a style="color: #6AE1D6;" href="https://test.aidep.cn/web/#/?workflow_id={workflow_id}">
+					    https://test.aidep.cn/web/#/?workflow_id={workflow_id}
 					</a>
 				</div>
 				<img class="qrcode" src="{wxp_c_image}" />
@@ -377,7 +377,7 @@ class UploadAPIView(APIView):
 			<div>
 				<div class="login_text">商户端URL</div>
 				<div>URL:
-					<a style="color: #6AE1D6;" href="https://aidep.cn/web-b/">https://aidep.cn/web-b/</a>
+					<a style="color: #6AE1D6;" href="https://test.aidep.cn/web-b/">https://test.aidep.cn/web-b/</a>
 				</div>
 				<img class="qrcode" src="{wxp_b_image}" />
 				<div class="mgT10">商家后台</div>
@@ -654,7 +654,7 @@ class WorkflowReuseDocView(APIView):
                 'data': {
                     "doc1": "1. 下载工作流",
                     "btn1_doc": "下载工作流",
-                    "btn1_url": f'https://aidep.cn/flow/downloads/?workflow_id={workflow_id}',
+                    "btn1_url": f'https://test.aidep.cn/flow/downloads/?workflow_id={workflow_id}',
                     "doc2": "2. 打开comfyUI",
                     "btn2_doc": "打开comfyUI",
                     "btn2_url": '',
@@ -678,7 +678,7 @@ class WorkflowEditDocView(APIView):
                     "btn1_doc": "1.打开comfyUI",
                     "btn1_url": '',
                     "btn2_doc": "2.在comfyUI中加载并编辑您的工作流",
-                    "btn2_url": f'https://aidep.cn/web/#/?workflow_id=={workflow_id}',
+                    "btn2_url": f'https://test.aidep.cn/web/#/?workflow_id=={workflow_id}',
                     "btn3_doc": "",
                     "btn3_url": '',
                     "status": status.HTTP_200_OK
@@ -718,7 +718,7 @@ class ContactAPIView(APIView):
                 "data": {
                     'button_txt': button_txt,
                     "docs": docs,
-                    "qrcode_url": "https://aidep.cn/static/contact.jpeg"
+                    "qrcode_url": "https://test.aidep.cn/static/contact.jpeg"
                 },
                 "status": status.HTTP_200_OK
             },

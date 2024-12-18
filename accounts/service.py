@@ -7,7 +7,7 @@ from django.urls import reverse
 
 def genarate_wx_url(techsid):
     redirect_uri = urllib.parse.quote_plus(
-        urljoin("https://aidep.cn", reverse("weixin_callback"))
+        urljoin("https://test.aidep.cn", reverse("weixin_callback"))
     )
     state = {"techsid": techsid}
     state = urllib.parse.quote_plus(urllib.parse.quote_plus(json.dumps(state)))
